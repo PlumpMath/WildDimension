@@ -84,7 +84,7 @@ bool Texture2D::BeginLoad(Deserializer& source)
         loadImage_->PrecalculateLevels();
 
     // Load the optional parameters file
-    ResourceCache* cache = GetSubsystem<ResourceCache>();
+    auto* cache = GetSubsystem<ResourceCache>();
     String xmlName = ReplaceExtension(GetName(), ".xml");
     loadParameters_ = cache->GetTempResource<XMLFile>(xmlName, false);
 
@@ -134,7 +134,7 @@ bool Texture2D::SetSize(int width, int height, unsigned format, TextureUsage usa
     renderSurface_.Reset();
 
     usage_ = usage;
-    
+
     if (usage >= TEXTURE_RENDERTARGET)
     {
         renderSurface_ = new RenderSurface(this);
@@ -168,7 +168,7 @@ SharedPtr<Image> Texture2D::GetImage() const
         return SharedPtr<Image>();
     }
 
-    Image* rawImage = new Image(context_);
+    auto* rawImage = new Image(context_);
     if (format_ == Graphics::GetRGBAFormat())
         rawImage->SetSize(width_, height_, 4);
     else if (format_ == Graphics::GetRGBFormat())
@@ -184,7 +184,7 @@ void Texture2D::HandleRenderSurfaceUpdate(StringHash eventType, VariantMap& even
 {
     if (renderSurface_ && (renderSurface_->GetUpdateMode() == SURFACE_UPDATEALWAYS || renderSurface_->IsUpdateQueued()))
     {
-        Renderer* renderer = GetSubsystem<Renderer>();
+        auto* renderer = GetSubsystem<Renderer>();
         if (renderer)
             renderer->QueueRenderSurface(renderSurface_);
         renderSurface_->ResetUpdateQueued();

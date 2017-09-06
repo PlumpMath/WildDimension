@@ -164,7 +164,7 @@ public:
     void Get(const Serializable* ptr, Variant& dest) const override
     {
         assert(ptr);
-        const T* classPtr = static_cast<const T*>(ptr);
+        const auto* classPtr = static_cast<const T*>(ptr);
         dest = (int)(classPtr->*getFunction_)();
     }
 
@@ -172,7 +172,7 @@ public:
     void Set(Serializable* ptr, const Variant& value) override
     {
         assert(ptr);
-        T* classPtr = static_cast<T*>(ptr);
+        auto* classPtr = static_cast<T*>(ptr);
         (classPtr->*setFunction_)((U)value.GetInt());
     }
 
@@ -202,7 +202,7 @@ public:
     void Get(const Serializable* ptr, Variant& dest) const override
     {
         assert(ptr);
-        const T* classPtr = static_cast<const T*>(ptr);
+        const auto* classPtr = static_cast<const T*>(ptr);
         dest = (*getFunction_)(classPtr);
     }
 
@@ -210,7 +210,7 @@ public:
     void Set(Serializable* ptr, const Variant& value) override
     {
         assert(ptr);
-        T* classPtr = static_cast<T*>(ptr);
+        auto* classPtr = static_cast<T*>(ptr);
         (*setFunction_)(classPtr, (U)value.GetInt());
     }
 
@@ -284,7 +284,7 @@ public:
     void Get(const Serializable* ptr, Variant& dest) const override
     {
         assert(ptr);
-        const T* classPtr = static_cast<const T*>(ptr);
+        const auto* classPtr = static_cast<const T*>(ptr);
         dest = (classPtr->*getFunction_)();
     }
 
@@ -292,7 +292,7 @@ public:
     void Set(Serializable* ptr, const Variant& value) override
     {
         assert(ptr);
-        T* classPtr = static_cast<T*>(ptr);
+        auto* classPtr = static_cast<T*>(ptr);
         (classPtr->*setFunction_)(value.Get<U>());
     }
 
@@ -322,7 +322,7 @@ public:
     void Get(const Serializable* ptr, Variant& dest) const override
     {
         assert(ptr);
-        const T* classPtr = static_cast<const T*>(ptr);
+        const auto* classPtr = static_cast<const T*>(ptr);
         dest = (*getFunction_)(classPtr);
     }
 
@@ -330,7 +330,7 @@ public:
     void Set(Serializable* ptr, const Variant& value) override
     {
         assert(ptr);
-        T* classPtr = static_cast<T*>(ptr);
+        auto* classPtr = static_cast<T*>(ptr);
         (*setFunction_)(classPtr, value.Get<U>());
     }
 

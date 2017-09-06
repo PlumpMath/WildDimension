@@ -45,7 +45,7 @@ static int const UICOMPONENT_DEFAULT_TEXTURE_SIZE = 512;
 static int const UICOMPONENT_MIN_TEXTURE_SIZE = 64;
 static int const UICOMPONENT_MAX_TEXTURE_SIZE = 4096;
 
-UIComponent::UIComponent(Context* context) : 
+UIComponent::UIComponent(Context* context) :
     Component(context),
     isStaticModelOwned_(false)
 {
@@ -114,7 +114,7 @@ void UIComponent::OnNodeSet(Node* node)
         model_ = nullptr;
     }
 
-    UI* ui = GetSubsystem<UI>();
+    auto* ui = GetSubsystem<UI>();
     // May be null on shutdown
     if (ui)
         ui->SetRenderToTexture(this, node != nullptr);
@@ -151,13 +151,13 @@ bool UIComponent::ScreenToUIPosition(IntVector2 screenPos, IntVector2& result)
     if (!scene)
         return false;
 
-    Renderer* renderer = GetSubsystem<Renderer>();
+    auto* renderer = GetSubsystem<Renderer>();
     if (!renderer)
         return false;
 
     // \todo Always uses the first viewport, in case there are multiple
     Viewport* viewport = renderer->GetViewportForScene(scene, 0);
-    Octree* octree = scene->GetComponent<Octree>();
+    auto* octree = scene->GetComponent<Octree>();
 
     if (!viewport || !octree)
         return false;
@@ -170,7 +170,7 @@ bool UIComponent::ScreenToUIPosition(IntVector2 screenPos, IntVector2& result)
     IntRect rect = viewport->GetRect();
     if (rect == IntRect::ZERO)
     {
-        Graphics* graphics = GetSubsystem<Graphics>();
+        auto* graphics = GetSubsystem<Graphics>();
         rect.right_ = graphics->GetWidth();
         rect.bottom_ = graphics->GetHeight();
     }

@@ -249,7 +249,7 @@ bool UI::SetModalElement(UIElement* modalElement, bool enable)
         modalElement->SetParent(rootModalElement_);
 
         // If it is a popup element, bring along its top-level parent
-        UIElement* originElement = static_cast<UIElement*>(modalElement->GetVar(VAR_ORIGIN).GetPtr());
+        auto* originElement = static_cast<UIElement*>(modalElement->GetVar(VAR_ORIGIN).GetPtr());
         if (originElement)
         {
             UIElement* element = originElement;
@@ -276,15 +276,15 @@ bool UI::SetModalElement(UIElement* modalElement, bool enable)
         // Revert back to original parent
         modalElement->SetParent(static_cast<UIElement*>(modalElement->GetVar(VAR_ORIGINAL_PARENT).GetPtr()),
             modalElement->GetVar(VAR_ORIGINAL_CHILD_INDEX).GetUInt());
-        VariantMap& vars = const_cast<VariantMap&>(modalElement->GetVars());
+        auto& vars = const_cast<VariantMap&>(modalElement->GetVars());
         vars.Erase(VAR_ORIGINAL_PARENT);
         vars.Erase(VAR_ORIGINAL_CHILD_INDEX);
 
         // If it is a popup element, revert back its top-level parent
-        UIElement* originElement = static_cast<UIElement*>(modalElement->GetVar(VAR_ORIGIN).GetPtr());
+        auto* originElement = static_cast<UIElement*>(modalElement->GetVar(VAR_ORIGIN).GetPtr());
         if (originElement)
         {
-            UIElement* element = static_cast<UIElement*>(originElement->GetVar(VAR_PARENT_CHANGED).GetPtr());
+            auto* element = static_cast<UIElement*>(originElement->GetVar(VAR_PARENT_CHANGED).GetPtr());
             if (element)
             {
                 const_cast<VariantMap&>(originElement->GetVars()).Erase(VAR_PARENT_CHANGED);
@@ -318,7 +318,7 @@ void UI::Update(float timeStep)
     for (HashMap<WeakPtr<UIElement>, bool>::Iterator i = hoveredElements_.Begin(); i != hoveredElements_.End(); ++i)
         i->second_ = false;
 
-    Input* input = GetSubsystem<Input>();
+    auto* input = GetSubsystem<Input>();
     bool mouseGrabbed = input->IsMouseGrabbed();
 
     IntVector2 cursorPos;
@@ -497,7 +497,7 @@ void UI::Render(bool renderUICommand)
         // Render modal batches
         Render(vertexBuffer_, batches_, nonModalBatchSize_, batches_.Size());
     }
-    
+
     // Render to UIComponent textures. This is skipped when called from the RENDERUI command
     if (!renderUICommand)
     {
@@ -508,7 +508,7 @@ void UI::Render(bool renderUICommand)
             {
                 SetVertexData(component->vertexBuffer_, component->vertexData_);
                 SetVertexData(component->debugVertexBuffer_, component->debugVertexData_);
-                
+
                 RenderSurface* surface = component->GetTexture()->GetRenderSurface();
                 graphics_->SetRenderTarget(0, surface);
                 graphics_->SetViewport(IntRect(0, 0, surface->GetWidth(), surface->GetHeight()));
@@ -908,7 +908,7 @@ bool UI::HasModalElement() const
 
 void UI::Initialize()
 {
-    Graphics* graphics = GetSubsystem<Graphics>();
+    auto* graphics = GetSubsystem<Graphics>();
 
     if (!graphics || !graphics->IsInitialized())
         return;
@@ -1184,7 +1184,7 @@ void UI::GetElementAt(UIElement*& result, UIElement* current, const IntVector2& 
 
                         if (screenPos < 0 && layoutMaxSize > 0)
                         {
-                            unsigned toSkip = (unsigned)(-screenPos / layoutMaxSize);
+                            auto toSkip = (unsigned)(-screenPos / layoutMaxSize);
                             if (toSkip > 0)
                                 i += (toSkip - 1);
                         }
@@ -1231,7 +1231,7 @@ void UI::GetCursorPositionAndVisible(IntVector2& pos, bool& visible)
         visible = true;
     else
     {
-        Input* input = GetSubsystem<Input>();
+        auto* input = GetSubsystem<Input>();
         pos = input->GetMousePosition();
         visible = input->IsMouseVisible();
 
@@ -1394,7 +1394,7 @@ void UI::ProcessClickBegin(const IntVector2& windowCursorPos, int button, int bu
             bool dragElementsContain = dragElements_.Contains(element);
             if (element && !dragElementsContain)
             {
-                DragData* dragData = new DragData();
+                auto* dragData = new DragData();
                 dragElements_[element] = dragData;
                 dragData->dragBeginPending = true;
                 dragData->sumPos = cursorPos;
@@ -1504,7 +1504,7 @@ void UI::ProcessMove(const IntVector2& windowCursorPos, const IntVector2& cursor
         IntVector2 cursorPos;
         GetElementAt(windowCursorPos, true, &cursorPos);
 
-        Input* input = GetSubsystem<Input>();
+        auto* input = GetSubsystem<Input>();
         bool mouseGrabbed = input->IsMouseGrabbed();
         for (HashMap<WeakPtr<UIElement>, UI::DragData*>::Iterator i = dragElements_.Begin(); i != dragElements_.End();)
         {
@@ -1664,7 +1664,7 @@ void UI::HandleMouseButtonDown(StringHash eventType, VariantMap& eventData)
     // Handle drag cancelling
     ProcessDragCancel();
 
-    Input* input = GetSubsystem<Input>();
+    auto* input = GetSubsystem<Input>();
 
     if (!input->IsMouseGrabbed())
         ProcessClickBegin(cursorPos, eventData[P_BUTTON].GetInt(), mouseButtons_, qualifiers_, cursor_, cursorVisible);
@@ -1692,7 +1692,7 @@ void UI::HandleMouseMove(StringHash eventType, VariantMap& eventData)
     qualifiers_ = eventData[P_QUALIFIERS].GetInt();
     usingTouchInput_ = false;
 
-    Input* input = GetSubsystem<Input>();
+    auto* input = GetSubsystem<Input>();
     const IntVector2& rootSize = rootElement_->GetSize();
     const IntVector2& rootPos = rootElement_->GetPosition();
 
@@ -1731,7 +1731,7 @@ void UI::HandleMouseMove(StringHash eventType, VariantMap& eventData)
 
 void UI::HandleMouseWheel(StringHash eventType, VariantMap& eventData)
 {
-    Input* input = GetSubsystem<Input>();
+    auto* input = GetSubsystem<Input>();
     if (input->IsMouseGrabbed())
         return;
 
@@ -1779,7 +1779,7 @@ void UI::HandleMouseWheel(StringHash eventType, VariantMap& eventData)
 
 void UI::HandleTouchBegin(StringHash eventType, VariantMap& eventData)
 {
-    Input* input = GetSubsystem<Input>();
+    auto* input = GetSubsystem<Input>();
     if (input->IsMouseGrabbed())
         return;
 
@@ -1875,7 +1875,7 @@ void UI::HandleKeyDown(StringHash eventType, VariantMap& eventData)
         else
         {
             // If it is a modal window, by resetting its modal flag
-            Window* window = dynamic_cast<Window*>(element);
+            auto* window = dynamic_cast<Window*>(element);
             if (window && window->GetModalAutoDismiss())
                 window->SetModal(false);
         }
@@ -1955,7 +1955,7 @@ void UI::HandleRenderUpdate(StringHash eventType, VariantMap& eventData)
 
 void UI::HandleDropFile(StringHash eventType, VariantMap& eventData)
 {
-    Input* input = GetSubsystem<Input>();
+    auto* input = GetSubsystem<Input>();
 
     // Sending the UI variant of the event only makes sense if the OS cursor is visible (not locked to window center)
     if (input->IsMouseVisible())
@@ -2038,7 +2038,7 @@ IntVector2 UI::SumTouchPositions(UI::DragData* dragData, const IntVector2& oldSe
     {
         int buttons = dragData->dragButtons;
         dragData->sumPos = IntVector2::ZERO;
-        Input* input = GetSubsystem<Input>();
+        auto* input = GetSubsystem<Input>();
         for (int i = 0; (1 << i) <= buttons; i++)
         {
             if ((1 << i) & buttons)
