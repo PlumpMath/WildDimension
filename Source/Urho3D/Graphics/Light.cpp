@@ -78,8 +78,8 @@ void BiasParameters::Validate()
 
 void CascadeParameters::Validate()
 {
-    for (unsigned i = 0; i < MAX_CASCADE_SPLITS; ++i)
-        splits_[i] = Max(splits_[i], 0.0f);
+    for (float& split : splits_)
+        split = Max(split, 0.0f);
     fadeStart_ = Clamp(fadeStart_, M_EPSILON, 1.0f);
 }
 
