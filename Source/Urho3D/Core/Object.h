@@ -25,6 +25,7 @@
 #include "../Container/LinkedList.h"
 #include "../Core/Variant.h"
 #include <functional>
+#include <utility>
 
 namespace Urho3D
 {
@@ -319,7 +320,7 @@ public:
     /// Construct with receiver and function pointers and userdata.
     EventHandler11Impl(std::function<void(StringHash, VariantMap&)> function, void* userData = nullptr) :
         EventHandler(nullptr, userData),
-        function_(function)
+        function_(std::move(function))
     {
         assert(function_);
     }
