@@ -72,9 +72,7 @@ Sound::Sound(Context* context) :
 {
 }
 
-Sound::~Sound()
-{
-}
+Sound::~Sound() = default;
 
 void Sound::RegisterObject(Context* context)
 {
