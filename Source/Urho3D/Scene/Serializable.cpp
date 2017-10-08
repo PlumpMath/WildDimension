@@ -57,6 +57,7 @@ static unsigned RemapAttributeIndex(const Vector<AttributeInfo>* attributes, con
 
 Serializable::Serializable(Context* context) :
     Object(context),
+    setInstanceDefault_(false),
     temporary_(false)
 {
 }
@@ -65,6 +66,10 @@ Serializable::~Serializable() = default;
 
 void Serializable::OnSetAttribute(const AttributeInfo& attr, const Variant& src)
 {
+    // TODO: may be could use an observer pattern here
+    if (setInstanceDefault_)
+        SetInstanceDefault(attr.name_, src);
+
     // Check for accessor function mode
     if (attr.accessor_)
     {
@@ -277,7 +282,7 @@ const Vector<AttributeInfo>* Serializable::GetNetworkAttributes() const
     return networkState_ ? networkState_->attributes_ : context_->GetNetworkAttributes(GetType());
 }
 
-bool Serializable::Load(Deserializer& source, bool setInstanceDefault)
+bool Serializable::Load(Deserializer& source)
 {
     const Vector<AttributeInfo>* attributes = GetAttributes();
     if (!attributes)
@@ -297,9 +302,6 @@ bool Serializable::Load(Deserializer& source, bool setInstanceDefault)
 
         Variant varValue = source.ReadVariant(attr.type_);
         OnSetAttribute(attr, varValue);
-
-        if (setInstanceDefault)
-            SetInstanceDefault(attr.name_, varValue);
     }
 
     return true;
@@ -331,7 +333,7 @@ bool Serializable::Save(Serializer& dest) const
     return true;
 }
 
-bool Serializable::LoadXML(const XMLElement& source, bool setInstanceDefault)
+bool Serializable::LoadXML(const XMLElement& source)
 {
     if (source.IsNull())
     {
@@ -385,12 +387,7 @@ bool Serializable::LoadXML(const XMLElement& source, bool setInstanceDefault)
                     varValue = attrElem.GetVariantValue(attr.type_);
 
                 if (!varValue.IsEmpty())
-                {
                     OnSetAttribute(attr, varValue);
-
-                    if (setInstanceDefault)
-                        SetInstanceDefault(attr.name_, varValue);
-                }
 
                 startIndex = (i + 1) % attributes->Size();
                 break;
@@ -411,7 +408,7 @@ bool Serializable::LoadXML(const XMLElement& source, bool setInstanceDefault)
     return true;
 }
 
-bool Serializable::LoadJSON(const JSONValue& source, bool setInstanceDefault)
+bool Serializable::LoadJSON(const JSONValue& source)
 {
     if (source.IsNull())
     {
@@ -478,12 +475,7 @@ bool Serializable::LoadJSON(const JSONValue& source, bool setInstanceDefault)
                     varValue = value.GetVariantValue(attr.type_);
 
                 if (!varValue.IsEmpty())
-                {
                     OnSetAttribute(attr, varValue);
-
-                    if (setInstanceDefault)
-                        SetInstanceDefault(attr.name_, varValue);
-                }
 
                 startIndex = (i + 1) % attributes->Size();
                 break;
