@@ -149,6 +149,8 @@ if (URHO3D_SAMPLES)
     add_subdirectory (Samples)
 endif ()
 
+add_subdirectory (Game)
+
 # Urho3D extras
 if (URHO3D_EXTRAS)
     add_subdirectory (Extras)
