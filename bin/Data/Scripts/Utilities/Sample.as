@@ -19,6 +19,7 @@ float yaw = 0.0f; // Camera yaw angle
 float pitch = 0.0f; // Camera pitch angle
 const float TOUCH_SENSITIVITY = 2;
 MouseMode useMouseMode_ = MM_ABSOLUTE;
+Console@ console = null;
 
 void SampleStart()
 {
@@ -147,6 +148,7 @@ void CreateConsoleAndDebugHud()
     Console@ console = engine.CreateConsole();
     console.defaultStyle = xmlFile;
     console.background.opacity = 0.8f;
+    //console.visible = true;
 
     // Create debug HUD
     DebugHud@ debugHud = engine.CreateDebugHud();
@@ -273,6 +275,14 @@ void HandleKeyDown(StringHash eventType, VariantMap& eventData)
             // Here we save in the Data folder with date and time appended
             screenshot.SavePNG(fileSystem.programDir + "Data/Screenshot_" +
                 time.timeStamp.Replaced(':', '_').Replaced('.', '_').Replaced(' ', '_') + ".png");
+        }
+        else if (key == '`')
+        {
+            if (console.visible) {
+                console.visible = false;
+            } else {
+                console.visible = true;
+            }
         }
     }
 }
