@@ -13,6 +13,11 @@ Text@ instructionText;
 int spriterAnimationIndex = 0;
 // UDP port we will use
 const uint SERVER_PORT = 2345;
+Array<Connection@> clients;
+uint clientObjectID = 0;
+
+Text@ bytesIn;
+Text@ bytesOut;
 
 void Start()
 {
@@ -36,13 +41,17 @@ void Start()
 
     DelayedExecute(1.0, false, "void Trigger()");
 
-    StartServer();
+    //StartServer();
 }
 
 void Stop()
 {
-    spriterNode.Remove();
+    if (spriterNode !is null) {
+        spriterNode.Remove();
+    }
     instructionText.Remove();
+    bytesIn.Remove();
+    bytesOut.Remove();
     Disconnect();
 }
 
@@ -52,6 +61,7 @@ void CreateScene()
 
     scene_.CreateComponent("DebugRenderer");
     PhysicsWorld2D@ physicsWorld = scene_.CreateComponent("PhysicsWorld2D");
+
 
     // Create the Octree component to the scene. This is required before adding any drawable components, or else nothing will
     // show up. The default octree volume will be from (-1000, -1000, -1000) to (1000, 1000, 1000) in world coordinates; it
@@ -72,72 +82,6 @@ void CreateScene()
     camera.orthoSize = graphics.height * PIXEL_SIZE;
     camera.zoom = 1.0f * Min(graphics.width / 1280.0f, graphics.height / 800.0f); // Set zoom according to user's resolution to ensure full visibility (initial zoom (1.5) is set for full visibility at 1280x800 resolution)
 
-    Sprite2D@ boxSprite = cache.GetResource("Sprite2D", "Urho2D/Box.png");
-    Sprite2D@ ballSprite = cache.GetResource("Sprite2D", "Urho2D/Ball.png");
-
-    // Create ground.
-    Node@ groundNode = scene_.CreateChild("Ground");
-    groundNode.position = Vector3(0.0f, -1.4f, 0.0f);
-    groundNode.scale = Vector3(200.0f, 1.0f, 0.0f);
-
-    // Create 2D rigid body for gound
-    RigidBody2D@ groundBody = groundNode.CreateComponent("RigidBody2D");
-
-    StaticSprite2D@ groundSprite = groundNode.CreateComponent("StaticSprite2D");
-    groundSprite.sprite = boxSprite;
-
-    // Create box collider for ground
-    CollisionBox2D@ groundShape = groundNode.CreateComponent("CollisionBox2D");
-    // Set box size
-    groundShape.size = Vector2(0.32f, 0.32f);
-    // Set friction
-    groundShape.friction = 0.5f;
-
-    const uint NUM_OBJECTS = 100;
-    for (uint i = 0; i < NUM_OBJECTS; ++i)
-    {
-        Node@ node  = scene_.CreateChild("RigidBody");
-        node.position = Vector3(Random(-0.1f, 0.1f), 5.0f + i * 0.4f, 0.0f);
-
-        // Create rigid body
-        RigidBody2D@ body = node.CreateComponent("RigidBody2D");
-        body.bodyType = BT_DYNAMIC;
-        body.allowSleep = false;
-
-        StaticSprite2D@ staticSprite = node.CreateComponent("StaticSprite2D");
-
-        if (i % 2 == 0)
-        {
-            staticSprite.sprite = boxSprite;
-
-            // Create box
-            CollisionBox2D@ box = node.CreateComponent("CollisionBox2D");
-            // Set size
-            box.size = Vector2(0.32f, 0.32f);
-            // Set density
-            box.density = 1.0f;
-            // Set friction
-            box.friction = 0.5f;
-            // Set restitution
-            box.restitution = 0.1f;
-        }
-        else
-        {
-            staticSprite.sprite = ballSprite;
-
-            // Create circle
-            CollisionCircle2D@ circle = node.CreateComponent("CollisionCircle2D");
-            // Set radius
-            circle.radius = 0.16f;
-            // Set density
-            circle.density = 1.0f;
-            // Set friction.
-            circle.friction = 0.5f;
-            // Set restitution
-            circle.restitution = 0.1f;
-        }
-    }
-
 }
 
 void CreateInstructions()
@@ -152,6 +96,27 @@ void CreateInstructions()
     instructionText.horizontalAlignment = HA_CENTER;
     instructionText.verticalAlignment = VA_CENTER;
     instructionText.SetPosition(0, ui.root.height / 4);
+
+
+    bytesIn = ui.root.CreateChild("Text");
+    bytesIn.text = "";
+    bytesIn.SetFont(cache.GetResource("Font", "Fonts/Anonymous Pro.ttf"), 10);
+    bytesIn.textAlignment = HA_CENTER; // Center rows in relation to each other
+
+    // Position the text relative to the screen center
+    bytesIn.horizontalAlignment = HA_LEFT;
+    bytesIn.verticalAlignment = VA_BOTTOM;
+    bytesIn.SetPosition(0, -10);
+
+    bytesOut = ui.root.CreateChild("Text");
+    bytesOut.text = "";
+    bytesOut.SetFont(cache.GetResource("Font", "Fonts/Anonymous Pro.ttf"), 10);
+    bytesOut.textAlignment = HA_CENTER; // Center rows in relation to each other
+
+    // Position the text relative to the screen center
+    bytesOut.horizontalAlignment = HA_LEFT;
+    bytesOut.verticalAlignment = VA_BOTTOM;
+    bytesOut.SetPosition(0, -20);
 }
 
 void SetupViewport()
@@ -205,6 +170,44 @@ void SubscribeToEvents()
     // Unsubscribe the SceneUpdate event from base class to prevent camera pitch and yaw in 2D sample
     UnsubscribeFromEvent("SceneUpdate");
     SubscribeToEvent("PostRenderUpdate", "HandlePostRenderUpdate");
+
+    SubscribeToEvent("ClientConnected", "HandleClientConnected");
+    SubscribeToEvent("ClientDisconnected", "HandleClientDisconnected");
+    network.RegisterRemoteEvent("ClientObjectID");
+    SubscribeToEvent("ClientObjectID", "HandleClientObjectID");
+}
+
+void HandleClientConnected(StringHash eventType, VariantMap& eventData)
+{
+    // When a client connects, assign to scene to begin scene replication
+    Connection@ newConnection = eventData["Connection"].GetPtr();
+    newConnection.scene = scene_;
+
+    clients.Push(newConnection);
+
+    // Finally send the object's node ID using a remote event
+    VariantMap remoteEventData;
+    remoteEventData["ID"] = 123;
+    newConnection.SendRemoteEvent("ClientObjectID", true, remoteEventData);
+}
+
+void HandleClientDisconnected(StringHash eventType, VariantMap& eventData)
+{
+    // When a client disconnects, remove the controlled object
+    Connection@ connection = eventData["Connection"].GetPtr();
+    for (uint i = 0; i < clients.length; ++i)
+    {
+        if (clients[i] is connection)
+        {
+            clients.Erase(i);
+            break;
+        }
+    }
+}
+
+void HandleClientObjectID(StringHash eventType, VariantMap& eventData)
+{
+    clientObjectID = eventData["ID"].GetUInt();
 }
 
 void HandleUpdate(StringHash eventType, VariantMap& eventData)
@@ -215,7 +218,37 @@ void HandleUpdate(StringHash eventType, VariantMap& eventData)
     // Move the camera, scale movement with time step
     MoveCamera(timeStep);
 
-    FollowCharacter(cameraNode, spriterNode, timeStep);
+    if (spriterNode !is null) {
+        FollowCharacter(cameraNode, spriterNode, timeStep);
+    }
+
+    Connection@ serverConnection = network.serverConnection;
+    if (serverConnection !is null) {
+        if (bytesIn !is null) {
+            bytesIn.text = "KBytes In: " + String(serverConnection.bytesInPerSec / 1024);
+        }
+        if (bytesOut !is null) {
+            bytesOut.text = "KBytes Out: " + String(serverConnection.bytesOutPerSec / 1024);
+        }
+    } else if (network.serverRunning) {
+        float bIn;
+        float bOut;
+        bIn = 0;
+        bOut = 0;
+        for (uint i = 0; i < clients.length; ++i)
+        {
+            bIn += clients[i].bytesInPerSec;
+            bOut += clients[i].bytesOutPerSec;
+        }
+        bIn /= 1024;
+        bOut /= 1024;
+        if (bytesIn !is null) {
+            bytesIn.text = "KBytes In: " + String(bIn);
+        }
+        if (bytesOut !is null) {
+            bytesOut.text = "KBytes Out: " + String(bOut);
+        }
+    }
 }
 
 void HandlePostRenderUpdate(StringHash eventType, VariantMap& eventData)
@@ -246,10 +279,80 @@ void StartServer()
         return;
     }
 
-    spriterNode = scene_.CreateChild("Character", REPLICATED);
-
-    spriterNode.CreateScriptObject(scriptFile, "Character");
+    CreateWorld();
     network.StartServer(SERVER_PORT);
+}
+
+void CreateWorld()
+{
+    spriterNode = scene_.CreateChild("Character", REPLICATED);
+    spriterNode.CreateScriptObject(scriptFile, "Character", LOCAL);
+
+    Sprite2D@ boxSprite = cache.GetResource("Sprite2D", "Urho2D/Box.png");
+    Sprite2D@ ballSprite = cache.GetResource("Sprite2D", "Urho2D/Ball.png");
+
+    // Create ground.
+    Node@ groundNode = scene_.CreateChild("Ground", REPLICATED);
+    groundNode.position = Vector3(0.0f, -1.4f, 0.0f);
+    groundNode.scale = Vector3(200.0f, 1.0f, 0.0f);
+
+    // Create 2D rigid body for gound
+    RigidBody2D@ groundBody = groundNode.CreateComponent("RigidBody2D", REPLICATED);
+
+    StaticSprite2D@ groundSprite = groundNode.CreateComponent("StaticSprite2D", REPLICATED);
+    groundSprite.sprite = boxSprite;
+
+    // Create box collider for ground
+    CollisionBox2D@ groundShape = groundNode.CreateComponent("CollisionBox2D", REPLICATED);
+    // Set box size
+    groundShape.size = Vector2(0.32f, 0.32f);
+    // Set friction
+    groundShape.friction = 0.5f;
+
+    const uint NUM_OBJECTS = 4;
+    for (uint i = 0; i < NUM_OBJECTS; ++i)
+    {
+        Node@ node  = scene_.CreateChild("RigidBody", REPLICATED);
+        node.position = Vector3(Random(-0.1f, 0.1f), 5.0f + i * 0.4f, 0.0f);
+
+        // Create rigid body
+        RigidBody2D@ body = node.CreateComponent("RigidBody2D", REPLICATED);
+        body.bodyType = BT_DYNAMIC;
+        body.allowSleep = false;
+
+        StaticSprite2D@ staticSprite = node.CreateComponent("StaticSprite2D", REPLICATED);
+
+        if (i % 2 == 0)
+        {
+            staticSprite.sprite = boxSprite;
+
+            // Create box
+            CollisionBox2D@ box = node.CreateComponent("CollisionBox2D", REPLICATED);
+            // Set size
+            box.size = Vector2(0.32f, 0.32f);
+            // Set density
+            box.density = 1.0f;
+            // Set friction
+            box.friction = 0.5f;
+            // Set restitution
+            box.restitution = 0.1f;
+        }
+        else
+        {
+            staticSprite.sprite = ballSprite;
+
+            // Create circle
+            CollisionCircle2D@ circle = node.CreateComponent("CollisionCircle2D", REPLICATED);
+            // Set radius
+            circle.radius = 0.16f;
+            // Set density
+            circle.density = 1.0f;
+            // Set friction.
+            circle.friction = 0.5f;
+            // Set restitution
+            circle.restitution = 0.1f;
+        }
+    }
 }
 
 void Connect()
