@@ -50,11 +50,16 @@ void CreateScene()
 {
     scene_ = Scene();
 
+    scene_.CreateComponent("DebugRenderer");
+    PhysicsWorld2D@ physicsWorld = scene_.CreateComponent("PhysicsWorld2D");
+
     // Create the Octree component to the scene. This is required before adding any drawable components, or else nothing will
     // show up. The default octree volume will be from (-1000, -1000, -1000) to (1000, 1000, 1000) in world coordinates; it
     // is also legal to place objects outside the volume but their visibility can then not be checked in a hierarchically
     // optimizing manner
     scene_.CreateComponent("Octree");
+
+    //physicsWorld2D.DrawDebugGeometry(scene_.GetComponent("DebugRenderer"), true);    
 
     // Create a scene node for the camera, which we will move around
     // The camera will use default settings (1000 far clip distance, 45 degrees FOV, set aspect ratio automatically)
@@ -68,6 +73,8 @@ void CreateScene()
     camera.zoom = 1.0f * Min(graphics.width / 1280.0f, graphics.height / 800.0f); // Set zoom according to user's resolution to ensure full visibility (initial zoom (1.5) is set for full visibility at 1280x800 resolution)
 
     Sprite2D@ boxSprite = cache.GetResource("Sprite2D", "Urho2D/Box.png");
+    Sprite2D@ ballSprite = cache.GetResource("Sprite2D", "Urho2D/Ball.png");
+
     // Create ground.
     Node@ groundNode = scene_.CreateChild("Ground");
     groundNode.position = Vector3(0.0f, -1.4f, 0.0f);
@@ -85,6 +92,51 @@ void CreateScene()
     groundShape.size = Vector2(0.32f, 0.32f);
     // Set friction
     groundShape.friction = 0.5f;
+
+    const uint NUM_OBJECTS = 100;
+    for (uint i = 0; i < NUM_OBJECTS; ++i)
+    {
+        Node@ node  = scene_.CreateChild("RigidBody");
+        node.position = Vector3(Random(-0.1f, 0.1f), 5.0f + i * 0.4f, 0.0f);
+
+        // Create rigid body
+        RigidBody2D@ body = node.CreateComponent("RigidBody2D");
+        body.bodyType = BT_DYNAMIC;
+        body.allowSleep = false;
+
+        StaticSprite2D@ staticSprite = node.CreateComponent("StaticSprite2D");
+
+        if (i % 2 == 0)
+        {
+            staticSprite.sprite = boxSprite;
+
+            // Create box
+            CollisionBox2D@ box = node.CreateComponent("CollisionBox2D");
+            // Set size
+            box.size = Vector2(0.32f, 0.32f);
+            // Set density
+            box.density = 1.0f;
+            // Set friction
+            box.friction = 0.5f;
+            // Set restitution
+            box.restitution = 0.1f;
+        }
+        else
+        {
+            staticSprite.sprite = ballSprite;
+
+            // Create circle
+            CollisionCircle2D@ circle = node.CreateComponent("CollisionCircle2D");
+            // Set radius
+            circle.radius = 0.16f;
+            // Set density
+            circle.density = 1.0f;
+            // Set friction.
+            circle.friction = 0.5f;
+            // Set restitution
+            circle.restitution = 0.1f;
+        }
+    }
 
 }
 
@@ -120,35 +172,6 @@ void MoveCamera(float timeStep)
     // Movement speed as world units per second
     const float MOVE_SPEED = 4.0f;
 
-    // Read WASD keys and move the camera scene node to the corresponding direction if they are pressed
-    // if (input.keyDown[KEY_W])
-    //     cameraNode.Translate(Vector3::UP * MOVE_SPEED * timeStep);
-    // if (input.keyDown[KEY_S])
-    //     cameraNode.Translate(Vector3::DOWN * MOVE_SPEED * timeStep);
-    // if (input.keyDown[KEY_A]) {
-        //cameraNode.Translate(Vector3::LEFT * MOVE_SPEED * timeStep);
-        // spriterAnimatedSprite.SetFlip(false, false);
-        // Vector3 position = spriterNode.position;
-        // position.x -= MOVE_SPEED * timeStep;
-        // spriterNode.position = position;
-        // if (spriterAnimatedSprite !is null) {
-        //     spriterAnimatedSprite.SetAnimation(spriterAnimationSet.GetAnimation(2), LM_FORCE_LOOPED);
-        // }
-    // } else if (input.keyDown[KEY_D]) {
-        //cameraNode.Translate(Vector3::RIGHT * MOVE_SPEED * timeStep);
-        // spriterAnimatedSprite.SetFlip(true, false);
-        // Vector3 position = spriterNode.position;
-        // position.x += MOVE_SPEED * timeStep;
-        // spriterNode.position = position;
-        // if (spriterAnimatedSprite !is null) {
-        //     spriterAnimatedSprite.SetAnimation(spriterAnimationSet.GetAnimation(2), LM_FORCE_LOOPED);
-        // }
-    // } else {
-        // if (spriterAnimatedSprite !is null) {
-        //     spriterAnimatedSprite.SetAnimation(spriterAnimationSet.GetAnimation(0), LM_FORCE_LOOPED);
-        // }
-    // }
-
     if (input.keyDown[KEY_N]) {
         StartServer();
     }
@@ -168,6 +191,9 @@ void MoveCamera(float timeStep)
         Camera@ camera = cameraNode.GetComponent("Camera");
         camera.zoom = camera.zoom * 0.99f;
     }
+
+    if (input.keyPress[KEY_P]) 
+        drawDebug = !drawDebug; // Toggle debug geometry with space
 }
 
 void SubscribeToEvents()
@@ -178,6 +204,7 @@ void SubscribeToEvents()
 
     // Unsubscribe the SceneUpdate event from base class to prevent camera pitch and yaw in 2D sample
     UnsubscribeFromEvent("SceneUpdate");
+    SubscribeToEvent("PostRenderUpdate", "HandlePostRenderUpdate");
 }
 
 void HandleUpdate(StringHash eventType, VariantMap& eventData)
@@ -187,6 +214,19 @@ void HandleUpdate(StringHash eventType, VariantMap& eventData)
 
     // Move the camera, scale movement with time step
     MoveCamera(timeStep);
+}
+
+void HandlePostRenderUpdate(StringHash eventType, VariantMap& eventData)
+{
+    if (!drawDebug)
+        return;
+    // If draw debug mode is enabled, draw viewport debug geometry, which will show eg. drawable bounding boxes and skeleton
+    // bones. Note that debug geometry has to be separately requested each frame. Disable depth test so that we can see the
+    // bones properly
+    // if (drawDebug)a
+    PhysicsWorld2D@ physicsWorld = scene_.GetComponent("PhysicsWorld2D");
+    renderer.DrawDebugGeometry(true);
+    physicsWorld.DrawDebugGeometry();
 }
 
 void HandleMouseButtonDown(StringHash eventType, VariantMap& eventData)

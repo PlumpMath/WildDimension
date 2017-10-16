@@ -33,6 +33,17 @@ class Character : ScriptObject
         ParticleEffect2D@ greenSpiralEffect = cache.GetResource("ParticleEffect2D", "Urho2D/greenspiral.pex");
         if (greenSpiralEffect is null)
             return;
+
+        Node@ node  = spriterNode.CreateChild("RigidBody");
+        //node.position = Vector3(Random(-0.1f, 0.1f), 5.0f + i * 0.4f, 0.0f);
+
+        // Create rigid body
+        RigidBody2D@ body = node.CreateComponent("RigidBody2D");
+        body.bodyType = BT_STATIC;
+
+        CollisionBox2D@ box = node.CreateComponent("CollisionBox2D");
+            // Set size
+        box.size = Vector2(2.3f, 2.5f);
     }
 
     void Update(float timeStep)
