@@ -6,9 +6,9 @@
 
 #include "Scripts/Utilities/Sample.as"
 #include "Scripts/Character/Character.as"
+#include "Scripts/Camera/Follow.as"
 
 Node@ spriterNode;
-Node@ spriterNode2;
 Text@ instructionText;
 int spriterAnimationIndex = 0;
 // UDP port we will use
@@ -214,6 +214,8 @@ void HandleUpdate(StringHash eventType, VariantMap& eventData)
 
     // Move the camera, scale movement with time step
     MoveCamera(timeStep);
+
+    FollowCharacter(cameraNode, spriterNode, timeStep);
 }
 
 void HandlePostRenderUpdate(StringHash eventType, VariantMap& eventData)

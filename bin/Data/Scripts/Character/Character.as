@@ -57,7 +57,7 @@ class Character : ScriptObject
             if (spriterAnimatedSprite !is null) {
                 spriterAnimatedSprite.SetAnimation(spriterAnimationSet.GetAnimation(2), LM_FORCE_LOOPED);
             }
-            particleEmitter.emitting = false;
+            particleEmitter.emitting = true;
         } else if (input.keyDown[KEY_D]) {
             spriterAnimatedSprite.SetFlip(true, false);
             Vector3 position = spriterNode.position;
@@ -68,6 +68,7 @@ class Character : ScriptObject
             }
             particleEmitter.emitting = true;
         } else {
+            particleEmitter.emitting = false;
             if (spriterAnimatedSprite !is null) {
                 spriterAnimatedSprite.SetAnimation(spriterAnimationSet.GetAnimation(0), LM_FORCE_LOOPED);
             }
