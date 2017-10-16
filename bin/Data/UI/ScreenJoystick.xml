@@ -51,7 +51,7 @@
     </element>
     <element type="Button">
         <attribute name="Name" value="Hat0" />
-        <attribute name="Position" value="12 -12" />
+        <attribute name="Position" value="120 -120" />
         <attribute name="Size" value="96 96" />
         <attribute name="Vert Alignment" value="Bottom" />
         <attribute name="Texture" value="Texture2D;Textures/TouchInput.png" />

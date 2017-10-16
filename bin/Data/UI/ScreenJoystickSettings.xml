@@ -4,7 +4,7 @@
     <attribute name="Size" value="800 600" />
     <element type="Button">
         <attribute name="Name" value="Button0" />
-        <attribute name="Position" value="-12 72" />
+        <attribute name="Position" value="200 200" />
         <attribute name="Size" value="96 96" />
         <attribute name="Horiz Alignment" value="Right" />
         <attribute name="Texture" value="Texture2D;Textures/TouchInput.png" />
@@ -21,7 +21,7 @@
     </element>
     <element type="Button">
         <attribute name="Name" value="Button1" />
-        <attribute name="Position" value="-120 72" />
+        <attribute name="Position" value="-120 -72" />
         <attribute name="Size" value="96 96" />
         <attribute name="Horiz Alignment" value="Right" />
         <attribute name="Texture" value="Texture2D;Textures/TouchInput.png" />

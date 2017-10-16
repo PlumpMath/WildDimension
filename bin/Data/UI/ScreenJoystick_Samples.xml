@@ -12,7 +12,7 @@
             <attribute name="Text" value="SELECT" />
         </element>
     </add>
-    <replace sel="/element/element[./attribute[@name='Name' and @value='Hat0']]/attribute[@name='Position']/@value">12 -76</replace>
+    <replace sel="/element/element[./attribute[@name='Name' and @value='Hat0']]/attribute[@name='Position']/@value">100 -100</replace>
     <add sel="/element/element[./attribute[@name='Name' and @value='Hat0']]">
         <element type="Text">
             <attribute name="Name" value="KeyBinding" />
