@@ -1,14 +1,44 @@
+// Control bits we define
+const uint CTRL_FORWARD = 1;
+const uint CTRL_BACK = 2;
+const uint CTRL_LEFT = 4;
+const uint CTRL_RIGHT = 8;
+
 class Character : ScriptObject
 {
     Vector3 position;
     AnimatedSprite2D@ spriterAnimatedSprite;
     AnimationSet2D@ spriterAnimationSet;
     ParticleEmitter2D@ particleEmitter;
+    bool local = false;
+    Node@ node;
+    Node@ spriterNode;
+    int spriterAnimationIndex = 0;
+    Controls controls;
 
     Character()
     {
-        log.Info("Character created");
+        log.Info("Character created ");
+    }
+
+    void SetLocal(bool l)
+    {
+        local = l;
+    }
+
+    void SetNode(Node@ n)
+    {
+        node = n;
+    }
+
+    void Init()
+    {
         CreateSprite();
+    }
+
+    void SetControls(Controls c)
+    {
+        controls = c;
     }
 
     void CreateSprite()
@@ -17,7 +47,7 @@ class Character : ScriptObject
         if (spriterAnimationSet is null)
             return;
 
-        spriterNode = scene_.CreateChild("SpriterAnimation", REPLICATED);
+        spriterNode = node.CreateChild("SpriterAnimation", REPLICATED);
         spriterAnimatedSprite = spriterNode.CreateComponent("AnimatedSprite2D", REPLICATED);
         spriterAnimatedSprite.animationSet = spriterAnimationSet;
         spriterAnimatedSprite.SetAnimation(spriterAnimationSet.GetAnimation(spriterAnimationIndex), LM_FORCE_LOOPED);
@@ -49,20 +79,20 @@ class Character : ScriptObject
     void Update(float timeStep)
     {
         const float MOVE_SPEED = 4.0f;
-        if (input.keyDown[KEY_A]) {
+        if (controls.IsDown(CTRL_LEFT)) {
             spriterAnimatedSprite.SetFlip(false, false);
-            Vector3 position = spriterNode.position;
+            Vector3 position = node.position;
             position.x -= MOVE_SPEED * timeStep;
-            spriterNode.position = position;
+            node.position = position;
             if (spriterAnimatedSprite !is null) {
                 spriterAnimatedSprite.SetAnimation(spriterAnimationSet.GetAnimation(2), LM_FORCE_LOOPED);
             }
             particleEmitter.emitting = true;
-        } else if (input.keyDown[KEY_D]) {
+        } else if (controls.IsDown(CTRL_RIGHT)) {
             spriterAnimatedSprite.SetFlip(true, false);
-            Vector3 position = spriterNode.position;
+            Vector3 position = node.position;
             position.x += MOVE_SPEED * timeStep;
-            spriterNode.position = position;
+            node.position = position;
             if (spriterAnimatedSprite !is null) {
                 spriterAnimatedSprite.SetAnimation(spriterAnimationSet.GetAnimation(2), LM_FORCE_LOOPED);
             }

@@ -8,12 +8,17 @@
 #include "Scripts/Character/Character.as"
 #include "Scripts/Camera/Follow.as"
 
-Node@ spriterNode;
+class Client
+{
+    Connection@ connection;
+    Node@ object;
+}
+
+Node@ controllerCharacterNode;
 Text@ instructionText;
-int spriterAnimationIndex = 0;
 // UDP port we will use
 const uint SERVER_PORT = 2345;
-Array<Connection@> clients;
+Array<Client@> clients;
 uint clientObjectID = 0;
 
 Text@ bytesIn;
@@ -46,8 +51,8 @@ void Start()
 
 void Stop()
 {
-    if (spriterNode !is null) {
-        spriterNode.Remove();
+    if (controllerCharacterNode !is null) {
+        controllerCharacterNode.Remove();
     }
     instructionText.Remove();
     bytesIn.Remove();
@@ -175,6 +180,9 @@ void SubscribeToEvents()
     SubscribeToEvent("ClientDisconnected", "HandleClientDisconnected");
     network.RegisterRemoteEvent("ClientObjectID");
     SubscribeToEvent("ClientObjectID", "HandleClientObjectID");
+
+    // Subscribe to fixed timestep physics updates for setting or applying controls
+    SubscribeToEvent("PhysicsPreStep", "HandlePhysicsPreStep");
 }
 
 void HandleClientConnected(StringHash eventType, VariantMap& eventData)
@@ -183,11 +191,15 @@ void HandleClientConnected(StringHash eventType, VariantMap& eventData)
     Connection@ newConnection = eventData["Connection"].GetPtr();
     newConnection.scene = scene_;
 
-    clients.Push(newConnection);
+    Node@ node = CreateCharacter(false);
+    Client newClient;
+    newClient.connection = newConnection;
+    newClient.object = node;
+    clients.Push(newClient);
 
     // Finally send the object's node ID using a remote event
     VariantMap remoteEventData;
-    remoteEventData["ID"] = 123;
+    remoteEventData["ID"] = node.id;
     newConnection.SendRemoteEvent("ClientObjectID", true, remoteEventData);
 }
 
@@ -197,8 +209,10 @@ void HandleClientDisconnected(StringHash eventType, VariantMap& eventData)
     Connection@ connection = eventData["Connection"].GetPtr();
     for (uint i = 0; i < clients.length; ++i)
     {
-        if (clients[i] is connection)
+        if (clients[i].connection is connection)
         {
+            log.Info("Deleting disconnected client character");
+            clients[i].object.Remove();
             clients.Erase(i);
             break;
         }
@@ -208,18 +222,23 @@ void HandleClientDisconnected(StringHash eventType, VariantMap& eventData)
 void HandleClientObjectID(StringHash eventType, VariantMap& eventData)
 {
     clientObjectID = eventData["ID"].GetUInt();
+    log.Info("Client Object ID" + String(clientObjectID));
 }
 
 void HandleUpdate(StringHash eventType, VariantMap& eventData)
 {
+    if (clientObjectID > 0 && controllerCharacterNode is null) {
+        controllerCharacterNode = scene_.GetNode(clientObjectID);
+    }
+
     // Take the frame time step, which is stored as a float
     float timeStep = eventData["TimeStep"].GetFloat();
 
     // Move the camera, scale movement with time step
     MoveCamera(timeStep);
 
-    if (spriterNode !is null) {
-        FollowCharacter(cameraNode, spriterNode, timeStep);
+    if (controllerCharacterNode !is null) {
+        FollowCharacter(cameraNode, controllerCharacterNode, timeStep);
     }
 
     Connection@ serverConnection = network.serverConnection;
@@ -237,8 +256,8 @@ void HandleUpdate(StringHash eventType, VariantMap& eventData)
         bOut = 0;
         for (uint i = 0; i < clients.length; ++i)
         {
-            bIn += clients[i].bytesInPerSec;
-            bOut += clients[i].bytesOutPerSec;
+            bIn += clients[i].connection.bytesInPerSec;
+            bOut += clients[i].connection.bytesOutPerSec;
         }
         bIn /= 1024;
         bOut /= 1024;
@@ -280,13 +299,22 @@ void StartServer()
     }
 
     CreateWorld();
+    controllerCharacterNode = CreateCharacter(true);
     network.StartServer(SERVER_PORT);
+}
+
+Node@ CreateCharacter(bool local)
+{
+    Node@ node = scene_.CreateChild("Character", REPLICATED);
+    Character@ character = cast<Character>(node.CreateScriptObject(scriptFile, "Character", LOCAL));
+    character.SetNode(node);
+    character.SetLocal(local);
+    character.Init();
+    return node;
 }
 
 void CreateWorld()
 {
-    spriterNode = scene_.CreateChild("Character", REPLICATED);
-    spriterNode.CreateScriptObject(scriptFile, "Character", LOCAL);
 
     Sprite2D@ boxSprite = cache.GetResource("Sprite2D", "Urho2D/Box.png");
     Sprite2D@ ballSprite = cache.GetResource("Sprite2D", "Urho2D/Ball.png");
@@ -386,6 +414,57 @@ void Disconnect()
 
 }
 
+void HandlePhysicsPreStep(StringHash eventType, VariantMap& eventData)
+{
+    // This function is different on the client and server. The client collects controls (WASD controls + yaw angle)
+    // and sets them to its server connection object, so that they will be sent to the server automatically at a
+    // fixed rate, by default 30 FPS. The server will actually apply the controls (authoritative simulation.)
+    Connection@ serverConnection = network.serverConnection;
+
+    Controls controls;
+
+    // Copy mouse yaw
+    //controls.yaw = yaw;
+
+    // Only apply WASD controls if there is no focused UI element
+    if (ui.focusElement is null)
+    {
+        controls.Set(CTRL_FORWARD, input.keyDown[KEY_W]);
+        controls.Set(CTRL_BACK, input.keyDown[KEY_S]);
+        controls.Set(CTRL_LEFT, input.keyDown[KEY_A]);
+        controls.Set(CTRL_RIGHT, input.keyDown[KEY_D]);
+    } else {
+        controls.Set(CTRL_FORWARD, false);
+        controls.Set(CTRL_BACK, false);
+        controls.Set(CTRL_LEFT, false);
+        controls.Set(CTRL_RIGHT, false);
+    }
+
+    // Client: collect controls
+    if (serverConnection !is null)
+    {
+
+        serverConnection.controls = controls;
+        // In case the server wants to do position-based interest management using the NetworkPriority components, we should also
+        // tell it our observer (camera) position. In this sample it is not in use, but eg. the NinjaSnowWar game uses it
+        serverConnection.position = cameraNode.position;
+    }
+    // Server: apply controls to client objects
+    else if (network.serverRunning)
+    {
+        if (controllerCharacterNode !is null) {
+            Character@ character = cast<Character>(controllerCharacterNode.GetScriptObject());
+            character.SetControls(controls);
+        }
+        for (uint i = 0; i < clients.length; ++i) {
+            if (clients[i].object !is null) {
+                Character@ character = cast<Character>(clients[i].object.GetScriptObject());
+                character.SetControls(clients[i].connection.controls);
+            }
+        }
+
+    }
+}
 
 void Trigger()
 {
