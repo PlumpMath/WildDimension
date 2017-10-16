@@ -5,6 +5,7 @@
 //     - Handling keyboard to move and zoom 2D camera
 
 #include "Scripts/Utilities/Sample.as"
+#include "Scripts/Character/Character.as"
 
 Node@ spriterNode;
 Node@ spriterNode2;
@@ -12,8 +13,6 @@ Text@ instructionText;
 int spriterAnimationIndex = 0;
 // UDP port we will use
 const uint SERVER_PORT = 2345;
-AnimatedSprite2D@ spriterAnimatedSprite;
-AnimationSet2D@ spriterAnimationSet;
 
 void Start()
 {
@@ -34,6 +33,10 @@ void Start()
 
     // Hook up to the frame update events
     SubscribeToEvents();
+
+    DelayedExecute(1.0, false, "void Trigger()");
+
+    StartServer();
 }
 
 void Stop()
@@ -63,13 +66,33 @@ void CreateScene()
     camera.orthographic = true;
     camera.orthoSize = graphics.height * PIXEL_SIZE;
     camera.zoom = 1.0f * Min(graphics.width / 1280.0f, graphics.height / 800.0f); // Set zoom according to user's resolution to ensure full visibility (initial zoom (1.5) is set for full visibility at 1280x800 resolution)
+
+    Sprite2D@ boxSprite = cache.GetResource("Sprite2D", "Urho2D/Box.png");
+    // Create ground.
+    Node@ groundNode = scene_.CreateChild("Ground");
+    groundNode.position = Vector3(0.0f, -1.4f, 0.0f);
+    groundNode.scale = Vector3(200.0f, 1.0f, 0.0f);
+
+    // Create 2D rigid body for gound
+    RigidBody2D@ groundBody = groundNode.CreateComponent("RigidBody2D");
+
+    StaticSprite2D@ groundSprite = groundNode.CreateComponent("StaticSprite2D");
+    groundSprite.sprite = boxSprite;
+
+    // Create box collider for ground
+    CollisionBox2D@ groundShape = groundNode.CreateComponent("CollisionBox2D");
+    // Set box size
+    groundShape.size = Vector2(0.32f, 0.32f);
+    // Set friction
+    groundShape.friction = 0.5f;
+
 }
 
 void CreateInstructions()
 {
     // Construct new Text object, set string to display and font to use
     instructionText = ui.root.CreateChild("Text");
-    instructionText.text = "A Mouse click to play next animation, \nUse WASD keys to move, use PageUp PageDown keys to zoom.";
+    instructionText.text = "Use A/D to move!";
     instructionText.SetFont(cache.GetResource("Font", "Fonts/Anonymous Pro.ttf"), 15);
     instructionText.textAlignment = HA_CENTER; // Center rows in relation to each other
 
@@ -98,33 +121,33 @@ void MoveCamera(float timeStep)
     const float MOVE_SPEED = 4.0f;
 
     // Read WASD keys and move the camera scene node to the corresponding direction if they are pressed
-    if (input.keyDown[KEY_W])
-        cameraNode.Translate(Vector3::UP * MOVE_SPEED * timeStep);
-    if (input.keyDown[KEY_S])
-        cameraNode.Translate(Vector3::DOWN * MOVE_SPEED * timeStep);
-    if (input.keyDown[KEY_A]) {
+    // if (input.keyDown[KEY_W])
+    //     cameraNode.Translate(Vector3::UP * MOVE_SPEED * timeStep);
+    // if (input.keyDown[KEY_S])
+    //     cameraNode.Translate(Vector3::DOWN * MOVE_SPEED * timeStep);
+    // if (input.keyDown[KEY_A]) {
         //cameraNode.Translate(Vector3::LEFT * MOVE_SPEED * timeStep);
-        spriterAnimatedSprite.SetFlip(false, false);
-        Vector3 position = spriterNode.position;
-        position.x -= MOVE_SPEED * timeStep;
-        spriterNode.position = position;
-        if (spriterAnimatedSprite !is null) {
-            spriterAnimatedSprite.SetAnimation(spriterAnimationSet.GetAnimation(2), LM_FORCE_LOOPED);
-        }
-    } else if (input.keyDown[KEY_D]) {
+        // spriterAnimatedSprite.SetFlip(false, false);
+        // Vector3 position = spriterNode.position;
+        // position.x -= MOVE_SPEED * timeStep;
+        // spriterNode.position = position;
+        // if (spriterAnimatedSprite !is null) {
+        //     spriterAnimatedSprite.SetAnimation(spriterAnimationSet.GetAnimation(2), LM_FORCE_LOOPED);
+        // }
+    // } else if (input.keyDown[KEY_D]) {
         //cameraNode.Translate(Vector3::RIGHT * MOVE_SPEED * timeStep);
-        spriterAnimatedSprite.SetFlip(true, false);
-        Vector3 position = spriterNode.position;
-        position.x += MOVE_SPEED * timeStep;
-        spriterNode.position = position;
-        if (spriterAnimatedSprite !is null) {
-            spriterAnimatedSprite.SetAnimation(spriterAnimationSet.GetAnimation(2), LM_FORCE_LOOPED);
-        }
-    } else {
-        if (spriterAnimatedSprite !is null) {
-            spriterAnimatedSprite.SetAnimation(spriterAnimationSet.GetAnimation(0), LM_FORCE_LOOPED);
-        }
-    }
+        // spriterAnimatedSprite.SetFlip(true, false);
+        // Vector3 position = spriterNode.position;
+        // position.x += MOVE_SPEED * timeStep;
+        // spriterNode.position = position;
+        // if (spriterAnimatedSprite !is null) {
+        //     spriterAnimatedSprite.SetAnimation(spriterAnimationSet.GetAnimation(2), LM_FORCE_LOOPED);
+        // }
+    // } else {
+        // if (spriterAnimatedSprite !is null) {
+        //     spriterAnimatedSprite.SetAnimation(spriterAnimationSet.GetAnimation(0), LM_FORCE_LOOPED);
+        // }
+    // }
 
     if (input.keyDown[KEY_N]) {
         StartServer();
@@ -168,11 +191,11 @@ void HandleUpdate(StringHash eventType, VariantMap& eventData)
 
 void HandleMouseButtonDown(StringHash eventType, VariantMap& eventData)
 {
-    if (spriterAnimatedSprite !is null) {
-        spriterAnimationSet = spriterAnimatedSprite.animationSet;
-        spriterAnimationIndex = (spriterAnimationIndex + 1) % spriterAnimationSet.numAnimations;
-        spriterAnimatedSprite.SetAnimation(spriterAnimationSet.GetAnimation(spriterAnimationIndex), LM_FORCE_LOOPED);
-    }
+    // if (spriterAnimatedSprite !is null) {
+    //     spriterAnimationSet = spriterAnimatedSprite.animationSet;
+    //     spriterAnimationIndex = (spriterAnimationIndex + 1) % spriterAnimationSet.numAnimations;
+    //     spriterAnimatedSprite.SetAnimation(spriterAnimationSet.GetAnimation(spriterAnimationIndex), LM_FORCE_LOOPED);
+    // }
 }
 
 void StartServer()
@@ -181,15 +204,9 @@ void StartServer()
         return;
     }
 
-    spriterAnimationSet = cache.GetResource("AnimationSet2D", "Urho2D/imp/imp.scml");
-    if (spriterAnimationSet is null)
-        return;
+    spriterNode = scene_.CreateChild("Character", REPLICATED);
 
-    spriterNode = scene_.CreateChild("SpriterAnimation", REPLICATED);
-    spriterAnimatedSprite = spriterNode.CreateComponent("AnimatedSprite2D", REPLICATED);
-    spriterAnimatedSprite.animationSet = spriterAnimationSet;
-    spriterAnimatedSprite.SetAnimation(spriterAnimationSet.GetAnimation(spriterAnimationIndex), LM_FORCE_LOOPED);
-
+    spriterNode.CreateScriptObject(scriptFile, "Character");
     network.StartServer(SERVER_PORT);
 }
 
@@ -221,6 +238,15 @@ void Disconnect()
         network.StopServer();
         scene_.Clear(true, false);
     }
+
+}
+
+
+void Trigger()
+{
+    log.Info("Delayed:" + GetOSVersion());
+    log.Info("Delayed:" + GetPlatform());
+    //DelayedExecute(1.0, false, "void Trigger()");
 }
 
 // Create XML patch instructions for screen joystick layout specific to this sample app
