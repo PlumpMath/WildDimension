@@ -44,7 +44,7 @@ void Start()
     // Hook up to the frame update events
     SubscribeToEvents();
 
-    DelayedExecute(1.0, false, "void Trigger()");
+    DelayedExecute(1.0, false, "void StartServer()");
 
     //StartServer();
 }
@@ -54,6 +54,7 @@ void Stop()
     if (controllerCharacterNode !is null) {
         controllerCharacterNode.Remove();
     }
+
     instructionText.Remove();
     bytesIn.Remove();
     bytesOut.Remove();
@@ -318,24 +319,32 @@ void CreateWorld()
 
     Sprite2D@ boxSprite = cache.GetResource("Sprite2D", "Urho2D/Box.png");
     Sprite2D@ ballSprite = cache.GetResource("Sprite2D", "Urho2D/Ball.png");
+    Sprite2D@ groundTexture = cache.GetResource("Sprite2D", "Urho2D/Ground.png");
+    groundTexture.rectangle = IntRect(0, 0, 64, 64);
+    
+    float oneBoxSize = 0.32f * 2;
+    int j = -40;
+    for (int i = -50; i < 50; ++i) {
+        // Create ground.
+        j++;
+        Node@ groundNode = scene_.CreateChild("Ground", REPLICATED);
+        groundNode.position = Vector3(i * oneBoxSize, -3.4f + j / 100.0f, 0.0f);
+        groundNode.scale = Vector3(1.0f, 1.0f, 0.0f);
 
-    // Create ground.
-    Node@ groundNode = scene_.CreateChild("Ground", REPLICATED);
-    groundNode.position = Vector3(0.0f, -1.4f, 0.0f);
-    groundNode.scale = Vector3(200.0f, 1.0f, 0.0f);
+        // Create 2D rigid body for gound
+        RigidBody2D@ groundBody = groundNode.CreateComponent("RigidBody2D", REPLICATED);
 
-    // Create 2D rigid body for gound
-    RigidBody2D@ groundBody = groundNode.CreateComponent("RigidBody2D", REPLICATED);
+        StaticSprite2D@ groundSprite = groundNode.CreateComponent("StaticSprite2D", REPLICATED);
+        groundSprite.sprite = groundTexture;
 
-    StaticSprite2D@ groundSprite = groundNode.CreateComponent("StaticSprite2D", REPLICATED);
-    groundSprite.sprite = boxSprite;
-
-    // Create box collider for ground
-    CollisionBox2D@ groundShape = groundNode.CreateComponent("CollisionBox2D", REPLICATED);
-    // Set box size
-    groundShape.size = Vector2(0.32f, 0.32f);
-    // Set friction
-    groundShape.friction = 0.5f;
+        // Create box collider for ground
+        CollisionBox2D@ groundShape = groundNode.CreateComponent("CollisionBox2D", REPLICATED);
+        // Set box size
+        groundShape.size = Vector2(oneBoxSize, oneBoxSize);
+        //groundShape.size = Vector2(1, 1);
+        // Set friction
+        groundShape.friction = 0.5f;
+    }
 
     const uint NUM_OBJECTS = 4;
     for (uint i = 0; i < NUM_OBJECTS; ++i)
@@ -385,6 +394,7 @@ void CreateWorld()
 
 void Connect()
 {   
+    Disconnect();
     String address = "127.0.0.1";
     if (address.empty)
         address = "localhost"; // Use localhost to connect if nothing else specified
@@ -409,8 +419,10 @@ void Disconnect()
     else if (network.serverRunning)
     {
         network.StopServer();
-        scene_.Clear(true, false);
+        //scene_.Clear(true, false);
     }
+
+    controllerCharacterNode = null;
 
 }
 
@@ -433,11 +445,13 @@ void HandlePhysicsPreStep(StringHash eventType, VariantMap& eventData)
         controls.Set(CTRL_BACK, input.keyDown[KEY_S]);
         controls.Set(CTRL_LEFT, input.keyDown[KEY_A]);
         controls.Set(CTRL_RIGHT, input.keyDown[KEY_D]);
+        controls.Set(CTRL_JUMP, input.keyDown[KEY_SPACE]);
     } else {
         controls.Set(CTRL_FORWARD, false);
         controls.Set(CTRL_BACK, false);
         controls.Set(CTRL_LEFT, false);
         controls.Set(CTRL_RIGHT, false);
+        controls.Set(CTRL_JUMP, false);
     }
 
     // Client: collect controls

@@ -3,6 +3,7 @@ const uint CTRL_FORWARD = 1;
 const uint CTRL_BACK = 2;
 const uint CTRL_LEFT = 4;
 const uint CTRL_RIGHT = 8;
+const uint CTRL_JUMP = 16;
 
 class Character : ScriptObject
 {
@@ -15,6 +16,9 @@ class Character : ScriptObject
     Node@ spriterNode;
     int spriterAnimationIndex = 0;
     Controls controls;
+    Controls oldControls;
+    RigidBody2D@ rigidBody;
+
 
     Character()
     {
@@ -64,16 +68,18 @@ class Character : ScriptObject
         if (greenSpiralEffect is null)
             return;
 
-        Node@ node  = spriterNode.CreateChild("RigidBody");
+        //Node@ node  = spriterNode.CreateChild("RigidBody");
         //node.position = Vector3(Random(-0.1f, 0.1f), 5.0f + i * 0.4f, 0.0f);
 
         // Create rigid body
-        RigidBody2D@ body = node.CreateComponent("RigidBody2D");
-        body.bodyType = BT_STATIC;
+        rigidBody = node.CreateComponent("RigidBody2D");
+        rigidBody.bodyType = BT_DYNAMIC;
 
-        CollisionBox2D@ box = node.CreateComponent("CollisionBox2D");
+        CollisionCircle2D@ box = node.CreateComponent("CollisionCircle2D");
             // Set size
-        box.size = Vector2(2.3f, 2.5f);
+        //box.size = Vector2(2.3f, 2.5f);
+        box.radius = 1.2;
+        box.friction = 0.7;
     }
 
     void Update(float timeStep)
@@ -81,18 +87,22 @@ class Character : ScriptObject
         const float MOVE_SPEED = 4.0f;
         if (controls.IsDown(CTRL_LEFT)) {
             spriterAnimatedSprite.SetFlip(false, false);
-            Vector3 position = node.position;
-            position.x -= MOVE_SPEED * timeStep;
-            node.position = position;
+            //Vector3 position = node.position;
+            //position.x -= MOVE_SPEED * timeStep;
+            //node.position = position;
+            //rigidBody.ApplyLinearImpulseToCenter(Vector2(10 * -timeStep, 0), true);
+            rigidBody.linearVelocity = Vector2(-3, rigidBody.linearVelocity.y);
             if (spriterAnimatedSprite !is null) {
                 spriterAnimatedSprite.SetAnimation(spriterAnimationSet.GetAnimation(2), LM_FORCE_LOOPED);
             }
             particleEmitter.emitting = true;
         } else if (controls.IsDown(CTRL_RIGHT)) {
             spriterAnimatedSprite.SetFlip(true, false);
-            Vector3 position = node.position;
-            position.x += MOVE_SPEED * timeStep;
-            node.position = position;
+            //rigidBody.ApplyLinearImpulseToCenter(Vector2(10 * timeStep, 0), true);
+            rigidBody.linearVelocity = Vector2(3, rigidBody.linearVelocity.y);
+            //Vector3 position = node.position;
+            //position.x += MOVE_SPEED * timeStep;
+            //node.position = position;
             if (spriterAnimatedSprite !is null) {
                 spriterAnimatedSprite.SetAnimation(spriterAnimationSet.GetAnimation(2), LM_FORCE_LOOPED);
             }
@@ -103,5 +113,13 @@ class Character : ScriptObject
                 spriterAnimatedSprite.SetAnimation(spriterAnimationSet.GetAnimation(0), LM_FORCE_LOOPED);
             }
         }
+
+        if (controls.IsPressed(CTRL_JUMP, oldControls)) {
+            if (rigidBody.linearVelocity.y < 1) {
+                rigidBody.ApplyLinearImpulseToCenter(Vector2(0, 5), true);
+            }
+        }
+
+        oldControls = controls;
     }
 }
