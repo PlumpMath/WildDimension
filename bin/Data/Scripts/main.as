@@ -7,7 +7,13 @@
 #include "Scripts/Utilities/Sample.as"
 
 Node@ spriterNode;
+Node@ spriterNode2;
+Text@ instructionText;
 int spriterAnimationIndex = 0;
+// UDP port we will use
+const uint SERVER_PORT = 2345;
+AnimatedSprite2D@ spriterAnimatedSprite;
+AnimationSet2D@ spriterAnimationSet;
 
 void Start()
 {
@@ -30,6 +36,13 @@ void Start()
     SubscribeToEvents();
 }
 
+void Stop()
+{
+    spriterNode.Remove();
+    instructionText.Remove();
+    Disconnect();
+}
+
 void CreateScene()
 {
     scene_ = Scene();
@@ -42,30 +55,21 @@ void CreateScene()
 
     // Create a scene node for the camera, which we will move around
     // The camera will use default settings (1000 far clip distance, 45 degrees FOV, set aspect ratio automatically)
-    cameraNode = scene_.CreateChild("Camera");
+    cameraNode = scene_.CreateChild("Camera", LOCAL);
     // Set an initial position for the camera scene node above the plane
     cameraNode.position = Vector3(0.0f, 0.0f, -10.0f);
 
-    Camera@ camera = cameraNode.CreateComponent("Camera");
+    Camera@ camera = cameraNode.CreateComponent("Camera", LOCAL);
     camera.orthographic = true;
     camera.orthoSize = graphics.height * PIXEL_SIZE;
-    camera.zoom = 1.5f * Min(graphics.width / 1280.0f, graphics.height / 800.0f); // Set zoom according to user's resolution to ensure full visibility (initial zoom (1.5) is set for full visibility at 1280x800 resolution)
-
-    AnimationSet2D@ spriterAnimationSet = cache.GetResource("AnimationSet2D", "Urho2D/imp/imp.scml");
-    if (spriterAnimationSet is null)
-        return;
-
-    spriterNode = scene_.CreateChild("SpriterAnimation");
-    AnimatedSprite2D@ spriterAnimatedSprite = spriterNode.CreateComponent("AnimatedSprite2D");
-    spriterAnimatedSprite.animationSet = spriterAnimationSet;
-    spriterAnimatedSprite.SetAnimation(spriterAnimationSet.GetAnimation(spriterAnimationIndex), LM_FORCE_LOOPED);
+    camera.zoom = 1.0f * Min(graphics.width / 1280.0f, graphics.height / 800.0f); // Set zoom according to user's resolution to ensure full visibility (initial zoom (1.5) is set for full visibility at 1280x800 resolution)
 }
 
 void CreateInstructions()
 {
     // Construct new Text object, set string to display and font to use
-    Text@ instructionText = ui.root.CreateChild("Text");
-    instructionText.text = "Mouse click to play next animation, \nUse WASD keys to move, use PageUp PageDown keys to zoom.";
+    instructionText = ui.root.CreateChild("Text");
+    instructionText.text = "A Mouse click to play next animation, \nUse WASD keys to move, use PageUp PageDown keys to zoom.";
     instructionText.SetFont(cache.GetResource("Font", "Fonts/Anonymous Pro.ttf"), 15);
     instructionText.textAlignment = HA_CENTER; // Center rows in relation to each other
 
@@ -98,10 +102,37 @@ void MoveCamera(float timeStep)
         cameraNode.Translate(Vector3::UP * MOVE_SPEED * timeStep);
     if (input.keyDown[KEY_S])
         cameraNode.Translate(Vector3::DOWN * MOVE_SPEED * timeStep);
-    if (input.keyDown[KEY_A])
-        cameraNode.Translate(Vector3::LEFT * MOVE_SPEED * timeStep);
-    if (input.keyDown[KEY_D])
-        cameraNode.Translate(Vector3::RIGHT * MOVE_SPEED * timeStep);
+    if (input.keyDown[KEY_A]) {
+        //cameraNode.Translate(Vector3::LEFT * MOVE_SPEED * timeStep);
+        spriterAnimatedSprite.SetFlip(false, false);
+        Vector3 position = spriterNode.position;
+        position.x -= MOVE_SPEED * timeStep;
+        spriterNode.position = position;
+        if (spriterAnimatedSprite !is null) {
+            spriterAnimatedSprite.SetAnimation(spriterAnimationSet.GetAnimation(2), LM_FORCE_LOOPED);
+        }
+    } else if (input.keyDown[KEY_D]) {
+        //cameraNode.Translate(Vector3::RIGHT * MOVE_SPEED * timeStep);
+        spriterAnimatedSprite.SetFlip(true, false);
+        Vector3 position = spriterNode.position;
+        position.x += MOVE_SPEED * timeStep;
+        spriterNode.position = position;
+        if (spriterAnimatedSprite !is null) {
+            spriterAnimatedSprite.SetAnimation(spriterAnimationSet.GetAnimation(2), LM_FORCE_LOOPED);
+        }
+    } else {
+        if (spriterAnimatedSprite !is null) {
+            spriterAnimatedSprite.SetAnimation(spriterAnimationSet.GetAnimation(0), LM_FORCE_LOOPED);
+        }
+    }
+
+    if (input.keyDown[KEY_N]) {
+        StartServer();
+    }
+    if (input.keyDown[KEY_J]) {
+        Connect();
+    }
+
 
     if (input.keyDown[KEY_PAGEUP])
     {
@@ -137,10 +168,59 @@ void HandleUpdate(StringHash eventType, VariantMap& eventData)
 
 void HandleMouseButtonDown(StringHash eventType, VariantMap& eventData)
 {
-    AnimatedSprite2D@ spriterAnimatedSprite = spriterNode.GetComponent("AnimatedSprite2D");
-    AnimationSet2D@ spriterAnimationSet = spriterAnimatedSprite.animationSet;
-    spriterAnimationIndex = (spriterAnimationIndex + 1) % spriterAnimationSet.numAnimations;
+    if (spriterAnimatedSprite !is null) {
+        spriterAnimationSet = spriterAnimatedSprite.animationSet;
+        spriterAnimationIndex = (spriterAnimationIndex + 1) % spriterAnimationSet.numAnimations;
+        spriterAnimatedSprite.SetAnimation(spriterAnimationSet.GetAnimation(spriterAnimationIndex), LM_FORCE_LOOPED);
+    }
+}
+
+void StartServer()
+{
+    if (network.serverRunning) {
+        return;
+    }
+
+    spriterAnimationSet = cache.GetResource("AnimationSet2D", "Urho2D/imp/imp.scml");
+    if (spriterAnimationSet is null)
+        return;
+
+    spriterNode = scene_.CreateChild("SpriterAnimation", REPLICATED);
+    spriterAnimatedSprite = spriterNode.CreateComponent("AnimatedSprite2D", REPLICATED);
+    spriterAnimatedSprite.animationSet = spriterAnimationSet;
     spriterAnimatedSprite.SetAnimation(spriterAnimationSet.GetAnimation(spriterAnimationIndex), LM_FORCE_LOOPED);
+
+    network.StartServer(SERVER_PORT);
+}
+
+void Connect()
+{   
+    String address = "127.0.0.1";
+    if (address.empty)
+        address = "localhost"; // Use localhost to connect if nothing else specified
+
+    // Connect to server, specify scene to use as a client for replication
+    //clientObjectID = 0; // Reset own object ID from possible previous connection
+    network.Connect(address, SERVER_PORT, scene_);
+}
+
+void Disconnect()
+{
+    Connection@ serverConnection = network.serverConnection;
+    // If we were connected to server, disconnect. Or if we were running a server, stop it. In both cases clear the
+    // scene of all replicated content, but let the local nodes & components (the static world + camera) stay
+    if (serverConnection !is null)
+    {
+        serverConnection.Disconnect();
+        scene_.Clear(true, false);
+        //clientObjectID = 0;
+    }
+    // Or if we were running a server, stop it
+    else if (network.serverRunning)
+    {
+        network.StopServer();
+        scene_.Clear(true, false);
+    }
 }
 
 // Create XML patch instructions for screen joystick layout specific to this sample app
