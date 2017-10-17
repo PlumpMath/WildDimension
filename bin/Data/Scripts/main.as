@@ -320,15 +320,13 @@ void CreateWorld()
     Sprite2D@ boxSprite = cache.GetResource("Sprite2D", "Urho2D/Box.png");
     Sprite2D@ ballSprite = cache.GetResource("Sprite2D", "Urho2D/Ball.png");
     Sprite2D@ groundTexture = cache.GetResource("Sprite2D", "Urho2D/Ground.png");
-    groundTexture.rectangle = IntRect(0, 0, 64, 64);
+    groundTexture.rectangle = IntRect(0, 0, 32, 32);
     
-    float oneBoxSize = 0.32f * 2;
-    int j = -40;
-    for (int i = -50; i < 50; ++i) {
+    float oneBoxSize = 0.32f * 1;
+    for (int i = -50; i <= 50; ++i) {
         // Create ground.
-        j++;
         Node@ groundNode = scene_.CreateChild("Ground", REPLICATED);
-        groundNode.position = Vector3(i * oneBoxSize, -3.4f + j / 100.0f, 0.0f);
+        groundNode.position = Vector3(i * oneBoxSize, -3.4f + 10 * Sin(i / 50.0f), 0.0f);
         groundNode.scale = Vector3(1.0f, 1.0f, 0.0f);
 
         // Create 2D rigid body for gound
@@ -346,16 +344,17 @@ void CreateWorld()
         groundShape.friction = 0.5f;
     }
 
-    const uint NUM_OBJECTS = 4;
+    const uint NUM_OBJECTS = 500;
     for (uint i = 0; i < NUM_OBJECTS; ++i)
     {
         Node@ node  = scene_.CreateChild("RigidBody", REPLICATED);
-        node.position = Vector3(Random(-0.1f, 0.1f), 5.0f + i * 0.4f, 0.0f);
+        node.position = Vector3(Random(-2.0f, 2.0f), 5.0f + i * 0.1f, 0.0f);
 
         // Create rigid body
         RigidBody2D@ body = node.CreateComponent("RigidBody2D", REPLICATED);
         body.bodyType = BT_DYNAMIC;
-        body.allowSleep = false;
+        body.angularDamping = 0.9f;
+        //body.allowSleep = false;
 
         StaticSprite2D@ staticSprite = node.CreateComponent("StaticSprite2D", REPLICATED);
 
@@ -372,7 +371,7 @@ void CreateWorld()
             // Set friction
             box.friction = 0.5f;
             // Set restitution
-            box.restitution = 0.1f;
+            box.restitution = 0.5f;
         }
         else
         {
@@ -387,7 +386,7 @@ void CreateWorld()
             // Set friction.
             circle.friction = 0.5f;
             // Set restitution
-            circle.restitution = 0.1f;
+            circle.restitution = 0.7f;
         }
     }
 }
