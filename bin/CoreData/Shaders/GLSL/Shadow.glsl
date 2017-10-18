@@ -3,7 +3,7 @@
 #include "Transform.glsl"
 
 #ifdef VSM_SHADOW
-    varying vec4 vTexCoord;
+    varying vec3 vTexCoord;
 #else
     varying vec2 vTexCoord;
 #endif
@@ -14,7 +14,7 @@ void VS()
     vec3 worldPos = GetWorldPos(modelMatrix);
     gl_Position = GetClipPos(worldPos);
     #ifdef VSM_SHADOW
-        vTexCoord = vec4(GetTexCoord(iTexCoord), gl_Position.z, gl_Position.w);
+        vTexCoord = vec3(GetTexCoord(iTexCoord), gl_Position.z / gl_Position.w * 0.5 + 0.5);
     #else
         vTexCoord = GetTexCoord(iTexCoord);
     #endif
@@ -29,7 +29,7 @@ void PS()
     #endif
 
     #ifdef VSM_SHADOW
-        float depth = vTexCoord.z / vTexCoord.w * 0.5 + 0.5;
+        float depth = vTexCoord.z;
         gl_FragColor = vec4(depth, depth * depth, 1.0, 1.0);
     #else
         gl_FragColor = vec4(1.0);

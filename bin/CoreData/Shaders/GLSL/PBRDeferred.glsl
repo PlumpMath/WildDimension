@@ -86,16 +86,7 @@ void PS()
     vec4 projWorldPos = vec4(worldPos, 1.0);
 
     vec3 lightDir;
-
-    float atten = 1;
-
-    #if defined(DIRLIGHT)
-        atten = GetAtten(normal, worldPos, lightDir);
-    #elif defined(SPOTLIGHT)
-        atten = GetAttenSpot(normal, worldPos, lightDir);
-    #else
-        atten = GetAttenPoint(normal, worldPos, lightDir);
-    #endif
+    float atten = GetAtten(normal, worldPos, lightDir);
 
     float shadow = 1;
     #ifdef SHADOW
@@ -117,7 +108,8 @@ void PS()
 
     float ndl = clamp(abs(dot(normal, lightVec)), M_EPSILON, 1.0);
 
-    vec3 BRDF = GetBRDF(worldPos, lightDir, lightVec, toCamera, normal, roughness, albedoInput.rgb, specColor);
+
+    vec3 BRDF = GetBRDF(lightDir, lightVec, toCamera, normal, roughness, albedoInput.rgb, specColor);
 
     gl_FragColor.a = 1.0;
     gl_FragColor.rgb = BRDF * lightColor * (atten * shadow) / M_PI;

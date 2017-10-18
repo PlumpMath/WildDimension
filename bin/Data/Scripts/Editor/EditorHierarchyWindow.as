@@ -85,8 +85,11 @@ void CreateHierarchyWindow()
     SubscribeToEvent(hierarchyList, "ItemClicked", "HandleHierarchyItemClick");
     SubscribeToEvent("DragDropTest", "HandleDragDropTest");
     SubscribeToEvent("DragDropFinish", "HandleDragDropFinish");
+    SubscribeToEvent(editorScene, "NodeAdded", "HandleNodeAdded");
+    SubscribeToEvent(editorScene, "NodeRemoved", "HandleNodeRemoved");
     SubscribeToEvent(editorScene, "ComponentAdded", "HandleComponentAdded");
     SubscribeToEvent(editorScene, "ComponentRemoved", "HandleComponentRemoved");
+    SubscribeToEvent(editorScene, "NodeNameChanged", "HandleNodeNameChanged");
     SubscribeToEvent(editorScene, "NodeEnabledChanged", "HandleNodeEnabledChanged");
     SubscribeToEvent(editorScene, "ComponentEnabledChanged", "HandleComponentEnabledChanged");
     SubscribeToEvent("TemporaryChanged", "HandleTemporaryChanged");
@@ -109,8 +112,6 @@ void ShowHierarchyWindow()
 
 void HideHierarchyWindow()
 {
-    if(viewportMode == VIEWPORT_COMPACT)
-        return;
     hierarchyWindow.visible = false;
 }
 
@@ -538,23 +539,6 @@ void SelectNode(Node@ node, bool multiselect)
     }
     else if (!multiselect)
         hierarchyList.ClearSelection();
-}
-
-void DeselectNode(Node@ node)
-{
-    if (node is null)
-    {
-        hierarchyList.ClearSelection();
-        return;
-    }
-
-    uint index = GetListIndex(node);
-    uint numItems = hierarchyList.numItems;
-
-    if (index < numItems)
-    {
-        hierarchyList.ToggleSelection(index);
-    }
 }
 
 void SelectComponent(Component@ component, bool multiselect)
@@ -1414,8 +1398,8 @@ void HandleNodeRemoved(StringHash eventType, VariantMap& eventData)
         return;
 
     Node@ node = eventData["Node"].GetPtr();
-    if (showTemporaryObject || !node.temporary)
-        UpdateHierarchyItem(GetListIndex(node), null, null);
+    uint index = GetListIndex(node);
+    UpdateHierarchyItem(index, null, null);
 }
 
 void HandleComponentAdded(StringHash eventType, VariantMap& eventData)
@@ -1426,7 +1410,7 @@ void HandleComponentAdded(StringHash eventType, VariantMap& eventData)
     // Insert the newly added component at last component position but before the first child node position of the parent node
     Node@ node = eventData["Node"].GetPtr();
     Component@ component = eventData["Component"].GetPtr();
-    if (showTemporaryObject || (!node.temporary && !component.temporary))
+    if (showTemporaryObject || !component.temporary)
     {
         uint nodeIndex = GetListIndex(node);
         if (nodeIndex != NO_ITEM)
@@ -1442,14 +1426,10 @@ void HandleComponentRemoved(StringHash eventType, VariantMap& eventData)
     if (suppressSceneChanges)
         return;
 
-    Node@ node = eventData["Node"].GetPtr();
     Component@ component = eventData["Component"].GetPtr();
-    if (showTemporaryObject || (!node.temporary && !component.temporary))
-    {
-        uint index = GetComponentListIndex(component);
-        if (index != NO_ITEM)
-            hierarchyList.RemoveItem(index);
-    }
+    uint index = GetComponentListIndex(component);
+    if (index != NO_ITEM)
+        hierarchyList.RemoveItem(index);
 }
 
 void HandleNodeNameChanged(StringHash eventType, VariantMap& eventData)
@@ -1458,8 +1438,7 @@ void HandleNodeNameChanged(StringHash eventType, VariantMap& eventData)
         return;
 
     Node@ node = eventData["Node"].GetPtr();
-    if (showTemporaryObject || !node.temporary)
-        UpdateHierarchyItemText(GetListIndex(node), node.enabled, GetNodeTitle(node));
+    UpdateHierarchyItemText(GetListIndex(node), node.enabled, GetNodeTitle(node));
 }
 
 void HandleNodeEnabledChanged(StringHash eventType, VariantMap& eventData)
@@ -1468,11 +1447,8 @@ void HandleNodeEnabledChanged(StringHash eventType, VariantMap& eventData)
         return;
 
     Node@ node = eventData["Node"].GetPtr();
-    if (showTemporaryObject || !node.temporary)
-    {
-        UpdateHierarchyItemText(GetListIndex(node), node.enabled);
-        attributesDirty = true;
-    }
+    UpdateHierarchyItemText(GetListIndex(node), node.enabled);
+    attributesDirty = true;
 }
 
 void HandleComponentEnabledChanged(StringHash eventType, VariantMap& eventData)
@@ -1480,13 +1456,9 @@ void HandleComponentEnabledChanged(StringHash eventType, VariantMap& eventData)
     if (suppressSceneChanges)
         return;
 
-    Node@ node = eventData["Node"].GetPtr();
     Component@ component = eventData["Component"].GetPtr();
-    if (showTemporaryObject || (!node.temporary && !component.temporary))
-    {
-        UpdateHierarchyItemText(GetComponentListIndex(component), component.enabledEffective);
-        attributesDirty = true;
-    }
+    UpdateHierarchyItemText(GetComponentListIndex(component), component.enabledEffective);
+    attributesDirty = true;
 }
 
 void HandleUIElementAdded(StringHash eventType, VariantMap& eventData)

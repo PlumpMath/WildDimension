@@ -105,8 +105,7 @@ void CreateColorWheel()
     SubscribeToEvent(okButton, "Pressed", "HandleWheelButtons");
     SubscribeToEvent(cancelButton, "Pressed", "HandleWheelButtons");
 
-    CenterDialog(colorWheelWindow);
-    lastColorWheelWindowPosition = colorWheelWindow.position;
+    lastColorWheelWindowPosition = IntVector2(300,400);
 
     HideColorWheel();
 }

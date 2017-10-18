@@ -18,8 +18,6 @@ Node@ cameraNode; // Camera scene node
 float yaw = 0.0f; // Camera yaw angle
 float pitch = 0.0f; // Camera pitch angle
 const float TOUCH_SENSITIVITY = 2;
-MouseMode useMouseMode_ = MM_ABSOLUTE;
-Console@ console = null;
 
 void SampleStart()
 {
@@ -42,9 +40,6 @@ void SampleStart()
     // Subscribe key down event
     SubscribeToEvent("KeyDown", "HandleKeyDown");
 
-    // Subscribe key up event
-    SubscribeToEvent("KeyUp", "HandleKeyUp");
-
     // Subscribe scene update event
     SubscribeToEvent("SceneUpdate", "HandleSceneUpdate");
 }
@@ -65,30 +60,6 @@ void InitTouchInput()
     input.screenJoystickVisible[0] = true;
 }
 
-void SampleInitMouseMode(MouseMode mode)
-{
-  useMouseMode_ = mode;
-
-    if (GetPlatform() != "Web")
-    {
-      if (useMouseMode_ == MM_FREE)
-          input.mouseVisible = true;
-
-      if (useMouseMode_ != MM_ABSOLUTE)
-      {
-          input.mouseMode = useMouseMode_;
-          if (console.visible)
-              input.SetMouseMode(MM_ABSOLUTE, true);
-      }
-    }
-    else
-    {
-        input.mouseVisible = true;
-        SubscribeToEvent("MouseButtonDown", "HandleMouseModeRequest");
-        SubscribeToEvent("MouseModeChanged", "HandleMouseModeChange");
-    }
-}
-
 void SetLogoVisible(bool enable)
 {
     if (logoSprite !is null)
@@ -98,7 +69,7 @@ void SetLogoVisible(bool enable)
 void CreateLogo()
 {
     // Get logo texture
-    Texture2D@ logoTexture = cache.GetResource("Texture2D", "Textures/FishBoneLogo.png");
+    Texture2D@ logoTexture = cache.GetResource("Texture2D", "Textures/LogoLarge.png");
     if (logoTexture is null)
         return;
 
@@ -118,13 +89,13 @@ void CreateLogo()
     logoSprite.SetSize(textureWidth, textureHeight);
 
     // Set logo sprite hot spot
-    logoSprite.SetHotSpot(textureWidth, textureHeight);
+    logoSprite.SetHotSpot(0, textureHeight);
 
     // Set logo sprite alignment
-    logoSprite.SetAlignment(HA_RIGHT, VA_BOTTOM);
+    logoSprite.SetAlignment(HA_LEFT, VA_BOTTOM);
 
     // Make logo not fully opaque to show the scene underneath
-    logoSprite.opacity = 0.9f;
+    logoSprite.opacity = 0.75f;
 
     // Set a low priority for the logo so that other UI elements can be drawn on top
     logoSprite.priority = -100;
@@ -148,50 +119,47 @@ void CreateConsoleAndDebugHud()
     Console@ console = engine.CreateConsole();
     console.defaultStyle = xmlFile;
     console.background.opacity = 0.8f;
-    //console.visible = true;
 
     // Create debug HUD
     DebugHud@ debugHud = engine.CreateDebugHud();
     debugHud.defaultStyle = xmlFile;
 }
 
-void HandleKeyUp(StringHash eventType, VariantMap& eventData)
-{
-    int key = eventData["Key"].GetInt();
-
-    // Close console (if open) or exit when ESC is pressed
-    if (key == KEY_ESCAPE)
-    {
-        if (console.visible)
-            console.visible = false;
-        else
-        {
-            if (GetPlatform() == "Web")
-            {
-                input.mouseVisible = true;
-                if (useMouseMode_ != MM_ABSOLUTE)
-                    input.mouseMode = MM_FREE;
-            }
-            else
-                engine.Exit();
-        }
-    }
-}
-
 void HandleKeyDown(StringHash eventType, VariantMap& eventData)
 {
     int key = eventData["Key"].GetInt();
 
+    // Close console (if open) or exit when ESC is pressed
+    if (key == KEY_ESC)
+    {
+        if (!console.visible)
+            engine.Exit();
+        else
+            console.visible = false;
+    }
+
     // Toggle console with F1
-    if (key == KEY_F1)
+    else if (key == KEY_F1)
         console.Toggle();
-        
+
     // Toggle debug HUD with F2
     else if (key == KEY_F2)
-        debugHud.ToggleAll();
+    {
+        if (debugHud.mode == 0 || (debugHud.mode & DEBUGHUD_SHOW_MEMORY) > 0)
+            debugHud.mode = DEBUGHUD_SHOW_STATS | DEBUGHUD_SHOW_MODE | DEBUGHUD_SHOW_PROFILER;
+        else
+            debugHud.mode = 0;
+    }
+    else if (key == KEY_F3)
+    {
+        if (debugHud.mode == 0 || (debugHud.mode & DEBUGHUD_SHOW_PROFILER) > 0)
+            debugHud.mode = DEBUGHUD_SHOW_STATS | DEBUGHUD_SHOW_MODE | DEBUGHUD_SHOW_MEMORY;
+        else
+            debugHud.mode = 0;
+    }
 
     // Common rendering quality controls, only when UI has no focused element
-    else if (ui.focusElement is null)
+    if (ui.focusElement is null)
     {
         // Preferences / Pause
         if (key == KEY_SELECT && touchEnabled)
@@ -248,10 +216,10 @@ void HandleKeyDown(StringHash eventType, VariantMap& eventData)
         // Shadow depth and filtering quality
         else if (key == '6')
         {
-            ShadowQuality quality = renderer.shadowQuality;
-            quality = ShadowQuality(quality + 1);
-            if (quality > SHADOWQUALITY_BLUR_VSM)
-                quality = SHADOWQUALITY_SIMPLE_16BIT;
+            int quality = renderer.shadowQuality;
+            ++quality;
+            if (quality > SHADOWQUALITY_HIGH_24BIT)
+                quality = SHADOWQUALITY_LOW_16BIT;
             renderer.shadowQuality = quality;
         }
 
@@ -275,14 +243,6 @@ void HandleKeyDown(StringHash eventType, VariantMap& eventData)
             // Here we save in the Data folder with date and time appended
             screenshot.SavePNG(fileSystem.programDir + "Data/Screenshot_" +
                 time.timeStamp.Replaced(':', '_').Replaced('.', '_').Replaced(' ', '_') + ".png");
-        }
-        else if (key == '`')
-        {
-            if (console.visible) {
-                console.visible = false;
-            } else {
-                console.visible = true;
-            }
         }
     }
 }
@@ -326,24 +286,4 @@ void HandleTouchBegin(StringHash eventType, VariantMap& eventData)
     // On some platforms like Windows the presence of touch input can only be detected dynamically
     InitTouchInput();
     UnsubscribeFromEvent("TouchBegin");
-}
-
-// If the user clicks the canvas, attempt to switch to relative mouse mode on web platform
-void HandleMouseModeRequest(StringHash eventType, VariantMap& eventData)
-{
-    if (console !is null && console.visible)
-        return;
-
-    if (useMouseMode_ == MM_ABSOLUTE)
-        input.mouseVisible = false;
-    else if (useMouseMode_ == MM_FREE)
-        input.mouseVisible = true;
-
-    input.mouseMode = useMouseMode_;
-}
-
-void HandleMouseModeChange(StringHash eventType, VariantMap& eventData)
-{
-    bool mouseLocked = eventData["MouseLocked"].GetBool();
-    input.SetMouseVisible(!mouseLocked);
 }
