@@ -8,9 +8,11 @@
 #include "Scripts/Character/Character.as"
 #include "Scripts/Camera/Follow.as"
 
+//String platform = GetPlatform();
+//log.Info("Platform")
 class Client
 {
-    Connection@ connection;
+    //Connection@ connection;
     Node@ object;
 }
 
@@ -44,7 +46,7 @@ void Start()
     // Hook up to the frame update events
     SubscribeToEvents();
 
-    DelayedExecute(1.0, false, "void StartServer()");
+    DelayedExecute(3.0, false, "void StartServer()");
 
     //StartServer();
 }
@@ -179,7 +181,7 @@ void SubscribeToEvents()
 
     SubscribeToEvent("ClientConnected", "HandleClientConnected");
     SubscribeToEvent("ClientDisconnected", "HandleClientDisconnected");
-    network.RegisterRemoteEvent("ClientObjectID");
+    //network.RegisterRemoteEvent("ClientObjectID");
     SubscribeToEvent("ClientObjectID", "HandleClientObjectID");
 
     // Subscribe to fixed timestep physics updates for setting or applying controls
@@ -189,7 +191,7 @@ void SubscribeToEvents()
 void HandleClientConnected(StringHash eventType, VariantMap& eventData)
 {
     // When a client connects, assign to scene to begin scene replication
-    Connection@ newConnection = eventData["Connection"].GetPtr();
+    /*Connection@ newConnection = eventData["Connection"].GetPtr();
     newConnection.scene = scene_;
 
     Node@ node = CreateCharacter(false);
@@ -202,10 +204,12 @@ void HandleClientConnected(StringHash eventType, VariantMap& eventData)
     VariantMap remoteEventData;
     remoteEventData["ID"] = node.id;
     newConnection.SendRemoteEvent("ClientObjectID", true, remoteEventData);
+    */
 }
 
 void HandleClientDisconnected(StringHash eventType, VariantMap& eventData)
 {
+    /*
     // When a client disconnects, remove the controlled object
     Connection@ connection = eventData["Connection"].GetPtr();
     for (uint i = 0; i < clients.length; ++i)
@@ -218,6 +222,7 @@ void HandleClientDisconnected(StringHash eventType, VariantMap& eventData)
             break;
         }
     }
+    */
 }
 
 void HandleClientObjectID(StringHash eventType, VariantMap& eventData)
@@ -242,7 +247,7 @@ void HandleUpdate(StringHash eventType, VariantMap& eventData)
         FollowCharacter(cameraNode, controllerCharacterNode, timeStep);
     }
 
-    Connection@ serverConnection = network.serverConnection;
+    /*Connection@ serverConnection = network.serverConnection;
     if (serverConnection !is null) {
         if (bytesIn !is null) {
             bytesIn.text = "KBytes In: " + String(serverConnection.bytesInPerSec / 1024);
@@ -268,7 +273,7 @@ void HandleUpdate(StringHash eventType, VariantMap& eventData)
         if (bytesOut !is null) {
             bytesOut.text = "KBytes Out: " + String(bOut);
         }
-    }
+    }*/
 }
 
 void HandlePostRenderUpdate(StringHash eventType, VariantMap& eventData)
@@ -286,6 +291,36 @@ void HandlePostRenderUpdate(StringHash eventType, VariantMap& eventData)
 
 void HandleMouseButtonDown(StringHash eventType, VariantMap& eventData)
 {
+    if (controllerCharacterNode is null) {
+        return;
+    }
+    Sprite2D@ ballSprite = cache.GetResource("Sprite2D", "Urho2D/Ball.png");
+
+    Node@ node  = scene_.CreateChild("RigidBody", REPLICATED);
+    Vector3 pos = controllerCharacterNode.position;
+    pos.y++;
+    node.position = pos;
+
+    // Create rigid body
+    RigidBody2D@ body = node.CreateComponent("RigidBody2D", REPLICATED);
+    body.bodyType = BT_DYNAMIC;
+    body.angularDamping = 0.9f;
+    body.mass = 100;
+    //body.allowSleep = false;
+
+    StaticSprite2D@ staticSprite = node.CreateComponent("StaticSprite2D", REPLICATED);
+    staticSprite.sprite = ballSprite;
+
+    // Create circle
+    CollisionCircle2D@ circle = node.CreateComponent("CollisionCircle2D", REPLICATED);
+    // Set radius
+    circle.radius = 0.16f;
+    // Set density
+    circle.density = 1.0f;
+    // Set friction.
+    circle.friction = 0.5f;
+    // Set restitution
+    circle.restitution = 0.9f;
     // if (spriterAnimatedSprite !is null) {
     //     spriterAnimationSet = spriterAnimatedSprite.animationSet;
     //     spriterAnimationIndex = (spriterAnimationIndex + 1) % spriterAnimationSet.numAnimations;
@@ -295,13 +330,14 @@ void HandleMouseButtonDown(StringHash eventType, VariantMap& eventData)
 
 void StartServer()
 {
-    if (network.serverRunning) {
+    /*if (network.serverRunning) {
         return;
     }
 
+    network.StartServer(SERVER_PORT);
+    */
     CreateWorld();
     controllerCharacterNode = CreateCharacter(true);
-    network.StartServer(SERVER_PORT);
 }
 
 Node@ CreateCharacter(bool local)
@@ -323,10 +359,10 @@ void CreateWorld()
     groundTexture.rectangle = IntRect(0, 0, 32, 32);
     
     float oneBoxSize = 0.32f * 1;
-    for (int i = -50; i <= 50; ++i) {
+    for (int i = -500; i <= 500; ++i) {
         // Create ground.
         Node@ groundNode = scene_.CreateChild("Ground", REPLICATED);
-        groundNode.position = Vector3(i * oneBoxSize, -3.4f + 10 * Sin(i / 50.0f), 0.0f);
+        groundNode.position = Vector3(i * oneBoxSize, -3.4f + Abs(i) * Sin(Abs(i/50.0f)), 0.0f);
         groundNode.scale = Vector3(1.0f, 1.0f, 0.0f);
 
         // Create 2D rigid body for gound
@@ -344,7 +380,7 @@ void CreateWorld()
         groundShape.friction = 0.5f;
     }
 
-    const uint NUM_OBJECTS = 500;
+    const uint NUM_OBJECTS = 50;
     for (uint i = 0; i < NUM_OBJECTS; ++i)
     {
         Node@ node  = scene_.CreateChild("RigidBody", REPLICATED);
@@ -400,12 +436,12 @@ void Connect()
 
     // Connect to server, specify scene to use as a client for replication
     //clientObjectID = 0; // Reset own object ID from possible previous connection
-    network.Connect(address, SERVER_PORT, scene_);
+    //network.Connect(address, SERVER_PORT, scene_);
 }
 
 void Disconnect()
 {
-    Connection@ serverConnection = network.serverConnection;
+    /*Connection@ serverConnection = network.serverConnection;
     // If we were connected to server, disconnect. Or if we were running a server, stop it. In both cases clear the
     // scene of all replicated content, but let the local nodes & components (the static world + camera) stay
     if (serverConnection !is null)
@@ -422,6 +458,7 @@ void Disconnect()
     }
 
     controllerCharacterNode = null;
+    */
 
 }
 
@@ -430,7 +467,7 @@ void HandlePhysicsPreStep(StringHash eventType, VariantMap& eventData)
     // This function is different on the client and server. The client collects controls (WASD controls + yaw angle)
     // and sets them to its server connection object, so that they will be sent to the server automatically at a
     // fixed rate, by default 30 FPS. The server will actually apply the controls (authoritative simulation.)
-    Connection@ serverConnection = network.serverConnection;
+    //Connection@ serverConnection = network.serverConnection;
 
     Controls controls;
 
@@ -453,8 +490,12 @@ void HandlePhysicsPreStep(StringHash eventType, VariantMap& eventData)
         controls.Set(CTRL_JUMP, false);
     }
 
+    Character@ character = cast<Character>(controllerCharacterNode.GetScriptObject());
+    if (character !is null) {
+        character.SetControls(controls);
+    }
     // Client: collect controls
-    if (serverConnection !is null)
+    /*if (serverConnection !is null)
     {
 
         serverConnection.controls = controls;
@@ -463,7 +504,7 @@ void HandlePhysicsPreStep(StringHash eventType, VariantMap& eventData)
         serverConnection.position = cameraNode.position;
     }
     // Server: apply controls to client objects
-    else if (network.serverRunning)
+    /*else if (network.serverRunning)
     {
         if (controllerCharacterNode !is null) {
             Character@ character = cast<Character>(controllerCharacterNode.GetScriptObject());
@@ -476,7 +517,7 @@ void HandlePhysicsPreStep(StringHash eventType, VariantMap& eventData)
             }
         }
 
-    }
+    }*/
 }
 
 void Trigger()
