@@ -22,9 +22,11 @@ Text@ instructionText;
 const uint SERVER_PORT = 2345;
 Array<Client@> clients;
 uint clientObjectID = 0;
+Array<Node@> nodes;
 
 Text@ bytesIn;
 Text@ bytesOut;
+int checkingNode = 0;
 
 void Start()
 {
@@ -46,7 +48,7 @@ void Start()
     // Hook up to the frame update events
     SubscribeToEvents();
 
-    DelayedExecute(3.0, false, "void StartServer()");
+    DelayedExecute(1.0, false, "void StartServer()");
 
     //StartServer();
 }
@@ -247,6 +249,17 @@ void HandleUpdate(StringHash eventType, VariantMap& eventData)
         FollowCharacter(cameraNode, controllerCharacterNode, timeStep);
     }
 
+    checkingNode++;
+    if (checkingNode < nodes.length) {
+        if (nodes[checkingNode].position.y < -5) {
+            nodes[checkingNode].Remove();
+            nodes.Erase(checkingNode);
+            bytesIn.text = "Nodes: " + String(nodes.length);
+        }
+    } else {
+        checkingNode = 0;
+    }
+
     /*Connection@ serverConnection = network.serverConnection;
     if (serverConnection !is null) {
         if (bytesIn !is null) {
@@ -294,38 +307,49 @@ void HandleMouseButtonDown(StringHash eventType, VariantMap& eventData)
     if (controllerCharacterNode is null) {
         return;
     }
+    if (input.mouseButtonDown[MOUSEB_RIGHT]) {
+        log.Info("Deleting all nodes");
+        for (int i = 0; i < nodes.length; i++) {
+            nodes[i].Remove();
+        }
+        nodes.Clear();
+        return;
+    }
     Sprite2D@ ballSprite = cache.GetResource("Sprite2D", "Urho2D/Ball.png");
 
-    Node@ node  = scene_.CreateChild("RigidBody", REPLICATED);
-    Vector3 pos = controllerCharacterNode.position;
-    pos.y++;
-    node.position = pos;
+    for (int i = 0; i < 10; i++) {
+        Node@ node  = scene_.CreateChild("RigidBody", REPLICATED);
+        Vector3 pos = controllerCharacterNode.position;
+        pos.y++;
+        node.position = pos;
 
-    // Create rigid body
-    RigidBody2D@ body = node.CreateComponent("RigidBody2D", REPLICATED);
-    body.bodyType = BT_DYNAMIC;
-    body.angularDamping = 0.9f;
-    body.mass = 100;
-    //body.allowSleep = false;
+        // Create rigid body
+        RigidBody2D@ body = node.CreateComponent("RigidBody2D", REPLICATED);
+        body.bodyType = BT_DYNAMIC;
+        body.angularDamping = 0.9f;
+        body.mass = 100;
+        //body.allowSleep = false;
 
-    StaticSprite2D@ staticSprite = node.CreateComponent("StaticSprite2D", REPLICATED);
-    staticSprite.sprite = ballSprite;
+        StaticSprite2D@ staticSprite = node.CreateComponent("StaticSprite2D", REPLICATED);
+        staticSprite.sprite = ballSprite;
 
-    // Create circle
-    CollisionCircle2D@ circle = node.CreateComponent("CollisionCircle2D", REPLICATED);
-    // Set radius
-    circle.radius = 0.16f;
-    // Set density
-    circle.density = 1.0f;
-    // Set friction.
-    circle.friction = 0.5f;
-    // Set restitution
-    circle.restitution = 0.9f;
-    // if (spriterAnimatedSprite !is null) {
-    //     spriterAnimationSet = spriterAnimatedSprite.animationSet;
-    //     spriterAnimationIndex = (spriterAnimationIndex + 1) % spriterAnimationSet.numAnimations;
-    //     spriterAnimatedSprite.SetAnimation(spriterAnimationSet.GetAnimation(spriterAnimationIndex), LM_FORCE_LOOPED);
-    // }
+        // Create circle
+        CollisionCircle2D@ circle = node.CreateComponent("CollisionCircle2D", REPLICATED);
+        // Set radius
+        circle.radius = 0.16f;
+        // Set density
+        circle.density = 1.0f;
+        // Set friction.
+        circle.friction = 0.5f;
+        // Set restitution
+        circle.restitution = 1.2f;
+        // if (spriterAnimatedSprite !is null) {
+        //     spriterAnimationSet = spriterAnimatedSprite.animationSet;
+        //     spriterAnimationIndex = (spriterAnimationIndex + 1) % spriterAnimationSet.numAnimations;
+        //     spriterAnimatedSprite.SetAnimation(spriterAnimationSet.GetAnimation(spriterAnimationIndex), LM_FORCE_LOOPED);
+        // }
+        nodes.Push(node);
+    }
 }
 
 void StartServer()
@@ -359,7 +383,7 @@ void CreateWorld()
     groundTexture.rectangle = IntRect(0, 0, 32, 32);
     
     float oneBoxSize = 0.32f * 1;
-    for (int i = -500; i <= 500; ++i) {
+    for (int i = -1000; i <= 1000; ++i) {
         // Create ground.
         Node@ groundNode = scene_.CreateChild("Ground", REPLICATED);
         groundNode.position = Vector3(i * oneBoxSize, -3.4f + Abs(i) * Sin(Abs(i/50.0f)), 0.0f);
@@ -380,11 +404,12 @@ void CreateWorld()
         groundShape.friction = 0.5f;
     }
 
-    const uint NUM_OBJECTS = 50;
+    const uint NUM_OBJECTS = 20;
     for (uint i = 0; i < NUM_OBJECTS; ++i)
     {
         Node@ node  = scene_.CreateChild("RigidBody", REPLICATED);
-        node.position = Vector3(Random(-2.0f, 2.0f), 5.0f + i * 0.1f, 0.0f);
+        node.position = Vector3(Random(-2.0f, 2.0f), 0.0f + i * 0.1f, 0.0f);
+        node.position = Vector3(2, -3.0f + i * 0.32f, 0);
 
         // Create rigid body
         RigidBody2D@ body = node.CreateComponent("RigidBody2D", REPLICATED);
@@ -394,7 +419,7 @@ void CreateWorld()
 
         StaticSprite2D@ staticSprite = node.CreateComponent("StaticSprite2D", REPLICATED);
 
-        if (i % 2 == 0)
+        // if (i % 2 == 0)
         {
             staticSprite.sprite = boxSprite;
 
@@ -409,21 +434,22 @@ void CreateWorld()
             // Set restitution
             box.restitution = 0.5f;
         }
-        else
-        {
-            staticSprite.sprite = ballSprite;
+        // else
+        // {
+        //     staticSprite.sprite = ballSprite;
 
-            // Create circle
-            CollisionCircle2D@ circle = node.CreateComponent("CollisionCircle2D", REPLICATED);
-            // Set radius
-            circle.radius = 0.16f;
-            // Set density
-            circle.density = 1.0f;
-            // Set friction.
-            circle.friction = 0.5f;
-            // Set restitution
-            circle.restitution = 0.7f;
-        }
+        //     // Create circle
+        //     CollisionCircle2D@ circle = node.CreateComponent("CollisionCircle2D", REPLICATED);
+        //     // Set radius
+        //     circle.radius = 0.16f;
+        //     // Set density
+        //     circle.density = 1.0f;
+        //     // Set friction.
+        //     circle.friction = 0.5f;
+        //     // Set restitution
+        //     circle.restitution = 0.7f;
+        // }
+        nodes.Push(node);
     }
 }
 
@@ -490,9 +516,11 @@ void HandlePhysicsPreStep(StringHash eventType, VariantMap& eventData)
         controls.Set(CTRL_JUMP, false);
     }
 
-    Character@ character = cast<Character>(controllerCharacterNode.GetScriptObject());
-    if (character !is null) {
-        character.SetControls(controls);
+    if (controllerCharacterNode !is null) {
+        Character@ character = cast<Character>(controllerCharacterNode.GetScriptObject());
+        if (character !is null) {
+            character.SetControls(controls);
+        }
     }
     // Client: collect controls
     /*if (serverConnection !is null)
