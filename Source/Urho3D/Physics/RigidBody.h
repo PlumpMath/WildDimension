@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2008-2017 the Urho3D project.
+// Copyright (c) 2008-2016 the Urho3D project.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -55,22 +55,22 @@ public:
     /// Construct.
     RigidBody(Context* context);
     /// Destruct. Free the rigid body and geometries.
-    virtual ~RigidBody() override;
+    virtual ~RigidBody();
     /// Register object factory.
     static void RegisterObject(Context* context);
 
     /// Handle attribute write access.
-    virtual void OnSetAttribute(const AttributeInfo& attr, const Variant& src) override;
+    virtual void OnSetAttribute(const AttributeInfo& attr, const Variant& src);
     /// Apply attribute changes that can not be applied immediately. Called after scene load or a network update.
-    virtual void ApplyAttributes() override;
+    virtual void ApplyAttributes();
     /// Handle enabled/disabled state change.
-    virtual void OnSetEnabled() override;
+    virtual void OnSetEnabled();
     /// Return initial world transform to Bullet.
-    virtual void getWorldTransform(btTransform& worldTrans) const override;
+    virtual void getWorldTransform(btTransform& worldTrans) const;
     /// Update world transform from Bullet.
-    virtual void setWorldTransform(const btTransform& worldTrans) override;
+    virtual void setWorldTransform(const btTransform& worldTrans);
     /// Visualize the component as debug geometry.
-    virtual void DrawDebugGeometry(DebugRenderer* debug, bool depthTest) override;
+    virtual void DrawDebugGeometry(DebugRenderer* debug, bool depthTest);
 
     /// Set mass. Zero mass makes the body static.
     void SetMass(float mass);
@@ -230,7 +230,7 @@ public:
 
     /// Apply new world transform after a simulation step. Called internally.
     void ApplyWorldTransform(const Vector3& newWorldPosition, const Quaternion& newWorldRotation);
-    /// Update mass and inertia to the Bullet rigid body. Readd body to world if necessary: if was in world and the Bullet collision shape to use changed.
+    /// Update mass and inertia to the Bullet rigid body.
     void UpdateMass();
     /// Update gravity parameters to the Bullet rigid body.
     void UpdateGravity();
@@ -247,15 +247,16 @@ public:
 
 protected:
     /// Handle node being assigned.
-    virtual void OnNodeSet(Node* node) override;
+    virtual void OnNodeSet(Node* node);
     /// Handle scene being assigned.
-    virtual void OnSceneSet(Scene* scene) override;
+    virtual void OnSceneSet(Scene* scene);
     /// Handle node transform being dirtied.
-    virtual void OnMarkedDirty(Node* node) override;
+    virtual void OnMarkedDirty(Node* node);
+    // Lumak: changed this to protected and virtual
+    /// Create the rigid body, or re-add to the physics world with changed flags. Calls UpdateMass().
+    virtual void AddBodyToWorld();
 
 private:
-    /// Create the rigid body, or re-add to the physics world with changed flags. Calls UpdateMass().
-    void AddBodyToWorld();
     /// Remove the rigid body from the physics world.
     void RemoveBodyFromWorld();
     /// Handle SmoothedTransform target position update.

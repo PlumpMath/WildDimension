@@ -41,8 +41,6 @@ void CreateMaterialEditor()
     SubscribeToEvent(materialWindow.GetChild("NewTechniqueButton", true), "Released", "NewTechnique");
     SubscribeToEvent(materialWindow.GetChild("DeleteTechniqueButton", true), "Released", "DeleteTechnique");
     SubscribeToEvent(materialWindow.GetChild("SortTechniquesButton", true), "Released", "SortTechniques");
-    SubscribeToEvent(materialWindow.GetChild("VSDefinesEdit", true), "TextFinished", "EditVSDefines");
-    SubscribeToEvent(materialWindow.GetChild("PSDefinesEdit", true), "TextFinished", "EditPSDefines");
     SubscribeToEvent(materialWindow.GetChild("ConstantBiasEdit", true), "TextChanged", "EditConstantBias");
     SubscribeToEvent(materialWindow.GetChild("ConstantBiasEdit", true), "TextFinished", "EditConstantBias");
     SubscribeToEvent(materialWindow.GetChild("SlopeBiasEdit", true), "TextChanged", "EditSlopeBias");
@@ -52,9 +50,6 @@ void CreateMaterialEditor()
     SubscribeToEvent(materialWindow.GetChild("CullModeEdit", true), "ItemSelected", "EditCullMode");
     SubscribeToEvent(materialWindow.GetChild("ShadowCullModeEdit", true), "ItemSelected", "EditShadowCullMode");
     SubscribeToEvent(materialWindow.GetChild("FillModeEdit", true), "ItemSelected", "EditFillMode");
-    SubscribeToEvent(materialWindow.GetChild("OcclusionEdit", true), "Toggled", "EditOcclusion");
-    SubscribeToEvent(materialWindow.GetChild("AlphaToCoverageEdit", true), "Toggled", "EditAlphaToCoverage");
-    SubscribeToEvent(materialWindow.GetChild("LineAntiAliasEdit", true), "Toggled", "EditLineAntiAlias");
 }
 
 bool ToggleMaterialEditor()
@@ -309,9 +304,7 @@ void RefreshMaterialShaderParameters()
         VariantType type = editMaterial.shaderParameters[parameterNames[i]].type;
         Variant value = editMaterial.shaderParameters[parameterNames[i]];
         UIElement@ parent = CreateAttributeEditorParent(list, parameterNames[i], 0, 0);
-        uint numCoords = 1;
-        if (type >= VAR_VECTOR2 && type <= VAR_VECTOR4)
-            numCoords = type - VAR_FLOAT + 1;
+        uint numCoords = type - VAR_FLOAT + 1;
 
         Array<String> coordValues = value.ToString().Split(' ');
 
@@ -344,10 +337,6 @@ void RefreshMaterialMiscParameters()
     attrEdit.text = String(bias.slopeScaledBias);
     attrEdit = materialWindow.GetChild("RenderOrderEdit", true);
     attrEdit.text = String(uint(editMaterial.renderOrder));
-    attrEdit = materialWindow.GetChild("VSDefinesEdit", true);
-    attrEdit.text = editMaterial.vertexShaderDefines;
-    attrEdit = materialWindow.GetChild("PSDefinesEdit", true);
-    attrEdit.text = editMaterial.pixelShaderDefines;
 
     DropDownList@ attrList = materialWindow.GetChild("CullModeEdit", true);
     attrList.selection = editMaterial.cullMode;
@@ -355,13 +344,6 @@ void RefreshMaterialMiscParameters()
     attrList.selection = editMaterial.shadowCullMode;
     attrList = materialWindow.GetChild("FillModeEdit", true);
     attrList.selection = editMaterial.fillMode;
-
-    CheckBox@ attrCheckBox = materialWindow.GetChild("OcclusionEdit", true);
-    attrCheckBox.checked = editMaterial.occlusion;
-    attrCheckBox = materialWindow.GetChild("AlphaToCoverageEdit", true);
-    attrCheckBox.checked = editMaterial.alphaToCoverage;
-    attrCheckBox = materialWindow.GetChild("LineAntiAliasEdit", true);
-    attrCheckBox.checked = editMaterial.lineAntiAlias;
 
     inMaterialRefresh = false;
 }
@@ -576,10 +558,7 @@ void EditShaderParameter(StringHash eventType, VariantMap& eventData)
 
     Variant oldValue = editMaterial.shaderParameters[name];
     Array<String> coordValues = oldValue.ToString().Split(' ');
-    if (oldValue.type != VAR_BOOL)
-        coordValues[coordinate] = String(attrEdit.text.ToFloat());
-    else
-        coordValues[coordinate] = attrEdit.text;
+    coordValues[coordinate] = String(attrEdit.text.ToFloat());
 
     String valueString;
     for (uint i = 0; i < coordValues.length; ++i)
@@ -590,7 +569,7 @@ void EditShaderParameter(StringHash eventType, VariantMap& eventData)
 
     Variant newValue;
     newValue.FromString(oldValue.type, valueString);
-
+    
     BeginMaterialEdit();
     editMaterial.shaderParameters[name] = newValue;
     EndMaterialEdit();
@@ -622,12 +601,6 @@ void CreateShaderParameter(StringHash eventType, VariantMap& eventData)
         break;
     case 3:
         newValue = Vector4(0, 0, 0, 0);
-        break;
-    case 4:
-        newValue = int(0);
-        break;
-    case 5:
-        newValue = false;
         break;
     }
 
@@ -933,71 +906,6 @@ void EditFillMode(StringHash eventType, VariantMap& eventData)
     
     DropDownList@ attrEdit = eventData["Element"].GetPtr();
     editMaterial.fillMode = FillMode(attrEdit.selection);
-
-    EndMaterialEdit();
-}
-
-void EditOcclusion(StringHash eventType, VariantMap& eventData)
-{
-    if (editMaterial is null || inMaterialRefresh)
-        return;
-
-    BeginMaterialEdit();
-
-    CheckBox@ attrEdit = eventData["Element"].GetPtr();
-    editMaterial.occlusion = attrEdit.checked;
-
-    EndMaterialEdit();
-}
-
-void EditAlphaToCoverage(StringHash eventType, VariantMap& eventData)
-{
-    if (editMaterial is null || inMaterialRefresh)
-        return;
-
-    BeginMaterialEdit();
-
-    CheckBox@ attrEdit = eventData["Element"].GetPtr();
-    editMaterial.alphaToCoverage = attrEdit.checked;
-
-    EndMaterialEdit();
-}
-
-void EditLineAntiAlias(StringHash eventType, VariantMap& eventData)
-{
-    if (editMaterial is null || inMaterialRefresh)
-        return;
-
-    BeginMaterialEdit();
-
-    CheckBox@ attrEdit = eventData["Element"].GetPtr();
-    editMaterial.lineAntiAlias = attrEdit.checked;
-
-    EndMaterialEdit();
-}
-
-void EditVSDefines(StringHash eventType, VariantMap& eventData)
-{
-    if (editMaterial is null || inMaterialRefresh)
-        return;
-
-    BeginMaterialEdit();
-
-    LineEdit@ attrEdit = eventData["Element"].GetPtr();
-    editMaterial.vertexShaderDefines = attrEdit.text.Trimmed();
-
-    EndMaterialEdit();
-}
-
-void EditPSDefines(StringHash eventType, VariantMap& eventData)
-{
-    if (editMaterial is null || inMaterialRefresh)
-        return;
-
-    BeginMaterialEdit();
-
-    LineEdit@ attrEdit = eventData["Element"].GetPtr();
-    editMaterial.pixelShaderDefines = attrEdit.text.Trimmed();
 
     EndMaterialEdit();
 }
