@@ -5,7 +5,7 @@
 //     - Disabling default execution of console commands as immediate mode AngelScript.
 //     - Adding autocomplete options to the engine console.
 
-#include "Scripts/Utilities/Sample.as"
+#include "ScriptsOld/Utilities/Sample.as"
 
 bool gameOn;
 bool foodAvailable;
