@@ -8,6 +8,7 @@
 
 #include "Console/console.as"
 #include "Network/network.as"
+#include "GUI/gui.as"
 
 Scene@ scene_;
 uint screenJoystickIndex = M_MAX_UNSIGNED; // Screen joystick index for navigational controls (mobile platforms only)
@@ -48,10 +49,13 @@ void Start()
     SubscribeToEvent("SceneUpdate", "HandleSceneUpdate");
 
     ConsoleHandler::Subscribe();
+    GUIHandler::Subscribe();
 
     CreateScene();
 
     SetupViewport();
+
+    GUIHandler::CreateGUI();
 }
 
 void Stop()
