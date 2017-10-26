@@ -25,7 +25,6 @@ MouseMode useMouseMode_ = MM_ABSOLUTE;
 void Start()
 {
     cache.autoReloadResources = true;
-    
     if (GetPlatform() == "Android" || GetPlatform() == "iOS" || input.touchEmulation)
         // On mobile platform, enable touch by adding a screen joystick
         InitTouchInput();
@@ -52,6 +51,7 @@ void Start()
 
     ConsoleHandler::Subscribe();
     GUIHandler::Subscribe();
+    NetworkHandler::Subscribe();
 
     CreateScene();
 
@@ -68,6 +68,9 @@ void Stop()
 {
     cache.ReleaseAllResources();
     NetworkHandler::StopServer();
+    NetworkHandler::Destroy();
+    ConsoleHandler::Destroy();
+    GUIHandler::Destroy();
 }
 
 void CreateScene()
@@ -93,10 +96,10 @@ void CreateScene()
     // The camera will use default settings (1000 far clip distance, 45 degrees FOV, set aspect ratio automatically)
     cameraNode = scene_.CreateChild("Camera", LOCAL);
     // Set an initial position for the camera scene node above the plane
-    cameraNode.position = Vector3(0.0f, 0.0f, -10.0f);
+    cameraNode.position = Vector3(0.0f, 3.0f, -10.0f);
 
     Camera@ camera = cameraNode.CreateComponent("Camera", LOCAL);
-    camera.orthographic = true;
+    camera.orthographic = false;
     camera.orthoSize = graphics.height * PIXEL_SIZE;
     camera.zoom = 1.0f * Min(graphics.width / 1280.0f, graphics.height / 800.0f); // Set zoom according to user's resolution to ensure full visibility (initial zoom (1.5) is set for full visibility at 1280x800 resolution)
 

@@ -30,6 +30,11 @@ namespace ConsoleHandler {
         log.level = 0;
     }
 
+    void Destroy()
+    {
+        
+    }
+
     void HandleKeys(int key)
     {
         if (key == KEY_F1) {
@@ -39,9 +44,6 @@ namespace ConsoleHandler {
 
     void ShowInfo()
     {
-        log.Error("Ups");
-        log.Warning("Warnings s");
-        log.Debug("Ha");
         log.Info("######################################");
         log.Info("# Hostname   : " + GetHostName());
         log.Info("# Login      : " + GetLoginName());

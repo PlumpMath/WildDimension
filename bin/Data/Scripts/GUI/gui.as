@@ -59,6 +59,11 @@ namespace GUIHandler {
         SubscribeToEvent("ToggleLogo", "GUIHandler::ToggleLogo");
     }
 
+    void Destroy()
+    {
+        RemoveLogo();
+    }
+
     void ToggleLogo()
     {
         log.Info("Toggling logo");
