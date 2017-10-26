@@ -4,7 +4,8 @@ namespace NetworkHandler {
 
     void StartServer()
     {
-        network.simulatedLatency = 500;
+        //network.simulatedLatency = 500;
+        //network.simulatedPacketLoss = 0.9;
         NetworkHandler::StopServer();
         network.StartServer(SERVER_PORT);
 

@@ -1,9 +1,12 @@
 namespace GUIHandler {
     Sprite@ logoSprite;
+    Text@ bytesIn;
+    Text@ bytesOut;
 
     void CreateGUI()
     {
         CreateLogo();
+        CreateNetworkTrafficDebug();
     }
 
     void CreateLogo()
@@ -57,11 +60,37 @@ namespace GUIHandler {
     void Subscribe()
     {
         SubscribeToEvent("ToggleLogo", "GUIHandler::ToggleLogo");
+        SubscribeToEvent("Update", "GUIHandler::HandleUpdate");
     }
 
     void Destroy()
     {
         RemoveLogo();
+        bytesIn.Remove();
+        bytesOut.Remove();
+    }
+
+    void CreateNetworkTrafficDebug()
+    {
+        bytesIn = ui.root.CreateChild("Text");
+        bytesIn.text = "";
+        bytesIn.SetFont(cache.GetResource("Font", "Fonts/Anonymous Pro.ttf"), 10);
+        bytesIn.textAlignment = HA_CENTER; // Center rows in relation to each other
+
+        // Position the text relative to the screen center
+        bytesIn.horizontalAlignment = HA_LEFT;
+        bytesIn.verticalAlignment = VA_BOTTOM;
+        bytesIn.SetPosition(0, -10);
+
+        bytesOut = ui.root.CreateChild("Text");
+        bytesOut.text = "";
+        bytesOut.SetFont(cache.GetResource("Font", "Fonts/Anonymous Pro.ttf"), 10);
+        bytesOut.textAlignment = HA_CENTER; // Center rows in relation to each other
+
+        // Position the text relative to the screen center
+        bytesOut.horizontalAlignment = HA_LEFT;
+        bytesOut.verticalAlignment = VA_BOTTOM;
+        bytesOut.SetPosition(0, -20);
     }
 
     void ToggleLogo()
@@ -71,6 +100,36 @@ namespace GUIHandler {
             RemoveLogo();
         } else {
             CreateLogo();
+        }
+    }
+
+    void HandleUpdate(StringHash eventType, VariantMap& eventData)
+    {
+        Connection@ serverConnection = network.serverConnection;
+        if (serverConnection !is null) {
+            if (bytesIn !is null) {
+                bytesIn.text = "KBytes In: " + String(serverConnection.bytesInPerSec / 1024);
+            }
+            if (bytesOut !is null) {
+                bytesOut.text = "KBytes Out: " + String(serverConnection.bytesOutPerSec / 1024);
+            }
+        } else if (network.serverRunning) {
+            float bIn;
+            float bOut;
+            bIn = 0;
+            bOut = 0;
+            for (uint i = 0; i < network.clientConnections.length; i++) {
+                bIn += network.clientConnections[i].bytesInPerSec;
+                bOut += network.clientConnections[i].bytesOutPerSec;
+            }
+            bIn /= 1024;
+            bOut /= 1024;
+            if (bytesIn !is null) {
+                bytesIn.text = "KBytes In: " + String(bIn);
+            }
+            if (bytesOut !is null) {
+                bytesOut.text = "KBytes Out: " + String(bOut);
+            }
         }
     }
 }

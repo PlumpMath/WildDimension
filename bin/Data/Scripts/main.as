@@ -77,7 +77,7 @@ void CreateScene()
 {
     scene_ = Scene();
 
-    scene_.CreateComponent("DebugRenderer");
+    scene_.CreateComponent("DebugRenderer", LOCAL);
     //PhysicsWorld2D@ physicsWorld = scene_.CreateComponent("PhysicsWorld2D");
 
 
@@ -85,7 +85,7 @@ void CreateScene()
     // show up. The default octree volume will be from (-1000, -1000, -1000) to (1000, 1000, 1000) in world coordinates; it
     // is also legal to place objects outside the volume but their visibility can then not be checked in a hierarchically
     // optimizing manner
-    scene_.CreateComponent("Octree");
+    scene_.CreateComponent("Octree", LOCAL);
 
     //physicsWorld2D.DrawDebugGeometry(scene_.GetComponent("DebugRenderer"), true);    
 
