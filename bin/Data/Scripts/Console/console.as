@@ -66,6 +66,8 @@ namespace ConsoleHandler {
             NetworkHandler::StopServer();
         } else if (command == "logo") {
             SendEvent("ToggleLogo");
+        } else if (command == "exit") {
+            engine.Exit();
         }
     }
 }
