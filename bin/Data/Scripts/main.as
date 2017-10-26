@@ -7,6 +7,7 @@
 //    - Init touch input on mobile platform using screen joysticks (patched for each individual sample)
 
 #include "Console/console.as"
+#include "Network/network.as"
 
 Scene@ scene_;
 uint screenJoystickIndex = M_MAX_UNSIGNED; // Screen joystick index for navigational controls (mobile platforms only)
@@ -51,6 +52,11 @@ void Start()
     CreateScene();
 
     SetupViewport();
+}
+
+void Stop()
+{
+    NetworkHandler::StopServer();
 }
 
 void CreateScene()
