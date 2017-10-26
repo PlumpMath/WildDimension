@@ -1,6 +1,9 @@
 namespace ConsoleHandler {
     void CreateConsole()
     {
+        if (engine.headless) {
+            return;
+        }
         script.executeConsoleCommands = false;
         fileSystem.executeConsoleCommands = false;
 

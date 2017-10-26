@@ -8,6 +8,9 @@ namespace GUIHandler {
 
     void CreateLogo()
     {
+        if (engine.headless) {
+            return;
+        }
         log.Info("Creating logo");
         // Get logo texture
         Texture2D@ logoTexture = cache.GetResource("Texture2D", "Textures/FishBoneLogo.png");

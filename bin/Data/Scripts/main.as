@@ -56,6 +56,10 @@ void Start()
     SetupViewport();
 
     GUIHandler::CreateGUI();
+
+    if (engine.headless) {
+        NetworkHandler::StartServer();
+    }
 }
 
 void Stop()
@@ -79,6 +83,9 @@ void CreateScene()
 
     //physicsWorld2D.DrawDebugGeometry(scene_.GetComponent("DebugRenderer"), true);    
 
+    if (engine.headless) {
+        return;
+    }
     // Create a scene node for the camera, which we will move around
     // The camera will use default settings (1000 far clip distance, 45 degrees FOV, set aspect ratio automatically)
     cameraNode = scene_.CreateChild("Camera", LOCAL);
@@ -94,6 +101,9 @@ void CreateScene()
 
 void SetupViewport()
 {
+    if (engine.headless) {
+        return;
+    }
     // Set up a viewport to the Renderer subsystem so that the 3D scene can be seen. We need to define the scene and the camera
     // at minimum. Additionally we could configure the viewport screen size and the rendering path (eg. forward / deferred) to
     // use, but now we just use full screen and default render path configured in the engine command line options
@@ -143,6 +153,9 @@ void SampleInitMouseMode(MouseMode mode)
 
 void SetWindowTitleAndIcon()
 {
+    if (engine.headless) {
+        return;
+    }
     Image@ icon = cache.GetResource("Image", "Textures/UrhoIcon.png");
     graphics.windowIcon = icon;
     graphics.windowTitle = "Main.as";
@@ -150,6 +163,9 @@ void SetWindowTitleAndIcon()
 
 void CreateDebugHud()
 {
+    if (engine.headless) {
+        return;
+    }
     // Get default style
     XMLFile@ xmlFile = cache.GetResource("XMLFile", "UI/DefaultStyle.xml");
     if (xmlFile is null)
