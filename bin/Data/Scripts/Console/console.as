@@ -25,7 +25,9 @@ namespace ConsoleHandler {
         console.AddAutoComplete("disconnect");
         console.autoVisibleOnError = true;
         console.UpdateElements();
-        //DelayedExecute(1.0, false, "void ConsoleHandler::ShowError()");
+        DelayedExecute(1.0, false, "void ConsoleHandler::ShowInfo()");
+        log.timeStamp = false;
+        log.level = 0;
     }
 
     void HandleKeys(int key)
@@ -35,9 +37,18 @@ namespace ConsoleHandler {
         }
     }
 
-    void ShowError()
+    void ShowInfo()
     {
-        log.Error("Error!!!");
+        log.Error("Ups");
+        log.Warning("Warnings s");
+        log.Debug("Ha");
+        log.Info("######################################");
+        log.Info("# Hostname   : " + GetHostName());
+        log.Info("# Login      : " + GetLoginName());
+        log.Info("# OS Version : " + GetOSVersion());
+        log.Info("# Platform   : " + GetPlatform());
+        log.Info("# Memory     : " + GetTotalMemory()/1024/1024 + "MB");
+        log.Info("######################################");
     }
 
     void Subscribe()
@@ -50,14 +61,12 @@ namespace ConsoleHandler {
     {
         if (eventData["Id"].GetString() == "ScriptEventInvoker") {
             String inputValue = eventData["Command"].GetString();
-            log.Info("Console input: " + inputValue);
             ConsoleHandler::ParseCommand(inputValue);
         }
     }
 
     void ParseCommand(String command)
     {
-        log.Info("Command parser: " + command);
         if (command == "start") {
             NetworkHandler::StartServer();
         } else if (command == "connect") {

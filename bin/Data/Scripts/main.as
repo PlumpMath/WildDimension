@@ -24,6 +24,8 @@ MouseMode useMouseMode_ = MM_ABSOLUTE;
 
 void Start()
 {
+    cache.autoReloadResources = true;
+    
     if (GetPlatform() == "Android" || GetPlatform() == "iOS" || input.touchEmulation)
         // On mobile platform, enable touch by adding a screen joystick
         InitTouchInput();
@@ -64,6 +66,7 @@ void Start()
 
 void Stop()
 {
+    cache.ReleaseAllResources();
     NetworkHandler::StopServer();
 }
 
