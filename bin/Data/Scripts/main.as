@@ -52,6 +52,8 @@ void Start()
 
     SubscribeToEvent("ReloadAll", "HandleReload");
 
+    SubscribeToEvent("PostUpdate", "HandlePostUpdate");
+
     ConsoleHandler::Subscribe();
     GUIHandler::Subscribe();
     NetworkHandler::Subscribe();
@@ -164,6 +166,23 @@ void HandleReload(StringHash eventType, VariantMap& eventData)
     log.Info("Reloading the scripts...");
     Stop();
     Start();
+}
+
+void HandlePostUpdate(StringHash eventType, VariantMap& eventData)
+{
+    // Take the frame time step, which is stored as a float
+    float timeStep = eventData["TimeStep"].GetFloat();
+    if (cameraNode !is null) {
+        //yaw += TOUCH_SENSITIVITY * camera.fov / graphics.height * state.delta.x;
+        yaw += timeStep * 4;
+        //pitch += TOUCH_SENSITIVITY * camera.fov / graphics.height * state.delta.y;
+
+        // Construct new orientation for the camera scene node from yaw and pitch; roll is fixed to zero
+        cameraNode.rotation = Quaternion(pitch, yaw, 0.0f);
+        Vector3 position = Quaternion(pitch, yaw, 0.0f) * Vector3::FORWARD * timeStep * 10 + cameraNode.position;
+        cameraNode.position = position;
+    }
+    NetworkHandler::HandlePostUpdate(eventType, eventData);
 }
 
 void SetWindowTitleAndIcon()

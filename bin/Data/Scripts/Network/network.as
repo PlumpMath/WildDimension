@@ -14,21 +14,21 @@ namespace NetworkHandler {
         Zone@ zone = zoneNode.CreateComponent("Zone");
         zone.boundingBox = BoundingBox(-1000.0f, 1000.0f);
         zone.ambientColor = Color(0.1f, 0.1f, 0.1f);
-        zone.fogStart = 100.0f;
-        zone.fogEnd = 300.0f;
+        zone.fogStart = 50.0f;
+        zone.fogEnd = 200.0f;
 
         // Create a directional light without shadows
-        Node@ lightNode = scene_.CreateChild("DirectionalLight");
-        lightNode.direction = Vector3(0.5f, -1.0f, 0.5f);
-        Light@ light = lightNode.CreateComponent("Light");
-        light.lightType = LIGHT_DIRECTIONAL;
-        light.color = Color(0.2f, 0.2f, 0.2f);
-        light.specularIntensity = 1.0f;
+        Node@ lightNode1 = scene_.CreateChild("DirectionalLight");
+        lightNode1.direction = Vector3(0.5f, -1.0f, 0.5f);
+        Light@ light1 = lightNode1.CreateComponent("Light");
+        light1.lightType = LIGHT_DIRECTIONAL;
+        light1.color = Color(0.2f, 0.2f, 0.2f);
+        light1.specularIntensity = 1.0f;
 
         // Create a "floor" consisting of several tiles
-        for (int y = -5; y <= 5; ++y)
+        for (int y = -50; y <= 50; ++y)
         {
-            for (int x = -5; x <= 5; ++x)
+            for (int x = -50; x <= 50; ++x)
             {
                 Node@ floorNode = scene_.CreateChild("FloorTile");
                 floorNode.position = Vector3(x * 20.5f, -0.5f, y * 20.5f);
@@ -40,21 +40,21 @@ namespace NetworkHandler {
         }
 
         // Create groups of mushrooms, which act as shadow casters
-        const uint NUM_MUSHROOMGROUPS = 25;
+        const uint NUM_MUSHROOMGROUPS = 100;
         const uint NUM_MUSHROOMS = 25;
 
         for (uint i = 0; i < NUM_MUSHROOMGROUPS; ++i)
         {
             // First create a scene node for the group. The individual mushrooms nodes will be created as children
             Node@ groupNode = scene_.CreateChild("MushroomGroup");
-            groupNode.position = Vector3(Random(190.0f) - 95.0f, 0.0f, Random(190.0f) - 95.0f);
+            groupNode.position = Vector3(Random(400.0f) - 95.0f, 0.0f, Random(400.0f) - 95.0f);
 
             for (uint j = 0; j < NUM_MUSHROOMS; ++j)
             {
                 Node@ mushroomNode = groupNode.CreateChild("Mushroom");
                 mushroomNode.position = Vector3(Random(25.0f) - 12.5f, 0.0f, Random(25.0f) - 12.5f);
                 mushroomNode.rotation = Quaternion(0.0f, Random() * 360.0f, 0.0f);
-                mushroomNode.SetScale(1.0f + Random() * 4.0f);
+                mushroomNode.SetScale(1.0f + Random(2.0f) * 4.0f);
                 StaticModel@ mushroomObject = mushroomNode.CreateComponent("StaticModel");
                 mushroomObject.model = cache.GetResource("Model", "Models/Mushroom.mdl");
                 mushroomObject.material = cache.GetResource("Material", "Materials/Mushroom.xml");
@@ -63,13 +63,13 @@ namespace NetworkHandler {
         }
 
         // Create billboard sets (floating smoke)
-        const uint NUM_BILLBOARDNODES = 25;
+        const uint NUM_BILLBOARDNODES = 250;
         const uint NUM_BILLBOARDS = 10;
 
         for (uint i = 0; i < NUM_BILLBOARDNODES; ++i)
         {
             Node@ smokeNode = scene_.CreateChild("Smoke");
-            smokeNode.position = Vector3(Random(200.0f) - 100.0f, Random(20.0f) + 10.0f, Random(200.0f) - 100.0f);
+            smokeNode.position = Vector3(Random(500.0f) - 100.0f, Random(20.0f) + 10.0f, Random(500.0f) - 100.0f);
 
             BillboardSet@ billboardObject = smokeNode.CreateComponent("BillboardSet");
             billboardObject.numBillboards = NUM_BILLBOARDS;
@@ -90,7 +90,7 @@ namespace NetworkHandler {
         }
 
         // Create shadow casting spotlights
-        const uint NUM_LIGHTS = 9;
+        const uint NUM_LIGHTS = 20;
 
         for (uint i = 0; i < NUM_LIGHTS; ++i)
         {
@@ -130,11 +130,11 @@ namespace NetworkHandler {
     void Subscribe()
     {
         SubscribeToEvent("ClientConnected", "NetworkHandler::HandleClientConnected");
-        SubscribeToEvent("PostUpdate", "NetworkHandler::HandleUpdate");
     }
 
-    void HandleUpdate(StringHash eventType, VariantMap& eventData)
+    void HandlePostUpdate(StringHash eventType, VariantMap& eventData)
     {
+        return;
         // Take the frame time step, which is stored as a float
         float timeStep = eventData["TimeStep"].GetFloat();
         // Get the light and billboard scene nodes
@@ -192,8 +192,8 @@ namespace NetworkHandler {
     void Connect()
     {
         NetworkHandler::StopServer();
-        String address = "miegamicis.asuscomm.com";
-        // String address = "127.0.0.1";
+        //String address = "miegamicis.asuscomm.com";
+        String address = "127.0.0.1";
         network.Connect(address, SERVER_PORT, scene_);
     }
 

@@ -108,10 +108,10 @@ namespace GUIHandler {
         Connection@ serverConnection = network.serverConnection;
         if (serverConnection !is null) {
             if (bytesIn !is null) {
-                bytesIn.text = "KBytes In: " + String(serverConnection.bytesInPerSec / 1024);
+                bytesIn.text = "Bytes In: " + String(serverConnection.bytesInPerSec);
             }
             if (bytesOut !is null) {
-                bytesOut.text = "KBytes Out: " + String(serverConnection.bytesOutPerSec / 1024);
+                bytesOut.text = "Bytes Out: " + String(serverConnection.bytesOutPerSec);
             }
         } else if (network.serverRunning) {
             float bIn;
@@ -122,13 +122,13 @@ namespace GUIHandler {
                 bIn += network.clientConnections[i].bytesInPerSec;
                 bOut += network.clientConnections[i].bytesOutPerSec;
             }
-            bIn /= 1024;
-            bOut /= 1024;
+            //bIn /= 1024;
+            //bOut /= 1024;
             if (bytesIn !is null) {
-                bytesIn.text = "KBytes In: " + String(bIn);
+                bytesIn.text = "Bytes In: " + String(bIn);
             }
             if (bytesOut !is null) {
-                bytesOut.text = "KBytes Out: " + String(bOut);
+                bytesOut.text = "Bytes Out: " + String(bOut);
             }
         }
     }
