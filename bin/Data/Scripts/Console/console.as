@@ -18,7 +18,7 @@ namespace ConsoleHandler {
         console.background.opacity = 0.8f;
         console.visible = false;
         console.numRows = graphics.height / 20;
-        console.numBufferedRows = 2 * console.numRows;
+        console.numBufferedRows = 10 * console.numRows;
         console.closeButton.visible = false;
         console.AddAutoComplete("start");
         console.AddAutoComplete("connect");
@@ -27,7 +27,7 @@ namespace ConsoleHandler {
         console.UpdateElements();
         DelayedExecute(1.0, false, "void ConsoleHandler::ShowInfo()");
         log.timeStamp = false;
-        log.level = 0;
+        log.level = 1;
     }
 
     void Destroy()
@@ -44,6 +44,7 @@ namespace ConsoleHandler {
 
     void ShowInfo()
     {
+        log.Error("Testing");
         log.Info("######################################");
         log.Info("# Hostname   : " + GetHostName());
         log.Info("# Login      : " + GetLoginName());
@@ -79,6 +80,8 @@ namespace ConsoleHandler {
             SendEvent("ToggleLogo");
         } else if (command == "exit") {
             engine.Exit();
+        } else if (command == "reload") {
+            SendEvent("ReloadAll");
         }
     }
 }

@@ -25,6 +25,7 @@ MouseMode useMouseMode_ = MM_ABSOLUTE;
 void Start()
 {
     cache.autoReloadResources = true;
+
     if (GetPlatform() == "Android" || GetPlatform() == "iOS" || input.touchEmulation)
         // On mobile platform, enable touch by adding a screen joystick
         InitTouchInput();
@@ -48,6 +49,8 @@ void Start()
 
     // Subscribe scene update event
     SubscribeToEvent("SceneUpdate", "HandleSceneUpdate");
+
+    SubscribeToEvent("ReloadAll", "HandleReload");
 
     ConsoleHandler::Subscribe();
     GUIHandler::Subscribe();
@@ -79,7 +82,6 @@ void CreateScene()
 
     scene_.CreateComponent("DebugRenderer", LOCAL);
     //PhysicsWorld2D@ physicsWorld = scene_.CreateComponent("PhysicsWorld2D");
-
 
     // Create the Octree component to the scene. This is required before adding any drawable components, or else nothing will
     // show up. The default octree volume will be from (-1000, -1000, -1000) to (1000, 1000, 1000) in world coordinates; it
@@ -155,6 +157,13 @@ void SampleInitMouseMode(MouseMode mode)
         SubscribeToEvent("MouseButtonDown", "HandleMouseModeRequest");
         SubscribeToEvent("MouseModeChanged", "HandleMouseModeChange");
     }
+}
+
+void HandleReload(StringHash eventType, VariantMap& eventData)
+{
+    log.Info("Reloading the scripts...");
+    Stop();
+    Start();
 }
 
 void SetWindowTitleAndIcon()

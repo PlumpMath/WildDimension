@@ -1,6 +1,6 @@
 namespace NetworkHandler {
     // UDP port we will use
-    const uint SERVER_PORT = 2345;
+    const uint SERVER_PORT = 11223;
 
     void StartServer()
     {
@@ -192,7 +192,8 @@ namespace NetworkHandler {
     void Connect()
     {
         NetworkHandler::StopServer();
-        String address = "127.0.0.1";
+        String address = "miegamicis.asuscomm.com";
+        // String address = "127.0.0.1";
         network.Connect(address, SERVER_PORT, scene_);
     }
 
