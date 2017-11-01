@@ -77,7 +77,7 @@ namespace NetworkHandler {
             for (uint j = 0; j < NUM_MUSHROOMS; ++j)
             {
                 Node@ mushroomNode = scene_.CreateChild("Mushroom");
-                Vector3 position = Vector3(Random(400.0f) - 95.0f, 0.0f, Random(400.0f) - 95.0f);
+                Vector3 position = Vector3(Random(1000.0f) - 95.0f, 0.0f, Random(1000.0f) - 95.0f);
                 position.y = terrain.GetHeight(position);
                 mushroomNode.position = position;
                 mushroomNode.worldRotation = Quaternion(Vector3(0.0f, 1.0f, 0.0f), terrain.GetNormal(position));
@@ -128,15 +128,15 @@ namespace NetworkHandler {
 
             float angle = 0.0f;
 
-            Vector3 position((i % 3) * 60.0f - 60.0f, 45.0f, (i / 3) * 60.0f - 60.0f);
+            Vector3 position((i % 3) * 60.0f - 60.0f, 95.0f, (i / 3) * 60.0f - 60.0f);
             Color color(((i + 1) & 1) * 0.5f + 0.5f, (((i + 1) >> 1) & 1) * 0.5f + 0.5f, (((i + 1) >> 2) & 1) * 0.5f + 0.5f);
 
             lightNode.position = position;
             lightNode.direction = Vector3(Sin(angle), -1.5f, Cos(angle));
 
             light.lightType = LIGHT_SPOT;
-            light.range = 90.0f;
-            light.rampTexture = cache.GetResource("Texture2D", "Textures/RampExtreme.png");
+            light.range = 200.0f;
+            //light.rampTexture = cache.GetResource("Texture2D", "Textures/UrhoIcon.png");
             light.fov = 45.0f;
             light.color = color;
             light.specularIntensity = 1.0f;
@@ -159,11 +159,24 @@ namespace NetworkHandler {
     void Subscribe()
     {
         SubscribeToEvent("ClientConnected", "NetworkHandler::HandleClientConnected");
+        SubscribeToEvent("ServerConnected", "NetworkHandler::HandleConnectionStatus");
+        //SubscribeToEvent("ServerDisconnected", "HandleConnectionStatus");
+    }
+
+    void HandleConnectionStatus(StringHash eventType, VariantMap& eventData)
+    {
+        
     }
 
     void HandlePostUpdate(StringHash eventType, VariantMap& eventData)
     {
-        return;
+        //Get client terrain if it not exist
+        if (terrain is null && scene_ !is null) {
+            terrainNode = scene_.GetChild("Terrain");
+            if (terrainNode !is null) {
+                terrain = terrainNode.GetComponent("Terrain");
+            }
+        }
         // Take the frame time step, which is stored as a float
         float timeStep = eventData["TimeStep"].GetFloat();
         // Get the light and billboard scene nodes

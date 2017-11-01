@@ -46,11 +46,13 @@ namespace ConsoleHandler {
     {
         log.Error("Testing");
         log.Info("######################################");
-        log.Info("# Hostname   : " + GetHostName());
-        log.Info("# Login      : " + GetLoginName());
-        log.Info("# OS Version : " + GetOSVersion());
-        log.Info("# Platform   : " + GetPlatform());
-        log.Info("# Memory     : " + GetTotalMemory()/1024/1024 + "MB");
+        log.Info("# Hostname      : " + GetHostName());
+        log.Info("# Login         : " + GetLoginName());
+        log.Info("# OS Version    : " + GetOSVersion());
+        log.Info("# Platform      : " + GetPlatform());
+        log.Info("# Memory        : " + GetTotalMemory()/1024/1024 + "MB");
+        log.Info("# Logical CPU   : " + GetNumLogicalCPUs());
+        log.Info("# Physical CPU  : " + GetNumPhysicalCPUs());
         log.Info("######################################");
     }
 
