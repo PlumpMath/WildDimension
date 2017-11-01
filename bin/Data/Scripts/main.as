@@ -100,7 +100,11 @@ void CreateScene()
     // The camera will use default settings (1000 far clip distance, 45 degrees FOV, set aspect ratio automatically)
     cameraNode = scene_.CreateChild("Camera", LOCAL);
     // Set an initial position for the camera scene node above the plane
-    cameraNode.position = Vector3(0.0f, 3.0f, -10.0f);
+    Vector3 position = Vector3(0.0f, 40.0f, -10.0f);
+    if (NetworkHandler::terrainNode !is null) {
+        position.y = NetworkHandler::terrain.GetHeight(position) + 5.0f;
+    }
+    cameraNode.position = position;
 
     Camera@ camera = cameraNode.CreateComponent("Camera", LOCAL);
     camera.orthographic = false;
@@ -180,6 +184,9 @@ void HandlePostUpdate(StringHash eventType, VariantMap& eventData)
         // Construct new orientation for the camera scene node from yaw and pitch; roll is fixed to zero
         cameraNode.rotation = Quaternion(pitch, yaw, 0.0f);
         Vector3 position = Quaternion(pitch, yaw, 0.0f) * Vector3::FORWARD * timeStep * 10 + cameraNode.position;
+        if (NetworkHandler::terrain !is null) {
+            position.y = NetworkHandler::terrain.GetHeight(position) + 5.0f;
+        }
         cameraNode.position = position;
     }
     NetworkHandler::HandlePostUpdate(eventType, eventData);

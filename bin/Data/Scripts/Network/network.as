@@ -1,6 +1,8 @@
 namespace NetworkHandler {
     // UDP port we will use
     const uint SERVER_PORT = 11223;
+    Node@ terrainNode;
+    Terrain@ terrain;
 
     void StartServer()
     {
@@ -15,7 +17,7 @@ namespace NetworkHandler {
         zone.boundingBox = BoundingBox(-1000.0f, 1000.0f);
         zone.ambientColor = Color(0.1f, 0.1f, 0.1f);
         zone.fogStart = 50.0f;
-        zone.fogEnd = 200.0f;
+        zone.fogEnd = 500.0f;
 
         // Create a directional light without shadows
         Node@ lightNode1 = scene_.CreateChild("DirectionalLight");
@@ -26,7 +28,7 @@ namespace NetworkHandler {
         light1.specularIntensity = 1.0f;
 
         // Create a "floor" consisting of several tiles
-        for (int y = -50; y <= 50; ++y)
+        /*for (int y = -50; y <= 50; ++y)
         {
             for (int x = -50; x <= 50; ++x)
             {
@@ -37,7 +39,30 @@ namespace NetworkHandler {
                 floorObject.model = cache.GetResource("Model", "Models/Box.mdl");
                 floorObject.material = cache.GetResource("Material", "Materials/Stone.xml");
             }
-        }
+        }*/
+
+        // Create skybox. The Skybox component is used like StaticModel, but it will be always located at the camera, giving the
+        // illusion of the box planes being far away. Use just the ordinary Box model and a suitable material, whose shader will
+        // generate the necessary 3D texture coordinates for cube mapping
+        Node@ skyNode = scene_.CreateChild("Sky");
+        skyNode.SetScale(500.0); // The scale actually does not matter
+        Skybox@ skybox = skyNode.CreateComponent("Skybox");
+        skybox.model = cache.GetResource("Model", "Models/Box.mdl");
+        skybox.material = cache.GetResource("Material", "Materials/Skybox.xml");
+
+        // Create heightmap terrain
+        terrainNode = scene_.CreateChild("Terrain");
+        //terrainNode.scale = Vector3(0.1f, 0.1f, 0.1f);
+        //terrainNode.position = Vector3(0.0f, -10.0f, 0.0f);
+        terrain = terrainNode.CreateComponent("Terrain");
+        terrain.patchSize = 64;
+        terrain.spacing = Vector3(2.0f, 0.5f, 2.0f); // Spacing between vertices and vertical resolution of the height map
+        terrain.smoothing = true;
+        terrain.heightMap = cache.GetResource("Image", "Textures/HeightMap.png");
+        terrain.material = cache.GetResource("Material", "Materials/Terrain.xml");
+        // The terrain consists of large triangles, which fits well for occlusion rendering, as a hill can occlude all
+        // terrain patches and other objects behind it
+        terrain.occluder = true;
 
         // Create groups of mushrooms, which act as shadow casters
         const uint NUM_MUSHROOMGROUPS = 100;
@@ -46,15 +71,18 @@ namespace NetworkHandler {
         for (uint i = 0; i < NUM_MUSHROOMGROUPS; ++i)
         {
             // First create a scene node for the group. The individual mushrooms nodes will be created as children
-            Node@ groupNode = scene_.CreateChild("MushroomGroup");
-            groupNode.position = Vector3(Random(400.0f) - 95.0f, 0.0f, Random(400.0f) - 95.0f);
+            //Node@ groupNode = scene_.CreateChild("MushroomGroup");
+            //groupNode.position = Vector3(Random(400.0f) - 95.0f, 0.0f, Random(400.0f) - 95.0f);
 
             for (uint j = 0; j < NUM_MUSHROOMS; ++j)
             {
-                Node@ mushroomNode = groupNode.CreateChild("Mushroom");
-                mushroomNode.position = Vector3(Random(25.0f) - 12.5f, 0.0f, Random(25.0f) - 12.5f);
-                mushroomNode.rotation = Quaternion(0.0f, Random() * 360.0f, 0.0f);
-                mushroomNode.SetScale(1.0f + Random(2.0f) * 4.0f);
+                Node@ mushroomNode = scene_.CreateChild("Mushroom");
+                Vector3 position = Vector3(Random(400.0f) - 95.0f, 0.0f, Random(400.0f) - 95.0f);
+                position.y = terrain.GetHeight(position);
+                mushroomNode.position = position;
+                mushroomNode.worldRotation = Quaternion(Vector3(0.0f, 1.0f, 0.0f), terrain.GetNormal(position));
+                //stamushroomNode.rotation = Quaternion(0.0f, Random() * 360.0f, 0.0f);
+                mushroomNode.SetScale(1.0f + Random(2.0f) * 1.0f);
                 StaticModel@ mushroomObject = mushroomNode.CreateComponent("StaticModel");
                 mushroomObject.model = cache.GetResource("Model", "Models/Mushroom.mdl");
                 mushroomObject.material = cache.GetResource("Material", "Materials/Mushroom.xml");
@@ -69,8 +97,9 @@ namespace NetworkHandler {
         for (uint i = 0; i < NUM_BILLBOARDNODES; ++i)
         {
             Node@ smokeNode = scene_.CreateChild("Smoke");
-            smokeNode.position = Vector3(Random(500.0f) - 100.0f, Random(20.0f) + 10.0f, Random(500.0f) - 100.0f);
-
+            Vector3 position = Vector3(Random(500.0f) - 100.0f, Random(20.0f) + 10.0f, Random(500.0f) - 100.0f);
+            position.y = terrain.GetHeight(position) + 20.0f;
+            smokeNode.position = position;
             BillboardSet@ billboardObject = smokeNode.CreateComponent("BillboardSet");
             billboardObject.numBillboards = NUM_BILLBOARDS;
             billboardObject.material = cache.GetResource("Material", "Materials/LitSmoke.xml");
