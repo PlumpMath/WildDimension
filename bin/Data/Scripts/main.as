@@ -178,12 +178,12 @@ void HandlePostUpdate(StringHash eventType, VariantMap& eventData)
     float timeStep = eventData["TimeStep"].GetFloat();
     if (cameraNode !is null) {
         //yaw += TOUCH_SENSITIVITY * camera.fov / graphics.height * state.delta.x;
-        yaw += timeStep * 4;
+        yaw += timeStep * 10;
         //pitch += TOUCH_SENSITIVITY * camera.fov / graphics.height * state.delta.y;
 
         // Construct new orientation for the camera scene node from yaw and pitch; roll is fixed to zero
         cameraNode.rotation = Quaternion(pitch, yaw, 0.0f);
-        Vector3 position = Quaternion(pitch, yaw, 0.0f) * Vector3::FORWARD * timeStep * 10 + cameraNode.position;
+        Vector3 position = Quaternion(pitch, yaw, 0.0f) * Vector3::FORWARD * timeStep * 30 + cameraNode.position;
         if (NetworkHandler::terrain !is null) {
             position.y = NetworkHandler::terrain.GetHeight(position) + 5.0f;
         }
@@ -197,7 +197,7 @@ void SetWindowTitleAndIcon()
     if (engine.headless) {
         return;
     }
-    
+
     Image@ icon = cache.GetResource("Image", "Textures/UrhoIcon.png");
     graphics.windowIcon = icon;
     graphics.windowTitle = "Main.as";

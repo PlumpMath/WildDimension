@@ -70,12 +70,13 @@ namespace NetworkHandler {
 
         RigidBody@ body = terrainNode.CreateComponent("RigidBody");
         body.collisionLayer = 2; // Use layer bitmask 2 for static geometry
+        body.restitution = 0.5f;
         CollisionShape@ shape = terrainNode.CreateComponent("CollisionShape");
         shape.SetTerrain();
 
         // Create groups of mushrooms, which act as shadow casters
         const uint NUM_MUSHROOMGROUPS = 50;
-        const uint NUM_MUSHROOMS = 25;
+        const uint NUM_MUSHROOMS = 10;
 
         for (uint i = 0; i < NUM_MUSHROOMGROUPS; ++i)
         {
@@ -108,7 +109,7 @@ namespace NetworkHandler {
             for (uint j = 0; j < NUM_MUSHROOMS; ++j)
             {
                 Node@ mushroomNode = scene_.CreateChild("Mushroom");
-                Vector3 position = Vector3(Random(1000.0f) - 95.0f, 0.0f, Random(1000.0f) - 95.0f);
+                Vector3 position = Vector3(Random(300.0f) - 95.0f, 0.0f, Random(300.0f) - 95.0f);
                 position.y = terrain.GetHeight(position) + 100.0f;
                 mushroomNode.position = position;
                 mushroomNode.worldRotation = Quaternion(Vector3(0.0f, 1.0f, 0.0f), terrain.GetNormal(position));
@@ -123,9 +124,14 @@ namespace NetworkHandler {
 
                 RigidBody@ body = mushroomNode.CreateComponent("RigidBody");
                 body.mass = 1.0f;
-                body.friction = 0.75f;
+                body.friction = 0.2f;
+                body.restitution = 2.0f;
                 CollisionShape@ shape = mushroomNode.CreateComponent("CollisionShape");
                 shape.SetConvexHull(mushroomObject.model);
+
+                ParticleEmitter@ particleEmitter = mushroomNode.CreateComponent("ParticleEmitter");
+                particleEmitter.effect = cache.GetResource("ParticleEffect", "Particle/Dust.xml");
+                particleEmitter.emitting = true;
             }
         }
 
@@ -136,7 +142,7 @@ namespace NetworkHandler {
         for (uint i = 0; i < NUM_BILLBOARDNODES; ++i)
         {
             Node@ smokeNode = scene_.CreateChild("Smoke");
-            Vector3 position = Vector3(Random(500.0f) - 100.0f, Random(20.0f) + 10.0f, Random(500.0f) - 100.0f);
+            Vector3 position = Vector3(Random(500.0f) - 100.0f, Random(50.0f) + 20.0f, Random(500.0f) - 100.0f);
             position.y = terrain.GetHeight(position) + 20.0f;
             smokeNode.position = position;
             BillboardSet@ billboardObject = smokeNode.CreateComponent("BillboardSet");
