@@ -286,7 +286,7 @@ void Urho3DPlayer::HandleScriptReloadFailed(StringHash eventType, VariantMap& ev
 void Urho3DPlayer::GetScriptFileName()
 {
     FileSystem* filesystem = GetSubsystem<FileSystem>();
-    scriptFileName_ = filesystem->GetProgramDir() + "Data/Scripts/main.as";
+    scriptFileName_ = "Scripts/main.as";
     const Vector<String>& arguments = GetArguments();
     if (arguments.Size() && arguments[0][0] != '-')
         scriptFileName_ = GetInternalPath(arguments[0]);

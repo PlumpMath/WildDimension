@@ -149,7 +149,7 @@ add_subdirectory (Urho3D)
 #    add_subdirectory (Samples)
 #endif ()
 
-add_subdirectory (SeasonRush)
+add_subdirectory (Game)
 
 # Urho3D extras
 if (URHO3D_EXTRAS)
