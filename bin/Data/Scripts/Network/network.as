@@ -28,6 +28,8 @@ namespace NetworkHandler {
         light1.lightType = LIGHT_DIRECTIONAL;
         light1.color = Color(0.2f, 0.2f, 0.2f);
         light1.specularIntensity = 1.0f;
+        light1.castShadows = true;
+        light1.shadowBias = BiasParameters(0.00002f, 0.0f);
 
         // Create a "floor" consisting of several tiles
         /*for (int y = -50; y <= 50; ++y)
