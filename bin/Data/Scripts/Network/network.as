@@ -11,6 +11,8 @@ namespace NetworkHandler {
         NetworkHandler::StopServer();
         network.StartServer(SERVER_PORT);
 
+        network.updateFps = 10;
+
         // Create a Zone component for ambient lighting & fog control
         Node@ zoneNode = scene_.CreateChild("Zone");
         Zone@ zone = zoneNode.CreateComponent("Zone");
@@ -64,8 +66,13 @@ namespace NetworkHandler {
         // terrain patches and other objects behind it
         terrain.occluder = true;
 
+        RigidBody@ body = terrainNode.CreateComponent("RigidBody");
+        body.collisionLayer = 2; // Use layer bitmask 2 for static geometry
+        CollisionShape@ shape = terrainNode.CreateComponent("CollisionShape");
+        shape.SetTerrain();
+
         // Create groups of mushrooms, which act as shadow casters
-        const uint NUM_MUSHROOMGROUPS = 100;
+        const uint NUM_MUSHROOMGROUPS = 50;
         const uint NUM_MUSHROOMS = 25;
 
         for (uint i = 0; i < NUM_MUSHROOMGROUPS; ++i)
@@ -90,8 +97,38 @@ namespace NetworkHandler {
             }
         }
 
+        for (uint i = 0; i < NUM_MUSHROOMGROUPS; ++i)
+        {
+            // First create a scene node for the group. The individual mushrooms nodes will be created as children
+            //Node@ groupNode = scene_.CreateChild("MushroomGroup");
+            //groupNode.position = Vector3(Random(400.0f) - 95.0f, 0.0f, Random(400.0f) - 95.0f);
+
+            for (uint j = 0; j < NUM_MUSHROOMS; ++j)
+            {
+                Node@ mushroomNode = scene_.CreateChild("Mushroom");
+                Vector3 position = Vector3(Random(1000.0f) - 95.0f, 0.0f, Random(1000.0f) - 95.0f);
+                position.y = terrain.GetHeight(position) + 100.0f;
+                mushroomNode.position = position;
+                mushroomNode.worldRotation = Quaternion(Vector3(0.0f, 1.0f, 0.0f), terrain.GetNormal(position));
+                //stamushroomNode.rotation = Quaternion(0.0f, Random() * 360.0f, 0.0f);
+                float sc = 1.0f + Random(2.0f) * 1.0f;
+                Vector3 scale = Vector3(sc, sc, sc);
+                mushroomNode.SetScale(sc);
+                StaticModel@ mushroomObject = mushroomNode.CreateComponent("StaticModel");
+                mushroomObject.model = cache.GetResource("Model", "Models/Box.mdl");
+                mushroomObject.material = cache.GetResource("Material", "Materials/Stone.xml");
+                mushroomObject.castShadows = true;
+
+                RigidBody@ body = mushroomNode.CreateComponent("RigidBody");
+                body.mass = 1.0f;
+                body.friction = 0.75f;
+                CollisionShape@ shape = mushroomNode.CreateComponent("CollisionShape");
+                shape.SetConvexHull(mushroomObject.model);
+            }
+        }
+
         // Create billboard sets (floating smoke)
-        const uint NUM_BILLBOARDNODES = 250;
+        const uint NUM_BILLBOARDNODES = 500;
         const uint NUM_BILLBOARDS = 10;
 
         for (uint i = 0; i < NUM_BILLBOARDNODES; ++i)

@@ -197,6 +197,7 @@ void SetWindowTitleAndIcon()
     if (engine.headless) {
         return;
     }
+    
     Image@ icon = cache.GetResource("Image", "Textures/UrhoIcon.png");
     graphics.windowIcon = icon;
     graphics.windowTitle = "Main.as";
