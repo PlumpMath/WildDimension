@@ -204,7 +204,9 @@ namespace NetworkHandler {
     void Subscribe()
     {
         SubscribeToEvent("ClientConnected", "NetworkHandler::HandleClientConnected");
+        SubscribeToEvent("ClientDisconnected", "NetworkHandler::HandleClientDisconnected");
         SubscribeToEvent("ServerConnected", "NetworkHandler::HandleConnectionStatus");
+        SubscribeToEvent("ClientIdentity", "NetworkHandler::HandleClientIdentity");
         //SubscribeToEvent("ServerDisconnected", "HandleConnectionStatus");
     }
 
@@ -281,7 +283,9 @@ namespace NetworkHandler {
         NetworkHandler::StopServer();
         //String address = "miegamicis.asuscomm.com";
         String address = "127.0.0.1";
-        network.Connect(address, SERVER_PORT, scene_);
+        VariantMap map;
+        map["USER_NAME"] = "123";
+        network.Connect(address, SERVER_PORT, scene_, map);
     }
 
     void HandleClientConnected(StringHash eventType, VariantMap& eventData)
@@ -289,6 +293,20 @@ namespace NetworkHandler {
         // When a client connects, assign to scene to begin scene replication
         Connection@ newConnection = eventData["Connection"].GetPtr();
         newConnection.scene = scene_;
+    }
+
+    void HandleClientDisconnected(StringHash eventType, VariantMap& eventData)
+    {
+        // When a client connects, assign to scene to begin scene replication
+        Connection@ newConnection = eventData["Connection"].GetPtr();
+        log.Info("Client " + newConnection.identity["USER_NAME"].GetString() + " disconnected");
+    }
+
+    void HandleClientIdentity(StringHash eventType, VariantMap& eventData)
+    {
+        String name = eventData["USER_NAME"].GetString();
+        Connection@ newConnection = eventData["Connection"].GetPtr();
+        log.Info(newConnection.ToString() + " identified himself as '" + name + "'");
     }
 
     void Destroy()
