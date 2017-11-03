@@ -1,4 +1,5 @@
 namespace ConsoleHandler {
+
     void CreateConsole()
     {
         if (engine.headless) {
@@ -23,7 +24,7 @@ namespace ConsoleHandler {
         console.AddAutoComplete("start");
         console.AddAutoComplete("connect");
         console.AddAutoComplete("disconnect");
-        console.autoVisibleOnError = true;
+        console.autoVisibleOnError = false;
         console.UpdateElements();
         DelayedExecute(1.0, false, "void ConsoleHandler::ShowInfo()");
         log.timeStamp = false;
@@ -84,6 +85,8 @@ namespace ConsoleHandler {
             engine.Exit();
         } else if (command == "reload") {
             SendEvent("ReloadAll");
+        } else if (command == "clientlist") {
+            SendEvent("ClientsList");
         }
     }
 }

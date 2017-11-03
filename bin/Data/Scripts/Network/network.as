@@ -122,15 +122,15 @@ namespace NetworkHandler {
                 mushroomObject.material = cache.GetResource("Material", "Materials/Stone.xml");
                 mushroomObject.castShadows = true;
 
-                RigidBody@ body = mushroomNode.CreateComponent("RigidBody");
-                body.mass = 1.0f;
-                body.friction = 0.2f;
-                body.restitution = 2.0f;
-                CollisionShape@ shape = mushroomNode.CreateComponent("CollisionShape");
-                shape.SetConvexHull(mushroomObject.model);
+                RigidBody@ body2 = mushroomNode.CreateComponent("RigidBody");
+                body2.mass = 1.0f;
+                body2.friction = 0.2f;
+                body2.restitution = 0.1f;
+                CollisionShape@ shape2 = mushroomNode.CreateComponent("CollisionShape");
+                shape2.SetConvexHull(mushroomObject.model);
 
                 ParticleEmitter@ particleEmitter = mushroomNode.CreateComponent("ParticleEmitter");
-                particleEmitter.effect = cache.GetResource("ParticleEffect", "Particle/Dust.xml");
+                particleEmitter.effect = cache.GetResource("ParticleEffect", "Particle/Fire.xml");
                 particleEmitter.emitting = true;
             }
         }
@@ -207,6 +207,7 @@ namespace NetworkHandler {
         SubscribeToEvent("ClientDisconnected", "NetworkHandler::HandleClientDisconnected");
         SubscribeToEvent("ServerConnected", "NetworkHandler::HandleConnectionStatus");
         SubscribeToEvent("ClientIdentity", "NetworkHandler::HandleClientIdentity");
+        SubscribeToEvent("ClientsList", "NetworkHandler::HandleClientsList");
         //SubscribeToEvent("ServerDisconnected", "HandleConnectionStatus");
     }
 
@@ -312,5 +313,16 @@ namespace NetworkHandler {
     void Destroy()
     {
         
+    }
+
+    void HandleClientsList(StringHash eventType, VariantMap& eventData)
+    {
+        log.Info("");
+        log.Info("#### CLIENT LIST ####");
+        for (uint i = 0; i < network.clientConnections.length; i++) {
+            log.Info("# Client: " + network.clientConnections[i].identity["USER_NAME"].GetString() + ", Ping: " + String(network.clientConnections[i].roundTripTime) + ", IP: " + network.clientConnections[i].ToString());
+        }
+        log.Info("#####################");
+        log.Info("");
     }
 }
