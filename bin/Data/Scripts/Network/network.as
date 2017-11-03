@@ -17,19 +17,19 @@ namespace NetworkHandler {
         Node@ zoneNode = scene_.CreateChild("Zone");
         Zone@ zone = zoneNode.CreateComponent("Zone");
         zone.boundingBox = BoundingBox(-1000.0f, 1000.0f);
-        zone.ambientColor = Color(0.1f, 0.1f, 0.1f);
+        zone.ambientColor = Color(0.05f, 0.05f, 0.05f);
         zone.fogStart = 50.0f;
         zone.fogEnd = 500.0f;
 
         // Create a directional light without shadows
-        Node@ lightNode1 = scene_.CreateChild("DirectionalLight");
+        /*Node@ lightNode1 = scene_.CreateChild("DirectionalLight");
         lightNode1.direction = Vector3(0.5f, -1.0f, 0.5f);
         Light@ light1 = lightNode1.CreateComponent("Light");
         light1.lightType = LIGHT_DIRECTIONAL;
-        light1.color = Color(0.2f, 0.2f, 0.2f);
+        light1.color = Color(0.05f, 0.05f, 0.05f);
         light1.specularIntensity = 1.0f;
         light1.castShadows = true;
-        light1.shadowBias = BiasParameters(0.00002f, 0.0f);
+        light1.shadowBias = BiasParameters(0.00002f, 0.0f);*/
 
         // Create a "floor" consisting of several tiles
         /*for (int y = -50; y <= 50; ++y)
@@ -186,7 +186,7 @@ namespace NetworkHandler {
             light.color = color;
             light.specularIntensity = 1.0f;
             light.castShadows = true;
-            light.shadowBias = BiasParameters(0.00002f, 0.0f);
+            light.shadowBias = BiasParameters(0.00025f, 0.5f);
 
             // Configure shadow fading for the lights. When they are far away enough, the lights eventually become unshadowed for
             // better GPU performance. Note that we could also set the maximum distance for each object to cast shadows
