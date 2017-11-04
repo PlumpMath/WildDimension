@@ -30,7 +30,7 @@ namespace NetworkHandler {
         light1.specularIntensity = 1.0f;
         light1.castShadows = true;
         light1.shadowBias = BiasParameters(0.00025f, 0.5f);
-        light1.shadowCascade = CascadeParameters(10.0f, 50.0f, 200.0f, 0.0f, 0.8f);
+        light1.shadowCascade = CascadeParameters(10.0f, 100.0f, 200.0f, 0.0f, 0.8f);
         
         /*
         // Create a "floor" consisting of several tiles
@@ -202,33 +202,35 @@ namespace NetworkHandler {
             light.shadowNearFarRatio = 0.01f;
         }
 
-        for (uint i = 0; i < 5; i++) {
-            for (uint j = 0; j < 5; j++) {
-                Vector3 position = Vector3(i * 24, 0.0, j * 24);
+        for (int i = -5; i < 5; i+=2) {
+            for (int j = -5; j < 5; j+=2) {
+                Vector3 position = Vector3(i * 40 + Random(20.0f), 0.0, j * 40 + Random(20.0f));
                 Pacman::Create(position);
             }
         }
 
-        for (uint i = 0; i < 5; i++) {
-            for (uint j = 0; j < 5; j++) {
-                Vector3 position = Vector3(i * 11, 0.0, j * 30);
+        for (int i = -5; i < 5; i+=2) {
+            for (int j = -5; j < 5; j+=2) {
+                Vector3 position = Vector3(i * 50 + Random(30.0f), 0.0, j * 50 + Random(30.0f));
                 Snake::Create(position);
             }
         }
 
-        for (int i = -5; i < 5; i++) {
-            for (int j = -5; j < 5; j++) {
-                Vector3 position = Vector3(i * 14 + Random(10.0f), 0.0, j * 14 + + Random(10.0f));
+        for (int i = -5; i < 5; i+=2) {
+            for (int j = -5; j < 5; j+=2) {
+                Vector3 position = Vector3(i * 80 + Random(40.0f), 0.0, j * 80 + + Random(40.0f));
                 AppleTree::Create(position);
             }
         }
 
-        for (int i = -10; i < 10; i++) {
-            for (int j = -10; j < 10; j++) {
-                Vector3 position = Vector3(i * 100 + Random(50.0f), 0.0, j * 100 + + Random(50.0f));
+        for (int i = -10; i < 10; i+=3) {
+            for (int j = -10; j < 10; j+=3) {
+                Vector3 position = Vector3(i * 100 + Random(100.0f), 0.0, j * 100 + + Random(100.0f));
                 Clouds::Create(position);
             }
         }
+
+        Axe::Create();
     }
 
     
@@ -265,7 +267,7 @@ namespace NetworkHandler {
         Array<Node@> lightNodes = scene_.GetChildrenWithComponent("Light");
         Array<Node@> billboardNodes = scene_.GetChildrenWithComponent("BillboardSet");
 
-        const float LIGHT_ROTATION_SPEED = 20.0f;
+        const float LIGHT_ROTATION_SPEED = 0.50f;
         const float BILLBOARD_ROTATION_SPEED = 50.0f;
 
         // Rotate the lights around the world Y-axis

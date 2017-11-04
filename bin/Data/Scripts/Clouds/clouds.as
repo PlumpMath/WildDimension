@@ -4,7 +4,7 @@ namespace Clouds {
 	Node@ Create(Vector3 position)
 	{
 		Node@ cloudNode = scene_.CreateChild("SnakeNode");
-		position.y = NetworkHandler::terrain.GetHeight(position) + 100.0f;
+		position.y = NetworkHandler::terrain.GetHeight(position) + 300.0f;
 		cloudNode.position = position;
 
 		Node@ adjNode = cloudNode.CreateChild("AdjNode");
@@ -16,7 +16,7 @@ namespace Clouds {
     	} else {
     		object.model = cache.GetResource("Model", "Models/Models/Cloud2.mdl");
     	}
-    	cloudNode.SetScale(2.0f + Random(2.0f));
+    	cloudNode.SetScale(4.0f + Random(2.0f));
         object.castShadows = true;
         object.materials[0] = cache.GetResource("Material", "Materials/Cloud.xml");
 
