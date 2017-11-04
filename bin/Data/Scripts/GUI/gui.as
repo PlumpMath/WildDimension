@@ -60,7 +60,6 @@ namespace GUIHandler {
     void Subscribe()
     {
         SubscribeToEvent("ToggleLogo", "GUIHandler::ToggleLogo");
-        SubscribeToEvent("Update", "GUIHandler::HandleUpdate");
     }
 
     void Destroy()

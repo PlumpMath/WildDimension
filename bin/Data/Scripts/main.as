@@ -9,6 +9,7 @@
 #include "Console/console.as"
 #include "Network/network.as"
 #include "GUI/gui.as"
+#include "Player/player.as"
 
 Scene@ scene_;
 uint screenJoystickIndex = M_MAX_UNSIGNED; // Screen joystick index for navigational controls (mobile platforms only)
@@ -21,6 +22,8 @@ float yaw = 0.0f; // Camera yaw angle
 float pitch = 0.0f; // Camera pitch angle
 const float TOUCH_SENSITIVITY = 2;
 MouseMode useMouseMode_ = MM_ABSOLUTE;
+Camera@ camera;
+const float YAW_SENSITIVITY = 0.1f;
 
 void Start()
 {
@@ -52,6 +55,7 @@ void Start()
 
     SubscribeToEvent("ReloadAll", "HandleReload");
 
+    SubscribeToEvent("Update", "HandleUpdate");
     SubscribeToEvent("PostUpdate", "HandlePostUpdate");
 
     ConsoleHandler::Subscribe();
@@ -61,6 +65,8 @@ void Start()
     CreateScene();
 
     SetupViewport();
+
+    Player::CreatePlayer();
 
     GUIHandler::CreateGUI();
 
@@ -104,12 +110,17 @@ void CreateScene()
     if (NetworkHandler::terrainNode !is null) {
         position.y = NetworkHandler::terrain.GetHeight(position) + 5.0f;
     }
-    cameraNode.position = position;
+    //cameraNode.position = position;
+    if (Player::playerNode !is null) {
+        cameraNode.position = Player::playerNode.position;
+    }
 
-    Camera@ camera = cameraNode.CreateComponent("Camera", LOCAL);
+    camera = cameraNode.CreateComponent("Camera", LOCAL);
     camera.orthographic = false;
     camera.orthoSize = graphics.height * PIXEL_SIZE;
     camera.zoom = 1.0f * Min(graphics.width / 1280.0f, graphics.height / 800.0f); // Set zoom according to user's resolution to ensure full visibility (initial zoom (1.5) is set for full visibility at 1280x800 resolution)
+
+    NetworkHandler::StartServer();
 
 }
 
@@ -172,24 +183,47 @@ void HandleReload(StringHash eventType, VariantMap& eventData)
     Start();
 }
 
-void HandlePostUpdate(StringHash eventType, VariantMap& eventData)
+void HandleUpdate(StringHash eventType, VariantMap& eventData)
 {
+    yaw += input.mouseMoveX * YAW_SENSITIVITY;
+    pitch += input.mouseMoveY * YAW_SENSITIVITY;
+    pitch = Clamp(pitch, -90.0f, 90.0f);
+    Player::HandlePostUpdate(eventType, eventData);
+    GUIHandler::HandleUpdate(eventType, eventData);
     // Take the frame time step, which is stored as a float
     float timeStep = eventData["TimeStep"].GetFloat();
-    if (cameraNode !is null) {
+    NetworkHandler::HandlePostUpdate(eventType, eventData);
+}
+
+void HandlePostUpdate(StringHash eventType, VariantMap& eventData)
+{
+    float timeStep = eventData["TimeStep"].GetFloat();
+    UpdateCamera(timeStep);
+}
+
+void UpdateCamera(float timeStep)
+{
+    /*if (camera !is null) {
         //yaw += TOUCH_SENSITIVITY * camera.fov / graphics.height * state.delta.x;
-        yaw += timeStep * 10;
-        //pitch += TOUCH_SENSITIVITY * camera.fov / graphics.height * state.delta.y;
+        //yaw += timeStep * 10;s
+       // pitch += TOUCH_SENSITIVITY * camera.fov / graphics.height * state.delta.y;
 
         // Construct new orientation for the camera scene node from yaw and pitch; roll is fixed to zero
-        cameraNode.rotation = Quaternion(pitch, yaw, 0.0f);
+        /*cameraNode.rotation = Quaternion(pitch, yaw, 0.0f);
         Vector3 position = Quaternion(pitch, yaw, 0.0f) * Vector3::FORWARD * timeStep * 30 + cameraNode.position;
         if (NetworkHandler::terrain !is null) {
             position.y = NetworkHandler::terrain.GetHeight(position) + 5.0f;
         }
+        //cameraNode.position = position;
+        yaw += input.mouseMoveX * YAW_SENSITIVITY;
+        pitch += input.mouseMoveY * YAW_SENSITIVITY;
+    }*/
+    if (Player::playerNode !is null) {
+        cameraNode.rotation = Player::playerNode.rotation;
+        Vector3 position = Player::playerNode.position;
+        position.y += 1;
         cameraNode.position = position;
     }
-    NetworkHandler::HandlePostUpdate(eventType, eventData);
 }
 
 void SetWindowTitleAndIcon()
@@ -220,6 +254,7 @@ void CreateDebugHud()
 
 void HandleKeyUp(StringHash eventType, VariantMap& eventData)
 {
+    Player::HandleKeyUp(eventType, eventData);
     int key = eventData["Key"].GetInt();
 
     // Close console (if open) or exit when ESC is pressed
@@ -243,6 +278,7 @@ void HandleKeyUp(StringHash eventType, VariantMap& eventData)
 
 void HandleKeyDown(StringHash eventType, VariantMap& eventData)
 {
+    Player::HandleKeyDown(eventType, eventData);
     int key = eventData["Key"].GetInt();
         
     // Toggle debug HUD with F2

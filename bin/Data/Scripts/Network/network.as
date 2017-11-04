@@ -9,7 +9,7 @@ namespace NetworkHandler {
         //network.simulatedLatency = 500;
         //network.simulatedPacketLoss = 0.9;
         NetworkHandler::StopServer();
-        network.StartServer(SERVER_PORT);
+        //network.StartServer(SERVER_PORT);
 
         network.updateFps = 10;
 
@@ -75,7 +75,7 @@ namespace NetworkHandler {
         shape.SetTerrain();
 
         // Create groups of mushrooms, which act as shadow casters
-        const uint NUM_MUSHROOMGROUPS = 50;
+        const uint NUM_MUSHROOMGROUPS = 20;
         const uint NUM_MUSHROOMS = 10;
 
         for (uint i = 0; i < NUM_MUSHROOMGROUPS; ++i)
@@ -136,7 +136,7 @@ namespace NetworkHandler {
         }
 
         // Create billboard sets (floating smoke)
-        const uint NUM_BILLBOARDNODES = 500;
+        const uint NUM_BILLBOARDNODES = 100;
         const uint NUM_BILLBOARDS = 10;
 
         for (uint i = 0; i < NUM_BILLBOARDNODES; ++i)
@@ -164,7 +164,7 @@ namespace NetworkHandler {
         }
 
         // Create shadow casting spotlights
-        const uint NUM_LIGHTS = 20;
+        const uint NUM_LIGHTS = 10;
 
         for (uint i = 0; i < NUM_LIGHTS; ++i)
         {
