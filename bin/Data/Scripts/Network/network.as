@@ -120,7 +120,7 @@ namespace NetworkHandler {
                 Vector3 scale = Vector3(sc, sc, sc);
                 mushroomNode.SetScale(sc);
                 StaticModel@ mushroomObject = mushroomNode.CreateComponent("StaticModel");
-                mushroomObject.model = cache.GetResource("Model", "Models/Box.mdl");
+                mushroomObject.model = cache.GetResource("Model", "Models/Models/Pacman.mdl");
                 mushroomObject.material = cache.GetResource("Material", "Materials/Stone.xml");
                 mushroomObject.castShadows = true;
 

@@ -8,9 +8,13 @@ namespace Pacman {
 		Node@ pacmanNode = scene_.CreateChild("PlayerNode");
 		position.y = NetworkHandler::terrain.GetHeight(position) + 2;
 		pacmanNode.position = position;
+		pacmanNode.Scale(0.5f);
 
-	    StaticModel@ pacmanObject = pacmanNode.CreateComponent("StaticModel");
-        pacmanObject.model = cache.GetResource("Model", "Models/Sphere.mdl");
+		Node@ adjNode = pacmanNode.CreateChild("AdjNode");
+    	adjNode.rotation = Quaternion(-90.0f, Vector3::UP);
+
+	    StaticModel@ pacmanObject = adjNode.CreateComponent("StaticModel");
+        pacmanObject.model = cache.GetResource("Model", "Models/Models/Pacman.mdl");
         pacmanObject.material = cache.GetResource("Material", "Materials/Stone.xml");
         pacmanObject.castShadows = true;
 
@@ -42,7 +46,7 @@ namespace Pacman {
 			float timeStep = eventData["TimeStep"].GetFloat();
 
 			Vector3 targetPosition = cameraNode.position;
-			targetPosition.y = 0;
+			targetPosition.y = pacmanNode.position.y;
 			pacmanNode.LookAt(targetPosition);
 
 			Vector3 moveDir = pacmanNode.rotation * Vector3::FORWARD * PACMAN_MOVE_SPEED;
