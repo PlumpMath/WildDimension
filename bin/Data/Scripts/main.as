@@ -10,6 +10,7 @@
 #include "Network/network.as"
 #include "GUI/gui.as"
 #include "Player/player.as"
+#include "Pacman/pacman.as"
 
 Scene@ scene_;
 uint screenJoystickIndex = M_MAX_UNSIGNED; // Screen joystick index for navigational controls (mobile platforms only)
@@ -117,6 +118,7 @@ void CreateScene()
 
     camera = cameraNode.CreateComponent("Camera", LOCAL);
     camera.orthographic = false;
+    camera.fov = 50;
     camera.orthoSize = graphics.height * PIXEL_SIZE;
     camera.zoom = 1.0f * Min(graphics.width / 1280.0f, graphics.height / 800.0f); // Set zoom according to user's resolution to ensure full visibility (initial zoom (1.5) is set for full visibility at 1280x800 resolution)
 
