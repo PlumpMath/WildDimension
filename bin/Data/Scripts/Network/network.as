@@ -77,7 +77,7 @@ namespace NetworkHandler {
         shape.SetTerrain();
 
         // Create groups of mushrooms, which act as shadow casters
-        const uint NUM_MUSHROOMGROUPS = 20;
+        const uint NUM_MUSHROOMGROUPS = 0;
         const uint NUM_MUSHROOMS = 10;
 
         for (uint i = 0; i < NUM_MUSHROOMGROUPS; ++i)
@@ -201,6 +201,13 @@ namespace NetworkHandler {
             // for better shadow depth resolution
             light.shadowNearFarRatio = 0.01f;
         }
+
+        for (uint i = 0; i < 10; i++) {
+            for (uint j = 0; j < 10; j++) {
+                Vector3 position = Vector3(i * 10, 0.0, j * 10);
+                Pacman::Create(position);
+            }
+        }
     }
 
     
@@ -221,6 +228,8 @@ namespace NetworkHandler {
 
     void HandlePostUpdate(StringHash eventType, VariantMap& eventData)
     {
+        Pacman::HandleUpdate(eventType, eventData);
+
         //Get client terrain if it not exist
         if (terrain is null && scene_ !is null) {
             terrainNode = scene_.GetChild("Terrain");
