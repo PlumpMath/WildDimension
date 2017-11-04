@@ -1,5 +1,4 @@
 # Output directories
-/bin/*
 !/bin/**/
 !/bin/*.bat
 !/bin/*.sh
@@ -101,6 +100,5 @@ configure*
 *.bak
 Thumbs.db
 .directory
-bin/
 build/
 android-build/
