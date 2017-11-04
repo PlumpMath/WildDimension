@@ -17,20 +17,22 @@ namespace NetworkHandler {
         Node@ zoneNode = scene_.CreateChild("Zone");
         Zone@ zone = zoneNode.CreateComponent("Zone");
         zone.boundingBox = BoundingBox(-1000.0f, 1000.0f);
-        zone.ambientColor = Color(0.05f, 0.05f, 0.05f);
+        zone.ambientColor = Color(0.2f, 0.2f, 0.05f);
         zone.fogStart = 50.0f;
         zone.fogEnd = 500.0f;
 
         // Create a directional light without shadows
-        /*Node@ lightNode1 = scene_.CreateChild("DirectionalLight");
+        Node@ lightNode1 = scene_.CreateChild("DirectionalLight");
         lightNode1.direction = Vector3(0.5f, -1.0f, 0.5f);
         Light@ light1 = lightNode1.CreateComponent("Light");
         light1.lightType = LIGHT_DIRECTIONAL;
-        light1.color = Color(0.05f, 0.05f, 0.05f);
+        light1.color = Color(0.7f, 0.7f, 0.5f);
         light1.specularIntensity = 1.0f;
         light1.castShadows = true;
-        light1.shadowBias = BiasParameters(0.00002f, 0.0f);*/
-
+        light1.shadowBias = BiasParameters(0.00025f, 0.5f);
+        light1.shadowCascade = CascadeParameters(10.0f, 50.0f, 200.0f, 0.0f, 0.8f);
+        
+        /*
         // Create a "floor" consisting of several tiles
         /*for (int y = -50; y <= 50; ++y)
         {
@@ -110,7 +112,7 @@ namespace NetworkHandler {
             {
                 Node@ mushroomNode = scene_.CreateChild("Mushroom");
                 Vector3 position = Vector3(Random(300.0f) - 95.0f, 0.0f, Random(300.0f) - 95.0f);
-                position.y = terrain.GetHeight(position) + 100.0f;
+                position.y = terrain.GetHeight(position) + 10.0f;
                 mushroomNode.position = position;
                 mushroomNode.worldRotation = Quaternion(Vector3(0.0f, 1.0f, 0.0f), terrain.GetNormal(position));
                 //stamushroomNode.rotation = Quaternion(0.0f, Random() * 360.0f, 0.0f);
@@ -164,7 +166,7 @@ namespace NetworkHandler {
         }
 
         // Create shadow casting spotlights
-        const uint NUM_LIGHTS = 10;
+        const uint NUM_LIGHTS = 0;
 
         for (uint i = 0; i < NUM_LIGHTS; ++i)
         {
@@ -187,13 +189,14 @@ namespace NetworkHandler {
             light.specularIntensity = 1.0f;
             light.castShadows = true;
             light.shadowBias = BiasParameters(0.00025f, 0.5f);
+            light.shadowCascade = CascadeParameters(10.0f, 50.0f, 200.0f, 0.0f, 0.8f);
 
             // Configure shadow fading for the lights. When they are far away enough, the lights eventually become unshadowed for
             // better GPU performance. Note that we could also set the maximum distance for each object to cast shadows
             light.shadowFadeDistance = 100.0f; // Fade start distance
             light.shadowDistance = 125.0f; // Fade end distance, shadows are disabled
             // Set half resolution for the shadow maps for increased performance
-            light.shadowResolution = 0.5f;
+            light.shadowResolution = 0.8f;
             // The spot lights will not have anything near them, so move the near plane of the shadow camera farther
             // for better shadow depth resolution
             light.shadowNearFarRatio = 0.01f;
