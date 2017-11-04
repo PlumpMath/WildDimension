@@ -105,7 +105,6 @@ namespace Snake {
 		for (uint i = 0; i < snakes.length; i++) {
 			SnakeBody@ snakeBody = snakes[i];
 			MoveBodyPart(0, snakeBody.body[0], getRandomPos(snakeBody.body[0], timeStep));
-			log.Info("Length " + snakeBody.body.length);
 			for (uint j = 1; j < snakeBody.body.length; j++) {
 				MoveBodyPart(j, snakeBody.body[j], snakeBody.body[j-1].position);
 			}
