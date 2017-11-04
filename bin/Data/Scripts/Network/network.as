@@ -77,7 +77,7 @@ namespace NetworkHandler {
         shape.SetTerrain();
 
         // Create groups of mushrooms, which act as shadow casters
-        const uint NUM_MUSHROOMGROUPS = 20;
+        const uint NUM_MUSHROOMGROUPS = 10;
         const uint NUM_MUSHROOMS = 10;
 
         for (uint i = 0; i < NUM_MUSHROOMGROUPS; ++i)
@@ -120,7 +120,7 @@ namespace NetworkHandler {
                 Vector3 scale = Vector3(sc, sc, sc);
                 mushroomNode.SetScale(sc);
                 StaticModel@ mushroomObject = mushroomNode.CreateComponent("StaticModel");
-                mushroomObject.model = cache.GetResource("Model", "Models/Box.mdl");
+                mushroomObject.model = cache.GetResource("Model", "Models/Models/Pacman.mdl");
                 mushroomObject.material = cache.GetResource("Material", "Materials/Stone.xml");
                 mushroomObject.castShadows = true;
 
