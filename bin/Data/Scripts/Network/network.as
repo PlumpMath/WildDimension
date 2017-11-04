@@ -202,10 +202,17 @@ namespace NetworkHandler {
             light.shadowNearFarRatio = 0.01f;
         }
 
-        for (uint i = 0; i < 10; i++) {
-            for (uint j = 0; j < 10; j++) {
-                Vector3 position = Vector3(i * 10, 0.0, j * 10);
+        for (uint i = 0; i < 5; i++) {
+            for (uint j = 0; j < 5; j++) {
+                Vector3 position = Vector3(i * 24, 0.0, j * 24);
                 Pacman::Create(position);
+            }
+        }
+
+        for (uint i = 0; i < 5; i++) {
+            for (uint j = 0; j < 5; j++) {
+                Vector3 position = Vector3(i * 30, 0.0, j * 30);
+                Snake::Create(position);
             }
         }
     }
@@ -229,6 +236,7 @@ namespace NetworkHandler {
     void HandlePostUpdate(StringHash eventType, VariantMap& eventData)
     {
         Pacman::HandleUpdate(eventType, eventData);
+        Snake::HandleUpdate(eventType, eventData);
 
         //Get client terrain if it not exist
         if (terrain is null && scene_ !is null) {

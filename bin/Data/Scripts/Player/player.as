@@ -8,6 +8,7 @@ namespace Player {
 	Node@ playerNode;
 	Controls playerControls;
 	RigidBody@ playerBody;
+    const float PLAYER_BRAKE_FORCE = 0.01f;
 
 	Node@ CreatePlayer()
 	{
@@ -90,7 +91,7 @@ namespace Player {
 
         playerBody.ApplyImpulse(lookAt2 * moveDir);
 
-        Vector3 brakeForce = -planeVelocity * 0.2f;
+        Vector3 brakeForce = -planeVelocity * PLAYER_BRAKE_FORCE;
         playerBody.ApplyImpulse(brakeForce);
 
         if (jump) {
