@@ -97,6 +97,12 @@ namespace Player {
         if (jump) {
         	playerBody.ApplyImpulse(Vector3::UP * 5);
         }
+
+        if (playerNode.position.y < NetworkHandler::terrain.GetHeight(playerNode.position)) {
+            Vector3 position = playerNode.position;
+            position.y = NetworkHandler::terrain.GetHeight(playerNode.position);
+            playerNode.position = position;
+        }
 	}
 
 	void HandleKeyDown(StringHash eventType, VariantMap& eventData)

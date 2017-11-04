@@ -26,7 +26,7 @@ namespace NetworkHandler {
         lightNode1.direction = Vector3(0.5f, -1.0f, 0.5f);
         Light@ light1 = lightNode1.CreateComponent("Light");
         light1.lightType = LIGHT_DIRECTIONAL;
-        light1.color = Color(0.7f, 0.7f, 0.5f);
+        light1.color = Color(0.8f, 0.8f, 0.8f);
         light1.specularIntensity = 1.0f;
         light1.castShadows = true;
         light1.shadowBias = BiasParameters(0.00025f, 0.5f);
@@ -138,7 +138,7 @@ namespace NetworkHandler {
         }
 
         // Create billboard sets (floating smoke)
-        const uint NUM_BILLBOARDNODES = 100;
+        const uint NUM_BILLBOARDNODES = 0;
         const uint NUM_BILLBOARDS = 10;
 
         for (uint i = 0; i < NUM_BILLBOARDNODES; ++i)
@@ -211,8 +211,22 @@ namespace NetworkHandler {
 
         for (uint i = 0; i < 5; i++) {
             for (uint j = 0; j < 5; j++) {
-                Vector3 position = Vector3(i * 30, 0.0, j * 30);
+                Vector3 position = Vector3(i * 11, 0.0, j * 30);
                 Snake::Create(position);
+            }
+        }
+
+        for (int i = -5; i < 5; i++) {
+            for (int j = -5; j < 5; j++) {
+                Vector3 position = Vector3(i * 14 + Random(10.0f), 0.0, j * 14 + + Random(10.0f));
+                AppleTree::Create(position);
+            }
+        }
+
+        for (int i = -10; i < 10; i++) {
+            for (int j = -10; j < 10; j++) {
+                Vector3 position = Vector3(i * 100 + Random(50.0f), 0.0, j * 100 + + Random(50.0f));
+                Clouds::Create(position);
             }
         }
     }

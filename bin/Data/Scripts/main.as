@@ -12,6 +12,8 @@
 #include "Player/player.as"
 #include "Pacman/pacman.as"
 #include "Snake/snake.as"
+#include "Tree/apple_tree.as"
+#include "Clouds/clouds.as"
 
 Scene@ scene_;
 uint screenJoystickIndex = M_MAX_UNSIGNED; // Screen joystick index for navigational controls (mobile platforms only)

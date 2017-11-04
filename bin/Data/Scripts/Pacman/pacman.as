@@ -4,7 +4,6 @@ namespace Pacman {
 
 	Node@ Create(Vector3 position)
 	{
-		log.Info("Creating pacman...");
 		Node@ pacmanNode = scene_.CreateChild("PlayerNode");
 		position.y = NetworkHandler::terrain.GetHeight(position) + 2;
 		pacmanNode.position = position;

@@ -7,7 +7,6 @@ namespace Snake {
 
 	Node@ Create(Vector3 position)
 	{
-		log.Info("Creating snake...");
 		Node@ snakeNode = scene_.CreateChild("SnakeNode");
 		position.y = NetworkHandler::terrain.GetHeight(position) + 2;
 		snakeNode.position = position;
@@ -51,7 +50,6 @@ namespace Snake {
 
 	Node@ createSnakeBodyPart(SnakeBody@ parent)
 	{
-		log.Info("Snake length " + parent.body.length);
 		Node@ lastNode = parent.body[parent.body.length - 1];
 		Vector3 position = lastNode.position;
 		position -= lastNode.direction.Normalized() * 0.9f;
@@ -69,7 +67,6 @@ namespace Snake {
         pacmanObject.material = cache.GetResource("Material", "Materials/Stone.xml");
         pacmanObject.castShadows = true;
         pacmanObject.materials[0] = cache.GetResource("Material", "Materials/Snake.xml");
-        pacmanObject.materials[1] = cache.GetResource("Material", "Materials/Black.xml");
         //pacmanObject.materials[1] = cache.GetResource("Material", "Materials/Black.xml");
 
         // Create rigidbody, and set non-zero mass so that the body becomes dynamic
@@ -93,7 +90,7 @@ namespace Snake {
 
 	Vector3 getRandomPos(Node@ node, float timeStep)
 	{
-		Vector3 pos = node.position;
+		Vector3 pos = node.worldPosition;
 		Vector3 randomPos = pos;
 		randomPos = Quaternion(50, Vector3::UP) * randomPos * 10;
 		return pos + randomPos;
