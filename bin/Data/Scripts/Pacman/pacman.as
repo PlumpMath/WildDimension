@@ -1,6 +1,6 @@
 namespace Pacman {
 	Array<Node@> pacmans;
-	const float PACMAN_MOVE_SPEED = 0.6f;
+	const float PACMAN_MOVE_SPEED = 0.1f;
 
 	Node@ Create(Vector3 position)
 	{
@@ -17,6 +17,8 @@ namespace Pacman {
         pacmanObject.model = cache.GetResource("Model", "Models/Models/Pacman.mdl");
         pacmanObject.material = cache.GetResource("Material", "Materials/Stone.xml");
         pacmanObject.castShadows = true;
+        pacmanObject.materials[0] = cache.GetResource("Material", "Materials/Pacman.xml");
+        pacmanObject.materials[1] = cache.GetResource("Material", "Materials/Black.xml");
 
         // Create rigidbody, and set non-zero mass so that the body becomes dynamic
 	    RigidBody@ pacmanBody = pacmanNode.CreateComponent("RigidBody");
@@ -47,14 +49,14 @@ namespace Pacman {
 
 			Vector3 targetPosition = cameraNode.position;
 			targetPosition.y = pacmanNode.position.y;
-			pacmanNode.LookAt(targetPosition);
+			//pacmanNode.LookAt(targetPosition);
 
 			Vector3 moveDir = pacmanNode.rotation * Vector3::FORWARD * PACMAN_MOVE_SPEED;
 			if (moveDir.lengthSquared > 0.0f) {
 	            moveDir.Normalize();
 			}
 
-			pacmanBody.ApplyImpulse(moveDir);
+			//pacmanBody.ApplyImpulse(moveDir);
 
 			Vector3 velocity = pacmanBody.linearVelocity;
 			Vector3 planeVelocity(velocity.x, 0.0f, velocity.z);
