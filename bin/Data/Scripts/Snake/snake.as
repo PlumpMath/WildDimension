@@ -103,6 +103,7 @@ namespace Snake {
 		Node@ nearestApple;
 		int nearestLength = 0;
 		int nearestIndex = -1;
+		apples.Push(cameraNode);
 		
 		for (uint i = 0; i < apples.length; i++) {
 			Node@ apple = apples[i];
@@ -119,11 +120,6 @@ namespace Snake {
 
 		if (nearestIndex >= 0) {
 			nearestApple = apples[nearestIndex];
-		}
-
-		//If no apples are near, chase the player
-		if (nearestApple is null) {
-			nearestApple = cameraNode;
 		}
 
 		return nearestApple;
