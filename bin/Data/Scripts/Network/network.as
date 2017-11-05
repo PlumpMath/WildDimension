@@ -30,7 +30,7 @@ namespace NetworkHandler {
         light1.specularIntensity = 1.0f;
         light1.castShadows = true;
         light1.shadowBias = BiasParameters(0.00025f, 0.5f);
-        light1.shadowCascade = CascadeParameters(10.0f, 100.0f, 200.0f, 0.0f, 0.8f);
+        light1.shadowCascade = CascadeParameters(10.0f, 50.0f, 200.0f, 0.0f, 0.8f);
         
         /*
         // Create a "floor" consisting of several tiles
