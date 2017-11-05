@@ -1,7 +1,7 @@
 namespace Snake {
 	class SnakeBody {
 		Array<Node@> body;
-		Vector3 targetPosition;
+		Node@ targetNode;
 		float lastTurn;
 	};
 	const float SNAKE_MOVE_SPEED = 0.05f;
@@ -45,7 +45,7 @@ namespace Snake {
 
 	    SnakeBody snakeBody;
 	    snakeBody.body.Push(snakeNode);
-	    snakeBody.targetPosition = getRandomPos();
+	    snakeBody.targetNode = getNearestApple(snakeBody.body[0].worldPosition);
 	    snakeBody.lastTurn = 0.0f;
 	    for (uint i = 0; i < 3; i++) {
 	    	snakeBody.body.Push(createSnakeBodyPart(snakeBody));
@@ -96,9 +96,33 @@ namespace Snake {
 		return snakeNode;
 	}
 
-	Vector3 getRandomPos()
+	Node@ getNearestApple(Vector3 position)
 	{
-		return Vector3(-500.0f + Random(500), -500.0f + Random(500), -500.0f + Random(500));
+		//return Vector3(-500.0f + Random(500), -500.0f + Random(500), -500.0f + Random(500));
+		Array<Node@> apples = scene_.GetNodesWithTag("Apple");
+		Node@ nearestApple;
+		int nearestLength = 0;
+		int nearestIndex = -1;
+		apples.Push(cameraNode);
+		
+		for (uint i = 0; i < apples.length; i++) {
+			Node@ apple = apples[i];
+			Vector3 diff = Vector3(apple.worldPosition - position);
+			float lengthSquared = diff.lengthSquared;
+			if (apple.enabled == false) {
+				continue;
+			}
+			if (nearestLength == 0 || nearestLength > lengthSquared) {
+				nearestLength = lengthSquared;
+				nearestIndex = i;
+			}
+		}
+
+		if (nearestIndex >= 0) {
+			nearestApple = apples[nearestIndex];
+		}
+
+		return nearestApple;
 	}
 
 	void HandleUpdate(StringHash eventType, VariantMap& eventData)
@@ -106,25 +130,29 @@ namespace Snake {
 		float timeStep = eventData["TimeStep"].GetFloat();
 		for (uint i = 0; i < snakes.length; i++) {
 			SnakeBody@ snakeBody = snakes[i];
-			if (time.elapsedTime % 5 < 1.0f && snakeBody.lastTurn > 0.5f + Random(1.0f)) {
-				snakeBody.targetPosition = getRandomPos();
+			//if (snakeBody.targetNode.enabled == false) {
+				snakeBody.targetNode = getNearestApple(snakeBody.body[0].worldPosition);
+			//}
+			/*if (time.elapsedTime % 5 < 1.0f && snakeBody.lastTurn > 0.5f + Random(1.0f)) {
+				snakeBody.targetNode = getNearestApple(snakeBody.body[0].position);
 				snakeBody.lastTurn = 0.0f;
 			} else {
 				snakeBody.lastTurn += timeStep;
-			}
-			MoveBodyPart(0, snakeBody.body[0], snakeBody.targetPosition, timeStep);
+			}*/
+			MoveBodyPart(i, 0, snakeBody.body[0], snakeBody.targetNode, timeStep);
 			for (uint j = 1; j < snakeBody.body.length; j++) {
-				MoveBodyPart(j, snakeBody.body[j], snakeBody.body[j-1].position, timeStep);
+				MoveBodyPart(i, j, snakeBody.body[j], snakeBody.body[j-1], timeStep);
 			}
 		}
 	}
 
-	void MoveBodyPart(int ind, Node@ node, Vector3 targetPosition, float timeStep)
+	void MoveBodyPart(int snakeIndex, int ind, Node@ node, Node@ targetNode, float timeStep)
 	{
+		Vector3 targetPosition = targetNode.worldPosition;
 		RigidBody@ rigidBody = node.GetComponent("RigidBody");
 
 		targetPosition.y = node.position.y;
-		node.LookAt(targetPosition);
+		node.direction = targetPosition - node.position;
 
 		Vector3 moveDir = node.rotation * Vector3::FORWARD * SNAKE_MOVE_SPEED;
 		if (moveDir.lengthSquared > 0.0f) {
@@ -134,6 +162,12 @@ namespace Snake {
 		Vector3 diff = node.position - targetPosition;
 		if (diff.lengthSquared < 2.0f) {
 			moveDir = Vector3::ZERO;
+			if (ind == 0) {
+				if (targetNode.HasTag("Apple")) {
+					targetNode.SetDeepEnabled(false);
+					snakes[snakeIndex].body.Push(createSnakeBodyPart(snakes[snakeIndex]));
+				}
+			}
 		} else if (ind > 0 && diff.lengthSquared > 3) {
 			moveDir *= 2;
 		}

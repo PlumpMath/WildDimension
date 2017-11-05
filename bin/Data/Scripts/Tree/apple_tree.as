@@ -48,20 +48,21 @@ namespace AppleTree {
 	    tree.lifetime = 10.0f + Random(5.0f);
 	    tree.stage = 0;
 	    tree.model = object;
-	    CreateTreeApples(5 + RandomInt(10), tree);
+	    CreateApples(5 + RandomInt(10), tree);
 	    trees.Push(tree);
 		return treeNode;
 	}
 
-	void CreateTreeApples(int count, Tree@ parentTree)
+	void CreateApples(int count, Tree@ parentTree)
 	{
 		for (uint i = 0; i < count; i++) {
-			Node@ apple = parentTree.node.CreateChild("Apple");
+			Node@ apple = scene_.CreateChild("Apple");
+			apple.AddTag("Apple");
 			Vector3 position = parentTree.node.position;
-			position.x = -20.0f + Random(40.0f);
-			position.z = -20.0f + Random(40.0f);
+			position.x += -30.0f + Random(60.0f);
+			position.z += -30.0f + Random(60.0f);
 			position.y = NetworkHandler::terrain.GetHeight(position);
-			apple.position = position;
+			apple.worldPosition = position;
 
 		    StaticModel@ object = apple.CreateComponent("StaticModel");
 	    	object.model = cache.GetResource("Model", "Models/Models/Apple.mdl");
