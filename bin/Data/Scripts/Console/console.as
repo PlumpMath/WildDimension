@@ -45,7 +45,6 @@ namespace ConsoleHandler {
 
     void ShowInfo()
     {
-        log.Error("Testing");
         log.Info("######################################");
         log.Info("# Hostname      : " + GetHostName());
         log.Info("# Login         : " + GetLoginName());
@@ -59,7 +58,6 @@ namespace ConsoleHandler {
 
     void Subscribe()
     {
-        log.Info("Subscribing console commands...");
         SubscribeToEvent("ConsoleCommand", "ConsoleHandler::HandleConsoleCommand");
     }
 

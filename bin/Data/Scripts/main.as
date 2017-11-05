@@ -185,7 +185,6 @@ void SampleInitMouseMode(MouseMode mode)
 
 void HandleReload(StringHash eventType, VariantMap& eventData)
 {
-    log.Info("Reloading the scripts...");
     Stop();
     Start();
 }
