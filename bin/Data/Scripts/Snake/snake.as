@@ -1,9 +1,13 @@
 namespace Snake {
 	class SnakeBody {
 		Array<Node@> body;
+		Vector3 targetPosition;
+		float lastTurn;
 	};
 	const float SNAKE_MOVE_SPEED = 0.05f;
 	Array<SnakeBody> snakes;
+	uint collisionMask = 2;
+	uint collisionLayer = 1;
 
 	Node@ Create(Vector3 position)
 	{
@@ -24,8 +28,9 @@ namespace Snake {
 
         // Create rigidbody, and set non-zero mass so that the body becomes dynamic
 	    RigidBody@ pacmanBody = snakeNode.CreateComponent("RigidBody");
-	    pacmanBody.collisionLayer = 1;
-	    pacmanBody.mass = 1.0f;
+	    pacmanBody.collisionLayer = collisionLayer;
+	    //pacmanBody.collisionMask = collisionMask;
+	    pacmanBody.mass = 2.0f;
 
 	    // Set zero angular factor so that physics doesn't turn the character on its own.
 	    // Instead we will control the character yaw manually
@@ -40,7 +45,9 @@ namespace Snake {
 
 	    SnakeBody snakeBody;
 	    snakeBody.body.Push(snakeNode);
-	    for (uint i = 0; i < 10; i++) {
+	    snakeBody.targetPosition = getRandomPos();
+	    snakeBody.lastTurn = 0.0f;
+	    for (uint i = 0; i < 30; i++) {
 	    	snakeBody.body.Push(createSnakeBodyPart(snakeBody));
 	    }
 	    snakes.Push(snakeBody);
@@ -71,7 +78,8 @@ namespace Snake {
 
         // Create rigidbody, and set non-zero mass so that the body becomes dynamic
 	    RigidBody@ pacmanBody = snakeNode.CreateComponent("RigidBody");
-	    pacmanBody.collisionLayer = 1;
+	    pacmanBody.collisionLayer = collisionLayer;
+	    //pacmanBody.collisionMask = collisionMask;
 	    pacmanBody.mass = 1.0f;
 
 	    // Set zero angular factor so that physics doesn't turn the character on its own.
@@ -88,12 +96,9 @@ namespace Snake {
 		return snakeNode;
 	}
 
-	Vector3 getRandomPos(Node@ node, float timeStep)
+	Vector3 getRandomPos()
 	{
-		Vector3 pos = node.worldPosition;
-		Vector3 randomPos = pos;
-		randomPos = Quaternion(50, Vector3::UP) * randomPos * 10;
-		return pos + randomPos;
+		return Vector3(-500.0f + Random(500), -500.0f + Random(500), -500.0f + Random(500));
 	}
 
 	void HandleUpdate(StringHash eventType, VariantMap& eventData)
@@ -101,14 +106,20 @@ namespace Snake {
 		float timeStep = eventData["TimeStep"].GetFloat();
 		for (uint i = 0; i < snakes.length; i++) {
 			SnakeBody@ snakeBody = snakes[i];
-			MoveBodyPart(0, snakeBody.body[0], getRandomPos(snakeBody.body[0], timeStep));
+			if (time.elapsedTime % 5 < 1.0f && snakeBody.lastTurn > 0.5f + Random(1.0f)) {
+				snakeBody.targetPosition = getRandomPos();
+				snakeBody.lastTurn = 0.0f;
+			} else {
+				snakeBody.lastTurn += timeStep;
+			}
+			MoveBodyPart(0, snakeBody.body[0], snakeBody.targetPosition, timeStep);
 			for (uint j = 1; j < snakeBody.body.length; j++) {
-				MoveBodyPart(j, snakeBody.body[j], snakeBody.body[j-1].position);
+				MoveBodyPart(j, snakeBody.body[j], snakeBody.body[j-1].position, timeStep);
 			}
 		}
 	}
 
-	void MoveBodyPart(int ind, Node@ node, Vector3 targetPosition)
+	void MoveBodyPart(int ind, Node@ node, Vector3 targetPosition, float timeStep)
 	{
 		RigidBody@ rigidBody = node.GetComponent("RigidBody");
 
@@ -125,6 +136,9 @@ namespace Snake {
 			moveDir = Vector3::ZERO;
 		} else if (ind > 0 && diff.lengthSquared > 3) {
 			moveDir *= 2;
+		}
+		if (ind == 0) {
+			node.Pitch(timeStep * 10);
 		}
 
 		rigidBody.ApplyImpulse(moveDir);

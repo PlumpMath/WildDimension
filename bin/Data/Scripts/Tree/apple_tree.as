@@ -1,5 +1,11 @@
 namespace AppleTree {
-	Array<Node@> trees;
+	class Tree {
+		Node@ node;
+		float lifetime;
+		StaticModel@ model;
+		uint stage;
+	}
+	Array<Tree@> trees;
 
 	Node@ Create(Vector3 position)
 	{
@@ -18,8 +24,8 @@ namespace AppleTree {
     	}
     	treeNode.SetScale(0.8f + Random(0.5f));
         object.castShadows = true;
-        object.materials[0] = cache.GetResource("Material", "Materials/Stone.xml");
-        object.materials[1] = cache.GetResource("Material", "Materials/Snake.xml");
+        object.materials[0] = cache.GetResource("Material", "Materials/Wood.xml");
+        object.materials[1] = cache.GetResource("Material", "Materials/TreeGreen.xml");
 
         // Create rigidbody, and set non-zero mass so that the body becomes dynamic
 	    RigidBody@ body = treeNode.CreateComponent("RigidBody");
@@ -36,7 +42,33 @@ namespace AppleTree {
 	    // Set a capsule shape for collision
 	    CollisionShape@ shape = treeNode.CreateComponent("CollisionShape");
 	    shape.SetConvexHull(object.model);
-	    trees.Push(treeNode);
+	    Tree tree;
+	    tree.node = treeNode;
+	    tree.lifetime = 10.0f + Random(5.0f);
+	    tree.stage = 0;
+	    tree.model = object;
+	    trees.Push(tree);
 		return treeNode;
+	}
+
+	void HandleUpdate(StringHash eventType, VariantMap& eventData)
+	{
+		float timeStep = eventData["TimeStep"].GetFloat();
+		for (uint i = 0; i < trees.length; i++) {
+			Tree@ tree = trees[i];
+			tree.lifetime -= timeStep;
+			if (tree.lifetime < 0) {
+				tree.stage++;
+				tree.lifetime = 10.0f + Random(5.0f);
+				if (tree.stage > 1) {
+					tree.stage = 0;
+				}
+				if (tree.stage == 0) {
+					tree.model.materials[1] = cache.GetResource("Material", "Materials/TreeGreen.xml");
+				} else if (tree.stage == 1) {
+					tree.model.materials[1] = cache.GetResource("Material", "Materials/TreeYellow.xml");
+				}
+			}
+		}
 	}
 }

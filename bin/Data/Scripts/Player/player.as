@@ -17,6 +17,7 @@ namespace Player {
 		// Create rigidbody, and set non-zero mass so that the body becomes dynamic
 	    playerBody = playerNode.CreateComponent("RigidBody");
 	    playerBody.collisionLayer = 1;
+        //playerBody.collisionMask = 2;
 	    playerBody.mass = 1.0f;
 
 	    // Set zero angular factor so that physics doesn't turn the character on its own.

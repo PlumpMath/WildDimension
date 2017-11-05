@@ -209,16 +209,16 @@ namespace NetworkHandler {
             }
         }
 
-        for (int i = -5; i < 5; i+=2) {
-            for (int j = -5; j < 5; j+=2) {
-                Vector3 position = Vector3(i * 50 + Random(30.0f), 0.0, j * 50 + Random(30.0f));
+        for (int i = -5; i < 5; i+=5) {
+            for (int j = -5; j < 5; j+=5) {
+                Vector3 position = Vector3(i * 10 + Random(30.0f), 0.0, j * 10 + Random(30.0f));
                 Snake::Create(position);
             }
         }
 
-        for (int i = -5; i < 5; i+=2) {
-            for (int j = -5; j < 5; j+=2) {
-                Vector3 position = Vector3(i * 80 + Random(40.0f), 0.0, j * 80 + + Random(40.0f));
+        for (int i = -5; i < 5; i+=3) {
+            for (int j = -5; j < 5; j+=3) {
+                Vector3 position = Vector3(i * 5 + Random(2.0f), 0.0, j * 5 + + Random(2.0f));
                 AppleTree::Create(position);
             }
         }
@@ -253,6 +253,7 @@ namespace NetworkHandler {
     {
         Pacman::HandleUpdate(eventType, eventData);
         Snake::HandleUpdate(eventType, eventData);
+        AppleTree::HandleUpdate(eventType, eventData);
 
         //Get client terrain if it not exist
         if (terrain is null && scene_ !is null) {
