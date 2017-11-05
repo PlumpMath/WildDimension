@@ -26,7 +26,7 @@ namespace NetworkHandler {
         lightNode1.direction = Vector3(0.5f, -1.0f, 0.5f);
         Light@ light1 = lightNode1.CreateComponent("Light");
         light1.lightType = LIGHT_DIRECTIONAL;
-        light1.color = Color(0.7f, 0.7f, 0.5f);
+        light1.color = Color(0.8f, 0.8f, 0.8f);
         light1.specularIntensity = 1.0f;
         light1.castShadows = true;
         light1.shadowBias = BiasParameters(0.00025f, 0.5f);
@@ -138,7 +138,7 @@ namespace NetworkHandler {
         }
 
         // Create billboard sets (floating smoke)
-        const uint NUM_BILLBOARDNODES = 100;
+        const uint NUM_BILLBOARDNODES = 0;
         const uint NUM_BILLBOARDS = 10;
 
         for (uint i = 0; i < NUM_BILLBOARDNODES; ++i)
@@ -202,12 +202,35 @@ namespace NetworkHandler {
             light.shadowNearFarRatio = 0.01f;
         }
 
-        for (uint i = 0; i < 10; i++) {
-            for (uint j = 0; j < 10; j++) {
-                Vector3 position = Vector3(i * 10, 0.0, j * 10);
+        for (int i = -5; i < 5; i+=2) {
+            for (int j = -5; j < 5; j+=2) {
+                Vector3 position = Vector3(i * 40 + Random(20.0f), 0.0, j * 40 + Random(20.0f));
                 Pacman::Create(position);
             }
         }
+
+        for (int i = -5; i < 5; i+=5) {
+            for (int j = -5; j < 5; j+=5) {
+                Vector3 position = Vector3(i * 10 + Random(30.0f), 0.0, j * 10 + Random(30.0f));
+                Snake::Create(position);
+            }
+        }
+
+        for (int i = -5; i < 5; i+=3) {
+            for (int j = -5; j < 5; j+=3) {
+                Vector3 position = Vector3(i * 5 + Random(2.0f), 0.0, j * 5 + + Random(2.0f));
+                AppleTree::Create(position);
+            }
+        }
+
+        for (int i = -10; i < 10; i+=3) {
+            for (int j = -10; j < 10; j+=3) {
+                Vector3 position = Vector3(i * 100 + Random(100.0f), 0.0, j * 100 + + Random(100.0f));
+                Clouds::Create(position);
+            }
+        }
+
+        Axe::Create();
     }
 
     
@@ -229,6 +252,8 @@ namespace NetworkHandler {
     void HandlePostUpdate(StringHash eventType, VariantMap& eventData)
     {
         Pacman::HandleUpdate(eventType, eventData);
+        Snake::HandleUpdate(eventType, eventData);
+        AppleTree::HandleUpdate(eventType, eventData);
 
         //Get client terrain if it not exist
         if (terrain is null && scene_ !is null) {
@@ -243,7 +268,7 @@ namespace NetworkHandler {
         Array<Node@> lightNodes = scene_.GetChildrenWithComponent("Light");
         Array<Node@> billboardNodes = scene_.GetChildrenWithComponent("BillboardSet");
 
-        const float LIGHT_ROTATION_SPEED = 20.0f;
+        const float LIGHT_ROTATION_SPEED = 0.50f;
         const float BILLBOARD_ROTATION_SPEED = 50.0f;
 
         // Rotate the lights around the world Y-axis

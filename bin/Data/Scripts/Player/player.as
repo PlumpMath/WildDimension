@@ -8,6 +8,7 @@ namespace Player {
 	Node@ playerNode;
 	Controls playerControls;
 	RigidBody@ playerBody;
+    const float PLAYER_BRAKE_FORCE = 0.01f;
 
 	Node@ CreatePlayer()
 	{
@@ -16,6 +17,7 @@ namespace Player {
 		// Create rigidbody, and set non-zero mass so that the body becomes dynamic
 	    playerBody = playerNode.CreateComponent("RigidBody");
 	    playerBody.collisionLayer = 1;
+        //playerBody.collisionMask = 2;
 	    playerBody.mass = 1.0f;
 
 	    // Set zero angular factor so that physics doesn't turn the character on its own.
@@ -90,11 +92,17 @@ namespace Player {
 
         playerBody.ApplyImpulse(lookAt2 * moveDir);
 
-        Vector3 brakeForce = -planeVelocity * 0.2f;
+        Vector3 brakeForce = -planeVelocity * PLAYER_BRAKE_FORCE;
         playerBody.ApplyImpulse(brakeForce);
 
         if (jump) {
         	playerBody.ApplyImpulse(Vector3::UP * 5);
+        }
+
+        if (playerNode.position.y < NetworkHandler::terrain.GetHeight(playerNode.position)) {
+            Vector3 position = playerNode.position;
+            position.y = NetworkHandler::terrain.GetHeight(playerNode.position);
+            playerNode.position = position;
         }
 	}
 

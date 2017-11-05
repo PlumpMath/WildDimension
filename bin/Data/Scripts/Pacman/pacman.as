@@ -1,10 +1,9 @@
 namespace Pacman {
 	Array<Node@> pacmans;
-	const float PACMAN_MOVE_SPEED = 0.1f;
+	const float PACMAN_MOVE_SPEED = 0.05f;
 
 	Node@ Create(Vector3 position)
 	{
-		log.Info("Creating pacman...");
 		Node@ pacmanNode = scene_.CreateChild("PlayerNode");
 		position.y = NetworkHandler::terrain.GetHeight(position) + 2;
 		pacmanNode.position = position;
@@ -40,23 +39,31 @@ namespace Pacman {
 		return pacmanNode;
 	}
 
+	Vector3 getRandomPos(Node@ node, float timeStep)
+	{
+		Vector3 pos = node.position;
+		Vector3 randomPos = pos;
+		randomPos = Quaternion(90.0f, Vector3::UP) * randomPos * 10;
+		return pos + randomPos;
+	}
+
 	void HandleUpdate(StringHash eventType, VariantMap& eventData)
 	{
+		float timeStep = eventData["TimeStep"].GetFloat();
 		for (uint i = 0; i < pacmans.length; i++) {
 			Node@ pacmanNode = pacmans[i];
 			RigidBody@ pacmanBody = pacmans[i].GetComponent("RigidBody");
-			float timeStep = eventData["TimeStep"].GetFloat();
 
-			Vector3 targetPosition = cameraNode.position;
+			Vector3 targetPosition = getRandomPos(pacmanNode, timeStep);
 			targetPosition.y = pacmanNode.position.y;
-			//pacmanNode.LookAt(targetPosition);
+			pacmanNode.LookAt(targetPosition);
 
 			Vector3 moveDir = pacmanNode.rotation * Vector3::FORWARD * PACMAN_MOVE_SPEED;
 			if (moveDir.lengthSquared > 0.0f) {
 	            moveDir.Normalize();
 			}
 
-			//pacmanBody.ApplyImpulse(moveDir);
+			pacmanBody.ApplyImpulse(moveDir);
 
 			Vector3 velocity = pacmanBody.linearVelocity;
 			Vector3 planeVelocity(velocity.x, 0.0f, velocity.z);
