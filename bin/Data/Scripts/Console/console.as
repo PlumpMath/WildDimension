@@ -87,6 +87,8 @@ namespace ConsoleHandler {
             SendEvent("ReloadAll");
         } else if (command == "clientlist") {
             SendEvent("ClientsList");
+        } else if (command == "get axe") {
+            SendEvent("PickupAxe");
         }
     }
 }
