@@ -56,7 +56,6 @@ namespace AppleTree {
 	void CreateTreeApples(int count, Tree@ parentTree)
 	{
 		for (uint i = 0; i < count; i++) {
-			log.Info("Creating apple");
 			Node@ apple = parentTree.node.CreateChild("Apple");
 			Vector3 position = parentTree.node.position;
 			position.x = -20.0f + Random(40.0f);

@@ -1,18 +1,20 @@
 namespace Axe {
 	Node@ node;
+	bool enabled = false;
 
 	Node@ Create()
 	{
-		Node@ node = cameraNode.CreateChild("SnakeNode");
+		node = cameraNode.CreateChild("Axe");
 		//position.y = NetworkHandler::terrain.GetHeight(position) + 1.0f;
 		//node.position = position;
 
 		Node@ adjNode = node.CreateChild("AdjNode");
-    	adjNode.rotation = Quaternion(-110.0f, Vector3::UP);
+    	adjNode.rotation = Quaternion(-100.0f, Vector3::UP);
 
     	Vector3 position = cameraNode.position;
-		position += cameraNode.direction * 0.8f;
-		position += node.rotation * Vector3::RIGHT * 0.5f;
+		position += cameraNode.direction * 0.6f;
+		position += node.rotation * Vector3::RIGHT * 0.3f;
+		position += node.rotation * Vector3::UP * -0.1f;
 		node.position = position;
 
 	    StaticModel@ object = adjNode.CreateComponent("StaticModel");
@@ -22,6 +24,19 @@ namespace Axe {
         object.castShadows = true;
         object.materials[0] = cache.GetResource("Material", "Materials/Axe.xml");
 
+        node.SetDeepEnabled(enabled);
+
 		return node;
 	}
+
+	void Subscribe()
+    {
+        SubscribeToEvent("PickupAxe", "Axe::HandlePickup");
+    }
+
+    void HandlePickup(StringHash eventType, VariantMap& eventData)
+    {
+    	Axe::enabled = true;
+    	Axe::node.SetDeepEnabled(Axe::enabled);
+    }
 }

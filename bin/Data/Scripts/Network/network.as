@@ -218,7 +218,7 @@ namespace NetworkHandler {
 
         for (int i = -5; i < 5; i+=3) {
             for (int j = -5; j < 5; j+=3) {
-                Vector3 position = Vector3(i * 5 + Random(2.0f), 0.0, j * 5 + + Random(2.0f));
+                Vector3 position = Vector3(i * 30 + Random(2.0f), 0.0, j * 30 + + Random(2.0f));
                 AppleTree::Create(position);
             }
         }
@@ -242,6 +242,7 @@ namespace NetworkHandler {
         SubscribeToEvent("ClientIdentity", "NetworkHandler::HandleClientIdentity");
         SubscribeToEvent("ClientsList", "NetworkHandler::HandleClientsList");
         //SubscribeToEvent("ServerDisconnected", "HandleConnectionStatus");
+        Axe::Subscribe();
     }
 
     void HandleConnectionStatus(StringHash eventType, VariantMap& eventData)

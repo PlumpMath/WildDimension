@@ -14,7 +14,6 @@ namespace GUIHandler {
         if (engine.headless) {
             return;
         }
-        log.Info("Creating logo");
         // Get logo texture
         Texture2D@ logoTexture = cache.GetResource("Texture2D", "Textures/FishBoneLogo.png");
         if (logoTexture is null)
@@ -51,7 +50,6 @@ namespace GUIHandler {
     void RemoveLogo()
     {
         if (logoSprite !is null) {
-            log.Info("Removing logo");
             logoSprite.Remove();
             logoSprite = null;
         }
@@ -94,7 +92,6 @@ namespace GUIHandler {
 
     void ToggleLogo()
     {
-        log.Info("Toggling logo");
         if (logoSprite !is null) {
             RemoveLogo();
         } else {
