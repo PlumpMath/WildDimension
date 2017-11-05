@@ -56,7 +56,7 @@ namespace RaspberryBush {
 			Vector3 position = parentTree.node.position;
 			position.x += -30.0f + Random(60.0f);
 			position.z += -30.0f + Random(60.0f);
-			position.y = NetworkHandler::terrain.GetHeight(position);
+			position.y = NetworkHandler::terrain.GetHeight(position) + 0.2f;
 			apple.worldPosition = position;
 
 		    StaticModel@ object = apple.CreateComponent("StaticModel");
@@ -87,6 +87,19 @@ namespace RaspberryBush {
 		}
 	}
 
+	void ReenableBerries(Bush tree)
+	{
+		for (uint i = 0; i < tree.berries.length; i++) {
+			Node@ berry = tree.berries[i];
+			Vector3 position = tree.node.position;
+			position.x += -30.0f + Random(60.0f);
+			position.z += -30.0f + Random(60.0f);
+			position.y = NetworkHandler::terrain.GetHeight(position) + 0.2f;
+			berry.worldPosition = position;
+			berry.SetDeepEnabled(true);
+		}
+	}
+
 	void HandleUpdate(StringHash eventType, VariantMap& eventData)
 	{
 		float timeStep = eventData["TimeStep"].GetFloat();
@@ -100,6 +113,7 @@ namespace RaspberryBush {
 					tree.stage = 0;
 				}
 				if (tree.stage == 0) {
+
 					tree.model.materials[1] = cache.GetResource("Material", "Materials/TreeGreen.xml");
 				} else if (tree.stage == 1) {
 					tree.model.materials[1] = cache.GetResource("Material", "Materials/TreeYellow.xml");

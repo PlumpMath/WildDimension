@@ -61,7 +61,7 @@ namespace AppleTree {
 			Vector3 position = parentTree.node.position;
 			position.x += -30.0f + Random(60.0f);
 			position.z += -30.0f + Random(60.0f);
-			position.y = NetworkHandler::terrain.GetHeight(position);
+			position.y = NetworkHandler::terrain.GetHeight(position) + 0.2f;
 			apple.worldPosition = position;
 
 		    StaticModel@ object = apple.CreateComponent("StaticModel");
@@ -92,6 +92,19 @@ namespace AppleTree {
 		}
 	}
 
+	void ReenableApples(Tree tree)
+	{
+		for (uint i = 0; i < tree.apples.length; i++) {
+			Node@ apple = tree.apples[i];
+			Vector3 position = tree.node.position;
+			position.x += -30.0f + Random(60.0f);
+			position.z += -30.0f + Random(60.0f);
+			position.y = NetworkHandler::terrain.GetHeight(position) + 0.2f;
+			apple.worldPosition = position;
+			apple.SetDeepEnabled(true);
+		}
+	}
+
 	void HandleUpdate(StringHash eventType, VariantMap& eventData)
 	{
 		float timeStep = eventData["TimeStep"].GetFloat();
@@ -106,6 +119,7 @@ namespace AppleTree {
 				}
 				if (tree.stage == 0) {
 					tree.model.materials[1] = cache.GetResource("Material", "Materials/TreeGreen.xml");
+					ReenableApples(tree);
 				} else if (tree.stage == 1) {
 					tree.model.materials[1] = cache.GetResource("Material", "Materials/TreeYellow.xml");
 				}

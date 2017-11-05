@@ -262,6 +262,7 @@ namespace NetworkHandler {
         Pacman::HandleUpdate(eventType, eventData);
         Snake::HandleUpdate(eventType, eventData);
         AppleTree::HandleUpdate(eventType, eventData);
+        RaspberryBush::HandleUpdate(eventType, eventData);
 
         //Get client terrain if it not exist
         if (terrain is null && scene_ !is null) {
