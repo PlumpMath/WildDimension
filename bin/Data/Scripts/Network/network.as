@@ -205,12 +205,12 @@ namespace NetworkHandler {
         for (int i = -5; i < 5; i+=2) {
             for (int j = -5; j < 5; j+=2) {
                 Vector3 position = Vector3(i * 40 + Random(20.0f), 0.0, j * 40 + Random(20.0f));
-                //Pacman::Create(position);
+                Pacman::Create(position);
             }
         }
 
-        for (int i = -5; i < 5; i+=10) {
-            for (int j = -5; j < 5; j+=10) {
+        for (int i = -5; i < 5; i+=3) {
+            for (int j = -5; j < 5; j+=3) {
                 Vector3 position = Vector3(i * 10 + Random(30.0f), 0.0, j * 10 + Random(30.0f));
                 Snake::Create(position);
             }
@@ -220,6 +220,13 @@ namespace NetworkHandler {
             for (int j = -5; j < 5; j+=3) {
                 Vector3 position = Vector3(i * 10 + Random(2.0f), 0.0, j * 10 + + Random(2.0f));
                 AppleTree::Create(position);
+            }
+        }
+
+        for (int i = -5; i < 5; i+=3) {
+            for (int j = -5; j < 5; j+=3) {
+                Vector3 position = Vector3(i * 12 + Random(2.0f), 0.0, j * 12 + + Random(2.0f));
+                RaspberryBush::Create(position);
             }
         }
 

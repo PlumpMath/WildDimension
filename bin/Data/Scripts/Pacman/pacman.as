@@ -39,12 +39,33 @@ namespace Pacman {
 		return pacmanNode;
 	}
 
-	Vector3 getRandomPos(Node@ node, float timeStep)
+	Node@ getNearestRaspberry(Vector3 position)
 	{
-		Vector3 pos = node.position;
-		Vector3 randomPos = pos;
-		randomPos = Quaternion(90.0f, Vector3::UP) * randomPos * 10;
-		return pos + randomPos;
+		//return Vector3(-500.0f + Random(500), -500.0f + Random(500), -500.0f + Random(500));
+		Array<Node@> apples = scene_.GetNodesWithTag("Raspberry");
+		Node@ nearestApple;
+		int nearestLength = 0;
+		int nearestIndex = -1;
+		apples.Push(cameraNode);
+		
+		for (uint i = 0; i < apples.length; i++) {
+			Node@ apple = apples[i];
+			Vector3 diff = Vector3(apple.worldPosition - position);
+			float lengthSquared = diff.lengthSquared;
+			if (apple.enabled == false) {
+				continue;
+			}
+			if (nearestLength == 0 || nearestLength > lengthSquared) {
+				nearestLength = lengthSquared;
+				nearestIndex = i;
+			}
+		}
+
+		if (nearestIndex >= 0) {
+			nearestApple = apples[nearestIndex];
+		}
+
+		return nearestApple;
 	}
 
 	void HandleUpdate(StringHash eventType, VariantMap& eventData)
@@ -54,13 +75,22 @@ namespace Pacman {
 			Node@ pacmanNode = pacmans[i];
 			RigidBody@ pacmanBody = pacmans[i].GetComponent("RigidBody");
 
-			Vector3 targetPosition = getRandomPos(pacmanNode, timeStep);
+			Node@ raspberryNode = getNearestRaspberry(pacmanNode.worldPosition);
+			Vector3 targetPosition = raspberryNode.worldPosition;
 			targetPosition.y = pacmanNode.position.y;
 			pacmanNode.LookAt(targetPosition);
 
 			Vector3 moveDir = pacmanNode.rotation * Vector3::FORWARD * PACMAN_MOVE_SPEED;
 			if (moveDir.lengthSquared > 0.0f) {
 	            moveDir.Normalize();
+			}
+
+			Vector3 diff = pacmanNode.worldPosition - targetPosition;
+			if (diff.lengthSquared < 2.0f) {
+				moveDir = Vector3::ZERO;
+				if (raspberryNode.HasTag("Raspberry")) {
+					raspberryNode.SetDeepEnabled(false);
+				}
 			}
 
 			pacmanBody.ApplyImpulse(moveDir);

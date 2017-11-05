@@ -13,6 +13,7 @@
 #include "Pacman/pacman.as"
 #include "Snake/snake.as"
 #include "Tree/apple_tree.as"
+#include "Tree/raspberry_bush.as"
 #include "Clouds/clouds.as"
 #include "Tools/Axe.as"
 

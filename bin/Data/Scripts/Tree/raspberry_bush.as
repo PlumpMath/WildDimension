@@ -1,16 +1,16 @@
-namespace AppleTree {
-	class Tree {
+namespace RaspberryBush {
+	class Bush {
 		Node@ node;
 		float lifetime;
 		StaticModel@ model;
 		uint stage;
-		Array<Node@> apples;
+		Array<Node@> berries;
 	}
-	Array<Tree@> trees;
+	Array<Bush@> trees;
 
 	Node@ Create(Vector3 position)
 	{
-		Node@ treeNode = scene_.CreateChild("AppleTree");
+		Node@ treeNode = scene_.CreateChild("RaspberryBush");
 		position.y = NetworkHandler::terrain.GetHeight(position);
 		treeNode.position = position;
 
@@ -18,15 +18,10 @@ namespace AppleTree {
     	adjNode.rotation = Quaternion(-90.0f, Vector3::UP);
 
 	    StaticModel@ object = adjNode.CreateComponent("StaticModel");
-	    if (RandomInt(2) == 1) {
-        	object.model = cache.GetResource("Model", "Models/Models/Apple_tree.mdl");
-    	} else {
-    		object.model = cache.GetResource("Model", "Models/Models/Apple_tree2.mdl");
-    	}
+        object.model = cache.GetResource("Model", "Models/Models/Raspberry_bush.mdl");
     	treeNode.SetScale(0.8f + Random(0.5f));
         object.castShadows = true;
         object.materials[0] = cache.GetResource("Material", "Materials/TreeGreen.xml");
-        object.materials[1] = cache.GetResource("Material", "Materials/TreeGreen.xml");
 
         // Create rigidbody, and set non-zero mass so that the body becomes dynamic
 	    RigidBody@ body = treeNode.CreateComponent("RigidBody");
@@ -43,21 +38,21 @@ namespace AppleTree {
 	    // Set a capsule shape for collision
 	    CollisionShape@ shape = treeNode.CreateComponent("CollisionShape");
 	    shape.SetConvexHull(object.model);
-	    Tree tree;
+	    Bush tree;
 	    tree.node = treeNode;
 	    tree.lifetime = 10.0f + Random(5.0f);
 	    tree.stage = 0;
 	    tree.model = object;
-	    CreateApples(5 + RandomInt(10), tree);
+	    CreateBerries(5 + RandomInt(10), tree);
 	    trees.Push(tree);
 		return treeNode;
 	}
 
-	void CreateApples(int count, Tree@ parentTree)
+	void CreateBerries(int count, Bush@ parentTree)
 	{
 		for (uint i = 0; i < count; i++) {
-			Node@ apple = scene_.CreateChild("Apple");
-			apple.AddTag("Apple");
+			Node@ apple = scene_.CreateChild("Raspberry");
+			apple.AddTag("Raspberry");
 			Vector3 position = parentTree.node.position;
 			position.x += -30.0f + Random(60.0f);
 			position.z += -30.0f + Random(60.0f);
@@ -65,13 +60,13 @@ namespace AppleTree {
 			apple.worldPosition = position;
 
 		    StaticModel@ object = apple.CreateComponent("StaticModel");
-	    	object.model = cache.GetResource("Model", "Models/Models/Apple.mdl");
+	    	object.model = cache.GetResource("Model", "Models/Models/Raspberry.mdl");
 
 	    	apple.SetScale(0.8f + Random(0.5f));
 	        object.castShadows = true;
-	        object.materials[0] = cache.GetResource("Material", "Materials/Apple.xml");
+	        object.materials[0] = cache.GetResource("Material", "Materials/Raspberry.xml");
 	        object.materials[1] = cache.GetResource("Material", "Materials/TreeGreen.xml");
-	        object.materials[2] = cache.GetResource("Material", "Materials/Wood.xml");
+	        object.materials[2] = cache.GetResource("Material", "Materials/TreeGreen.xml");
 
 	        // Create rigidbody, and set non-zero mass so that the body becomes dynamic
 		    RigidBody@ body = apple.CreateComponent("RigidBody");
@@ -88,7 +83,7 @@ namespace AppleTree {
 		    CollisionShape@ shape = apple.CreateComponent("CollisionShape");
 		    shape.SetConvexHull(object.model);
 
-		    parentTree.apples.Push(apple);
+		    parentTree.berries.Push(apple);
 		}
 	}
 
@@ -96,7 +91,7 @@ namespace AppleTree {
 	{
 		float timeStep = eventData["TimeStep"].GetFloat();
 		for (uint i = 0; i < trees.length; i++) {
-			Tree@ tree = trees[i];
+			Bush@ tree = trees[i];
 			tree.lifetime -= timeStep;
 			if (tree.lifetime < 0) {
 				tree.stage++;
