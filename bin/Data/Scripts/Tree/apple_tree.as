@@ -25,7 +25,7 @@ namespace AppleTree {
     	}
     	treeNode.SetScale(0.8f + Random(0.5f));
         object.castShadows = true;
-        object.materials[0] = cache.GetResource("Material", "Materials/TreeGreen.xml");
+        object.materials[0] = cache.GetResource("Material", "Materials/Wood.xml");
         object.materials[1] = cache.GetResource("Material", "Materials/TreeGreen.xml");
 
         // Create rigidbody, and set non-zero mass so that the body becomes dynamic
