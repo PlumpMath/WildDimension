@@ -47,7 +47,7 @@ namespace Snake {
 	    snakeBody.body.Push(snakeNode);
 	    snakeBody.targetPosition = getRandomPos();
 	    snakeBody.lastTurn = 0.0f;
-	    for (uint i = 0; i < 30; i++) {
+	    for (uint i = 0; i < 3; i++) {
 	    	snakeBody.body.Push(createSnakeBodyPart(snakeBody));
 	    }
 	    snakes.Push(snakeBody);

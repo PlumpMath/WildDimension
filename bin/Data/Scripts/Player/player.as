@@ -8,7 +8,7 @@ namespace Player {
 	Node@ playerNode;
 	Controls playerControls;
 	RigidBody@ playerBody;
-    const float PLAYER_BRAKE_FORCE = 0.01f;
+    const float PLAYER_BRAKE_FORCE = 0.2f;
 
 	Node@ CreatePlayer()
 	{
