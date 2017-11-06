@@ -250,6 +250,7 @@ namespace NetworkHandler {
         SubscribeToEvent("ClientsList", "NetworkHandler::HandleClientsList");
         //SubscribeToEvent("ServerDisconnected", "HandleConnectionStatus");
         Axe::Subscribe();
+        Clouds::Subscribe();
     }
 
     void HandleConnectionStatus(StringHash eventType, VariantMap& eventData)

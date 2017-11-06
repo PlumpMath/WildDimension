@@ -4,6 +4,7 @@ namespace Clouds {
 		Node@ node;
 		float nextFall;
 		Array<Node@> raindrops;
+		bool active;
 	};
 	Array<Cloud> clouds;
 
@@ -29,8 +30,36 @@ namespace Clouds {
 	    Cloud cloud;
 	    cloud.node = cloudNode;
 	    cloud.nextFall = 1.0f + Random(1.0f);
+	    cloud.active = false;
 	    clouds.Push(cloud);
 		return cloudNode;
+	}
+
+	void Subscribe()
+	{
+		SubscribeToEvent("RainStart", "Clouds::HandleRainStart");
+		SubscribeToEvent("RainStop", "Clouds::HandleRainStop");
+	}
+
+	void HandleRainStart(StringHash eventType, VariantMap& eventData)
+	{
+		for (uint i = 0; i < clouds.length; i++) {
+			Cloud@ cloud = clouds[i];
+			cloud.active = true;
+		}
+	}
+
+	void HandleRainStop(StringHash eventType, VariantMap& eventData)
+	{
+		for (uint i = 0; i < clouds.length; i++) {
+			Cloud@ cloud = clouds[i];
+			cloud.active = false;
+			for (uint j = 0; j < cloud.raindrops.length; j++) {
+				cloud.raindrops[j].Remove();
+			}
+			cloud.raindrops.Clear();
+
+		}
 	}
 
 	void CreateRaindrop(Cloud@ parent)
@@ -77,6 +106,9 @@ namespace Clouds {
 		float timeStep = eventData["TimeStep"].GetFloat();
 		for (uint i = 0; i < clouds.length; i++) {
 			Cloud@ cloud = clouds[i];
+			if (cloud.active == false) {
+				continue;
+			}
 			cloud.nextFall -= timeStep;
 			if (cloud.nextFall < 0) {
 				CreateRaindrop(cloud);

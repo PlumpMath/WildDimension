@@ -87,6 +87,10 @@ namespace ConsoleHandler {
             SendEvent("ClientsList");
         } else if (command == "get axe") {
             SendEvent("PickupAxe");
+        } else if (command == "rain_start") {
+            SendEvent("RainStart");
+        } else if (command == "rain_stop") {
+            SendEvent("RainStop");
         }
     }
 }
