@@ -57,7 +57,7 @@ namespace Clouds {
 	    RigidBody@ body = raindrop.CreateComponent("RigidBody");
 	    body.collisionLayer = 1;
 	    body.mass = 10.0f;
-	    body.linearDamping = 0.2f;
+	    body.linearDamping = 0.3f;
 
 	    // Set zero angular factor so that physics doesn't turn the character on its own.
 	    // Instead we will control the character yaw manually

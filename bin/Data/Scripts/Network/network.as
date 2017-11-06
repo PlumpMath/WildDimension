@@ -230,9 +230,9 @@ namespace NetworkHandler {
             }
         }
 
-        for (int i = -10; i < 10; i+=20) {
-            for (int j = -10; j < 10; j+=20) {
-                Vector3 position = Vector3(i * 1 + Random(100.0f), 0.0, j * 1 + + Random(100.0f));
+        for (int i = -10; i < 10; i+=5) {
+            for (int j = -10; j < 10; j+=5) {
+                Vector3 position = Vector3(i * 10 + Random(20.0f), 0.0, j * 10 + + Random(20.0f));
                 Clouds::Create(position);
             }
         }
