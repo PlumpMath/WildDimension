@@ -58,12 +58,50 @@ namespace ActiveTool {
         return false;
     }
 
+    void AxeHit(Vector3 position)
+    {
+        Node@ branchNode = scene_.CreateChild("Branch");
+        branchNode.AddTag("Branch");
+        //Vector3 position = parentTree.node.position;
+        //position.x += -1.0f + Random(2.0f);
+        //position.z += -1.0f + Random(2.0f);
+        //position.y = NetworkHandler::terrain.GetHeight(position) + 0.2f;
+        branchNode.worldPosition = position;
+
+        StaticModel@ object = branchNode.CreateComponent("StaticModel");
+        object.model = cache.GetResource("Model", "Models/Models/Branch.mdl");
+
+        //branchNode.SetScale(0.8f + Random(0.5f));
+        object.castShadows = true;
+        object.materials[0] = cache.GetResource("Material", "Materials/Wood.xml");
+        //object.materials[1] = cache.GetResource("Material", "Materials/TreeGreen.xml");
+        //object.materials[2] = cache.GetResource("Material", "Materials/Wood.xml");
+
+        // Create rigidbody, and set non-zero mass so that the body becomes dynamic
+        RigidBody@ body = branchNode.CreateComponent("RigidBody");
+        body.collisionLayer = 1;
+        body.mass = 0.1f;
+
+        // Set zero angular factor so that physics doesn't turn the character on its own.
+        // Instead we will control the character yaw manually
+        //body.angularFactor = Vector3::ZERO;
+
+        // Set the rigidbody to signal collision also when in rest, so that we get ground collisions properly
+        body.collisionEventMode = COLLISION_ALWAYS;
+
+        CollisionShape@ shape = branchNode.CreateComponent("CollisionShape");
+        shape.SetConvexHull(object.model);
+    
+
+        branchNode.CreateScriptObject(scriptFile, "PickableObject");
+    }
+
     void HitObject()
     {
         Vector3 hitPos;
         Drawable@ hitDrawable;
 
-        if (Raycast(1.0f, hitPos, hitDrawable))
+        if (Raycast(2.0f, hitPos, hitDrawable))
         {
             // Check if target scene node already has a DecalSet component. If not, create now
             Node@ targetNode = hitDrawable.node;
@@ -75,9 +113,12 @@ namespace ActiveTool {
                 }
             } else {
                 if (targetNode.HasComponent("RigidBody")) {
-                RigidBody@ body = targetNode.GetComponent("RigidBody");
-                body.ApplyImpulse(Vector3(0, 10, 0));
+                    RigidBody@ body = targetNode.GetComponent("RigidBody");
+                    body.ApplyImpulse(Vector3(0, 10, 0));
+                }
             }
+            if (targetNode.name == "Tree") {
+                AxeHit(hitPos);
             }
             /*DecalSet@ decal = targetNode.GetComponent("DecalSet");
             if (decal is null)
