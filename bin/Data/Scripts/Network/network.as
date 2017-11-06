@@ -210,15 +210,15 @@ namespace NetworkHandler {
         }
 
         for (int i = -5; i < 5; i+=5) {
-            for (int j = -5; j < 5; j+=5) {
-                Vector3 position = Vector3(i * 10 + Random(30.0f), 0.0, j * 10 + Random(30.0f));
+            for (int j = -5; j < 5; j+=10) {
+                Vector3 position = Vector3(i * 30 + Random(30.0f), 0.0, j * 30 + Random(30.0f));
                 Snake::Create(position);
             }
         }
 
-        for (int i = -5; i < 5; i+=5) {
-            for (int j = -5; j < 5; j+=5) {
-                Vector3 position = Vector3(i * 10 + Random(2.0f), 0.0, j * 10 + + Random(2.0f));
+        for (int i = -5; i < 5; i+=3) {
+            for (int j = -5; j < 5; j+=3) {
+                Vector3 position = Vector3(i * 100 + Random(2.0f), 0.0, j * 100 + + Random(2.0f));
                 AppleTree::Create(position);
             }
         }

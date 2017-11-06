@@ -1,5 +1,4 @@
 <material>
-	<technique name="Techniques/DiffNormalPacked.xml" quality="1" />
     <technique name="Techniques/Diff.xml" quality="0" />
     <texture unit="diffuse" name="Textures/apple.jpg" />
     <texture unit="normal" name="Textures/apple.jpg" />

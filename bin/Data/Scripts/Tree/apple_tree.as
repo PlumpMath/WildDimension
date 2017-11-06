@@ -45,7 +45,7 @@ namespace AppleTree {
 	    shape.SetConvexHull(object.model);
 	    Tree tree;
 	    tree.node = treeNode;
-	    tree.lifetime = 10.0f + Random(5.0f);
+	    tree.lifetime = 20.0f + Random(20.0f);
 	    tree.stage = 0;
 	    tree.model = object;
 	    CreateApples(5 + RandomInt(10), tree);
@@ -55,7 +55,7 @@ namespace AppleTree {
 
 	void CreateApples(int count, Tree@ parentTree)
 	{
-		for (uint i = 0; i < count; i++) {
+		for (int i = 0; i < count; i++) {
 			Node@ apple = scene_.CreateChild("Apple");
 			apple.AddTag("Apple");
 			Vector3 position = parentTree.node.position;
@@ -113,7 +113,7 @@ namespace AppleTree {
 			tree.lifetime -= timeStep;
 			if (tree.lifetime < 0) {
 				tree.stage++;
-				tree.lifetime = 10.0f + Random(5.0f);
+				tree.lifetime = 20.0f + Random(20.0f);
 				if (tree.stage > 1) {
 					tree.stage = 0;
 				}

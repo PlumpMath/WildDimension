@@ -40,7 +40,7 @@ namespace RaspberryBush {
 	    shape.SetConvexHull(object.model);
 	    Bush tree;
 	    tree.node = treeNode;
-	    tree.lifetime = 10.0f + Random(5.0f);
+	    tree.lifetime = 20.0f + Random(20.0f);
 	    tree.stage = 0;
 	    tree.model = object;
 	    CreateBerries(5 + RandomInt(10), tree);
@@ -50,7 +50,7 @@ namespace RaspberryBush {
 
 	void CreateBerries(int count, Bush@ parentTree)
 	{
-		for (uint i = 0; i < count; i++) {
+		for (int i = 0; i < count; i++) {
 			Node@ apple = scene_.CreateChild("Raspberry");
 			apple.AddTag("Raspberry");
 			Vector3 position = parentTree.node.position;
@@ -108,7 +108,7 @@ namespace RaspberryBush {
 			tree.lifetime -= timeStep;
 			if (tree.lifetime < 0) {
 				tree.stage++;
-				tree.lifetime = 10.0f + Random(5.0f);
+				tree.lifetime = 20.0f + Random(20.0f);
 				if (tree.stage > 1) {
 					tree.stage = 0;
 				}

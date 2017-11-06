@@ -99,9 +99,9 @@ namespace Player {
         }
 
         if (playerNode.position.y < NetworkHandler::terrain.GetHeight(playerNode.position)) {
-            Vector3 position = playerNode.position;
-            position.y = NetworkHandler::terrain.GetHeight(playerNode.position);
-            playerNode.position = position;
+            Vector3 playerPosition = playerNode.position;
+            playerPosition.y = NetworkHandler::terrain.GetHeight(playerPosition);
+            playerNode.position = playerPosition;
         }
 	}
 

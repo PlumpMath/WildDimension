@@ -30,7 +30,7 @@ namespace Snake {
 	    RigidBody@ pacmanBody = snakeNode.CreateComponent("RigidBody");
 	    pacmanBody.collisionLayer = collisionLayer;
 	    //pacmanBody.collisionMask = collisionMask;
-	    pacmanBody.mass = 2.0f;
+	    pacmanBody.mass = 10.0f;
 
 	    // Set zero angular factor so that physics doesn't turn the character on its own.
 	    // Instead we will control the character yaw manually
@@ -101,7 +101,7 @@ namespace Snake {
 		//return Vector3(-500.0f + Random(500), -500.0f + Random(500), -500.0f + Random(500));
 		Array<Node@> apples = scene_.GetNodesWithTag("Apple");
 		Node@ nearestApple;
-		int nearestLength = 0;
+		float nearestLength = 0;
 		int nearestIndex = -1;
 		apples.Push(cameraNode);
 		

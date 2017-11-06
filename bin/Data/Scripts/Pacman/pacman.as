@@ -44,7 +44,7 @@ namespace Pacman {
 		//return Vector3(-500.0f + Random(500), -500.0f + Random(500), -500.0f + Random(500));
 		Array<Node@> apples = scene_.GetNodesWithTag("Raspberry");
 		Node@ nearestApple;
-		int nearestLength = 0;
+		float nearestLength = 0;
 		int nearestIndex = -1;
 		apples.Push(cameraNode);
 		
