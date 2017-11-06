@@ -239,13 +239,12 @@ namespace NetworkHandler {
 
         for (int i = -10; i < 10; i+=5) {
             for (int j = -10; j < 10; j+=5) {
-                Vector3 position = Vector3(i * 30 + Random(50.0f), 0.0, j * 30 + + Random(50.0f));
+                Vector3 position = Vector3(i * 100 + Random(300.0f), 0.0, j * 100 + + Random(300.0f));
                 Clouds::Create(position);
             }
         }
 
         ActiveTool::Create();
-        //Axe::Create();
     }
 
     

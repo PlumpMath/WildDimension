@@ -29,10 +29,29 @@ namespace Clouds {
 
         Cloud cloud;
         cloud.node = cloudNode;
-        cloud.nextFall = 1.0f + Random(1.0f);
+        cloud.nextFall = 0.5f + Random(0.5f);
         cloud.active = true;
         clouds.Push(cloud);
         return cloudNode;
+    }
+
+    void DestroySingle(Cloud@ targetCloud)
+    {
+        for (uint i = 0; i < clouds.length; i++) {
+            Cloud@ cloud = clouds[i];
+            if (targetCloud.node.id == cloud.node.id) {
+                for (uint j = 0; j < cloud.raindrops.length; j++) {
+                    cloud.raindrops[j].Remove();
+                }
+                Vector3 newPosition = cloud.node.position;
+                newPosition.x *= -1;
+                newPosition.z *= -1;
+                Create(newPosition);
+                cloud.node.Remove();
+                cloud.raindrops.Clear();
+                clouds.Erase(i);
+            }
+        }
     }
 
     void Destroy()
@@ -97,7 +116,7 @@ namespace Clouds {
         }
     }
 
-    void CreateRaindrop(Cloud@ parent)
+    void CreateRaindrop(Cloud@ parent, Vector3 wind)
     {
         if (parent.raindrops.length > RAINDROP_LIMIT) {
             parent.raindrops[0].Remove();
@@ -107,8 +126,8 @@ namespace Clouds {
         Node@ raindrop = scene_.CreateChild("Raindrop");
         raindrop.AddTag("Raindrop");
         Vector3 position = parent.node.position;
-        position.x += -30.0f + Random(60.0f);
-        position.z += -30.0f + Random(60.0f);
+        position.x += -100.0f + Random(100.0f);
+        position.z += -100.0f + Random(100.0f);
         raindrop.worldPosition = position;
 
         StaticModel@ object = raindrop.CreateComponent("StaticModel");
@@ -122,6 +141,7 @@ namespace Clouds {
         body.collisionLayer = 1;
         body.mass = 10.0f;
         body.linearDamping = 0.3f;
+        body.linearVelocity = wind;
 
         // Set zero angular factor so that physics doesn't turn the character on its own.
         // Instead we will control the character yaw manually
@@ -141,13 +161,18 @@ namespace Clouds {
         float timeStep = eventData["TimeStep"].GetFloat();
         for (uint i = 0; i < clouds.length; i++) {
             Cloud@ cloud = clouds[i];
+            Vector3 wind = Vector3(timeStep * 30, 0, 0);
+            cloud.node.Translate(wind, TS_WORLD);
+            if (Abs(cloud.node.position.x) > 2000 || Abs(cloud.node.position.z) > 2000) {
+                DestroySingle(cloud);
+            }
             if (cloud.active == false) {
                 continue;
             }
             cloud.nextFall -= timeStep;
             if (cloud.nextFall < 0) {
-                CreateRaindrop(cloud);
-                cloud.nextFall = 1.0f + Random(1.0f);
+                CreateRaindrop(cloud, wind);
+                cloud.nextFall = 0.5f + Random(0.5f);
             }
         }
     }
