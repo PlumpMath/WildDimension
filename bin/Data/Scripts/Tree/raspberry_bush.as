@@ -114,9 +114,9 @@ namespace RaspberryBush {
 				}
 				if (tree.stage == 0) {
 					ReenableBerries(tree);
-					tree.model.materials[1] = cache.GetResource("Material", "Materials/TreeGreen.xml");
+					tree.model.materials[0] = cache.GetResource("Material", "Materials/TreeGreen.xml");
 				} else if (tree.stage == 1) {
-					tree.model.materials[1] = cache.GetResource("Material", "Materials/TreeYellow.xml");
+					tree.model.materials[0] = cache.GetResource("Material", "Materials/TreeYellow.xml");
 				}
 			}
 		}
