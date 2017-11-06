@@ -1,5 +1,5 @@
 namespace Clouds {
-	const int RAINDROP_LIMIT = 10;
+	const int RAINDROP_LIMIT = 30;
 	class Cloud {
 		Node@ node;
 		float nextFall;

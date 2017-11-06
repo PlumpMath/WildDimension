@@ -3,8 +3,13 @@ namespace Snake {
 		Array<Node@> body;
 		Node@ targetNode;
 		float lastTurn;
+		uint stage;
+		float sleepTime;
 	};
 	const float SNAKE_MOVE_SPEED = 0.05f;
+	const float SNAKE_SCALE = 1.0f;
+	const uint SNAKE_MAX_LENGTH = 10;
+	const uint SNAKE_MIN_LENGTH = 3;
 	Array<SnakeBody> snakes;
 	uint collisionMask = 2;
 	uint collisionLayer = 1;
@@ -14,7 +19,7 @@ namespace Snake {
 		Node@ snakeNode = scene_.CreateChild("SnakeNode");
 		position.y = NetworkHandler::terrain.GetHeight(position) + 2;
 		snakeNode.position = position;
-		//snakeNode.Scale(0.5f);
+		snakeNode.Scale(SNAKE_SCALE);
 
 		Node@ adjNode = snakeNode.CreateChild("AdjNode");
     	adjNode.rotation = Quaternion(-90.0f, Vector3::UP);
@@ -47,7 +52,9 @@ namespace Snake {
 	    snakeBody.body.Push(snakeNode);
 	    snakeBody.targetNode = getNearestApple(snakeBody.body[0].worldPosition);
 	    snakeBody.lastTurn = 0.0f;
-	    for (uint i = 0; i < 3; i++) {
+	    snakeBody.stage = 0;
+	    snakeBody.sleepTime = 0.0f;
+	    for (uint i = 0; i < SNAKE_MIN_LENGTH; i++) {
 	    	snakeBody.body.Push(createSnakeBodyPart(snakeBody));
 	    }
 	    snakes.Push(snakeBody);
@@ -92,7 +99,7 @@ namespace Snake {
 		snakeNode.LookAt(parent.body[0].position);
 		position.y = NetworkHandler::terrain.GetHeight(position) + 2;
 		snakeNode.worldPosition = position;
-		//snakeNode.Scale(1.0f);
+		snakeNode.Scale(SNAKE_SCALE);
 
 		Node@ adjNode = snakeNode.CreateChild("AdjNode");
     	adjNode.rotation = Quaternion(-90.0f, Vector3::UP);
@@ -167,7 +174,19 @@ namespace Snake {
 			} else {
 				snakeBody.lastTurn += timeStep;
 			}*/
-			MoveBodyPart(i, 0, snakeBody.body[0], snakeBody.targetNode, timeStep);
+			if (snakeBody.stage == 0) {
+				MoveBodyPart(i, 0, snakeBody.body[0], snakeBody.targetNode, timeStep);
+			} else {
+				snakeBody.sleepTime += timeStep;
+				if (snakeBody.sleepTime > 1.0f) {
+					snakeBody.body[snakeBody.body.length - 1].Remove();
+					snakeBody.body.Erase(snakeBody.body.length - 1);
+					snakeBody.sleepTime -= 1.0f;
+					if (snakeBody.body.length <= SNAKE_MIN_LENGTH) {
+						snakeBody.stage = 0;
+					}
+				}
+			}
 			for (uint j = 1; j < snakeBody.body.length; j++) {
 				MoveBodyPart(i, j, snakeBody.body[j], snakeBody.body[j-1], timeStep);
 			}
@@ -188,15 +207,19 @@ namespace Snake {
 		}
 
 		Vector3 diff = node.position - targetPosition;
-		if (diff.lengthSquared < 2.0f) {
+		if (diff.lengthSquared < 2.0f * SNAKE_SCALE) {
 			moveDir = Vector3::ZERO;
 			if (ind == 0) {
 				if (targetNode.HasTag("Apple")) {
 					targetNode.SetDeepEnabled(false);
 					snakes[snakeIndex].body.Push(createSnakeBodyPart(snakes[snakeIndex]));
+					if (snakes[snakeIndex].body.length > SNAKE_MAX_LENGTH) {
+						snakes[snakeIndex].stage = 1;
+						snakes[snakeIndex].sleepTime = 0.0f;
+					}
 				}
 			}
-		} else if (ind > 0 && diff.lengthSquared > 3) {
+		} else if (ind > 0 && diff.lengthSquared > 3 * SNAKE_SCALE) {
 			moveDir *= 2;
 		}
 		if (ind == 0) {
