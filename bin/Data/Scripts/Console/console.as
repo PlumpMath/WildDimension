@@ -1,5 +1,11 @@
 namespace ConsoleHandler {
 
+    class ConsoleCommand {
+        String command;
+        String eventToCall;
+    };
+    Array<ConsoleCommand> consoleCommands;
+
     void CreateConsole()
     {
         if (engine.headless) {
@@ -59,6 +65,25 @@ namespace ConsoleHandler {
     void Subscribe()
     {
         SubscribeToEvent("ConsoleCommand", "ConsoleHandler::HandleConsoleCommand");
+        SubscribeToEvent("ConsoleCommandAdd", "ConsoleHandler::HandleConsoleCommandAdd");
+    }
+
+    void HandleConsoleCommandAdd(StringHash eventType, VariantMap& eventData)
+    {
+        String command = eventData["CONSOLE_COMMAND_NAME"].GetString();
+        String eventToCall = eventData["CONSOLE_COMMAND_EVENT"].GetString();
+        for (uint i = 0; i < consoleCommands.length; i++) {
+            if (consoleCommands[i].command == command) {
+                log.Error("Console command '" + command + "' already registered!");
+                log.Error(command + " calls event '" + eventToCall + "'");
+                return;
+            }
+        }
+        ConsoleCommand consoleCommand;
+        consoleCommand.command = command;
+        consoleCommand.eventToCall = eventToCall;
+        consoleCommands.Push(consoleCommand);
+        console.AddAutoComplete(command);
     }
 
     void HandleConsoleCommand(StringHash eventType, VariantMap& eventData)
@@ -71,26 +96,10 @@ namespace ConsoleHandler {
 
     void ParseCommand(String command)
     {
-        if (command == "start") {
-            NetworkHandler::StartServer();
-        } else if (command == "connect") {
-            NetworkHandler::Connect();
-        } else if (command == "disconnect") {
-            NetworkHandler::StopServer();
-        } else if (command == "logo") {
-            SendEvent("ToggleLogo");
-        } else if (command == "exit") {
-            engine.Exit();
-        } else if (command == "reload") {
-            SendEvent("ReloadAll");
-        } else if (command == "clientlist") {
-            SendEvent("ClientsList");
-        } else if (command == "get axe") {
-            SendEvent("PickupAxe");
-        } else if (command == "rain_start") {
-            SendEvent("RainStart");
-        } else if (command == "rain_stop") {
-            SendEvent("RainStop");
+        for (uint i = 0; i < consoleCommands.length; i++) {
+            if (consoleCommands[i].command == command) {
+                SendEvent(consoleCommands[i].eventToCall);
+            }
         }
     }
 }

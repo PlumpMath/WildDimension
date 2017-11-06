@@ -41,6 +41,18 @@ namespace Clouds {
 		SubscribeToEvent("RainStop", "Clouds::HandleRainStop");
 	}
 
+	void RegisterConsoleCommands()
+	{
+		VariantMap data;
+        data["CONSOLE_COMMAND_NAME"] = "rain_start";
+        data["CONSOLE_COMMAND_EVENT"] = "RainStart";
+		SendEvent("ConsoleCommandAdd", data);
+
+		data["CONSOLE_COMMAND_NAME"] = "rain_stop";
+        data["CONSOLE_COMMAND_EVENT"] = "RainStop";
+		SendEvent("ConsoleCommandAdd", data);
+	}
+
 	void HandleRainStart(StringHash eventType, VariantMap& eventData)
 	{
 		for (uint i = 0; i < clouds.length; i++) {

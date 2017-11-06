@@ -251,6 +251,28 @@ namespace NetworkHandler {
         //SubscribeToEvent("ServerDisconnected", "HandleConnectionStatus");
         Axe::Subscribe();
         Clouds::Subscribe();
+
+        RegisterConsoleCommands();
+        Clouds::RegisterConsoleCommands();
+        Axe::RegisterConsoleCommands();
+    }
+
+    void RegisterConsoleCommands()
+    {
+        VariantMap data;
+        data["CONSOLE_COMMAND_NAME"] = "clientlist";
+        data["CONSOLE_COMMAND_EVENT"] = "ClientsList";
+        SendEvent("ConsoleCommandAdd", data);
+
+        data["CONSOLE_COMMAND_NAME"] = "start";
+        data["CONSOLE_COMMAND_EVENT"] = "StartServer";
+
+        data["CONSOLE_COMMAND_NAME"] = "connect";
+        data["CONSOLE_COMMAND_EVENT"] = "ConnectToServer";
+
+        data["CONSOLE_COMMAND_NAME"] = "disconnect";
+        data["CONSOLE_COMMAND_EVENT"] = "DisconnectFromServer";
+        SendEvent("ConsoleCommandAdd", data);
     }
 
     void HandleConnectionStatus(StringHash eventType, VariantMap& eventData)

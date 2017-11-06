@@ -31,8 +31,16 @@ namespace Axe {
 
 	void Subscribe()
     {
-        SubscribeToEvent("PickupAxe", "Axe::HandlePickup");
+        SubscribeToEvent("GetAxe", "Axe::HandlePickup");
     }
+
+    void RegisterConsoleCommands()
+	{
+		VariantMap data;
+        data["CONSOLE_COMMAND_NAME"] = "get_axe";
+        data["CONSOLE_COMMAND_EVENT"] = "GetAxe";
+		SendEvent("ConsoleCommandAdd", data);
+	}
 
     void HandlePickup(StringHash eventType, VariantMap& eventData)
     {

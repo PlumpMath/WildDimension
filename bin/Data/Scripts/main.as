@@ -60,6 +60,7 @@ void Start()
     SubscribeToEvent("SceneUpdate", "HandleSceneUpdate");
 
     SubscribeToEvent("ReloadAll", "HandleReload");
+    SubscribeToEvent("Exit", "HandleExit");
 
     SubscribeToEvent("Update", "HandleUpdate");
     SubscribeToEvent("PostUpdate", "HandlePostUpdate");
@@ -79,6 +80,26 @@ void Start()
     if (engine.headless) {
         NetworkHandler::StartServer();
     }
+
+    RegisterConsoleCommands();
+    GUIHandler::RegisterConsoleCommands();
+}
+
+void RegisterConsoleCommands()
+{
+    VariantMap data;
+    data["CONSOLE_COMMAND_NAME"] = "reload";
+    data["CONSOLE_COMMAND_EVENT"] = "ReloadAll";
+    SendEvent("ConsoleCommandAdd", data);
+
+    data["CONSOLE_COMMAND_NAME"] = "exit";
+    data["CONSOLE_COMMAND_EVENT"] = "Exit";
+    SendEvent("ConsoleCommandAdd", data);
+}
+
+void HandleExit(StringHash eventType, VariantMap& eventData)
+{
+    engine.Exit();
 }
 
 void Stop()

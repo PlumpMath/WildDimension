@@ -60,6 +60,14 @@ namespace GUIHandler {
         SubscribeToEvent("ToggleLogo", "GUIHandler::ToggleLogo");
     }
 
+    void RegisterConsoleCommands()
+    {
+        VariantMap data;
+        data["CONSOLE_COMMAND_NAME"] = "logo";
+        data["CONSOLE_COMMAND_EVENT"] = "ToggleLogo";
+        SendEvent("ConsoleCommandAdd", data);
+    }
+
     void Destroy()
     {
         RemoveLogo();
