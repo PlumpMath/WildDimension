@@ -299,6 +299,7 @@ namespace NetworkHandler {
 
     void HandlePostUpdate(StringHash eventType, VariantMap& eventData)
     {
+        ActiveTool::HandleUpdate(eventType, eventData);
         Pacman::HandleUpdate(eventType, eventData);
         Snake::HandleUpdate(eventType, eventData);
         AppleTree::HandleUpdate(eventType, eventData);

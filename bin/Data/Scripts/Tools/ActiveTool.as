@@ -1,9 +1,11 @@
 namespace ActiveTool {
     Node@ node;
     Node@ toolNode;
-    bool enabled = false;
     Array<Node@> tools;
     uint activeToolIndex = 0;
+    bool use = false;
+    bool back = false;
+    float sleepTime = 0.0f;
 
     void Create()
     {
@@ -19,13 +21,32 @@ namespace ActiveTool {
         position += node.rotation * Vector3::RIGHT * 0.3f;
         position += node.rotation * Vector3::UP * -0.1f;
         node.position = position;
-
-        node.SetDeepEnabled(enabled);
     }
 
     void Subscribe()
     {
         SubscribeToEvent("NextTool", "ActiveTool::HandleNextTool");
+    }
+
+    void HandleUpdate(StringHash eventType, VariantMap& eventData)
+    {
+        float timeStep = eventData["TimeStep"].GetFloat();
+        sleepTime -= timeStep;
+        if (input.mouseButtonDown[MOUSEB_LEFT] && use == false && sleepTime <= 0) {
+            use = true;
+            toolNode.Roll(-60.0f);
+            back = true;
+            sleepTime = 0.2f;
+        }
+        if (back == true && sleepTime <= 0) {
+            toolNode.Roll(60.0f);
+            back = false;
+            use = false;
+            sleepTime = 0.2f;   
+        }
+        if (input.keyPress[KEY_Q]) {
+            SendEvent("NextTool");
+        }
     }
 
     void RegisterConsoleCommands()
