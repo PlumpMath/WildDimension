@@ -39,6 +39,32 @@ namespace Pacman {
 		return pacmanNode;
 	}
 
+	void Destroy()
+	{
+		for (uint i = 0; i < pacmans.length; i++) {
+			pacmans[i].Remove();
+		}
+		pacmans.Clear();
+	}
+
+	void Subscribe()
+	{
+		SubscribeToEvent("PacmanRemove", "Pacman::HandlePacmanRemove");
+	}
+
+	void RegisterConsoleCommands()
+	{
+		VariantMap data;
+        data["CONSOLE_COMMAND_NAME"] = "pacman_remove";
+        data["CONSOLE_COMMAND_EVENT"] = "PacmanRemove";
+		SendEvent("ConsoleCommandAdd", data);
+	}
+
+	void HandlePacmanRemove(StringHash eventType, VariantMap& eventData)
+	{
+		Destroy();
+	}
+
 	Node@ getNearestRaspberry(Vector3 position)
 	{
 		//return Vector3(-500.0f + Random(500), -500.0f + Random(500), -500.0f + Random(500));

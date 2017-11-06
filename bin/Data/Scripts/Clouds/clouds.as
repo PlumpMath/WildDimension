@@ -35,10 +35,24 @@ namespace Clouds {
 		return cloudNode;
 	}
 
+	void Destroy()
+	{
+		for (uint i = 0; i < clouds.length; i++) {
+			Cloud@ cloud = clouds[i];
+			for (uint j = 0; j < cloud.raindrops.length; j++) {
+				cloud.raindrops[j].Remove();
+			}
+			cloud.node.Remove();
+			cloud.raindrops.Clear();
+		}
+		clouds.Clear();
+	}
+
 	void Subscribe()
 	{
 		SubscribeToEvent("RainStart", "Clouds::HandleRainStart");
 		SubscribeToEvent("RainStop", "Clouds::HandleRainStop");
+		SubscribeToEvent("CloudsRemove", "Clouds::HandleCloudsRemove");
 	}
 
 	void RegisterConsoleCommands()
@@ -51,6 +65,15 @@ namespace Clouds {
 		data["CONSOLE_COMMAND_NAME"] = "rain_stop";
         data["CONSOLE_COMMAND_EVENT"] = "RainStop";
 		SendEvent("ConsoleCommandAdd", data);
+
+		data["CONSOLE_COMMAND_NAME"] = "clouds_remove";
+        data["CONSOLE_COMMAND_EVENT"] = "CloudsRemove";
+		SendEvent("ConsoleCommandAdd", data);
+	}
+
+	void HandleCloudsRemove(StringHash eventType, VariantMap& eventData)
+	{
+		Destroy();
 	}
 
 	void HandleRainStart(StringHash eventType, VariantMap& eventData)

@@ -96,6 +96,9 @@ namespace AppleTree {
 	{
 		for (uint i = 0; i < tree.apples.length; i++) {
 			Node@ apple = tree.apples[i];
+			if (apple.enabled == true) {
+				continue;
+			}
 			Vector3 position = tree.node.position;
 			position.x += -30.0f + Random(60.0f);
 			position.z += -30.0f + Random(60.0f);

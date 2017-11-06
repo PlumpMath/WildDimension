@@ -251,10 +251,14 @@ namespace NetworkHandler {
         //SubscribeToEvent("ServerDisconnected", "HandleConnectionStatus");
         Axe::Subscribe();
         Clouds::Subscribe();
+        Pacman::Subscribe();
+        Snake::Subscribe();
 
         RegisterConsoleCommands();
         Clouds::RegisterConsoleCommands();
         Axe::RegisterConsoleCommands();
+        Pacman::RegisterConsoleCommands();
+        Snake::RegisterConsoleCommands();
     }
 
     void RegisterConsoleCommands()

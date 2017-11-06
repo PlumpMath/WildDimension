@@ -55,6 +55,34 @@ namespace Snake {
 		return snakeNode;
 	}
 
+	void Destroy()
+	{
+		for (uint i = 0; i < snakes.length; i++) {
+			for (uint j = 0; j < snakes[i].body.length; j++) {
+				snakes[i].body[j].Remove();
+			}
+		}
+		snakes.Clear();
+	}
+
+	void Subscribe()
+	{
+		SubscribeToEvent("SnakeRemove", "Snake::HandleSnakeRemove");
+	}
+
+	void RegisterConsoleCommands()
+	{
+		VariantMap data;
+        data["CONSOLE_COMMAND_NAME"] = "snake_remove";
+        data["CONSOLE_COMMAND_EVENT"] = "SnakeRemove";
+		SendEvent("ConsoleCommandAdd", data);
+	}
+
+	void HandleSnakeRemove(StringHash eventType, VariantMap& eventData)
+	{
+		Destroy();
+	}
+
 	Node@ createSnakeBodyPart(SnakeBody@ parent)
 	{
 		Node@ lastNode = parent.body[parent.body.length - 1];
