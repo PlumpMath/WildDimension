@@ -230,8 +230,8 @@ namespace NetworkHandler {
             }
         }
 
-        for (int i = -10; i < 10; i+=5) {
-            for (int j = -10; j < 10; j+=5) {
+        for (int i = -10; i < 10; i+=20) {
+            for (int j = -10; j < 10; j+=20) {
                 Vector3 position = Vector3(i * 1 + Random(100.0f), 0.0, j * 1 + + Random(100.0f));
                 Clouds::Create(position);
             }
@@ -263,6 +263,7 @@ namespace NetworkHandler {
         Snake::HandleUpdate(eventType, eventData);
         AppleTree::HandleUpdate(eventType, eventData);
         RaspberryBush::HandleUpdate(eventType, eventData);
+        Clouds::HandleUpdate(eventType, eventData);
 
         //Get client terrain if it not exist
         if (terrain is null && scene_ !is null) {
