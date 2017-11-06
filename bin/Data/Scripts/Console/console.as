@@ -66,6 +66,25 @@ namespace ConsoleHandler {
     {
         SubscribeToEvent("ConsoleCommand", "ConsoleHandler::HandleConsoleCommand");
         SubscribeToEvent("ConsoleCommandAdd", "ConsoleHandler::HandleConsoleCommandAdd");
+        SubscribeToEvent("ConsoleHelp", "ConsoleHandler::HandleConsoleHelp");
+
+        VariantMap data;
+        data["CONSOLE_COMMAND_NAME"] = "help";
+        data["CONSOLE_COMMAND_EVENT"] = "ConsoleHelp";
+        SendEvent("ConsoleCommandAdd", data);
+    }
+
+    void HandleConsoleHelp(StringHash eventType, VariantMap& eventData)
+    {
+        log.Info("");
+        log.Info("###### COMMAND LIST ######");
+        log.Info("# COMMAND => EVENT_NAME");
+        log.Info("#");
+        for (uint i = 0; i < consoleCommands.length; i++) {
+            log.Info("# '" + consoleCommands[i].command + "' => '" + consoleCommands[i].eventToCall + "'");
+        }
+        log.Info("#########################");
+        log.Info("");
     }
 
     void HandleConsoleCommandAdd(StringHash eventType, VariantMap& eventData)
