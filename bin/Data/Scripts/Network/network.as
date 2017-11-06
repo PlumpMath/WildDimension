@@ -213,10 +213,6 @@ namespace NetworkHandler {
             for (int j = -5; j < 5; j+=10) {
                 Vector3 position = Vector3(i * 5 + Random(30.0f), 0.0, j * 5 + Random(30.0f));
                 Snake::Create(position);
-                Axe::CreatePickable(position);
-                position.x += 1;
-                position.z += 1;
-                Trap::CreatePickable(position);
             }
         }
 
@@ -224,6 +220,13 @@ namespace NetworkHandler {
             for (int j = -5; j < 5; j+=5) {
                 Vector3 position = Vector3(i * 10 + Random(2.0f), 0.0, j * 10 + + Random(2.0f));
                 AppleTree::Create(position);
+
+                position.x += 2.0f + Random(5.0f);
+                position.z += 2.0f + Random(5.0f);
+                Axe::CreatePickable(position);
+                position.x += 2.0f + Random(5.0f);
+                position.z += 2.0f + Random(5.0f);
+                Trap::CreatePickable(position);
             }
         }
 
