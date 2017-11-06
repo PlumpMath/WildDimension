@@ -16,6 +16,9 @@
 #include "Tree/raspberry_bush.as"
 #include "Clouds/clouds.as"
 #include "Tools/Axe.as"
+#include "Tools/Trap.as"
+#include "Tools/ActiveTool.as"
+#include "Tools/pickable.as"
 
 Scene@ scene_;
 uint screenJoystickIndex = M_MAX_UNSIGNED; // Screen joystick index for navigational controls (mobile platforms only)

@@ -71,8 +71,12 @@ namespace GUIHandler {
     void Destroy()
     {
         RemoveLogo();
-        bytesIn.Remove();
-        bytesOut.Remove();
+        if (bytesIn !is null) {
+            bytesIn.Remove();
+        }
+        if (bytesOut !is null) {
+            bytesOut.Remove();
+        }
     }
 
     void CreateNetworkTrafficDebug()

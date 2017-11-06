@@ -213,6 +213,10 @@ namespace NetworkHandler {
             for (int j = -5; j < 5; j+=10) {
                 Vector3 position = Vector3(i * 5 + Random(30.0f), 0.0, j * 5 + Random(30.0f));
                 Snake::Create(position);
+                Axe::CreatePickable(position);
+                position.x += 1;
+                position.z += 1;
+                Trap::CreatePickable(position);
             }
         }
 
@@ -237,7 +241,8 @@ namespace NetworkHandler {
             }
         }
 
-        Axe::Create();
+        ActiveTool::Create();
+        //Axe::Create();
     }
 
     
@@ -249,16 +254,24 @@ namespace NetworkHandler {
         SubscribeToEvent("ClientIdentity", "NetworkHandler::HandleClientIdentity");
         SubscribeToEvent("ClientsList", "NetworkHandler::HandleClientsList");
         //SubscribeToEvent("ServerDisconnected", "HandleConnectionStatus");
-        Axe::Subscribe();
+
         Clouds::Subscribe();
         Pacman::Subscribe();
         Snake::Subscribe();
 
         RegisterConsoleCommands();
         Clouds::RegisterConsoleCommands();
-        Axe::RegisterConsoleCommands();
         Pacman::RegisterConsoleCommands();
         Snake::RegisterConsoleCommands();
+
+        //Tools
+        ActiveTool::Subscribe();
+        Axe::Subscribe();
+        Trap::Subscribe();
+
+        ActiveTool::RegisterConsoleCommands();
+        Axe::RegisterConsoleCommands();
+        Trap::RegisterConsoleCommands();
     }
 
     void RegisterConsoleCommands()

@@ -13,6 +13,7 @@ namespace Player {
     Node@ CreatePlayer()
     {
         playerNode = scene_.CreateChild("PlayerNode");
+        playerNode.AddTag("Player");
         // Create rigidbody, and set non-zero mass so that the body becomes dynamic
         playerBody = playerNode.CreateComponent("RigidBody");
         playerBody.collisionLayer = 1;
