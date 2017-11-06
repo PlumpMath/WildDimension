@@ -19,8 +19,6 @@ namespace Trap {
 
         node.SetDeepEnabled(false);
         ActiveTool::tools.Push(node);
-
-        node.CreateScriptObject(scriptFile, "PickableObject");
     }
 
     void CreatePickable(Vector3 position)

@@ -4,12 +4,13 @@ namespace Pacman {
 
     Node@ Create(Vector3 position)
     {
-        Node@ pacmanNode = scene_.CreateChild("PlayerNode");
+        Node@ pacmanNode = scene_.CreateChild("Pacman");
         position.y = NetworkHandler::terrain.GetHeight(position) + 2;
         pacmanNode.position = position;
         pacmanNode.Scale(0.5f);
 
-        Node@ adjNode = pacmanNode.CreateChild("AdjNode");
+        Node@ adjNode = pacmanNode.CreateChild("PacmanAdj");
+        adjNode.AddTag("Adj");
         adjNode.rotation = Quaternion(-90.0f, Vector3::UP);
 
         StaticModel@ pacmanObject = adjNode.CreateComponent("StaticModel");

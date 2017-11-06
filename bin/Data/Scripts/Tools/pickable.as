@@ -20,3 +20,25 @@ class PickableObject : ScriptObject
         }
     }
 }
+
+class Usable : ScriptObject
+{
+    void Start()
+    {
+    	log.Info("Usable registered");
+        // Subscribe physics collisions that concern this scene node
+        SubscribeToEvent(node, "NodeCollision", "HandleNodeCollision");
+    }
+
+    void HandleNodeCollision(StringHash eventType, VariantMap& eventData)
+    {
+        Node@ otherNode = eventData["OtherNode"].GetPtr();
+        log.Info("You hit a " + node.name);
+        //if (otherNode.HasTag("Player")) {
+            //log.Info("Player " + otherNode.id + " picked up " + node.name);
+            //if (node.name == "Tree") {
+            	//log.Info("You hit a " + node.name);
+            //}
+        //}
+    }
+}

@@ -10,11 +10,12 @@ namespace AppleTree {
 
     Node@ Create(Vector3 position)
     {
-        Node@ treeNode = scene_.CreateChild("AppleTree");
+        Node@ treeNode = scene_.CreateChild("Tree");
+        treeNode.AddTag("Tree");
         position.y = NetworkHandler::terrain.GetHeight(position);
         treeNode.position = position;
 
-        Node@ adjNode = treeNode.CreateChild("AdjNode");
+        Node@ adjNode = treeNode.CreateChild("Tree");
         adjNode.rotation = Quaternion(-90.0f, Vector3::UP);
 
         StaticModel@ object = adjNode.CreateComponent("StaticModel");

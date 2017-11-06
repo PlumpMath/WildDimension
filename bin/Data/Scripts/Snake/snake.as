@@ -16,12 +16,13 @@ namespace Snake {
 
     Node@ Create(Vector3 position)
     {
-        Node@ snakeNode = scene_.CreateChild("SnakeNode");
+        Node@ snakeNode = scene_.CreateChild("Snake");
         position.y = NetworkHandler::terrain.GetHeight(position) + 2;
         snakeNode.position = position;
         snakeNode.Scale(SNAKE_SCALE);
 
-        Node@ adjNode = snakeNode.CreateChild("AdjNode");
+        Node@ adjNode = snakeNode.CreateChild("Snake");
+        adjNode.AddTag("Adj");
         adjNode.rotation = Quaternion(-90.0f, Vector3::UP);
 
         StaticModel@ pacmanObject = adjNode.CreateComponent("StaticModel");
@@ -95,13 +96,14 @@ namespace Snake {
         Node@ lastNode = parent.body[parent.body.length - 1];
         Vector3 position = lastNode.position;
         position -= lastNode.direction.Normalized() * 0.9f;
-        Node@ snakeNode = scene_.CreateChild("SnakeBody");
+        Node@ snakeNode = scene_.CreateChild("Snake");
         snakeNode.LookAt(parent.body[0].position);
         position.y = NetworkHandler::terrain.GetHeight(position) + 2;
         snakeNode.worldPosition = position;
         snakeNode.Scale(SNAKE_SCALE);
 
-        Node@ adjNode = snakeNode.CreateChild("AdjNode");
+        Node@ adjNode = snakeNode.CreateChild("SnakeAdj");
+        adjNode.AddTag("Adj");
         adjNode.rotation = Quaternion(-90.0f, Vector3::UP);
 
         StaticModel@ pacmanObject = adjNode.CreateComponent("StaticModel");

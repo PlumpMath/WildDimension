@@ -23,7 +23,7 @@ namespace Clouds {
         } else {
             object.model = cache.GetResource("Model", "Models/Models/Cloud2.mdl");
         }
-        cloudNode.SetScale(4.0f + Random(2.0f));
+        cloudNode.SetScale(6.0f + Random(4.0f));
         object.castShadows = true;
         object.materials[0] = cache.GetResource("Material", "Materials/Cloud.xml");
 

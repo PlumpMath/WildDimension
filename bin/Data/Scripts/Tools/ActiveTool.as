@@ -21,6 +21,16 @@ namespace ActiveTool {
         position += node.rotation * Vector3::RIGHT * 0.3f;
         position += node.rotation * Vector3::UP * -0.1f;
         node.position = position;
+
+        /*RigidBody@ body = toolNode.CreateComponent("RigidBody");
+        // The trigger mode makes the rigid body only detect collisions, but impart no forces on the
+        // colliding objects
+        body.trigger = true;
+        body.collisionMask = 0;
+        CollisionShape@ shape = toolNode.CreateComponent("CollisionShape");
+        // Create the capsule shape with an offset so that it is correctly aligned with the model, which
+        // has its origin at the feet
+        shape.SetCapsule(0.7f, 2.0f, Vector3(0.0f, 1.0f, 0.0f));*/
     }
 
     void Subscribe()
@@ -28,24 +38,83 @@ namespace ActiveTool {
         SubscribeToEvent("NextTool", "ActiveTool::HandleNextTool");
     }
 
+    bool Raycast(float maxDistance, Vector3& hitPos, Drawable@& hitDrawable)
+    {
+        hitDrawable = null;
+
+        Camera@ camera = cameraNode.GetComponent("Camera");
+        Ray cameraRay = camera.GetScreenRay(0.5, 0.5);
+        cameraRay.origin += cameraNode.direction / 10.0f;
+        // Pick only geometry objects, not eg. zones or lights, only get the first (closest) hit
+        // Note the convenience accessor to scene's Octree component
+        RayQueryResult result = scene_.octree.RaycastSingle(cameraRay, RAY_TRIANGLE, maxDistance, DRAWABLE_GEOMETRY);
+        if (result.drawable !is null)
+        {
+            hitPos = result.position;
+            hitDrawable = result.drawable;
+            return true;
+        }
+
+        return false;
+    }
+
+    void HitObject()
+    {
+        Vector3 hitPos;
+        Drawable@ hitDrawable;
+
+        if (Raycast(1.0f, hitPos, hitDrawable))
+        {
+            // Check if target scene node already has a DecalSet component. If not, create now
+            Node@ targetNode = hitDrawable.node;
+            log.Info("Hit " + targetNode.name);
+            if (targetNode.HasTag("Adj")) {
+                if (targetNode.GetParentComponent("RigidBody") !is null) {
+                    RigidBody@ body = targetNode.GetParentComponent("RigidBody");
+                    body.ApplyImpulse(Vector3(0, 10, 0));
+                }
+            } else {
+                if (targetNode.HasComponent("RigidBody")) {
+                RigidBody@ body = targetNode.GetComponent("RigidBody");
+                body.ApplyImpulse(Vector3(0, 10, 0));
+            }
+            }
+            /*DecalSet@ decal = targetNode.GetComponent("DecalSet");
+            if (decal is null)
+            {
+                decal = targetNode.CreateComponent("DecalSet");
+                decal.material = cache.GetResource("Material", "Materials/UrhoDecal.xml");
+            }
+            // Add a square decal to the decal set using the geometry of the drawable that was hit, orient it to face the camera,
+            // use full texture UV's (0,0) to (1,1). Note that if we create several decals to a large object (such as the ground
+            // plane) over a large area using just one DecalSet component, the decals will all be culled as one unit. If that is
+            // undesirable, it may be necessary to create more than one DecalSet based on the distance
+            decal.AddDecal(hitDrawable, hitPos, cameraNode.rotation, 0.5f, 1.0f, 1.0f, Vector2::ZERO, Vector2::ONE);
+            */
+        }
+    }
+
     void HandleUpdate(StringHash eventType, VariantMap& eventData)
     {
         float timeStep = eventData["TimeStep"].GetFloat();
         sleepTime -= timeStep;
-        if (input.mouseButtonDown[MOUSEB_LEFT] && use == false && sleepTime <= 0) {
-            use = true;
-            toolNode.Roll(-60.0f);
-            back = true;
-            sleepTime = 0.2f;
-        }
-        if (back == true && sleepTime <= 0) {
-            toolNode.Roll(60.0f);
-            back = false;
-            use = false;
-            sleepTime = 0.2f;   
-        }
-        if (input.keyPress[KEY_Q]) {
-            SendEvent("NextTool");
+        if (tools.length > 0) {
+            if (input.mouseButtonDown[MOUSEB_LEFT] && use == false && sleepTime <= 0) {
+                use = true;
+                toolNode.Roll(-60.0f);
+                back = true;
+                sleepTime = 0.2f;
+                HitObject();
+            }
+            if (back == true && sleepTime <= 0) {
+                toolNode.Roll(60.0f);
+                back = false;
+                use = false;
+                sleepTime = 0.2f;   
+            }
+            if (input.keyPress[KEY_Q]) {
+                SendEvent("NextTool");
+            }
         }
     }
 

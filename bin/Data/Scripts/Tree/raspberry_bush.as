@@ -10,11 +10,12 @@ namespace RaspberryBush {
 
     Node@ Create(Vector3 position)
     {
-        Node@ treeNode = scene_.CreateChild("RaspberryBush");
+        Node@ treeNode = scene_.CreateChild("Bush");
+        treeNode.AddTag("Bush");
         position.y = NetworkHandler::terrain.GetHeight(position);
         treeNode.position = position;
 
-        Node@ adjNode = treeNode.CreateChild("AdjNode");
+        Node@ adjNode = treeNode.CreateChild("Bush");
         adjNode.rotation = Quaternion(-90.0f, Vector3::UP);
 
         StaticModel@ object = adjNode.CreateComponent("StaticModel");
