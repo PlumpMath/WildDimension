@@ -47,7 +47,8 @@ namespace Snake {
 
         // Set a capsule shape for collision
         CollisionShape@ shape = snakeNode.CreateComponent("CollisionShape");
-        shape.SetConvexHull(pacmanObject.model);
+        //shape.SetConvexHull(pacmanObject.model);
+        shape.SetBox(Vector3(1.0, 1.0, 1.0));
 
         SnakeBody snakeBody;
         snakeBody.body.Push(snakeNode);

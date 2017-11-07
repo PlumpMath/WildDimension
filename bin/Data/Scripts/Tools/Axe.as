@@ -64,7 +64,7 @@ namespace Axe {
         CollisionShape@ shape = node.CreateComponent("CollisionShape");
         // Create the capsule shape with an offset so that it is correctly aligned with the model, which
         // has its origin at the feet
-        shape.SetCapsule(0.7f, 2.0f, Vector3(0.0f, 1.0f, 0.0f));
+        shape.SetSphere(1.5f);
 
         node.CreateScriptObject(scriptFile, "PickableObject");
     }

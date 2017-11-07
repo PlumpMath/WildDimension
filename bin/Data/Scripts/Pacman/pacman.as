@@ -34,7 +34,7 @@ namespace Pacman {
 
         // Set a capsule shape for collision
         CollisionShape@ shape = pacmanNode.CreateComponent("CollisionShape");
-        shape.SetConvexHull(pacmanObject.model);
+        shape.SetBox(Vector3(2, 2, 2));
 
         pacmans.Push(pacmanNode);
         return pacmanNode;

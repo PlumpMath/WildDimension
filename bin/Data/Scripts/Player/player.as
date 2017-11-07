@@ -75,7 +75,7 @@ namespace Player {
 
         //Ignore Y to allow moving only in X,Z directions
         Quaternion lookAt2 = Quaternion(0.0f, yaw, 0.0f);
-        playerNode.rotation = lookAt;
+        playerNode.rotation = lookAt2;
         Quaternion rot = playerNode.rotation;
 
         Vector3 position = playerNode.position;

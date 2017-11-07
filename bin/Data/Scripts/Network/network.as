@@ -232,7 +232,7 @@ namespace NetworkHandler {
 
         for (int i = -5; i < 5; i+=5) {
             for (int j = -5; j < 5; j+=5) {
-                Vector3 position = Vector3(i * 12 + Random(2.0f), 0.0, j * 12 + + Random(2.0f));
+                Vector3 position = Vector3(i * 25 + Random(2.0f), 0.0, j * 25 + + Random(2.0f));
                 RaspberryBush::Create(position);
             }
         }

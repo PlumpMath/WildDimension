@@ -68,6 +68,8 @@ void Start()
 
     SubscribeToEvent("Update", "HandleUpdate");
     SubscribeToEvent("PostUpdate", "HandlePostUpdate");
+    SubscribeToEvent("PostRenderUpdate", "HandlePostRenderUpdate");
+    SubscribeToEvent("ToggleDebugDraw", "HandleToggleDebugDraw");
 
     ConsoleHandler::Subscribe();
     GUIHandler::Subscribe();
@@ -99,11 +101,20 @@ void RegisterConsoleCommands()
     data["CONSOLE_COMMAND_NAME"] = "exit";
     data["CONSOLE_COMMAND_EVENT"] = "Exit";
     SendEvent("ConsoleCommandAdd", data);
+
+    data["CONSOLE_COMMAND_NAME"] = "physics_draw";
+    data["CONSOLE_COMMAND_EVENT"] = "ToggleDebugDraw";
+    SendEvent("ConsoleCommandAdd", data);
 }
 
 void HandleExit(StringHash eventType, VariantMap& eventData)
 {
     engine.Exit();
+}
+
+void HandleToggleDebugDraw(StringHash eventType, VariantMap& eventData)
+{
+    drawDebug = !drawDebug;
 }
 
 void Stop()
@@ -252,7 +263,8 @@ void UpdateCamera(float timeStep)
         pitch += input.mouseMoveY * YAW_SENSITIVITY;
     }*/
     if (Player::playerNode !is null) {
-        cameraNode.rotation = Player::playerNode.rotation;
+        //cameraNode.rotation = Player::playerNode.rotation;
+        cameraNode.rotation = Quaternion(pitch, yaw, 0.0f);
         Vector3 position = Player::playerNode.position;
         position.y += 1;
         cameraNode.position = position;
@@ -469,6 +481,14 @@ void HandleMouseModeChange(StringHash eventType, VariantMap& eventData)
     input.SetMouseVisible(!mouseLocked);
 }
 
+void HandlePostRenderUpdate(StringHash eventType, VariantMap& eventData)
+{
+    // If draw debug mode is enabled, draw physics debug geometry. Use depth test to make the result easier to interpret
+    // Note the convenience accessor to the physics world component
+    if (drawDebug) {
+        scene_.physicsWorld.DrawDebugGeometry(true);
+    }
+}
 
 // Create XML patch instructions for screen joystick layout specific to this sample app
 String patchInstructions =

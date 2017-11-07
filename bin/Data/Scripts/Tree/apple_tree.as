@@ -43,7 +43,9 @@ namespace AppleTree {
 
         // Set a capsule shape for collision
         CollisionShape@ shape = treeNode.CreateComponent("CollisionShape");
-        shape.SetConvexHull(object.model);
+        //shape.SetConvexHull(object.model);
+        shape.SetBox(Vector3(1.3, 10.0, 1.3));
+
         Tree tree;
         tree.node = treeNode;
         tree.lifetime = 20.0f + Random(20.0f);
@@ -87,7 +89,8 @@ namespace AppleTree {
             body.collisionEventMode = COLLISION_ALWAYS;
 
             CollisionShape@ shape = apple.CreateComponent("CollisionShape");
-            shape.SetConvexHull(object.model);
+            //shape.SetConvexHull(object.model);
+            shape.SetBox(Vector3(0.4, 0.4, 0.4));
 
             parentTree.apples.Push(apple);
         }
