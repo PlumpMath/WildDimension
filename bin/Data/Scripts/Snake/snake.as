@@ -5,6 +5,7 @@ namespace Snake {
         float lastTurn;
         uint stage;
         float sleepTime;
+        ParticleEmitter@ particleEmitter;
     };
     const float SNAKE_MOVE_SPEED = 0.05f;
     const float SNAKE_SCALE = 1.0f;
@@ -50,12 +51,17 @@ namespace Snake {
         //shape.SetConvexHull(pacmanObject.model);
         shape.SetBox(Vector3(1.0, 1.0, 1.0));
 
+        ParticleEmitter@ particleEmitter = snakeNode.CreateComponent("ParticleEmitter");
+        particleEmitter.effect = cache.GetResource("ParticleEffect", "Particle/Dreaming.xml");
+        particleEmitter.emitting = false;
+
         SnakeBody snakeBody;
         snakeBody.body.Push(snakeNode);
         snakeBody.targetNode = getNearestApple(snakeBody.body[0].worldPosition);
         snakeBody.lastTurn = 0.0f;
         snakeBody.stage = 0;
         snakeBody.sleepTime = 0.0f;
+        snakeBody.particleEmitter = particleEmitter;
         for (uint i = 0; i < SNAKE_MIN_LENGTH; i++) {
             snakeBody.body.Push(createSnakeBodyPart(snakeBody));
         }
@@ -187,6 +193,7 @@ namespace Snake {
                     snakeBody.sleepTime -= 1.0f;
                     if (snakeBody.body.length <= SNAKE_MIN_LENGTH) {
                         snakeBody.stage = 0;
+                        snakeBody.particleEmitter.emitting = false;
                     }
                 }
             }
@@ -219,6 +226,7 @@ namespace Snake {
                     if (snakes[snakeIndex].body.length > SNAKE_MAX_LENGTH) {
                         snakes[snakeIndex].stage = 1;
                         snakes[snakeIndex].sleepTime = 0.0f;
+                        snakes[snakeIndex].particleEmitter.emitting = true;
                     }
                 }
             }
