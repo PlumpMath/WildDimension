@@ -15,8 +15,8 @@ namespace Axe {
 
         node.SetScale(0.5f);
         object.castShadows = true;
-        object.materials[0] = cache.GetResource("Material", "Materials/Stone.xml");
-        object.materials[1] = cache.GetResource("Material", "Materials/Wood.xml");
+        object.materials[0] = cache.GetResource("Material", "Materials/StoneFps.xml");
+        object.materials[1] = cache.GetResource("Material", "Materials/WoodFps.xml");
 
         node.SetDeepEnabled(false);
         ActiveTool::tools.Push(node);

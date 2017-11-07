@@ -15,7 +15,7 @@ namespace Trap {
 
         node.SetScale(0.2f);
         object.castShadows = true;
-        object.materials[0] = cache.GetResource("Material", "Materials/Stone.xml");
+        object.materials[0] = cache.GetResource("Material", "Materials/StoneFps.xml");
 
         node.SetDeepEnabled(false);
         ActiveTool::tools.Push(node);
