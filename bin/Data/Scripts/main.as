@@ -22,6 +22,7 @@
 #include "Tools/inventory.as"
 #include "Achievements/achievements.as"
 #include "Sounds/sounds.as"
+#include "Camp/camp.as"
 
 Scene@ scene_;
 uint screenJoystickIndex = M_MAX_UNSIGNED; // Screen joystick index for navigational controls (mobile platforms only)
@@ -45,7 +46,7 @@ const uint COLLISION_PLAYER_LEVEL = 16;
 const uint COLLISION_PICKABLE_LEVEL = 32;
 const uint COLLISION_FOOD_LEVEL = 64;
 const uint COLLISION_TREE_LEVEL = 128;
-const uint COLLISION_EIGHT_LEVELT = 256;
+const uint COLLISION_STATIC_OBJECTS = 256;
 
 void Start()
 {

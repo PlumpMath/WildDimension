@@ -244,6 +244,13 @@ namespace NetworkHandler {
             }
         }
 
+        for (int i = -5; i < 5; i+=4) {
+            for (int j = -5; j < 5; j+=4) {
+                Vector3 position = Vector3(i * 35 + Random(2.0f), 0.0, j * 35 + Random(2.0f));
+                Camp::Create(position);
+            }
+        }
+
         GameSounds::PlayAmbient(GameSounds::AMBIENT_SOUND);
         ActiveTool::Create();
     }
