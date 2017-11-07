@@ -244,6 +244,7 @@ namespace NetworkHandler {
             }
         }
 
+        GameSounds::PlayAmbient(GameSounds::AMBIENT_SOUND);
         ActiveTool::Create();
     }
 

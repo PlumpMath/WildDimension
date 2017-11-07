@@ -19,7 +19,7 @@ class PickableObject : ScriptObject
                 SendEvent("InventoryAddBranch");
 
                 VariantMap data;
-                data["Name"] = "GetAxe";
+                data["Name"] = "GetBranch";
                 SendEvent("UnlockAchievement", data);
 
                 data["Message"] = "Branch retrieved";

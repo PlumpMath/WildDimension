@@ -8,7 +8,9 @@ namespace Player {
     Node@ playerNode;
     Controls playerControls;
     RigidBody@ playerBody;
-    const float PLAYER_BRAKE_FORCE = 0.02f;
+    const float PLAYER_BRAKE_FORCE = 0.2f;
+    SoundSource@ walkSoundSource;
+
 
     Node@ CreatePlayer()
     {
@@ -30,6 +32,23 @@ namespace Player {
         // Set a capsule shape for collision
         CollisionShape@ shape = playerNode.CreateComponent("CollisionShape");
         shape.SetCapsule(0.7f, 1.8f, Vector3(0.0f, 0.9f, 0.0f));
+
+        // Get the sound resource
+        Sound@ sound = cache.GetResource("Sound", GameSounds::WALK);
+
+        if (sound !is null) {
+            sound.looped = true;
+            // Create a SoundSource component for playing the sound. The SoundSource component plays
+            // non-positional audio, so its 3D position in the scene does not matter. For positional sounds the
+            // SoundSource3D component would be used instead
+            walkSoundSource = playerNode.CreateComponent("SoundSource");
+            //soundSource.autoRemoveMode = REMOVE_COMPONENT;
+            walkSoundSource.Play(sound);
+            // In case we also play music, set the sound volume below maximum so that we don't clip the output
+            walkSoundSource.gain = 0.0f;
+            log.Debug("Player walk sound created");
+        }
+
         return playerNode;
     }
 
@@ -66,9 +85,18 @@ namespace Player {
             //log.Info("moving right");
         }
 
+        if (walkSoundSource !is null) {
+            if (moveDir.lengthSquared == 0) {
+                walkSoundSource.gain = 0.0f;
+            } else {
+                walkSoundSource.gain = 0.7f;
+            }
+        }
+
         bool jump = false;
         if (playerControls.IsPressed(CTRL_JUMP, oldControls)) {
             jump = true;
+            GameSounds::Play(GameSounds::JUMP);
         }
 
         Quaternion lookAt = Quaternion(pitch, yaw, 0.0f);

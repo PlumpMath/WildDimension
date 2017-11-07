@@ -139,7 +139,7 @@ namespace GUIHandler {
         eventLog.verticalAlignment = VA_BOTTOM;
         eventLog.SetPosition(20, -100);
 
-        for (uint i = 0; i < 20; i++) {
+        for (int i = 0; i < 20; i++) {
             Text@ oneLine = eventLog.CreateChild("Text");
             oneLine.text = "";//String(i) + "element";
             oneLine.SetFont(cache.GetResource("Font", "Fonts/Anonymous Pro.ttf"), 16);

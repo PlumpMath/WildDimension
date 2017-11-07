@@ -6,6 +6,7 @@ namespace Achievements {
     {
         achievementList["GetAxe"] = false;
         achievementList["GetTrap"] = false;
+        achievementList["GetBranch"] = false;
     }
 
     void Subscribe()
@@ -34,6 +35,8 @@ namespace Achievements {
                     VariantMap data;
                     data["Message"] = "Achievement [" + name +"] unlocked!";
                     SendEvent("UpdateEventLogGUI", data);
+
+                    GameSounds::Play(GameSounds::ACHIEVEMENT_UNLOCKED);
                 }
                 achievementList[name] = true;
             }
