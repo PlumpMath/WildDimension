@@ -128,6 +128,13 @@ namespace ActiveTool {
             }
             if (targetNode.name == "Tree") {
                 AxeHit(hitPos);
+                GameSounds::Play(GameSounds::HIT_TREE);
+            } else if(targetNode.name == "Snake") {
+                GameSounds::Play(GameSounds::HIT_SNAKE);
+            } else if (targetNode.name == "Pacman") {
+                GameSounds::Play(GameSounds::HIT_PACMAN);
+            } else {
+                GameSounds::Play(GameSounds::HIT_FOOD);
             }
             /*DecalSet@ decal = targetNode.GetComponent("DecalSet");
             if (decal is null)
