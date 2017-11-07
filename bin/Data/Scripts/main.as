@@ -47,17 +47,12 @@ const uint COLLISION_PICKABLE_LEVEL = 32;
 const uint COLLISION_FOOD_LEVEL = 64;
 const uint COLLISION_TREE_LEVEL = 128;
 const uint COLLISION_STATIC_OBJECTS = 256;
+bool isMobilePlatform = false;
+Controls oldControls;
 
 void Start()
 {
     cache.autoReloadResources = true;
-
-    if (GetPlatform() == "Android" || GetPlatform() == "iOS" || input.touchEmulation)
-        // On mobile platform, enable touch by adding a screen joystick
-        InitTouchInput();
-    else if (input.numJoysticks == 0)
-        // On desktop platform, do not detect touch when we already got a joystick
-        SubscribeToEvent("TouchBegin", "HandleTouchBegin");
 
     // Set custom window Title & Icon
     SetWindowTitleAndIcon();
@@ -104,6 +99,17 @@ void Start()
     RegisterConsoleCommands();
     GUIHandler::RegisterConsoleCommands();
     Achievements::Subscribe();
+
+    if (GetPlatform() == "Android" || GetPlatform() == "iOS" || input.touchEmulation) {
+        // On mobile platform, enable touch by adding a screen joystick
+        isMobilePlatform = true;
+        gameController.CreateController();
+    } else if (input.numJoysticks == 0) {
+        // On desktop platform, do not detect touch when we already got a joystick
+        //SubscribeToEvent("TouchBegin", "HandleTouchBegin");
+    }
+    isMobilePlatform = true;
+    gameController.CreateController();
 }
 
 void RegisterConsoleCommands()
@@ -196,22 +202,6 @@ void SetupViewport()
     renderer.viewports[0] = viewport;
 }
 
-void InitTouchInput()
-{
-    touchEnabled = true;
-
-    XMLFile@ layout = cache.GetResource("XMLFile", "UI/ScreenJoystick_Samples.xml");
-    if (!patchInstructions.empty)
-    {
-        // Patch the screen joystick layout further on demand
-        XMLFile@ patchFile = XMLFile();
-        if (patchFile.FromString(patchInstructions))
-            layout.Patch(patchFile);
-    }
-    screenJoystickIndex = input.AddScreenJoystick(layout, cache.GetResource("XMLFile", "UI/DefaultStyle.xml"));
-    input.screenJoystickVisible[0] = true;
-}
-
 void SampleInitMouseMode(MouseMode mode)
 {
   useMouseMode_ = mode;
@@ -244,14 +234,55 @@ void HandleReload(StringHash eventType, VariantMap& eventData)
 
 void HandleUpdate(StringHash eventType, VariantMap& eventData)
 {
-    yaw += input.mouseMoveX * YAW_SENSITIVITY;
-    pitch += input.mouseMoveY * YAW_SENSITIVITY;
-    pitch = Clamp(pitch, -90.0f, 90.0f);
+    //input.mouseVisible = true;
+    if (isMobilePlatform == false) {
+        yaw += input.mouseMoveX * YAW_SENSITIVITY;
+        pitch += input.mouseMoveY * YAW_SENSITIVITY;
+        pitch = Clamp(pitch, -90.0f, 90.0f);
+    }
+
     Player::HandlePostUpdate(eventType, eventData);
     GUIHandler::HandleUpdate(eventType, eventData);
     // Take the frame time step, which is stored as a float
     float timeStep = eventData["TimeStep"].GetFloat();
     NetworkHandler::HandlePostUpdate(eventType, eventData);
+
+    if (isMobilePlatform) {
+        Controls controls;
+        gameController.UpdateControlInputs(controls);
+        Variant rStick = controls.extraData["VAR_AXIS_1"];
+        Variant lStick = controls.extraData["VAR_AXIS_0"];
+        Player::playerControls.Set(Player::CTRL_JUMP, controls.IsDown(KEY_SPACE));
+        uint BA = 1 << 0;
+        //log.Info("AAA " + input.keyDown[KEY_SPACE]);
+        //log.Info("A " + controls.IsDown(BA) + "; B " + controls.IsDown(1 << 2) + "; X " + controls.IsDown(1 << 3) + "; Y" + controls.IsDown(BUTTON_Y));
+        if (lStick.empty == false) {
+            Player::playerControls.Set(Player::CTRL_FORWARD, false);
+            Player::playerControls.Set(Player::CTRL_BACK, false);
+            Player::playerControls.Set(Player::CTRL_LEFT, false);
+            Player::playerControls.Set(Player::CTRL_RIGHT, false);
+            Vector2 axisInput = lStick.GetVector2();
+            if (axisInput.x < 0) {
+                Player::playerControls.Set(Player::CTRL_LEFT, true);
+            } else if (axisInput.x > 0) {
+                Player::playerControls.Set(Player::CTRL_RIGHT, true);
+            }
+            if (axisInput.y < 0) {
+                Player::playerControls.Set(Player::CTRL_FORWARD, true);
+            } else if (axisInput.y > 0) {
+                Player::playerControls.Set(Player::CTRL_BACK, true);
+            }
+            //log.Info(axisInput.x + ":" + axisInput.y);
+        }
+        if (rStick.empty == false) {
+            float YAW_SENSITIVITY = 3.0f;
+            float PITCH_SENSITIVITY = 2.0f;
+            Vector2 axisInput = rStick.GetVector2();
+            yaw += axisInput.x * YAW_SENSITIVITY;
+            pitch += axisInput.y * PITCH_SENSITIVITY;
+        }
+        oldControls = controls;
+    }
 }
 
 void HandlePostUpdate(StringHash eventType, VariantMap& eventData)
@@ -451,8 +482,8 @@ void HandleSceneUpdate(StringHash eventType, VariantMap& eventData)
                     if (camera is null)
                         return;
 
-                    yaw += TOUCH_SENSITIVITY * camera.fov / graphics.height * state.delta.x;
-                    pitch += TOUCH_SENSITIVITY * camera.fov / graphics.height * state.delta.y;
+                    //yaw += TOUCH_SENSITIVITY * camera.fov / graphics.height * state.delta.x;
+                    //pitch += TOUCH_SENSITIVITY * camera.fov / graphics.height * state.delta.y;
 
                     // Construct new orientation for the camera scene node from yaw and pitch; roll is fixed to zero
                     cameraNode.rotation = Quaternion(pitch, yaw, 0.0f);
@@ -472,7 +503,6 @@ void HandleSceneUpdate(StringHash eventType, VariantMap& eventData)
 void HandleTouchBegin(StringHash eventType, VariantMap& eventData)
 {
     // On some platforms like Windows the presence of touch input can only be detected dynamically
-    InitTouchInput();
     UnsubscribeFromEvent("TouchBegin");
 }
 
@@ -504,33 +534,3 @@ void HandlePostRenderUpdate(StringHash eventType, VariantMap& eventData)
         scene_.physicsWorld.DrawDebugGeometry(true);
     }
 }
-
-// Create XML patch instructions for screen joystick layout specific to this sample app
-String patchInstructions =
-        "<patch>" +
-        // "    <remove sel=\"/element/element[./attribute[@name='Name' and @value='Button0']]/attribute[@name='Is Visible']\" />" +
-        // "    <replace sel=\"/element/element[./attribute[@name='Name' and @value='Button0']]/element[./attribute[@name='Name' and @value='Label']]/attribute[@name='Text']/@value\">Zoom In</replace>" +
-        // "    <add sel=\"/element/element[./attribute[@name='Name' and @value='Button0']]\">" +
-        // "        <element type=\"Text\">" +
-        // "            <attribute name=\"Name\" value=\"KeyBinding\" />" +
-        // "            <attribute name=\"Text\" value=\"PAGEUP\" />" +
-        // "        </element>" +
-        // "    </add>" +
-        // "    <remove sel=\"/element/element[./attribute[@name='Name' and @value='Button1']]/attribute[@name='Is Visible']\" />" +
-        // "    <replace sel=\"/element/element[./attribute[@name='Name' and @value='Button1']]/element[./attribute[@name='Name' and @value='Label']]/attribute[@name='Text']/@value\">Zoom Out</replace>" +
-        // "    <add sel=\"/element/element[./attribute[@name='Name' and @value='Button1']]\">" +
-        // "        <element type=\"Text\">" +
-        // "            <attribute name=\"Name\" value=\"KeyBinding\" />" +
-        // "            <attribute name=\"Text\" value=\"PAGEDOWN\" />" +
-        // "        </element>" +
-        // "    </add>" +
-        "    <remove sel=\"/element/element[./attribute[@name='Name' and @value='Button0']]/attribute[@name='Is Visible']\" />" +
-        "    <replace sel=\"/element/element[./attribute[@name='Name' and @value='Button0']]/element[./attribute[@name='Name' and @value='Label']]/attribute[@name='Text']/@value\">JUMP</replace>" +
-        "    <add sel=\"/element/element[./attribute[@name='Name' and @value='Button0']]\">" +
-        "        <element type=\"Text\">" +
-        "            <attribute name=\"Name\" value=\"KeyBinding\" />" +
-        "            <attribute name=\"Text\" value=\"SPACE\" />" +
-        "        </element>" +
-        "    </add>" +
-        
-        "</patch>";

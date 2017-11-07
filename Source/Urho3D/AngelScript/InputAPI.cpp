@@ -25,6 +25,7 @@
 #include "../AngelScript/APITemplates.h"
 #include "../Input/Controls.h"
 #include "../Input/Input.h"
+#include "../GameController/GameController.h"
 
 namespace Urho3D
 {
@@ -456,11 +457,23 @@ static void RegisterInputConstants(asIScriptEngine* engine)
     engine->RegisterGlobalProperty("const int CONTROLLER_AXIS_RIGHTY", (void*)&CONTROLLER_AXIS_RIGHTY);
     engine->RegisterGlobalProperty("const int CONTROLLER_AXIS_TRIGGERLEFT", (void*)&CONTROLLER_AXIS_TRIGGERLEFT);
     engine->RegisterGlobalProperty("const int CONTROLLER_AXIS_TRIGGERRIGHT", (void*)&CONTROLLER_AXIS_TRIGGERRIGHT);
+
+    //Game Controller
+    engine->RegisterGlobalProperty("const int BUTTON_A", (void*)&BUTTON_A);
+    engine->RegisterGlobalProperty("const int BUTTON_B", (void*)&BUTTON_B);
+    engine->RegisterGlobalProperty("const int BUTTON_X", (void*)&BUTTON_X);
+    engine->RegisterGlobalProperty("const int BUTTON_Y", (void*)&BUTTON_Y);
+
 }
 
 static Input* GetInput()
 {
     return GetScriptContext()->GetSubsystem<Input>();
+}
+
+static GameController* GetGameController()
+{
+    return GetScriptContext()->GetSubsystem<GameController>();
 }
 
 static bool InputSaveGestures(File* file, Input* ptr)
@@ -605,6 +618,11 @@ static void RegisterInput(asIScriptEngine* engine)
     engine->RegisterObjectMethod("Input", "bool get_focus() const", asMETHOD(Input, HasFocus), asCALL_THISCALL);
     engine->RegisterObjectMethod("Input", "bool get_minimized() const", asMETHOD(Input, IsMinimized), asCALL_THISCALL);
     engine->RegisterGlobalFunction("Input@+ get_input()", asFUNCTION(GetInput), asCALL_CDECL);
+
+    RegisterObject<GameController>(engine, "GameController");
+    engine->RegisterObjectMethod("GameController", "void UpdateControlInputs(const Controls&in)", asMETHOD(GameController, UpdateControlInputs), asCALL_THISCALL);
+    engine->RegisterObjectMethod("GameController", "void CreateController()", asMETHOD(GameController, CreateController), asCALL_THISCALL);
+    engine->RegisterGlobalFunction("GameController@+ get_gameController()", asFUNCTION(GetGameController), asCALL_CDECL);
 }
 
 void RegisterInputAPI(asIScriptEngine* engine)

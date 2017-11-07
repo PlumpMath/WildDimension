@@ -11,7 +11,6 @@ namespace Player {
     const float PLAYER_BRAKE_FORCE = 0.2f;
     SoundSource@ walkSoundSource;
 
-
     Node@ CreatePlayer()
     {
         playerNode = scene_.CreateChild("PlayerNode");
@@ -60,11 +59,15 @@ namespace Player {
 
         Controls oldControls = playerControls;
         float timeStep = eventData["TimeStep"].GetFloat();
-        playerControls.Set(CTRL_FORWARD, input.keyDown[KEY_W]);
-        playerControls.Set(CTRL_BACK, input.keyDown[KEY_S]);
-        playerControls.Set(CTRL_LEFT, input.keyDown[KEY_A]);
-        playerControls.Set(CTRL_RIGHT, input.keyDown[KEY_D]);
-        playerControls.Set(CTRL_JUMP, input.keyDown[KEY_SPACE]);
+        if (isMobilePlatform) {
+            //playerControls.Set(CTRL_FORWARD, input.keyDown[BUTTON_A]);
+        } else {
+            playerControls.Set(CTRL_FORWARD, input.keyDown[KEY_W]);
+            playerControls.Set(CTRL_BACK, input.keyDown[KEY_S]);
+            playerControls.Set(CTRL_LEFT, input.keyDown[KEY_A]);
+            playerControls.Set(CTRL_RIGHT, input.keyDown[KEY_D]);
+            playerControls.Set(CTRL_JUMP, input.keyDown[KEY_SPACE]);
+        }
 
         Vector3 moveDir(0.0f, 0.0f, 0.0f);
 

@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<element>
+    <attribute name="Name" value="ScreenJoystick" />
+    <attribute name="Size" value="640 480" />
+    <element type="Button">
+        <attribute name="Name" value="Button0" />
+        <attribute name="Position" value="-130 -320" />
+        <attribute name="Size" value="120 120" />
+        <attribute name="Horiz Alignment" value="Right" />
+        <attribute name="Vert Alignment" value="Bottom" />
+        <attribute name="Texture" value="Texture2D;ScreenJoystick/Joystick.png" />
+        <attribute name="Image Rect" value="0 0 96 96" />
+        <attribute name="Hover Image Offset" value="0 0" />
+        <attribute name="Pressed Image Offset" value="0 0" />
+        <element type="Text">
+            <attribute name="Name" value="KeyBinding" />
+            <attribute name="Text" value="SPACE" />
+        </element>
+    </element>
+    <element type="Button">
+        <attribute name="Name" value="Button1" />
+        <attribute name="Position" value="-40 -430" />
+        <attribute name="Size" value="120 120" />
+        <attribute name="Horiz Alignment" value="Right" />
+        <attribute name="Vert Alignment" value="Bottom" />
+        <attribute name="Texture" value="Texture2D;ScreenJoystick/Joystick.png" />
+        <attribute name="Image Rect" value="96 0 192 96" />
+        <attribute name="Hover Image Offset" value="0 0" />
+        <attribute name="Pressed Image Offset" value="0 0" />
+        <element type="Text">
+            <attribute name="Name" value="KeyBinding" />
+            <attribute name="Text" value="E" />
+        </element>
+    </element>
+    <element type="Button">
+        <attribute name="Name" value="Button2" />
+        <attribute name="Position" value="-220 -430" />
+        <attribute name="Size" value="120 120" />
+        <attribute name="Horiz Alignment" value="Right" />
+        <attribute name="Vert Alignment" value="Bottom" />
+        <attribute name="Texture" value="Texture2D;ScreenJoystick/Joystick.png" />
+        <attribute name="Image Rect" value="192 0 288 96" />
+        <attribute name="Hover Image Offset" value="0 0" />
+        <attribute name="Pressed Image Offset" value="0 0" />
+        <element type="Text">
+            <attribute name="Name" value="KeyBinding" />
+            <attribute name="Text" value="Q" />
+        </element>
+    </element>
+    <element type="Button">
+        <attribute name="Name" value="Button3" />
+        <attribute name="Position" value="-130 -540" />
+        <attribute name="Size" value="120 120" />
+        <attribute name="Horiz Alignment" value="Right" />
+        <attribute name="Vert Alignment" value="Bottom" />
+        <attribute name="Texture" value="Texture2D;ScreenJoystick/Joystick.png" />
+        <attribute name="Image Rect" value="288 0 384 96" />
+        <attribute name="Hover Image Offset" value="0 0" />
+        <attribute name="Pressed Image Offset" value="0 0" />
+    </element>
+    <element type="Button">
+        <attribute name="Name" value="Hat0" />
+        <attribute name="Position" value="-130 20" />
+        <attribute name="Size" value="48 35" />
+        <attribute name="Horiz Alignment" value="Right" />
+        <attribute name="Vert Alignment" value="Top" />
+        <attribute name="Texture" value="Texture2D;ScreenJoystick/Joystick.png" />
+        <attribute name="Image Rect" value="384 0 480 70" />
+        <attribute name="Hover Image Offset" value="0 0" />
+        <attribute name="Pressed Image Offset" value="0 0" />
+    </element>
+    <element type="BorderImage">
+        <attribute name="Name" value="Axis0" />
+        <attribute name="Position" value="50 -50" />
+        <attribute name="Size" value="220 220" />
+        <attribute name="Color" value="0.6 0.6 0.6 1" />
+        <attribute name="Horiz Alignment" value="Left" />
+        <attribute name="Vert Alignment" value="Bottom" />
+        <attribute name="Texture" value="Texture2D;ScreenJoystick/Joystick.png" />
+        <attribute name="Image Rect" value="0 96 96 192" />
+        <attribute name="Hover Image Offset" value="0 0" />
+        <element type="BorderImage">
+            <attribute name="Name" value="InnerButton" />
+            <attribute name="Position" value="20 20" />
+            <attribute name="Size" value="180 180" />
+            <attribute name="Color" value="0.7 0.7 0.7 1" />
+            <attribute name="Horiz Alignment" value="Left" />
+            <attribute name="Vert Alignment" value="Top" />
+            <attribute name="Texture" value="Texture2D;ScreenJoystick/Joystick.png" />
+            <attribute name="Image Rect" value="96 96 192 192" />
+            <attribute name="Hover Image Offset" value="0 0" />
+        </element>
+    </element>
+    <element type="BorderImage">
+        <attribute name="Name" value="Axis1" />
+        <attribute name="Position" value="-100 -50" />
+        <attribute name="Size" value="220 220" />
+        <attribute name="Color" value="0.6 0.6 0.6 1" />
+        <attribute name="Horiz Alignment" value="Right" />
+        <attribute name="Vert Alignment" value="Bottom" />
+        <attribute name="Texture" value="Texture2D;ScreenJoystick/Joystick.png" />
+        <attribute name="Image Rect" value="0 96 96 192" />
+        <attribute name="Hover Image Offset" value="0 0" />
+        <element type="BorderImage">
+            <attribute name="Name" value="InnerButton" />
+            <attribute name="Position" value="20 20" />
+            <attribute name="Size" value="180 180" />
+            <attribute name="Color" value="0.7 0.7 0.7 1" />
+            <attribute name="Horiz Alignment" value="Left" />
+            <attribute name="Vert Alignment" value="Top" />
+            <attribute name="Texture" value="Texture2D;ScreenJoystick/Joystick.png" />
+            <attribute name="Image Rect" value="96 96 192 192" />
+            <attribute name="Hover Image Offset" value="0 0" />
+        </element>
+    </element>
+</element>

@@ -52,6 +52,8 @@ private:
     /// Parse script file name from the first argument.
     void GetScriptFileName();
 
+    void HandleControlsPreUpdate(StringHash eventType, VariantMap& eventData);
+
     /// Script file name.
     String scriptFileName_;
     /// Flag whether CommandLine.txt was already successfully read.

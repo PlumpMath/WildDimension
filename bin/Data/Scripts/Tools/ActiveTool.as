@@ -156,12 +156,14 @@ namespace ActiveTool {
         float timeStep = eventData["TimeStep"].GetFloat();
         sleepTime -= timeStep;
         if (tools.length > 0) {
-            if (input.mouseButtonDown[MOUSEB_LEFT] && use == false && sleepTime <= 0) {
-                use = true;
-                toolNode.Roll(-60.0f);
-                back = true;
-                sleepTime = 0.2f;
-                HitObject();
+            if ((isMobilePlatform == false && input.mouseButtonDown[MOUSEB_LEFT]) || input.keyDown[KEY_E]) {
+                if (use == false && sleepTime <= 0) {
+                    use = true;
+                    toolNode.Roll(-60.0f);
+                    back = true;
+                    sleepTime = 0.2f;
+                    HitObject();
+                }
             }
             if (back == true && sleepTime <= 0) {
                 toolNode.Roll(60.0f);

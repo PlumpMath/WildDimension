@@ -24,7 +24,7 @@ namespace ConsoleHandler {
         console.defaultStyle = xmlFile;
         console.background.opacity = 0.8f;
         console.visible = false;
-        console.numRows = graphics.height / 20;
+        console.numRows = graphics.height / 30;
         console.numBufferedRows = 10 * console.numRows;
         console.closeButton.visible = false;
         console.AddAutoComplete("start");

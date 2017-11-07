@@ -70,12 +70,20 @@ struct TouchState
     WeakPtr<UIElement> touchedElement_;
 };
 
+/// Screen joystick axis button
+struct ScreenJoystickAxis
+{
+    IntVector2  buttonOffset_;
+    unsigned    arrayIdx_;
+    float       innerRadius_;
+};
+
 /// %Input state for a joystick.
 struct JoystickState
 {
     /// Construct with defaults.
     JoystickState() :
-        joystick_(nullptr), controller_(nullptr), screenJoystick_(nullptr)
+        joystick_(0), controller_(0), screenJoystick_(0)
     {
     }
 
@@ -85,7 +93,7 @@ struct JoystickState
     void Reset();
 
     /// Return whether is a game controller. Game controllers will use standardized axis and button mappings.
-    bool IsController() const { return controller_ != nullptr; }
+    bool IsController() const { return controller_ != 0; }
 
     /// Return number of buttons.
     unsigned GetNumButtons() const { return buttons_.Size(); }
@@ -126,6 +134,8 @@ struct JoystickState
     PODVector<float> axes_;
     /// POV hat bits.
     PODVector<int> hats_;
+    /// Screen joystick axis buttons
+    PODVector<ScreenJoystickAxis> screenJoystickAxisList_;
 };
 
 #ifdef __EMSCRIPTEN__
@@ -145,7 +155,7 @@ public:
     /// Construct.
     Input(Context* context);
     /// Destruct.
-    virtual ~Input() override;
+    virtual ~Input();
 
     /// Poll for window messages. Called by HandleBeginFrame().
     void Update();
@@ -187,7 +197,7 @@ public:
      *
      *  This method should only be called in main thread.
      */
-    SDL_JoystickID AddScreenJoystick(XMLFile* layoutFile = nullptr, XMLFile* styleFile = nullptr);
+    SDL_JoystickID AddScreenJoystick(XMLFile* layoutFile = 0, XMLFile* styleFile = 0);
     /// Remove screen joystick by instance ID.
     /** Return true if successful.
      *
@@ -344,6 +354,7 @@ private:
     void HandleBeginFrame(StringHash eventType, VariantMap& eventData);
     /// Handle touch events from the controls of screen joystick(s).
     void HandleScreenJoystickTouch(StringHash eventType, VariantMap& eventData);
+    void HandleScreenJoystickDrag(StringHash eventType, VariantMap& eventData);
     /// Handle SDL event.
     void HandleSDLEvent(void* sdlEvent);
 

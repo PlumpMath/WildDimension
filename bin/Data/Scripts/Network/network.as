@@ -202,14 +202,14 @@ namespace NetworkHandler {
             light.shadowNearFarRatio = 0.01f;
         }
 
-        for (int i = -5; i < 5; i+=5) {
-            for (int j = -5; j < 5; j+=5) {
+        for (int i = -5; i < 5; i+=10) {
+            for (int j = -5; j < 5; j+=10) {
                 Vector3 position = Vector3(i * 40 + Random(20.0f), 0.0, j * 40 + Random(20.0f));
                 Pacman::Create(position);
             }
         }
 
-        for (int i = -5; i < 5; i+=5) {
+        for (int i = -5; i < 5; i+=10) {
             for (int j = -5; j < 5; j+=10) {
                 Vector3 position = Vector3(i * 5 + Random(30.0f), 0.0, j * 5 + Random(30.0f));
                 Snake::Create(position);
@@ -230,15 +230,15 @@ namespace NetworkHandler {
             }
         }
 
-        for (int i = -5; i < 5; i+=3) {
-            for (int j = -5; j < 5; j+=3) {
+        for (int i = -5; i < 5; i+=4) {
+            for (int j = -5; j < 5; j+=4) {
                 Vector3 position = Vector3(i * 35 + Random(2.0f), 0.0, j * 35 + Random(2.0f));
                 RaspberryBush::Create(position);
             }
         }
 
-        for (int i = -10; i < 10; i+=5) {
-            for (int j = -10; j < 10; j+=5) {
+        for (int i = -10; i < 10; i+=10) {
+            for (int j = -10; j < 10; j+=10) {
                 Vector3 position = Vector3(i * 100 + Random(300.0f), 0.0, j * 100 + + Random(300.0f));
                 Clouds::Create(position);
             }

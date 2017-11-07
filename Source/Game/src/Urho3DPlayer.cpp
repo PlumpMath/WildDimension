@@ -40,8 +40,12 @@
 #include <Urho3D/UI/Button.h>
 #include <Urho3D/Graphics/Graphics.h>
 #include <Urho3D/Resource/XMLFile.h>
-
+#include <Urho3D/Input/Input.h>
 #include <Urho3D/DebugNew.h>
+#include <Urho3D/Math/MathDefs.h>
+#include <Urho3D/Core/CoreEvents.h>
+#include <Urho3D/AngelScript/ScriptAPI.h>
+#include <Urho3D/GameController/GameController.h>
 
 URHO3D_DEFINE_APPLICATION_MAIN(Urho3DPlayer);
 
@@ -290,4 +294,35 @@ void Urho3DPlayer::GetScriptFileName()
     const Vector<String>& arguments = GetArguments();
     if (arguments.Size() && arguments[0][0] != '-')
         scriptFileName_ = GetInternalPath(arguments[0]);
+}
+
+void Urho3DPlayer::HandleControlsPreUpdate(StringHash eventType, VariantMap& eventData)
+{
+    /*
+    using namespace Update;
+    const float YAW_SENSITIVITY = 0.5f;
+    Controls controls = eventData["Controls"].Get
+
+    Input* input = GetSubsystem<Input>();
+    GameController* gameController = GetSubsystem<GameController>();
+
+    gameController->UpdateControlInputs(character_->controls_);
+
+    // **note** the buttons controls are handled in the character class update fn.
+
+    // right stick - camera
+    Variant rStick = character_->controls_.extraData_[VAR_AXIS_1];
+
+    if (!rStick.IsEmpty())
+    {
+        Vector2 axisInput = rStick.GetVector2();
+        character_->controls_.yaw_ += axisInput.x_ * YAW_SENSITIVITY;
+        character_->controls_.pitch_ += axisInput.y_ * YAW_SENSITIVITY;
+    }
+
+    // Limit pitch
+    character_->controls_.pitch_ = Clamp(character_->controls_.pitch_, -90.0f, 90.0f);
+    // Set rotation already here so that it's updated every rendering frame instead of every physics frame
+    character_->GetNode()->SetRotation(Quaternion(character_->controls_.yaw_, Vector3::UP));,
+    */
 }

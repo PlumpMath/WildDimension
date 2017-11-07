@@ -38,6 +38,7 @@
 #include "../IO/FileSystem.h"
 #include "../IO/Log.h"
 #include "../IO/PackageFile.h"
+#include "../GameController/GameController.h"
 #ifdef URHO3D_IK
 #include "../IK/IK.h"
 #endif
@@ -139,6 +140,7 @@ Engine::Engine(Context* context) :
     context_->RegisterSubsystem(new Input(context_));
     context_->RegisterSubsystem(new Audio(context_));
     context_->RegisterSubsystem(new UI(context_));
+    context_->RegisterSubsystem(new GameController(context_));
 
     // Register object factories for libraries which are not automatically registered along with subsystem creation
     RegisterSceneLibrary(context_);
