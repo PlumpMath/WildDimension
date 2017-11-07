@@ -37,6 +37,8 @@ namespace Trap {
         object.materials[0] = cache.GetResource("Material", "Materials/Stone.xml");
 
         RigidBody@ body = node.CreateComponent("RigidBody");
+        body.collisionLayer = COLLISION_PICKABLE_LEVEL;
+        body.collisionMask = COLLISION_PLAYER_LEVEL;
         // The trigger mode makes the rigid body only detect collisions, but impart no forces on the
         // colliding objects
         body.trigger = true;

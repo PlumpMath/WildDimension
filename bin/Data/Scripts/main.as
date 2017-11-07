@@ -35,6 +35,16 @@ MouseMode useMouseMode_ = MM_ABSOLUTE;
 Camera@ camera;
 const float YAW_SENSITIVITY = 0.1f;
 
+const uint COLLISION_TERRAIN_LEVEL = 1;
+const uint COLLISION_PACMAN_LEVEL = 2;
+const uint COLLISION_SNAKE_HEAD_LEVEL = 4;
+const uint COLLISION_SNAKE_BODY_LEVEL = 8;
+const uint COLLISION_PLAYER_LEVEL = 16;
+const uint COLLISION_PICKABLE_LEVEL = 32;
+const uint COLLISION_FOOD_LEVEL = 64;
+const uint COLLISION_TREE_LEVEL = 128;
+const uint COLLISION_EIGHT_LEVELT = 256;
+
 void Start()
 {
     cache.autoReloadResources = true;

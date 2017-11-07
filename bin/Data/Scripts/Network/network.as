@@ -71,7 +71,7 @@ namespace NetworkHandler {
         terrain.occluder = true;
 
         RigidBody@ body = terrainNode.CreateComponent("RigidBody");
-        body.collisionLayer = 2; // Use layer bitmask 2 for static geometry
+        body.collisionLayer = COLLISION_TERRAIN_LEVEL; // Use layer bitmask 2 for static geometry
         body.restitution = 0.5f;
         CollisionShape@ shape = terrainNode.CreateComponent("CollisionShape");
         shape.SetTerrain();

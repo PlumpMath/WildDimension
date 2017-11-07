@@ -138,7 +138,8 @@ namespace Clouds {
 
         // Create rigidbody, and set non-zero mass so that the body becomes dynamic
         RigidBody@ body = raindrop.CreateComponent("RigidBody");
-        body.collisionLayer = 1;
+        body.collisionLayer = COLLISION_FOOD_LEVEL;
+        body.collisionMask = COLLISION_TERRAIN_LEVEL | COLLISION_PACMAN_LEVEL | COLLISION_SNAKE_BODY_LEVEL | COLLISION_SNAKE_HEAD_LEVEL | COLLISION_PLAYER_LEVEL | COLLISION_TREE_LEVEL | COLLISION_FOOD_LEVEL;
         body.mass = 10.0f;
         body.linearDamping = 0.3f;
         body.linearVelocity = wind;

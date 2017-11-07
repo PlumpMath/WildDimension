@@ -26,7 +26,8 @@ namespace RaspberryBush {
 
         // Create rigidbody, and set non-zero mass so that the body becomes dynamic
         RigidBody@ body = treeNode.CreateComponent("RigidBody");
-        body.collisionLayer = 1;
+        body.collisionLayer = COLLISION_TREE_LEVEL;
+        body.collisionMask = COLLISION_PACMAN_LEVEL | COLLISION_SNAKE_BODY_LEVEL | COLLISION_SNAKE_HEAD_LEVEL | COLLISION_PLAYER_LEVEL | COLLISION_FOOD_LEVEL;
         body.mass = 0.0f;
 
         // Set zero angular factor so that physics doesn't turn the character on its own.
@@ -71,7 +72,8 @@ namespace RaspberryBush {
 
             // Create rigidbody, and set non-zero mass so that the body becomes dynamic
             RigidBody@ body = apple.CreateComponent("RigidBody");
-            body.collisionLayer = 1;
+            body.collisionLayer = COLLISION_FOOD_LEVEL;
+            body.collisionMask = COLLISION_TERRAIN_LEVEL | COLLISION_PACMAN_LEVEL | COLLISION_SNAKE_BODY_LEVEL | COLLISION_SNAKE_HEAD_LEVEL | COLLISION_PLAYER_LEVEL | COLLISION_TREE_LEVEL | COLLISION_FOOD_LEVEL;
             body.mass = 0.1f;
 
             // Set zero angular factor so that physics doesn't turn the character on its own.
@@ -79,7 +81,7 @@ namespace RaspberryBush {
             //body.angularFactor = Vector3::ZERO;
 
             // Set the rigidbody to signal collision also when in rest, so that we get ground collisions properly
-            body.collisionEventMode = COLLISION_ALWAYS;
+            //body.collisionEventMode = COLLISION_ALWAYS;
 
             CollisionShape@ shape = apple.CreateComponent("CollisionShape");
             shape.SetConvexHull(object.model);

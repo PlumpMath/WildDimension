@@ -35,8 +35,8 @@ namespace Snake {
 
         // Create rigidbody, and set non-zero mass so that the body becomes dynamic
         RigidBody@ pacmanBody = snakeNode.CreateComponent("RigidBody");
-        pacmanBody.collisionLayer = collisionLayer;
-        //pacmanBody.collisionMask = collisionMask;
+        pacmanBody.collisionLayer = COLLISION_SNAKE_HEAD_LEVEL;
+        pacmanBody.collisionMask = COLLISION_TERRAIN_LEVEL | COLLISION_PACMAN_LEVEL | COLLISION_PLAYER_LEVEL | COLLISION_SNAKE_HEAD_LEVEL | COLLISION_FOOD_LEVEL | COLLISION_TREE_LEVEL;
         pacmanBody.mass = 10.0f;
 
         // Set zero angular factor so that physics doesn't turn the character on its own.
@@ -44,7 +44,7 @@ namespace Snake {
         pacmanBody.angularFactor = Vector3::ZERO;
 
         // Set the rigidbody to signal collision also when in rest, so that we get ground collisions properly
-        pacmanBody.collisionEventMode = COLLISION_ALWAYS;
+        //pacmanBody.collisionEventMode = COLLISION_ALWAYS;
 
         // Set a capsule shape for collision
         CollisionShape@ shape = snakeNode.CreateComponent("CollisionShape");
@@ -122,8 +122,8 @@ namespace Snake {
 
         // Create rigidbody, and set non-zero mass so that the body becomes dynamic
         RigidBody@ pacmanBody = snakeNode.CreateComponent("RigidBody");
-        pacmanBody.collisionLayer = collisionLayer;
-        //pacmanBody.collisionMask = collisionMask;
+        pacmanBody.collisionLayer = COLLISION_SNAKE_BODY_LEVEL;
+        pacmanBody.collisionMask = COLLISION_TERRAIN_LEVEL | COLLISION_PACMAN_LEVEL | COLLISION_PLAYER_LEVEL | COLLISION_FOOD_LEVEL;
         pacmanBody.mass = 1.0f;
 
         // Set zero angular factor so that physics doesn't turn the character on its own.

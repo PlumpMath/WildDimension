@@ -16,8 +16,8 @@ namespace Player {
         playerNode.AddTag("Player");
         // Create rigidbody, and set non-zero mass so that the body becomes dynamic
         playerBody = playerNode.CreateComponent("RigidBody");
-        playerBody.collisionLayer = 1;
-        //playerBody.collisionMask = 2;
+        playerBody.collisionLayer = COLLISION_PLAYER_LEVEL;
+        playerBody.collisionMask = COLLISION_TERRAIN_LEVEL | COLLISION_PACMAN_LEVEL | COLLISION_SNAKE_BODY_LEVEL | COLLISION_SNAKE_HEAD_LEVEL | COLLISION_PICKABLE_LEVEL | COLLISION_FOOD_LEVEL | COLLISION_TREE_LEVEL;
         playerBody.mass = 1.0f;
 
         // Set zero angular factor so that physics doesn't turn the character on its own.
@@ -25,7 +25,7 @@ namespace Player {
         playerBody.angularFactor = Vector3::ZERO;
 
         // Set the rigidbody to signal collision also when in rest, so that we get ground collisions properly
-        playerBody.collisionEventMode = COLLISION_ALWAYS;
+        //playerBody.collisionEventMode = COLLISION_ALWAYS;
 
         // Set a capsule shape for collision
         CollisionShape@ shape = playerNode.CreateComponent("CollisionShape");
