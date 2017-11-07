@@ -40,6 +40,10 @@ namespace Axe {
         Create();
         SendEvent("InventoryAddAxe");
         ActiveTool::SetActiveTool(node);
+
+        VariantMap data;
+        data["Name"] = "GetAxe";
+        SendEvent("UnlockAchievement", data);
     }
 
     void CreatePickable(Vector3 position)

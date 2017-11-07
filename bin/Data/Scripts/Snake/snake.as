@@ -109,7 +109,7 @@ namespace Snake {
         snakeNode.worldPosition = position;
         snakeNode.Scale(SNAKE_SCALE);
 
-        Node@ adjNode = snakeNode.CreateChild("SnakeAdj");
+        Node@ adjNode = snakeNode.CreateChild("Snake");
         adjNode.AddTag("Adj");
         adjNode.rotation = Quaternion(-90.0f, Vector3::UP);
 

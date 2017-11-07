@@ -17,6 +17,13 @@ class PickableObject : ScriptObject
                 SendEvent("GetTrap");
             } else if (node.name == "Branch") {
                 SendEvent("InventoryAddBranch");
+
+                VariantMap data;
+                data["Name"] = "GetAxe";
+                SendEvent("UnlockAchievement", data);
+
+                data["Message"] = "Branch retrieved";
+                SendEvent("UpdateEventLogGUI", data);
             }
             node.Remove();
         }

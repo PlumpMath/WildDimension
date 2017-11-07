@@ -9,7 +9,7 @@ namespace Pacman {
         pacmanNode.position = position;
         pacmanNode.Scale(0.5f);
 
-        Node@ adjNode = pacmanNode.CreateChild("PacmanAdj");
+        Node@ adjNode = pacmanNode.CreateChild("Pacman");
         adjNode.AddTag("Adj");
         adjNode.rotation = Quaternion(-90.0f, Vector3::UP);
 

@@ -3,12 +3,15 @@ namespace GUIHandler {
     Text@ bytesIn;
     Text@ bytesOut;
     Text@ inventoryList;
+    UIElement@ eventLog;
+    Array<Text@> latestEvents;
 
     void CreateGUI()
     {
         CreateLogo();
         CreateNetworkTrafficDebug();
         CreateInventory();
+        CreateEventLog();
     }
 
     void CreateLogo()
@@ -61,6 +64,7 @@ namespace GUIHandler {
     {
         SubscribeToEvent("ToggleLogo", "GUIHandler::ToggleLogo");
         SubscribeToEvent("UpdateInventoryGUI", "GUIHandler::HandleUpdateInventoryGUI");
+        SubscribeToEvent("UpdateEventLogGUI", "GUIHandler::HandleUpdateEventLog");
     }
 
     void RegisterConsoleCommands()
@@ -82,6 +86,11 @@ namespace GUIHandler {
         }
         if (inventoryList !is null) {
             inventoryList.Remove();
+        }
+        if (eventLog !is null) {
+            eventLog.RemoveAllChildren();
+            eventLog.Remove();
+            latestEvents.Clear();
         }
     }
 
@@ -119,6 +128,37 @@ namespace GUIHandler {
         inventoryList.horizontalAlignment = HA_RIGHT;
         inventoryList.verticalAlignment = VA_BOTTOM;
         inventoryList.SetPosition(-20, -200);
+    }
+
+    void CreateEventLog()
+    {
+        eventLog = ui.root.CreateChild("UIElement");
+
+        // Position the text relative to the screen center
+        eventLog.horizontalAlignment = HA_LEFT;
+        eventLog.verticalAlignment = VA_BOTTOM;
+        eventLog.SetPosition(20, -100);
+
+        for (uint i = 0; i < 20; i++) {
+            Text@ oneLine = eventLog.CreateChild("Text");
+            oneLine.text = "";//String(i) + "element";
+            oneLine.SetFont(cache.GetResource("Font", "Fonts/Anonymous Pro.ttf"), 16);
+            oneLine.textAlignment = HA_CENTER; // Center rows in relation to each other
+
+            // Position the text relative to the screen center
+            oneLine.horizontalAlignment = HA_LEFT;
+            oneLine.verticalAlignment = VA_BOTTOM;
+            oneLine.SetPosition(0, i * -20);
+            latestEvents.Push(oneLine);
+        }
+    }
+
+    void HandleUpdateEventLog(StringHash eventType, VariantMap& eventData)
+    {
+        for (uint i = latestEvents.length - 1; i > 0; i--) {
+            latestEvents[i].text = latestEvents[i-1].text;
+        }
+        latestEvents[0].text = eventData["Message"].GetString();
     }
 
     void HandleUpdateInventoryGUI(StringHash eventType, VariantMap& eventData)

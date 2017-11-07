@@ -20,6 +20,7 @@
 #include "Tools/ActiveTool.as"
 #include "Tools/pickable.as"
 #include "Tools/inventory.as"
+#include "Achievements/achievements.as"
 
 Scene@ scene_;
 uint screenJoystickIndex = M_MAX_UNSIGNED; // Screen joystick index for navigational controls (mobile platforms only)
@@ -97,8 +98,10 @@ void Start()
         NetworkHandler::StartServer();
     }
 
+    Achievements::Init();
     RegisterConsoleCommands();
     GUIHandler::RegisterConsoleCommands();
+    Achievements::Subscribe();
 }
 
 void RegisterConsoleCommands()

@@ -68,5 +68,9 @@ namespace Trap {
         Create();
         SendEvent("InventoryAddTrap");
         ActiveTool::SetActiveTool(node);
+
+        VariantMap data;
+        data["Name"] = "GetTrap";
+        SendEvent("UnlockAchievement", data);
     }
 }
