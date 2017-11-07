@@ -19,6 +19,7 @@
 #include "Tools/Trap.as"
 #include "Tools/ActiveTool.as"
 #include "Tools/pickable.as"
+#include "Tools/inventory.as"
 
 Scene@ scene_;
 uint screenJoystickIndex = M_MAX_UNSIGNED; // Screen joystick index for navigational controls (mobile platforms only)

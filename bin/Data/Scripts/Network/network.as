@@ -267,10 +267,12 @@ namespace NetworkHandler {
         Snake::RegisterConsoleCommands();
 
         //Tools
+        Inventory::Subscribe();
         ActiveTool::Subscribe();
         Axe::Subscribe();
         Trap::Subscribe();
 
+        Inventory::RegisterConsoleCommands();
         ActiveTool::RegisterConsoleCommands();
         Axe::RegisterConsoleCommands();
         Trap::RegisterConsoleCommands();

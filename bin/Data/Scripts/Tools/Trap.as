@@ -64,6 +64,7 @@ namespace Trap {
     void HandlePickup(StringHash eventType, VariantMap& eventData)
     {
         Create();
+        SendEvent("InventoryAddTrap");
         ActiveTool::SetActiveTool(node);
     }
 }

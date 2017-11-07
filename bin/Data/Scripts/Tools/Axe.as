@@ -38,6 +38,7 @@ namespace Axe {
     void HandlePickup(StringHash eventType, VariantMap& eventData)
     {
         Create();
+        SendEvent("InventoryAddAxe");
         ActiveTool::SetActiveTool(node);
     }
 

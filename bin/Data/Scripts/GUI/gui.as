@@ -2,11 +2,13 @@ namespace GUIHandler {
     Sprite@ logoSprite;
     Text@ bytesIn;
     Text@ bytesOut;
+    Text@ inventoryList;
 
     void CreateGUI()
     {
         CreateLogo();
         CreateNetworkTrafficDebug();
+        CreateInventory();
     }
 
     void CreateLogo()
@@ -58,6 +60,7 @@ namespace GUIHandler {
     void Subscribe()
     {
         SubscribeToEvent("ToggleLogo", "GUIHandler::ToggleLogo");
+        SubscribeToEvent("UpdateInventoryGUI", "GUIHandler::HandleUpdateInventoryGUI");
     }
 
     void RegisterConsoleCommands()
@@ -76,6 +79,9 @@ namespace GUIHandler {
         }
         if (bytesOut !is null) {
             bytesOut.Remove();
+        }
+        if (inventoryList !is null) {
+            inventoryList.Remove();
         }
     }
 
@@ -100,6 +106,28 @@ namespace GUIHandler {
         bytesOut.horizontalAlignment = HA_LEFT;
         bytesOut.verticalAlignment = VA_BOTTOM;
         bytesOut.SetPosition(0, -20);
+    }
+
+    void CreateInventory()
+    {
+        inventoryList = ui.root.CreateChild("Text");
+        inventoryList.text = "";
+        inventoryList.SetFont(cache.GetResource("Font", "Fonts/Anonymous Pro.ttf"), 16);
+        inventoryList.textAlignment = HA_CENTER; // Center rows in relation to each other
+
+        // Position the text relative to the screen center
+        inventoryList.horizontalAlignment = HA_RIGHT;
+        inventoryList.verticalAlignment = VA_BOTTOM;
+        inventoryList.SetPosition(-20, -200);
+    }
+
+    void HandleUpdateInventoryGUI(StringHash eventType, VariantMap& eventData)
+    {
+        String itemList = "";
+        for (uint i = 0; i < Inventory::items.length; i++) {
+            itemList += Inventory::items[i].name + ": " + Inventory::items[i].count + "\n";   
+        }
+        inventoryList.text = itemList;
     }
 
     void ToggleLogo()
