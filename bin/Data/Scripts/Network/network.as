@@ -230,9 +230,9 @@ namespace NetworkHandler {
             }
         }
 
-        for (int i = -5; i < 5; i+=5) {
-            for (int j = -5; j < 5; j+=5) {
-                Vector3 position = Vector3(i * 25 + Random(2.0f), 0.0, j * 25 + + Random(2.0f));
+        for (int i = -5; i < 5; i+=3) {
+            for (int j = -5; j < 5; j+=3) {
+                Vector3 position = Vector3(i * 35 + Random(2.0f), 0.0, j * 35 + Random(2.0f));
                 RaspberryBush::Create(position);
             }
         }

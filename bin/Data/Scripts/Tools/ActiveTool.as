@@ -38,13 +38,14 @@ namespace ActiveTool {
         SubscribeToEvent("NextTool", "ActiveTool::HandleNextTool");
     }
 
-    bool Raycast(float maxDistance, Vector3& hitPos, Drawable@& hitDrawable)
+    bool Raycast(float maxDistance, Vector3& hitPos, Drawable@& hitDrawable, Vector3& direction)
     {
         hitDrawable = null;
 
         Camera@ camera = cameraNode.GetComponent("Camera");
         Ray cameraRay = camera.GetScreenRay(0.5, 0.5);
         cameraRay.origin += cameraNode.direction / 10.0f;
+        direction = cameraNode.direction;
         // Pick only geometry objects, not eg. zones or lights, only get the first (closest) hit
         // Note the convenience accessor to scene's Octree component
         RayQueryResult result = scene_.octree.RaycastSingle(cameraRay, RAY_TRIANGLE, maxDistance, DRAWABLE_GEOMETRY);
@@ -91,6 +92,7 @@ namespace ActiveTool {
 
         CollisionShape@ shape = branchNode.CreateComponent("CollisionShape");
         shape.SetConvexHull(object.model);
+        //shape.SetBox(Vector3(0.1, 3.0, 0.1));
     
 
         branchNode.CreateScriptObject(scriptFile, "PickableObject");
@@ -100,21 +102,23 @@ namespace ActiveTool {
     {
         Vector3 hitPos;
         Drawable@ hitDrawable;
+        Vector3 direction;
 
-        if (Raycast(2.0f, hitPos, hitDrawable))
+        if (Raycast(2.0f, hitPos, hitDrawable, direction))
         {
             // Check if target scene node already has a DecalSet component. If not, create now
             Node@ targetNode = hitDrawable.node;
             log.Info("Hit " + targetNode.name);
+            float hitPower = 20;
             if (targetNode.HasTag("Adj")) {
                 if (targetNode.GetParentComponent("RigidBody") !is null) {
                     RigidBody@ body = targetNode.GetParentComponent("RigidBody");
-                    body.ApplyImpulse(Vector3(0, 10, 0));
+                    body.ApplyImpulse(direction * hitPower * body.mass);
                 }
             } else {
                 if (targetNode.HasComponent("RigidBody")) {
                     RigidBody@ body = targetNode.GetComponent("RigidBody");
-                    body.ApplyImpulse(Vector3(0, 10, 0));
+                    body.ApplyImpulse(direction * hitPower * body.mass);
                 }
             }
             if (targetNode.name == "Tree") {
