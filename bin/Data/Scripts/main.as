@@ -108,8 +108,6 @@ void Start()
         // On desktop platform, do not detect touch when we already got a joystick
         //SubscribeToEvent("TouchBegin", "HandleTouchBegin");
     }
-    isMobilePlatform = true;
-    gameController.CreateController();
 }
 
 void RegisterConsoleCommands()
