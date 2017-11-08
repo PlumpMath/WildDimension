@@ -29,6 +29,8 @@
 #include "Achievements/hit.as"
 #include "Achievements/branch.as"
 
+#include "Screens/splash.as"
+
 Scene@ scene_;
 uint screenJoystickIndex = M_MAX_UNSIGNED; // Screen joystick index for navigational controls (mobile platforms only)
 uint screenJoystickSettingsIndex = M_MAX_UNSIGNED; // Screen joystick index for settings (mobile platforms only)
@@ -79,31 +81,17 @@ void Start()
     SubscribeToEvent("ReloadAll", "HandleReload");
     SubscribeToEvent("Exit", "HandleExit");
 
-    SubscribeToEvent("Update", "HandleUpdate");
-    SubscribeToEvent("PostUpdate", "HandlePostUpdate");
+    SubscribeToEvent("Update", "HandleSplashUpdate");
     SubscribeToEvent("PostRenderUpdate", "HandlePostRenderUpdate");
     SubscribeToEvent("ToggleDebugDraw", "HandleToggleDebugDraw");
 
-    ConsoleHandler::Subscribe();
-    GUIHandler::Subscribe();
-    NetworkHandler::Subscribe();
-
-    CreateScene();
-
-    SetupViewport();
-
-    Player::CreatePlayer();
-
-    GUIHandler::CreateGUI();
+    SubscribeToEvent("SplashScreenEnd", "HandleSplashScreenEnd");
 
     if (engine.headless) {
         NetworkHandler::StartServer();
+    } else {
+        SplashScreen::CreateSplashScreen();
     }
-
-    Achievements::Init();
-    RegisterConsoleCommands();
-    GUIHandler::RegisterConsoleCommands();
-    Achievements::Subscribe();
 
     if (GetPlatform() == "Android" || GetPlatform() == "iOS" || input.touchEmulation) {
         // On mobile platform, enable touch by adding a screen joystick
@@ -136,6 +124,27 @@ void HandleExit(StringHash eventType, VariantMap& eventData)
     engine.Exit();
 }
 
+void HandleSplashScreenEnd(StringHash eventType, VariantMap& eventData)
+{
+    SubscribeToEvent("PostUpdate", "HandlePostUpdate");
+    SubscribeToEvent("Update", "HandleUpdate");
+
+    ConsoleHandler::Subscribe();
+    GUIHandler::Subscribe();
+    NetworkHandler::Subscribe();
+
+    CreateScene();
+    SetupViewport();
+    
+    GUIHandler::CreateGUI();
+    Player::CreatePlayer();
+
+    Achievements::Init();
+    RegisterConsoleCommands();
+    GUIHandler::RegisterConsoleCommands();
+    Achievements::Subscribe();
+}
+
 void HandleToggleDebugDraw(StringHash eventType, VariantMap& eventData)
 {
     drawDebug = !drawDebug;
@@ -148,6 +157,7 @@ void Stop()
     NetworkHandler::Destroy();
     ConsoleHandler::Destroy();
     GUIHandler::Destroy();
+    SplashScreen::Destroy();
 }
 
 void CreateScene()
@@ -234,6 +244,11 @@ void HandleReload(StringHash eventType, VariantMap& eventData)
 {
     Stop();
     Start();
+}
+
+void HandleSplashUpdate(StringHash eventType, VariantMap& eventData)
+{
+    SplashScreen::HandleUpdate(eventType, eventData);
 }
 
 void HandleUpdate(StringHash eventType, VariantMap& eventData)

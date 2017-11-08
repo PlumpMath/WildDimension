@@ -8,7 +8,7 @@ namespace GUIHandler {
 
     void CreateGUI()
     {
-        CreateLogo();
+        //CreateLogo();
         CreateNetworkTrafficDebug();
         CreateInventory();
         CreateEventLog();
