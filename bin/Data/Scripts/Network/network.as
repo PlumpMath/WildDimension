@@ -19,7 +19,7 @@ namespace NetworkHandler {
         zone.boundingBox = BoundingBox(-1000.0f, 1000.0f);
         zone.fogColor = Color(0.3f, 0.3f, 0.3f);
         zone.fogStart = 100.0f;
-        zone.fogEnd = 300.0f;
+        zone.fogEnd = 500.0f;
         zone.occluder = true;
 
         // Create a directional light without shadows

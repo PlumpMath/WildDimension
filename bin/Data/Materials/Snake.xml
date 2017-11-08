@@ -1,6 +1,4 @@
 <material>
-    <technique name="Techniques/Diff.xml" quality="0" />
+    <technique name="Techniques/DiffSpec.xml" quality="0" />
     <texture unit="diffuse" name="Textures/snake.jpg" />
-    <texture unit="normal" name="Textures/snake.jpg" />
-    <parameter name="MatSpecColor" value="0.9 0.9 0.1 100" />
 </material>
