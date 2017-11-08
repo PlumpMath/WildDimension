@@ -82,7 +82,6 @@ void Start()
     SubscribeToEvent("ReloadAll", "HandleReload");
     SubscribeToEvent("Exit", "HandleExit");
 
-    SubscribeToEvent("Update", "HandleSplashUpdate");
     SubscribeToEvent("PostRenderUpdate", "HandlePostRenderUpdate");
     SubscribeToEvent("ToggleDebugDraw", "HandleToggleDebugDraw");
 
@@ -245,11 +244,6 @@ void HandleReload(StringHash eventType, VariantMap& eventData)
 {
     Stop();
     Start();
-}
-
-void HandleSplashUpdate(StringHash eventType, VariantMap& eventData)
-{
-    SplashScreen::HandleUpdate(eventType, eventData);
 }
 
 void HandleUpdate(StringHash eventType, VariantMap& eventData)

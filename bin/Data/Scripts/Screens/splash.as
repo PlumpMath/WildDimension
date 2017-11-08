@@ -2,15 +2,18 @@ namespace SplashScreen {
 
     Sprite@ logoSprite;
     Text@ loadingText;
-    float opacity;
+    float opacity; //current opacity
     bool show;
-    const float FADE_SPEED = 1.0f;
+    const float FADE_SPEED = 1.0f; //How fast the logo should fade in and fade out
     bool ended = false;
 
     Array<String> textures;
 
     uint currentIndex = 0;
 
+    /**
+     * List of all the logos which we need to show in the splash screen
+     */
     void InitList()
     {
         textures.Push("Textures/FishBoneLogo.png");
@@ -73,6 +76,8 @@ namespace SplashScreen {
         InitList();
         opacity = 0.f;
         show = true;
+
+        SubscribeToEvent("Update", "SplashScreen::HandleUpdate");
 
         SetTexture();
     }
