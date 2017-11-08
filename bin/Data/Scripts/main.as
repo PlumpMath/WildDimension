@@ -54,6 +54,7 @@ const uint COLLISION_PICKABLE_LEVEL = 32;
 const uint COLLISION_FOOD_LEVEL = 64;
 const uint COLLISION_TREE_LEVEL = 128;
 const uint COLLISION_STATIC_OBJECTS = 256;
+
 bool isMobilePlatform = false;
 Controls oldControls;
 
@@ -135,7 +136,7 @@ void HandleSplashScreenEnd(StringHash eventType, VariantMap& eventData)
 
     CreateScene();
     SetupViewport();
-    
+
     GUIHandler::CreateGUI();
     Player::CreatePlayer();
 
