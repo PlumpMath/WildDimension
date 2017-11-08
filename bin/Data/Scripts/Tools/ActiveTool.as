@@ -110,9 +110,9 @@ namespace ActiveTool {
             Node@ targetNode = hitDrawable.node;
             log.Info("Hit " + targetNode.name);
             
-            VariantMap data;
+            /*VariantMap data;
             data["Message"] = "You hit " + targetNode.name + "!";
-            SendEvent("UpdateEventLogGUI", data);
+            SendEvent("UpdateEventLogGUI", data);*/
 
             float hitPower = 20;
             if (targetNode.HasTag("Adj")) {
@@ -127,14 +127,26 @@ namespace ActiveTool {
                 }
             }
             if (targetNode.name == "Tree") {
-                AxeHit(hitPos);
                 GameSounds::Play(GameSounds::HIT_TREE);
+                AxeHit(hitPos);
+                VariantMap data;
+                data["Name"] = "HitTree";
+                SendEvent("UnlockAchievement", data);
             } else if(targetNode.name == "Snake") {
                 GameSounds::Play(GameSounds::HIT_SNAKE);
+                VariantMap data;
+                data["Name"] = "HitSnake";
+                SendEvent("UnlockAchievement", data);
             } else if (targetNode.name == "Pacman") {
                 GameSounds::Play(GameSounds::HIT_PACMAN);
+                VariantMap data;
+                data["Name"] = "HitPacman";
+                SendEvent("UnlockAchievement", data);
             } else {
                 GameSounds::Play(GameSounds::HIT_FOOD);
+                VariantMap data;
+                data["Name"] = "HitFood";
+                SendEvent("UnlockAchievement", data);
             }
             /*DecalSet@ decal = targetNode.GetComponent("DecalSet");
             if (decal is null)

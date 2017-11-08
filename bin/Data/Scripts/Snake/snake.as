@@ -211,7 +211,7 @@ namespace Snake {
         targetPosition.y = node.position.y;
         node.direction = targetPosition - node.position;
 
-        Vector3 moveDir = node.rotation * Vector3::FORWARD * SNAKE_MOVE_SPEED;
+        Vector3 moveDir = node.rotation * Vector3::FORWARD * SNAKE_MOVE_SPEED * timeStep;
         if (moveDir.lengthSquared > 0.0f) {
             moveDir.Normalize();
         }
@@ -232,9 +232,6 @@ namespace Snake {
             }
         } else if (ind > 0 && diff.lengthSquared > 3 * SNAKE_SCALE) {
             moveDir *= 2;
-        }
-        if (ind == 0) {
-            node.Pitch(timeStep * 10);
         }
 
         rigidBody.ApplyImpulse(moveDir);

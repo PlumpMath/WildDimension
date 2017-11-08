@@ -20,9 +20,14 @@
 #include "Tools/ActiveTool.as"
 #include "Tools/pickable.as"
 #include "Tools/inventory.as"
-#include "Achievements/achievements.as"
 #include "Sounds/sounds.as"
 #include "Camp/camp.as"
+
+#include "Achievements/achievements.as"
+#include "Achievements/axe.as"
+#include "Achievements/trap.as"
+#include "Achievements/hit.as"
+#include "Achievements/branch.as"
 
 Scene@ scene_;
 uint screenJoystickIndex = M_MAX_UNSIGNED; // Screen joystick index for navigational controls (mobile platforms only)

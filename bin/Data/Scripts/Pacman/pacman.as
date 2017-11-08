@@ -108,7 +108,7 @@ namespace Pacman {
             targetPosition.y = pacmanNode.position.y;
             pacmanNode.LookAt(targetPosition);
 
-            Vector3 moveDir = pacmanNode.rotation * Vector3::FORWARD * PACMAN_MOVE_SPEED;
+            Vector3 moveDir = pacmanNode.rotation * Vector3::FORWARD * PACMAN_MOVE_SPEED * timeStep;
             if (moveDir.lengthSquared > 0.0f) {
                 moveDir.Normalize();
             }

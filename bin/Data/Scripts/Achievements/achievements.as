@@ -1,12 +1,28 @@
 namespace Achievements {
 
-    VariantMap achievementList;
+    class AchievementItem {
+        String name;
+        String eventName;
+        float current;
+        float target;
+        bool completed;
+    };
+
+    Array<AchievementItem> achievementList;
+
+    void AddAchievement(Array<AchievementItem> list)
+    {
+        for (uint i = 0; i < list.length; i++) {
+            achievementList.Push(list[i]);
+        }
+    }
 
     void Init()
     {
-        achievementList["GetAxe"] = false;
-        achievementList["GetTrap"] = false;
-        achievementList["GetBranch"] = false;
+        AddAchievement(AchievementsAxe::GetAchievments());
+        AddAchievement(AchievementsTrap::GetAchievments());
+        AddAchievement(AchievementsHit::GetAchievments());
+        AddAchievement(AchievementsBranch::GetAchievments());
     }
 
     void Subscribe()
@@ -24,18 +40,21 @@ namespace Achievements {
         */
     }
 
-    void UnlockAchievement(String name, float value)
+    void UnlockAchievement(String eventName, float value)
     {
-        if (achievementList.Contains(name)) {
-            if (achievementList[name] == false) {
-                log.Info("Achievement [" + name +"] unlocked!");
-                VariantMap data;
-                data["Message"] = "Achievement [" + name +"] unlocked!";
-                SendEvent("UpdateEventLogGUI", data);
+        for (uint i = 0; i < achievementList.length; i++) {
+            AchievementItem@ item = achievementList[i];
+            if (item.eventName == eventName) {
+                item.current += value;
+                if (item.target <= item.current && item.completed == false) {
+                    item.completed = true;
+                    VariantMap data;
+                    data["Message"] = "Achievement [" + item.name +"] unlocked!";
+                    SendEvent("UpdateEventLogGUI", data);
 
-                GameSounds::Play(GameSounds::ACHIEVEMENT_UNLOCKED);
+                    GameSounds::Play(GameSounds::ACHIEVEMENT_UNLOCKED);
+                }
             }
-            achievementList[name] = true;
         }
     }
 

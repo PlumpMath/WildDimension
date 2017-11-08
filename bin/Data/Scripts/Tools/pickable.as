@@ -22,8 +22,8 @@ class PickableObject : ScriptObject
                 data["Name"] = "GetBranch";
                 SendEvent("UnlockAchievement", data);
 
-                data["Message"] = "Branch retrieved";
-                SendEvent("UpdateEventLogGUI", data);
+                //data["Message"] = "Branch retrieved";
+                //SendEvent("UpdateEventLogGUI", data);
             }
             GameSounds::Play(GameSounds::PICKUP_TOOL);
             node.Remove();

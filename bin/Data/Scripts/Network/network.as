@@ -202,8 +202,8 @@ namespace NetworkHandler {
             light.shadowNearFarRatio = 0.01f;
         }
 
-        for (int i = -5; i < 5; i+=10) {
-            for (int j = -5; j < 5; j+=10) {
+        for (int i = -5; i < 5; i+=5) {
+            for (int j = -5; j < 5; j+=5) {
                 Vector3 position = Vector3(i * 40 + Random(20.0f), 0.0, j * 40 + Random(20.0f));
                 Pacman::Create(position);
             }
