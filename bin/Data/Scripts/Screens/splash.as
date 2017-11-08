@@ -5,6 +5,7 @@ namespace SplashScreen {
     float opacity; //current opacity
     bool show;
     const float FADE_SPEED = 1.0f; //How fast the logo should fade in and fade out
+    const float LOADING_TIMEOUT = 10.1f;
     bool ended = false;
 
     Array<String> textures;
@@ -16,8 +17,8 @@ namespace SplashScreen {
      */
     void InitList()
     {
-        textures.Push("Textures/FishBoneLogo.png");
-        textures.Push("Textures/UrhoIcon.png");
+        //textures.Push("Textures/FishBoneLogo.png");
+       // textures.Push("Textures/UrhoIcon.png");
     }
 
     void SetTexture()
@@ -61,8 +62,8 @@ namespace SplashScreen {
     void SetLoadingText()
     {
         loadingText = ui.root.CreateChild("Text");
-        loadingText.text = "LOADING...";
-        loadingText.SetFont(cache.GetResource("Font", "Fonts/Anonymous Pro.ttf"), 20);
+        loadingText.text = "Please wait... Crashing the plane...";
+        loadingText.SetFont(cache.GetResource("Font", "Fonts/PainttheSky-Regular.otf"), 40);
         loadingText.textAlignment = HA_CENTER; // Center rows in relation to each other
 
         // Position the text relative to the screen center
@@ -114,7 +115,7 @@ namespace SplashScreen {
                 currentIndex++;
                 if (currentIndex >= textures.length) {
                     ended = true;
-                    DelayedExecute(1.0, false, "void SplashScreen::HandleSplashEnd()");
+                    DelayedExecute(LOADING_TIMEOUT, false, "void SplashScreen::HandleSplashEnd()");
                     SetLoadingText();
                 } else {
                     show = true;
