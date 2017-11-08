@@ -209,7 +209,8 @@ namespace Snake {
         RigidBody@ rigidBody = node.GetComponent("RigidBody");
 
         targetPosition.y = node.position.y;
-        node.direction = targetPosition - node.position;
+        node.direction = Vector3(targetPosition - node.position);
+        //node.rotation = Quaternion(Vector3(0.0f, 1.0f, 0.0f), NetworkHandler::terrain.GetNormal(node.position));
 
         Vector3 moveDir = node.rotation * Vector3::FORWARD * SNAKE_MOVE_SPEED * timeStep;
         if (moveDir.lengthSquared > 0.0f) {

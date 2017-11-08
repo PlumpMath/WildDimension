@@ -17,9 +17,10 @@ namespace NetworkHandler {
         Node@ zoneNode = scene_.CreateChild("Zone");
         Zone@ zone = zoneNode.CreateComponent("Zone");
         zone.boundingBox = BoundingBox(-1000.0f, 1000.0f);
-        zone.ambientColor = Color(0.2f, 0.2f, 0.05f);
-        zone.fogStart = 50.0f;
-        zone.fogEnd = 500.0f;
+        zone.fogColor = Color(0.3f, 0.3f, 0.3f);
+        zone.fogStart = 100.0f;
+        zone.fogEnd = 300.0f;
+        zone.occluder = true;
 
         // Create a directional light without shadows
         Node@ lightNode1 = scene_.CreateChild("DirectionalLight");
@@ -27,7 +28,7 @@ namespace NetworkHandler {
         Light@ light1 = lightNode1.CreateComponent("Light");
         light1.lightType = LIGHT_DIRECTIONAL;
         light1.color = Color(0.8f, 0.8f, 0.8f);
-        light1.specularIntensity = 1.0f;
+        light1.specularIntensity = 0.2f;
         light1.castShadows = true;
         light1.shadowBias = BiasParameters(0.00025f, 0.5f);
         light1.shadowCascade = CascadeParameters(10.0f, 50.0f, 200.0f, 0.0f, 0.8f);
@@ -52,8 +53,10 @@ namespace NetworkHandler {
         // generate the necessary 3D texture coordinates for cube mapping
         Node@ skyNode = scene_.CreateChild("Sky");
         skyNode.SetScale(500.0); // The scale actually does not matter
+        skyNode.position = Vector3(0, 0, 0);
+
         Skybox@ skybox = skyNode.CreateComponent("Skybox");
-        skybox.model = cache.GetResource("Model", "Models/Box.mdl");
+        skybox.model = cache.GetResource("Model", "Models/SkyDome.mdl");
         skybox.material = cache.GetResource("Material", "Materials/Skybox.xml");
 
         // Create heightmap terrain
@@ -62,7 +65,7 @@ namespace NetworkHandler {
         //terrainNode.position = Vector3(0.0f, -10.0f, 0.0f);
         terrain = terrainNode.CreateComponent("Terrain");
         terrain.patchSize = 64;
-        terrain.spacing = Vector3(2.0f, 0.5f, 2.0f); // Spacing between vertices and vertical resolution of the height map
+        terrain.spacing = Vector3(1.0f, 0.5f, 1.0f); // Spacing between vertices and vertical resolution of the height map
         terrain.smoothing = true;
         terrain.heightMap = cache.GetResource("Image", "Textures/HeightMap.png");
         terrain.material = cache.GetResource("Material", "Materials/Terrain.xml");
