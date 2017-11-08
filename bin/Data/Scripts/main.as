@@ -289,8 +289,8 @@ void HandleUpdate(StringHash eventType, VariantMap& eventData)
             //log.Info(axisInput.x + ":" + axisInput.y);
         }
         if (rStick.empty == false) {
-            float YAW_SENSITIVITY = 3.0f;
-            float PITCH_SENSITIVITY = 2.0f;
+            float YAW_SENSITIVITY = 100.0f * timeStep;
+            float PITCH_SENSITIVITY = 100.0f * timeStep;
             Vector2 axisInput = rStick.GetVector2();
             yaw += axisInput.x * YAW_SENSITIVITY;
             pitch += axisInput.y * PITCH_SENSITIVITY;

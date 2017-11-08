@@ -5,7 +5,7 @@ namespace SplashScreen {
     float opacity; //current opacity
     bool show;
     const float FADE_SPEED = 1.0f; //How fast the logo should fade in and fade out
-    const float LOADING_TIMEOUT = 10.1f;
+    const float LOADING_TIMEOUT = 1.0f;
     bool ended = false;
 
     Array<String> textures;
@@ -17,8 +17,8 @@ namespace SplashScreen {
      */
     void InitList()
     {
-        //textures.Push("Textures/FishBoneLogo.png");
-       // textures.Push("Textures/UrhoIcon.png");
+        textures.Push("Textures/FishBoneLogo.png");
+        textures.Push("Textures/UrhoIcon.png");
     }
 
     void SetTexture()
