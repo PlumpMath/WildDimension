@@ -11,6 +11,7 @@ namespace RaspberryBush {
     Node@ Create(Vector3 position)
     {
         Node@ treeNode = scene_.CreateChild("Bush");
+        treeNode.temporary = true;
         treeNode.AddTag("Bush");
         position.y = NetworkHandler::terrain.GetHeight(position);
         treeNode.position = position;
@@ -54,6 +55,7 @@ namespace RaspberryBush {
     {
         for (int i = 0; i < count; i++) {
             Node@ apple = scene_.CreateChild("Raspberry");
+            apple.temporary = true;
             apple.AddTag("Raspberry");
             Vector3 position = parentTree.node.position;
             position.x += -30.0f + Random(60.0f);

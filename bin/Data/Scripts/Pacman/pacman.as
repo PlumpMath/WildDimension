@@ -5,6 +5,7 @@ namespace Pacman {
     Node@ Create(Vector3 position)
     {
         Node@ pacmanNode = scene_.CreateChild("Pacman");
+        pacmanNode.temporary = true;
         position.y = NetworkHandler::terrain.GetHeight(position) + 2;
         pacmanNode.position = position;
         pacmanNode.Scale(0.5f);

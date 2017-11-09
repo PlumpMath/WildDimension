@@ -14,6 +14,7 @@ namespace Player {
     Node@ CreatePlayer()
     {
         playerNode = scene_.CreateChild("PlayerNode");
+        playerNode.temporary = true;
         playerNode.AddTag("Player");
         // Create rigidbody, and set non-zero mass so that the body becomes dynamic
         playerBody = playerNode.CreateComponent("RigidBody");

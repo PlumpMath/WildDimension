@@ -18,6 +18,7 @@ namespace Snake {
     Node@ Create(Vector3 position)
     {
         Node@ snakeNode = scene_.CreateChild("Snake");
+        snakeNode.temporary = true;
         position.y = NetworkHandler::terrain.GetHeight(position) + 2;
         snakeNode.position = position;
         snakeNode.Scale(SNAKE_SCALE);
@@ -106,6 +107,7 @@ namespace Snake {
         Vector3 position = lastNode.position;
         position -= lastNode.direction.Normalized() * 0.9f;
         Node@ snakeNode = scene_.CreateChild("Snake");
+        snakeNode.temporary = true;
         snakeNode.LookAt(parent.body[0].position);
         position.y = NetworkHandler::terrain.GetHeight(position) + 2;
         snakeNode.worldPosition = position;

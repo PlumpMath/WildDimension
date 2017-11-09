@@ -1,0 +1,153 @@
+{
+	"id": 1,
+	"attributes": {
+		"Name": "",
+		"Time Scale": 1.0,
+		"Smoothing Constant": 50.0,
+		"Snap Threshold": 5.0,
+		"Elapsed Time": 0.0,
+		"Next Replicated Node ID": 195,
+		"Next Replicated Component ID": 265,
+		"Next Local Node ID": 16779521,
+		"Next Local Component ID": 16779524,
+		"Variables": {},
+		"Variable Names": ""
+	},
+	"components": [
+		{
+			"type": "DebugRenderer",
+			"id": 16777216,
+			"attributes": null
+		},
+		{
+			"type": "Octree",
+			"id": 16777217,
+			"attributes": null
+		},
+		{
+			"type": "PhysicsWorld",
+			"id": 6,
+			"attributes": null
+		}
+	],
+	"children": [
+		{
+			"id": 2,
+			"attributes": {
+				"Is Enabled": true,
+				"Name": "Zone",
+				"Tags": [],
+				"Position": "0 0 0",
+				"Rotation": "1 0 0 0",
+				"Scale": "1 1 1",
+				"Variables": {}
+			},
+			"components": [
+				{
+					"type": "Zone",
+					"id": 1,
+					"attributes": {
+						"Bounding Box Min": "-1000 -1000 -1000",
+						"Bounding Box Max": "1000 1000 1000",
+						"Fog Color": "0.3 0.3 0.3 1",
+						"Fog Start": 100.0,
+						"Fog End": 500.0
+					}
+				}
+			],
+			"children": []
+		},
+		{
+			"id": 3,
+			"attributes": {
+				"Is Enabled": true,
+				"Name": "DirectionalLight",
+				"Tags": [],
+				"Position": "0 0 0",
+				"Rotation": "0.839121 0.486519 0.243259 -0",
+				"Scale": "1 1 1",
+				"Variables": {}
+			},
+			"components": [
+				{
+					"type": "Light",
+					"id": 2,
+					"attributes": {
+						"Light Type": "Directional",
+						"Color": "0.8 0.8 0.8 1",
+						"Specular Intensity": 0.20000000298023225,
+						"Cast Shadows": true,
+						"CSM Splits": "10 50 200 0",
+						"Depth Constant Bias": 0.0002500000118743628
+					}
+				}
+			],
+			"children": []
+		},
+		{
+			"id": 4,
+			"attributes": {
+				"Is Enabled": true,
+				"Name": "Sky",
+				"Tags": [],
+				"Position": "0 0 0",
+				"Rotation": "1 0 0 0",
+				"Scale": "500 500 500",
+				"Variables": {}
+			},
+			"components": [
+				{
+					"type": "Skybox",
+					"id": 3,
+					"attributes": {
+						"Model": "Model;Models/SkyDome.mdl",
+						"Material": "Material;Materials/Skybox.xml"
+					}
+				}
+			],
+			"children": []
+		},
+		{
+			"id": 5,
+			"attributes": {
+				"Is Enabled": true,
+				"Name": "Terrain",
+				"Tags": [],
+				"Position": "0 0 0",
+				"Rotation": "1 0 0 0",
+				"Scale": "1 1 1",
+				"Variables": {}
+			},
+			"components": [
+				{
+					"type": "Terrain",
+					"id": 4,
+					"attributes": {
+						"Height Map": "Image;Textures/HeightMap.png",
+						"Material": "Material;Materials/Terrain.xml",
+						"Vertex Spacing": "1 0.5 1",
+						"Patch Size": 64,
+						"Smooth Height Map": true,
+						"Is Occluder": true
+					}
+				},
+				{
+					"type": "RigidBody",
+					"id": 5,
+					"attributes": {
+						"Physics Rotation": "1 0 0 0",
+						"Restitution": 0.5
+					}
+				},
+				{
+					"type": "CollisionShape",
+					"id": 7,
+					"attributes": {
+						"Shape Type": "Terrain"
+					}
+				}
+			],
+			"children": []
+		}
+	]
+}

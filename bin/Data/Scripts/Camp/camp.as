@@ -10,6 +10,7 @@ namespace Camp {
         campfire.node = scene_.CreateChild("Snake");
         position.y = NetworkHandler::terrain.GetHeight(position) + 0.0f;
         campfire.node.position = position;
+        campfire.node.temporary = true;
 
         StaticModel@ object = campfire.node.CreateComponent("StaticModel");
         object.model = cache.GetResource("Model", "Models/Sphere.mdl");

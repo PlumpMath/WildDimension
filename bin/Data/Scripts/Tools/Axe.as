@@ -49,6 +49,7 @@ namespace Axe {
     void CreatePickable(Vector3 position)
     {
         Node@ node = scene_.CreateChild("Axe");
+        node.temporary = true;
         node.AddTag("Axe");
         position.y = NetworkHandler::terrain.GetHeight(position) + 1.0f;
         node.position = position;

@@ -189,6 +189,7 @@ void CreateScene()
     // Create a scene node for the camera, which we will move around
     // The camera will use default settings (1000 far clip distance, 45 degrees FOV, set aspect ratio automatically)
     cameraNode = scene_.CreateChild("Camera", LOCAL);
+    cameraNode.temporary = true;
     // Set an initial position for the camera scene node above the plane
     Vector3 position = Vector3(0.0f, 40.0f, -10.0f);
     if (NetworkHandler::terrainNode !is null) {

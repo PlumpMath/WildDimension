@@ -13,8 +13,12 @@ namespace NetworkHandler {
 
         network.updateFps = 10;
 
+        File file("Data/Map/Map.json", FILE_READ);
+        scene_.LoadJSON(file);
+        terrainNode = scene_.GetChild("Terrain");
+        terrain = terrainNode.GetComponent("Terrain");
         // Create a Zone component for ambient lighting & fog control
-        Node@ zoneNode = scene_.CreateChild("Zone");
+        /*Node@ zoneNode = scene_.CreateChild("Zone");
         Zone@ zone = zoneNode.CreateComponent("Zone");
         zone.boundingBox = BoundingBox(-1000.0f, 1000.0f);
         zone.fogColor = Color(0.3f, 0.3f, 0.3f);
@@ -51,7 +55,7 @@ namespace NetworkHandler {
         // Create skybox. The Skybox component is used like StaticModel, but it will be always located at the camera, giving the
         // illusion of the box planes being far away. Use just the ordinary Box model and a suitable material, whose shader will
         // generate the necessary 3D texture coordinates for cube mapping
-        Node@ skyNode = scene_.CreateChild("Sky");
+        /*Node@ skyNode = scene_.CreateChild("Sky");
         skyNode.SetScale(500.0); // The scale actually does not matter
         skyNode.position = Vector3(0, 0, 0);
 
@@ -77,133 +81,7 @@ namespace NetworkHandler {
         body.collisionLayer = COLLISION_TERRAIN_LEVEL; // Use layer bitmask 2 for static geometry
         body.restitution = 0.5f;
         CollisionShape@ shape = terrainNode.CreateComponent("CollisionShape");
-        shape.SetTerrain();
-
-        // Create groups of mushrooms, which act as shadow casters
-        const uint NUM_MUSHROOMGROUPS = 0;
-        const uint NUM_MUSHROOMS = 10;
-
-        for (uint i = 0; i < NUM_MUSHROOMGROUPS; ++i)
-        {
-            // First create a scene node for the group. The individual mushrooms nodes will be created as children
-            //Node@ groupNode = scene_.CreateChild("MushroomGroup");
-            //groupNode.position = Vector3(Random(400.0f) - 95.0f, 0.0f, Random(400.0f) - 95.0f);
-
-            for (uint j = 0; j < NUM_MUSHROOMS; ++j)
-            {
-                Node@ mushroomNode = scene_.CreateChild("Mushroom");
-                Vector3 position = Vector3(Random(1000.0f) - 95.0f, 0.0f, Random(1000.0f) - 95.0f);
-                position.y = terrain.GetHeight(position);
-                mushroomNode.position = position;
-                mushroomNode.worldRotation = Quaternion(Vector3(0.0f, 1.0f, 0.0f), terrain.GetNormal(position));
-                //stamushroomNode.rotation = Quaternion(0.0f, Random() * 360.0f, 0.0f);
-                mushroomNode.SetScale(1.0f + Random(2.0f) * 1.0f);
-                StaticModel@ mushroomObject = mushroomNode.CreateComponent("StaticModel");
-                mushroomObject.model = cache.GetResource("Model", "Models/Mushroom.mdl");
-                mushroomObject.material = cache.GetResource("Material", "Materials/Mushroom.xml");
-                mushroomObject.castShadows = true;
-            }
-        }
-
-        for (uint i = 0; i < NUM_MUSHROOMGROUPS; ++i)
-        {
-            // First create a scene node for the group. The individual mushrooms nodes will be created as children
-            //Node@ groupNode = scene_.CreateChild("MushroomGroup");
-            //groupNode.position = Vector3(Random(400.0f) - 95.0f, 0.0f, Random(400.0f) - 95.0f);
-
-            for (uint j = 0; j < NUM_MUSHROOMS; ++j)
-            {
-                Node@ mushroomNode = scene_.CreateChild("Mushroom");
-                Vector3 position = Vector3(Random(300.0f) - 95.0f, 0.0f, Random(300.0f) - 95.0f);
-                position.y = terrain.GetHeight(position) + 10.0f;
-                mushroomNode.position = position;
-                mushroomNode.worldRotation = Quaternion(Vector3(0.0f, 1.0f, 0.0f), terrain.GetNormal(position));
-                //stamushroomNode.rotation = Quaternion(0.0f, Random() * 360.0f, 0.0f);
-                float sc = 1.0f + Random(2.0f) * 1.0f;
-                Vector3 scale = Vector3(sc, sc, sc);
-                mushroomNode.SetScale(sc);
-                StaticModel@ mushroomObject = mushroomNode.CreateComponent("StaticModel");
-                mushroomObject.model = cache.GetResource("Model", "Models/Models/Pacman.mdl");
-                mushroomObject.material = cache.GetResource("Material", "Materials/Stone.xml");
-                mushroomObject.castShadows = true;
-
-                RigidBody@ body2 = mushroomNode.CreateComponent("RigidBody");
-                body2.mass = 1.0f;
-                body2.friction = 0.2f;
-                body2.restitution = 0.1f;
-                CollisionShape@ shape2 = mushroomNode.CreateComponent("CollisionShape");
-                shape2.SetConvexHull(mushroomObject.model);
-
-                ParticleEmitter@ particleEmitter = mushroomNode.CreateComponent("ParticleEmitter");
-                particleEmitter.effect = cache.GetResource("ParticleEffect", "Particle/Fire.xml");
-                particleEmitter.emitting = true;
-            }
-        }
-
-        // Create billboard sets (floating smoke)
-        const uint NUM_BILLBOARDNODES = 0;
-        const uint NUM_BILLBOARDS = 10;
-
-        for (uint i = 0; i < NUM_BILLBOARDNODES; ++i)
-        {
-            Node@ smokeNode = scene_.CreateChild("Smoke");
-            Vector3 position = Vector3(Random(500.0f) - 100.0f, Random(50.0f) + 20.0f, Random(500.0f) - 100.0f);
-            position.y = terrain.GetHeight(position) + 20.0f;
-            smokeNode.position = position;
-            BillboardSet@ billboardObject = smokeNode.CreateComponent("BillboardSet");
-            billboardObject.numBillboards = NUM_BILLBOARDS;
-            billboardObject.material = cache.GetResource("Material", "Materials/LitSmoke.xml");
-            billboardObject.sorted = true;
-
-            for (uint j = 0; j < NUM_BILLBOARDS; ++j)
-            {
-                Billboard@ bb = billboardObject.billboards[j];
-                bb.position = Vector3(Random(12.0f) - 6.0f, Random(8.0f) - 4.0f, Random(12.0f) - 6.0f);
-                bb.size = Vector2(Random(2.0f) + 3.0f, Random(2.0f) + 3.0f);
-                bb.rotation = Random() * 360.0f;
-                bb.enabled = true;
-            }
-
-            // After modifying the billboards, they need to be "committed" so that the BillboardSet updates its internals
-            billboardObject.Commit();
-        }
-
-        // Create shadow casting spotlights
-        const uint NUM_LIGHTS = 0;
-
-        for (uint i = 0; i < NUM_LIGHTS; ++i)
-        {
-            Node@ lightNode = scene_.CreateChild("SpotLight");
-            Light@ light = lightNode.CreateComponent("Light");
-
-            float angle = 0.0f;
-
-            Vector3 position((i % 3) * 60.0f - 60.0f, 95.0f, (i / 3) * 60.0f - 60.0f);
-            Color color(((i + 1) & 1) * 0.5f + 0.5f, (((i + 1) >> 1) & 1) * 0.5f + 0.5f, (((i + 1) >> 2) & 1) * 0.5f + 0.5f);
-
-            lightNode.position = position;
-            lightNode.direction = Vector3(Sin(angle), -1.5f, Cos(angle));
-
-            light.lightType = LIGHT_SPOT;
-            light.range = 200.0f;
-            //light.rampTexture = cache.GetResource("Texture2D", "Textures/UrhoIcon.png");
-            light.fov = 45.0f;
-            light.color = color;
-            light.specularIntensity = 1.0f;
-            light.castShadows = true;
-            light.shadowBias = BiasParameters(0.00025f, 0.5f);
-            light.shadowCascade = CascadeParameters(10.0f, 50.0f, 200.0f, 0.0f, 0.8f);
-
-            // Configure shadow fading for the lights. When they are far away enough, the lights eventually become unshadowed for
-            // better GPU performance. Note that we could also set the maximum distance for each object to cast shadows
-            light.shadowFadeDistance = 100.0f; // Fade start distance
-            light.shadowDistance = 125.0f; // Fade end distance, shadows are disabled
-            // Set half resolution for the shadow maps for increased performance
-            light.shadowResolution = 0.8f;
-            // The spot lights will not have anything near them, so move the near plane of the shadow camera farther
-            // for better shadow depth resolution
-            light.shadowNearFarRatio = 0.01f;
-        }
+        shape.SetTerrain();*/
 
         for (int i = -5; i < 5; i+=5) {
             for (int j = -5; j < 5; j+=5) {
@@ -256,6 +134,13 @@ namespace NetworkHandler {
 
         //GameSounds::PlayAmbient(GameSounds::AMBIENT_SOUND);
         ActiveTool::Create();
+
+        /*File file("Map.xml", FILE_WRITE);
+        scene_.SaveXML(file);
+
+        File file2("Map.json", FILE_WRITE);
+        scene_.SaveJSON(file2);*/
+
     }
 
     

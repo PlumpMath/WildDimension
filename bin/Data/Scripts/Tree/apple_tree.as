@@ -12,6 +12,7 @@ namespace AppleTree {
     {
         Node@ treeNode = scene_.CreateChild("Tree");
         treeNode.AddTag("Tree");
+        treeNode.temporary = true;
         position.y = NetworkHandler::terrain.GetHeight(position);
         treeNode.position = position;
 
@@ -61,6 +62,7 @@ namespace AppleTree {
     {
         for (int i = 0; i < count; i++) {
             Node@ apple = scene_.CreateChild("Apple");
+            apple.temporary = true;
             apple.AddTag("Apple");
             Vector3 position = parentTree.node.position;
             position.x += -30.0f + Random(60.0f);

@@ -24,6 +24,7 @@ namespace Trap {
     void CreatePickable(Vector3 position)
     {
         Node@ node = scene_.CreateChild("Trap");
+        node.temporary = true;
         node.AddTag("Trap");
 
         position.y = NetworkHandler::terrain.GetHeight(position) + 1.0f;
