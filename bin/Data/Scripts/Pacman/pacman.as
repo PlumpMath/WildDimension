@@ -38,6 +38,8 @@ namespace Pacman {
         CollisionShape@ shape = pacmanNode.CreateComponent("CollisionShape");
         shape.SetBox(Vector3(2, 2, 2));
 
+        GameSounds::AddLoopedSoundToNode(pacmanNode, GameSounds::PACMAN);
+
         pacmans.Push(pacmanNode);
         return pacmanNode;
     }

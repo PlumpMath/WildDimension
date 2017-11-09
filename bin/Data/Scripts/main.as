@@ -190,15 +190,6 @@ void CreateScene()
     // The camera will use default settings (1000 far clip distance, 45 degrees FOV, set aspect ratio automatically)
     cameraNode = scene_.CreateChild("Camera", LOCAL);
     cameraNode.temporary = true;
-    // Set an initial position for the camera scene node above the plane
-    Vector3 position = Vector3(0.0f, 40.0f, -10.0f);
-    if (NetworkHandler::terrainNode !is null) {
-        position.y = NetworkHandler::terrain.GetHeight(position) + 5.0f;
-    }
-    //cameraNode.position = position;
-    if (Player::playerNode !is null) {
-        cameraNode.position = Player::playerNode.position;
-    }
 
     camera = cameraNode.CreateComponent("Camera", LOCAL);
     camera.orthographic = false;
@@ -209,7 +200,9 @@ void CreateScene()
     camera.zoom = 1.0f * Min(graphics.width / 1280.0f, graphics.height / 800.0f); // Set zoom according to user's resolution to ensure full visibility (initial zoom (1.5) is set for full visibility at 1280x800 resolution)
     camera.lodBias = 100.0f;
 
-    cameraNode.CreateComponent("SoundListener");
+    SoundListener@ listener = cameraNode.CreateComponent("SoundListener");
+    audio.listener = listener;
+
 
     NetworkHandler::StartServer();
 

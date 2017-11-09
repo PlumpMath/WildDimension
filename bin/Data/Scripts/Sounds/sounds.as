@@ -10,6 +10,7 @@ namespace GameSounds {
     const String JUMP = "Sounds/jump.wav";
     const String MISSION_COMPLETE = "Sounds/mission_complete.wav";
     const String SNAKE = "Sounds/snake.wav";
+    const String PACMAN = "Sounds/pacman.wav";
 
     void Play(String soundName)
     {
@@ -56,10 +57,11 @@ namespace GameSounds {
             // non-positional audio, so its 3D position in the scene does not matter. For positional sounds the
             // SoundSource3D component would be used instead
             SoundSource3D@ soundSource = node.CreateComponent("SoundSource3D");
-            soundSource.autoRemoveMode = REMOVE_COMPONENT;
+            //soundSource.autoRemoveMode = REMOVE_COMPONENT;
             soundSource.Play(sound);
-            soundSource.SetDistanceAttenuation(1, 100, 0.1);
-            soundSource.soundType = SOUND_MUSIC;
+            //soundSource.SetDistanceAttenuation(1, 100, 0.1);
+            soundSource.SetDistanceAttenuation(1.0f, 50.0f, 5.0f);
+            //soundSource.soundType = SOUND_MUSIC;
             // In case we also play music, set the sound volume below maximum so that we don't clip the output
             soundSource.gain = 0.7f;
         }

@@ -230,7 +230,7 @@ namespace GUIHandler {
             }
         }
         if (positionText !is null) {
-            positionText.text = "X: " + String(cameraNode.position.x) + "\n" + "Y: " + String(cameraNode.position.y) + "\n" + "Z: " + String(cameraNode.position.z);
+            positionText.text = "X: " + String(cameraNode.worldPosition.x) + "\n" + "Y: " + String(cameraNode.worldPosition.y) + "\n" + "Z: " + String(cameraNode.worldPosition.z);
         }
     }
 }
