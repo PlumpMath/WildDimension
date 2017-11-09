@@ -66,8 +66,8 @@ namespace Player {
             playerControls.Set(CTRL_BACK, input.keyDown[KEY_S]);
             playerControls.Set(CTRL_LEFT, input.keyDown[KEY_A]);
             playerControls.Set(CTRL_RIGHT, input.keyDown[KEY_D]);
-            playerControls.Set(CTRL_JUMP, input.keyDown[KEY_SPACE]);
         }
+        playerControls.Set(CTRL_JUMP, input.keyDown[KEY_SPACE]);
 
         Vector3 moveDir(0.0f, 0.0f, 0.0f);
 

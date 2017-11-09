@@ -37,7 +37,7 @@ namespace Snake {
         RigidBody@ pacmanBody = snakeNode.CreateComponent("RigidBody");
         pacmanBody.collisionLayer = COLLISION_SNAKE_HEAD_LEVEL;
         pacmanBody.collisionMask = COLLISION_TERRAIN_LEVEL | COLLISION_PACMAN_LEVEL | COLLISION_PLAYER_LEVEL | COLLISION_SNAKE_HEAD_LEVEL | COLLISION_FOOD_LEVEL | COLLISION_TREE_LEVEL;
-        pacmanBody.mass = 10.0f;
+        pacmanBody.mass = 1.0f;
 
         // Set zero angular factor so that physics doesn't turn the character on its own.
         // Instead we will control the character yaw manually

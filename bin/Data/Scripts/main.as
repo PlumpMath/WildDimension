@@ -55,6 +55,8 @@ const uint COLLISION_FOOD_LEVEL = 64;
 const uint COLLISION_TREE_LEVEL = 128;
 const uint COLLISION_STATIC_OBJECTS = 256;
 
+const float JOYSTICK_DEAD_ZONE = 0.3f;
+
 bool isMobilePlatform = false;
 Controls oldControls;
 
@@ -92,15 +94,6 @@ void Start()
     } else {
         SplashScreen::CreateSplashScreen();
     }
-
-    if (GetPlatform() == "Android" || GetPlatform() == "iOS" || input.touchEmulation) {
-        // On mobile platform, enable touch by adding a screen joystick
-        isMobilePlatform = true;
-        gameController.CreateController();
-    } else if (input.numJoysticks == 0) {
-        // On desktop platform, do not detect touch when we already got a joystick
-        //SubscribeToEvent("TouchBegin", "HandleTouchBegin");
-    }
 }
 
 void RegisterConsoleCommands()
@@ -126,6 +119,15 @@ void HandleExit(StringHash eventType, VariantMap& eventData)
 
 void HandleSplashScreenEnd(StringHash eventType, VariantMap& eventData)
 {
+    if (GetPlatform() == "Android" || GetPlatform() == "iOS" || input.touchEmulation) {
+        // On mobile platform, enable touch by adding a screen joystick
+        isMobilePlatform = true;
+        gameController.CreateController();
+    } else if (input.numJoysticks == 0) {
+        // On desktop platform, do not detect touch when we already got a joystick
+        //SubscribeToEvent("TouchBegin", "HandleTouchBegin");
+    }
+
     SubscribeToEvent("PostUpdate", "HandlePostUpdate");
     SubscribeToEvent("Update", "HandleUpdate");
 
@@ -266,7 +268,7 @@ void HandleUpdate(StringHash eventType, VariantMap& eventData)
         gameController.UpdateControlInputs(controls);
         Variant rStick = controls.extraData["VAR_AXIS_1"];
         Variant lStick = controls.extraData["VAR_AXIS_0"];
-        Player::playerControls.Set(Player::CTRL_JUMP, controls.IsDown(KEY_SPACE));
+        //Player::playerControls.Set(Player::CTRL_JUMP, input.keyDown[KEY_SPACE]);
         uint BA = 1 << 0;
         //log.Info("AAA " + input.keyDown[KEY_SPACE]);
         //log.Info("A " + controls.IsDown(BA) + "; B " + controls.IsDown(1 << 2) + "; X " + controls.IsDown(1 << 3) + "; Y" + controls.IsDown(BUTTON_Y));
@@ -292,8 +294,12 @@ void HandleUpdate(StringHash eventType, VariantMap& eventData)
             float YAW_SENSITIVITY = 100.0f * timeStep;
             float PITCH_SENSITIVITY = 100.0f * timeStep;
             Vector2 axisInput = rStick.GetVector2();
-            yaw += axisInput.x * YAW_SENSITIVITY;
-            pitch += axisInput.y * PITCH_SENSITIVITY;
+            if (Abs(axisInput.x) > JOYSTICK_DEAD_ZONE) {
+                yaw += axisInput.x * YAW_SENSITIVITY;
+            }
+            if (Abs(axisInput.y) > JOYSTICK_DEAD_ZONE) {
+                pitch += axisInput.y * PITCH_SENSITIVITY;
+            }
         }
         oldControls = controls;
     }
