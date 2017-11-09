@@ -13,6 +13,18 @@ namespace Inventory {
         SubscribeToEvent("InventoryAddBranch", "Inventory::HandleInventoryAddBranch");
     }
 
+    int GetItemCount(String name)
+    {
+        for (uint i = 0; i < items.length; i++) {
+            Item@ item = items[i];
+            if (item.name == name) {
+                return item.count;
+            }
+        }
+
+        return 0;
+    }
+
     void RegisterConsoleCommands()
     {
         /*VariantMap data;

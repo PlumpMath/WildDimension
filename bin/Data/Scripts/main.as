@@ -29,6 +29,8 @@
 #include "Achievements/hit.as"
 #include "Achievements/branch.as"
 
+#include "Missions/missions.as"
+
 #include "Screens/splash.as"
 
 Scene@ scene_;
@@ -142,9 +144,13 @@ void HandleSplashScreenEnd(StringHash eventType, VariantMap& eventData)
     Player::CreatePlayer();
 
     Achievements::Init();
+    Achievements::Subscribe();
+
     RegisterConsoleCommands();
     GUIHandler::RegisterConsoleCommands();
-    Achievements::Subscribe();
+
+    Missions::Init();
+    Missions::Subscribe();
 }
 
 void HandleToggleDebugDraw(StringHash eventType, VariantMap& eventData)
@@ -202,6 +208,8 @@ void CreateScene()
     camera.zoom = 1.0f * Min(graphics.width / 1280.0f, graphics.height / 800.0f); // Set zoom according to user's resolution to ensure full visibility (initial zoom (1.5) is set for full visibility at 1280x800 resolution)
     camera.lodBias = 100.0f;
 
+    cameraNode.CreateComponent("SoundListener");
+
     NetworkHandler::StartServer();
 
 }
@@ -216,6 +224,17 @@ void SetupViewport()
     // use, but now we just use full screen and default render path configured in the engine command line options
     Viewport@ viewport = Viewport(scene_, cameraNode.GetComponent("Camera"));
     renderer.viewports[0] = viewport;
+
+    RenderPath@ effectRenderPath = viewport.renderPath.Clone();
+    effectRenderPath.Append(cache.GetResource("XMLFile", "PostProcess/Bloom.xml"));
+    effectRenderPath.Append(cache.GetResource("XMLFile", "PostProcess/FXAA2.xml"));
+    //effectRenderPath.Append(cache.GetResource("XMLFile", "PostProcess/AutoExposure.xml"));
+    // Make the bloom mixing parameter more pronounced
+    effectRenderPath.shaderParameters["BloomMix"] = Variant(Vector2(1.0f, 0.5f));
+    effectRenderPath.SetEnabled("Bloom", true);
+    effectRenderPath.SetEnabled("FXAA2", true);
+    //effectRenderPath.SetEnabled("AutoExposure", true);
+    viewport.renderPath = effectRenderPath;
 }
 
 void SampleInitMouseMode(MouseMode mode)

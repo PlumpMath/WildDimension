@@ -1,4 +1,7 @@
 namespace GUIHandler {
+
+    const String GUI_FONT = "Fonts/PainttheSky-Regular.otf";
+    const int GUI_FONT_SIZE = 20;
     Sprite@ logoSprite;
     Text@ bytesIn;
     Text@ bytesOut;
@@ -6,12 +9,15 @@ namespace GUIHandler {
     UIElement@ eventLog;
     Array<Text@> latestEvents;
 
+    Text@ positionText;
+
     void CreateGUI()
     {
         //CreateLogo();
         CreateNetworkTrafficDebug();
         CreateInventory();
         CreateEventLog();
+        CreatePositionText();
     }
 
     void CreateLogo()
@@ -92,13 +98,16 @@ namespace GUIHandler {
             eventLog.Remove();
             latestEvents.Clear();
         }
+        if (positionText !is null) {
+            positionText.Remove();
+        }
     }
 
     void CreateNetworkTrafficDebug()
     {
         bytesIn = ui.root.CreateChild("Text");
         bytesIn.text = "";
-        bytesIn.SetFont(cache.GetResource("Font", "Fonts/Anonymous Pro.ttf"), 10);
+        bytesIn.SetFont(cache.GetResource("Font", GUI_FONT), GUI_FONT_SIZE);
         bytesIn.textAlignment = HA_CENTER; // Center rows in relation to each other
 
         // Position the text relative to the screen center
@@ -108,7 +117,7 @@ namespace GUIHandler {
 
         bytesOut = ui.root.CreateChild("Text");
         bytesOut.text = "";
-        bytesOut.SetFont(cache.GetResource("Font", "Fonts/Anonymous Pro.ttf"), 10);
+        bytesOut.SetFont(cache.GetResource("Font", GUI_FONT), GUI_FONT_SIZE);
         bytesOut.textAlignment = HA_CENTER; // Center rows in relation to each other
 
         // Position the text relative to the screen center
@@ -121,13 +130,26 @@ namespace GUIHandler {
     {
         inventoryList = ui.root.CreateChild("Text");
         inventoryList.text = "";
-        inventoryList.SetFont(cache.GetResource("Font", "Fonts/Anonymous Pro.ttf"), 16);
+        inventoryList.SetFont(cache.GetResource("Font", GUI_FONT), GUI_FONT_SIZE);
         inventoryList.textAlignment = HA_CENTER; // Center rows in relation to each other
 
         // Position the text relative to the screen center
         inventoryList.horizontalAlignment = HA_RIGHT;
         inventoryList.verticalAlignment = VA_BOTTOM;
         inventoryList.SetPosition(-20, -200);
+    }
+
+    void CreatePositionText()
+    {
+        positionText = ui.root.CreateChild("Text");
+        positionText.text = "";
+        positionText.SetFont(cache.GetResource("Font", GUI_FONT), GUI_FONT_SIZE);
+        positionText.textAlignment = HA_LEFT; // Center rows in relation to each other
+
+        // Position the text relative to the screen center
+        positionText.horizontalAlignment = HA_LEFT;
+        positionText.verticalAlignment = VA_TOP;
+        positionText.SetPosition(20, 20);
     }
 
     void CreateEventLog()
@@ -142,7 +164,7 @@ namespace GUIHandler {
         for (int i = 0; i < 20; i++) {
             Text@ oneLine = eventLog.CreateChild("Text");
             oneLine.text = "";//String(i) + "element";
-            oneLine.SetFont(cache.GetResource("Font", "Fonts/Anonymous Pro.ttf"), 16);
+            oneLine.SetFont(cache.GetResource("Font", GUI_FONT), GUI_FONT_SIZE);
             oneLine.textAlignment = HA_CENTER; // Center rows in relation to each other
 
             // Position the text relative to the screen center
@@ -206,6 +228,9 @@ namespace GUIHandler {
             if (bytesOut !is null) {
                 bytesOut.text = "Bytes Out: " + String(bOut);
             }
+        }
+        if (positionText !is null) {
+            positionText.text = "X: " + String(cameraNode.position.x) + "\n" + "Y: " + String(cameraNode.position.y) + "\n" + "Z: " + String(cameraNode.position.z);
         }
     }
 }

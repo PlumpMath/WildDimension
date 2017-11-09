@@ -65,6 +65,8 @@ namespace Snake {
         for (uint i = 0; i < SNAKE_MIN_LENGTH; i++) {
             snakeBody.body.Push(createSnakeBodyPart(snakeBody));
         }
+
+        GameSounds::AddLoopedSoundToNode(snakeNode, GameSounds::SNAKE);
         snakes.Push(snakeBody);
 
         return snakeNode;

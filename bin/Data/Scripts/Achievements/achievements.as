@@ -60,6 +60,7 @@ namespace Achievements {
 
     void HandleAchievement(StringHash eventType, VariantMap& eventData)
     {
+        SendEvent("MissionCompleted", eventData);
         if (eventData.Contains("Name") && eventData["Name"].type == VAR_STRING) {
             String name = eventData["Name"].GetString();
             Array<Variant> parameters;
