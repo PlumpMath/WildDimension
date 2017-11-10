@@ -6,6 +6,7 @@ namespace Missions {
     class MissionItem {
         String name;
         String description;
+        String shortDescription;
         String eventName;
         String itemName;
         float current;
@@ -22,6 +23,7 @@ namespace Missions {
     {
         log.Info("Adding mission " + item.name);
         missionList.Push(item);
+        SendEvent("UpdateMissionsGUI");
     }
 
     bool CheckIfCompleted(MissionItem item)
@@ -59,6 +61,7 @@ namespace Missions {
         MissionItem item;
         item.name = "Survivalist";
         item.description = "Get axe from somewhere";
+        item.shortDescription = "Get axe";
         item.eventName = "GetAxe";
         item.itemName = "Axe";
         item.current = 0;
@@ -69,6 +72,7 @@ namespace Missions {
 
         item.name = "Defense";
         item.description = "Create trap";
+        item.shortDescription = "Get trap";
         item.eventName = "GetTrap";
         item.itemName = "Trap";
         item.current = 0;
@@ -79,6 +83,7 @@ namespace Missions {
 
         item.name = "Woodchopper";
         item.description = "Gather some wood";
+        item.shortDescription = "Gather 5 branches";
         item.eventName = "GetBranch";
         item.itemName = "Branch";
         item.current = 0;
@@ -117,6 +122,7 @@ namespace Missions {
                         VariantMap data;
                         data["Message"] = "Mission [" + item.name +"] completed!";
                         SendEvent("UpdateEventLogGUI", data);
+                        SendEvent("UpdateMissionsGUI");
 
                         GameSounds::Play(GameSounds::MISSION_COMPLETE);
                         NextMission();

@@ -10,6 +10,11 @@ namespace NetworkHandler {
         scene_.LoadJSON(file);
     }
 
+    void CreateScene()
+    {
+
+    }
+
     void StartServer()
     {
         //network.simulatedLatency = 500;
@@ -102,9 +107,9 @@ namespace NetworkHandler {
             }
         }
 
-        for (int i = -5; i < 5; i+=1) {
-            for (int j = -5; j < 5; j+=1) {
-                Vector3 position = Vector3(i * 45 + Random(2.0f), 0.0, j * 45 + + Random(2.0f));
+        for (int i = -10; i < 10; i+=1) {
+            for (int j = -10; j < 10; j+=1) {
+                Vector3 position = Vector3(i * 41 + Random(30.0f), 0.0, j * 33 + + Random(30.0f));
                 AppleTree::Create(position);
 
                 position.x += 2.0f + Random(5.0f);
@@ -116,9 +121,9 @@ namespace NetworkHandler {
             }
         }
 
-        for (int i = -5; i < 5; i+=1) {
-            for (int j = -5; j < 5; j+=1) {
-                Vector3 position = Vector3(i * 35 + Random(2.0f), 0.0, j * 35 + Random(2.0f));
+        for (int i = -10; i < 10; i+=1) {
+            for (int j = -10; j < 10; j+=1) {
+                Vector3 position = Vector3(i * 26 + Random(20.0f), 0.0, j * 26 + Random(20.0f));
                 RaspberryBush::Create(position);
             }
         }
@@ -132,12 +137,12 @@ namespace NetworkHandler {
 
         for (int i = -5; i < 5; i+=5) {
             for (int j = -5; j < 5; j+=5) {
-                Vector3 position = Vector3(i * 35 + Random(2.0f), 0.0, j * 35 + Random(2.0f));
+                Vector3 position = Vector3(i * 37 + Random(20.0f), 0.0, j * 37 + Random(20.0f));
                 Camp::Create(position);
             }
         }
 
-        //GameSounds::PlayAmbient(GameSounds::AMBIENT_SOUND);
+        GameSounds::PlayAmbient(GameSounds::AMBIENT_SOUND);
 
         /*File file("Map.xml", FILE_WRITE);
         scene_.SaveXML(file);

@@ -2,12 +2,17 @@ namespace GUIHandler {
 
     const String GUI_FONT = "Fonts/PainttheSky-Regular.otf";
     const int GUI_FONT_SIZE = 20;
+    const int GUI_NOTES_FONT_SIZE = 14;
+
     Sprite@ logoSprite;
     Text@ bytesIn;
     Text@ bytesOut;
     Text@ inventoryList;
     UIElement@ eventLog;
     Array<Text@> latestEvents;
+
+    Sprite@ notesSprite;
+    Array<Text@> notesLines;
 
     Text@ positionText;
 
@@ -18,6 +23,7 @@ namespace GUIHandler {
         CreateInventory();
         CreateEventLog();
         CreatePositionText();
+        CreateNotes();
     }
 
     void CreateLogo()
@@ -58,6 +64,67 @@ namespace GUIHandler {
         logoSprite.priority = -100;
     }
 
+    void CreateNotes()
+    {
+        if (engine.headless) {
+            return;
+        }
+        // Get logo texture
+        Texture2D@ notesTexture = cache.GetResource("Texture2D", "Textures/notes.png");
+        if (notesTexture is null) {
+            return;
+        }
+
+        // Create logo sprite and add to the UI layout
+        notesSprite = ui.root.CreateChild("Sprite");
+
+        // Set logo sprite texture
+        notesSprite.texture = notesTexture;
+
+        int textureWidth = notesTexture.width / 2;
+        int textureHeight = notesTexture.height / 2;
+
+        // Set logo sprite scale
+        //notesSprite.SetScale(256.0f / textureWidth);
+
+        // Set logo sprite size
+        notesSprite.SetSize(textureWidth, textureHeight);
+        notesSprite.position = Vector2(-10, 10);
+
+        // Set logo sprite hot spot
+        notesSprite.SetHotSpot(textureWidth, 0);
+
+        // Set logo sprite alignment
+        notesSprite.SetAlignment(HA_RIGHT, VA_TOP);
+
+        // Make logo not fully opaque to show the scene underneath
+        notesSprite.opacity = 1.0f;
+
+        // Set a low priority for the logo so that other UI elements can be drawn on top
+        notesSprite.priority = -100;
+
+        UIElement@ missions = notesSprite.CreateChild("UIElement");
+
+        // Position the text relative to the screen center
+        missions.horizontalAlignment = HA_LEFT;
+        missions.verticalAlignment = VA_TOP;
+        missions.SetPosition(-10, 10);
+
+        for (int i = 0; i < 10; i++) {
+            Text@ oneLine = missions.CreateChild("Text");
+            oneLine.text = "";//String(i) + "element";
+            oneLine.SetFont(cache.GetResource("Font", GUI_FONT), GUI_NOTES_FONT_SIZE);
+            oneLine.textAlignment = HA_LEFT; // Center rows in relation to each other
+            oneLine.color = Color(1, 0, 0);
+
+            // Position the text relative to the screen center
+            oneLine.horizontalAlignment = HA_LEFT;
+            oneLine.verticalAlignment = VA_TOP;
+            oneLine.SetPosition(25, i * GUI_NOTES_FONT_SIZE + 2);
+            notesLines.Push(oneLine);
+        }
+    }
+
     void RemoveLogo()
     {
         if (logoSprite !is null) {
@@ -71,6 +138,7 @@ namespace GUIHandler {
         SubscribeToEvent("ToggleLogo", "GUIHandler::ToggleLogo");
         SubscribeToEvent("UpdateInventoryGUI", "GUIHandler::HandleUpdateInventoryGUI");
         SubscribeToEvent("UpdateEventLogGUI", "GUIHandler::HandleUpdateEventLog");
+        SubscribeToEvent("UpdateMissionsGUI", "GUIHandler::HandleUpdateMissionsGUI");
     }
 
     void RegisterConsoleCommands()
@@ -100,6 +168,9 @@ namespace GUIHandler {
         }
         if (positionText !is null) {
             positionText.Remove();
+        }
+        if (notesSprite !is null) {
+            notesSprite.Remove();
         }
     }
 
@@ -172,6 +243,24 @@ namespace GUIHandler {
             oneLine.verticalAlignment = VA_BOTTOM;
             oneLine.SetPosition(0, i * -20);
             latestEvents.Push(oneLine);
+        }
+    }
+
+    void HandleUpdateMissionsGUI(StringHash eventType, VariantMap& eventData)
+    {
+        log.Info("HandleUpdateMissionsGUI");
+        for (uint i = 0; i < notesLines.length; i++) {
+            notesLines[i].text = "";
+        }
+        for (uint i = 0; i < Missions::missionList.length; i++) {
+            if (i < notesLines.length) {
+                if (Missions::missionList[i].completed) {
+                    notesLines[i].color = Color(0.1f, 0.9f, 0.1f);
+                } else {
+                    notesLines[i].color = Color(0.9f, 0.1f, 0.1f);
+                }
+                notesLines[i].text = Missions::missionList[i].shortDescription;
+            }
         }
     }
 

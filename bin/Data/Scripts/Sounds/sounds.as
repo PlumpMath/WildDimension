@@ -25,7 +25,7 @@ namespace GameSounds {
             soundSource.autoRemoveMode = REMOVE_COMPONENT;
             soundSource.Play(sound);
             // In case we also play music, set the sound volume below maximum so that we don't clip the output
-            soundSource.gain = 0.7f;
+            soundSource.gain = 0.3f;
         }
     }
 
