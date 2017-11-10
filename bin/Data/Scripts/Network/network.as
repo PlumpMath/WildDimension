@@ -4,6 +4,12 @@ namespace NetworkHandler {
     Node@ terrainNode;
     Terrain@ terrain;
 
+    void LoadScene()
+    {
+        File file("Data/Map/Map.json", FILE_READ);
+        scene_.LoadJSON(file);
+    }
+
     void StartServer()
     {
         //network.simulatedLatency = 500;
@@ -13,8 +19,6 @@ namespace NetworkHandler {
 
         network.updateFps = 10;
 
-        File file("Data/Map/Map.json", FILE_READ);
-        scene_.LoadJSON(file);
         terrainNode = scene_.GetChild("Terrain");
         terrain = terrainNode.GetComponent("Terrain");
         // Create a Zone component for ambient lighting & fog control
@@ -83,6 +87,7 @@ namespace NetworkHandler {
         CollisionShape@ shape = terrainNode.CreateComponent("CollisionShape");
         shape.SetTerrain();*/
 
+        ActiveTool::Create();
         for (int i = -5; i < 5; i+=5) {
             for (int j = -5; j < 5; j+=5) {
                 Vector3 position = Vector3(i * 40 + Random(20.0f), 0.0, j * 40 + Random(20.0f));
@@ -90,16 +95,16 @@ namespace NetworkHandler {
             }
         }
 
-        for (int i = -5; i < 5; i+=10) {
-            for (int j = -5; j < 5; j+=10) {
-                Vector3 position = Vector3(i * 5 + Random(30.0f), 0.0, j * 5 + Random(30.0f));
+        for (int i = -5; i < 5; i+=5) {
+            for (int j = -5; j < 5; j+=5) {
+                Vector3 position = Vector3(i * 20 + Random(30.0f), 0.0, j * 20 + Random(30.0f));
                 Snake::Create(position);
             }
         }
 
-        for (int i = -5; i < 5; i+=5) {
-            for (int j = -5; j < 5; j+=5) {
-                Vector3 position = Vector3(i * 10 + Random(2.0f), 0.0, j * 10 + + Random(2.0f));
+        for (int i = -5; i < 5; i+=1) {
+            for (int j = -5; j < 5; j+=1) {
+                Vector3 position = Vector3(i * 45 + Random(2.0f), 0.0, j * 45 + + Random(2.0f));
                 AppleTree::Create(position);
 
                 position.x += 2.0f + Random(5.0f);
@@ -111,29 +116,28 @@ namespace NetworkHandler {
             }
         }
 
-        for (int i = -5; i < 5; i+=4) {
-            for (int j = -5; j < 5; j+=4) {
+        for (int i = -5; i < 5; i+=1) {
+            for (int j = -5; j < 5; j+=1) {
                 Vector3 position = Vector3(i * 35 + Random(2.0f), 0.0, j * 35 + Random(2.0f));
                 RaspberryBush::Create(position);
             }
         }
 
-        for (int i = -10; i < 10; i+=10) {
-            for (int j = -10; j < 10; j+=10) {
+        for (int i = -10; i < 10; i+=4) {
+            for (int j = -10; j < 10; j+=4) {
                 Vector3 position = Vector3(i * 100 + Random(300.0f), 0.0, j * 100 + + Random(300.0f));
                 Clouds::Create(position);
             }
         }
 
-        for (int i = -5; i < 5; i+=4) {
-            for (int j = -5; j < 5; j+=4) {
+        for (int i = -5; i < 5; i+=5) {
+            for (int j = -5; j < 5; j+=5) {
                 Vector3 position = Vector3(i * 35 + Random(2.0f), 0.0, j * 35 + Random(2.0f));
                 Camp::Create(position);
             }
         }
 
         //GameSounds::PlayAmbient(GameSounds::AMBIENT_SOUND);
-        ActiveTool::Create();
 
         /*File file("Map.xml", FILE_WRITE);
         scene_.SaveXML(file);

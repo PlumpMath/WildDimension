@@ -188,6 +188,9 @@ void CreateScene()
     }
     // Create a scene node for the camera, which we will move around
     // The camera will use default settings (1000 far clip distance, 45 degrees FOV, set aspect ratio automatically)
+
+    NetworkHandler::LoadScene();
+
     cameraNode = scene_.CreateChild("Camera", LOCAL);
     cameraNode.temporary = true;
 
@@ -202,7 +205,6 @@ void CreateScene()
 
     SoundListener@ listener = cameraNode.CreateComponent("SoundListener");
     audio.listener = listener;
-
 
     NetworkHandler::StartServer();
 
