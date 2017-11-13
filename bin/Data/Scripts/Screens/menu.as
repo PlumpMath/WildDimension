@@ -17,6 +17,15 @@ namespace MenuScreen {
     Text@ loadingText;
     bool started = false;
 
+    float scale = 1.5f;
+    bool zoomIn = true;
+
+    float rotation = 0.0f;
+    bool clockwise = true;
+
+    Vector2 mapInitialPosition;
+    Vector2 mapDirection;
+
     void CreateScreen()
     {
         input.mouseVisible = true;
@@ -32,7 +41,7 @@ namespace MenuScreen {
         int textureHeight = logoTexture.height;
 
         // Set logo sprite scale
-        mapSprite.SetScale(1);
+        mapSprite.SetScale(scale);
 
         toLocation * mapSprite.scale.length;
         fromLocation * mapSprite.scale.length;
@@ -43,11 +52,14 @@ namespace MenuScreen {
         //mapSprite.position = Vector2(textureWidth/2, -textureHeight/2);
 
         // Set logo sprite hot spot
-        //mapSprite.SetHotSpot(textureWidth / 2, textureHeight / 2);
+        mapSprite.SetHotSpot(textureWidth / 2, textureHeight / 2);
 
         // Set logo sprite alignment
         mapSprite.SetAlignment(HA_CENTER, VA_CENTER);
-        mapSprite.position = Vector2(-textureWidth/2, -textureHeight/2);
+        //mapSprite.position = Vector2(-textureWidth/2, -textureHeight/2);
+
+        mapInitialPosition = mapSprite.position;
+        mapDirection = Vector2(-0.4, -0.7);
 
         // Make logo not fully opaque to show the scene underneath
         mapSprite.opacity = 1.0;
@@ -287,6 +299,45 @@ namespace MenuScreen {
     void HandleUpdate(StringHash eventType, VariantMap& eventData)
     {
         float timeStep = eventData["TimeStep"].GetFloat();
+        if (zoomIn) {
+            scale += timeStep / 50.0f;
+            if (scale > 2.0f) {
+                zoomIn = false;
+            }
+        } else {
+            scale -= timeStep / 50.0f;
+            if (scale < 1.2f) {
+                zoomIn = true;
+            }
+        }
+        if (clockwise) {
+            rotation += timeStep;
+            if (rotation > 5.0f) {
+                clockwise = false;
+            }
+        } else {
+            rotation -= timeStep;
+            if (rotation < -5.0f) {
+                clockwise = true;
+            }
+        }
+        Vector2 mapDiff = mapInitialPosition - mapSprite.position;
+        mapSprite.position -= mapDirection * timeStep * 10.0f;
+        if (mapDiff.x < -100) {
+            mapDirection.x  = 1;
+        }
+        if (mapDiff.x > 100) {
+            mapDirection.x = -1;
+        }
+        if (mapDiff.y < -100) {
+            mapDirection.y = 1;
+        }
+        if (mapDiff.y > 100) {
+            mapDirection.y = -1;
+        }
+
+        mapSprite.rotation = rotation;
+        mapSprite.SetScale(scale);
         for (uint i = 0; i < path.length; i++) {
             if (i == 0) {
                 if (path[i].opacity > 1.0f) {
