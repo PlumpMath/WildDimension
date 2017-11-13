@@ -45,7 +45,6 @@
 #include <Urho3D/Math/MathDefs.h>
 #include <Urho3D/Core/CoreEvents.h>
 #include <Urho3D/AngelScript/ScriptAPI.h>
-#include <Urho3D/GameController/GameController.h>
 
 URHO3D_DEFINE_APPLICATION_MAIN(Urho3DPlayer);
 
