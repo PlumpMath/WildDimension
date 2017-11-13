@@ -3,6 +3,7 @@ namespace MenuScreen {
     Sprite@ fromSprite;
     Sprite@ toSprite;
     Sprite@ mapSprite;
+    Sprite@ boardSprite;
     Array<Sprite@> path;
     Vector2 fromLocation(190, 220);
     Vector2 toLocation(410, 380);
@@ -17,19 +18,60 @@ namespace MenuScreen {
     Text@ loadingText;
     bool started = false;
 
-    float scale = 1.5f;
+    float scale = 1.1f;
     bool zoomIn = true;
 
     float rotation = 0.0f;
     bool clockwise = true;
 
-    Vector2 mapInitialPosition;
-    Vector2 mapDirection;
+    Vector2 boardInitialPosition;
+    Vector2 boardDirection;
+
+    void CreateBoard()
+    {
+        boardSprite = ui.root.CreateChild("Sprite");
+        Texture2D@ logoTexture = cache.GetResource("Texture2D", "Textures/board.jpg");
+        //if (logoTexture is null)
+          //  return;
+
+        // Set logo sprite texture
+        boardSprite.texture = logoTexture;
+
+        int textureWidth = logoTexture.width;
+        int textureHeight = logoTexture.height;
+
+        // Set logo sprite scale
+        boardSprite.SetScale(1);
+
+        // Set logo sprite size
+        boardSprite.SetSize(textureWidth, textureHeight);
+
+        //mapSprite.position = Vector2(textureWidth/2, -textureHeight/2);
+
+        // Set logo sprite hot spot
+        boardSprite.SetHotSpot(textureWidth / 2, textureHeight / 2);
+
+        // Set logo sprite alignment
+        boardSprite.SetAlignment(HA_CENTER, VA_CENTER);
+        //mapSprite.position = Vector2(-textureWidth/2, -textureHeight/2);
+
+        // Make logo not fully opaque to show the scene underneath
+        boardSprite.opacity = 1.0;
+
+        // Set a low priority for the logo so that other UI elements can be drawn on top
+        boardSprite.priority = -110;
+
+        boardInitialPosition = boardSprite.position;
+        boardDirection = Vector2(-0.4, -0.7);
+    }
 
     void CreateScreen()
     {
         input.mouseVisible = true;
-        mapSprite = ui.root.CreateChild("Sprite");
+
+        CreateBoard();
+
+        mapSprite = boardSprite.CreateChild("Sprite");
         Texture2D@ logoTexture = cache.GetResource("Texture2D", "Textures/world_map.jpg");
         //if (logoTexture is null)
           //  return;
@@ -57,9 +99,6 @@ namespace MenuScreen {
         // Set logo sprite alignment
         mapSprite.SetAlignment(HA_CENTER, VA_CENTER);
         //mapSprite.position = Vector2(-textureWidth/2, -textureHeight/2);
-
-        mapInitialPosition = mapSprite.position;
-        mapDirection = Vector2(-0.4, -0.7);
 
         // Make logo not fully opaque to show the scene underneath
         mapSprite.opacity = 1.0;
@@ -288,6 +327,9 @@ namespace MenuScreen {
         if (loadingText !is null) {
             loadingText.Remove();
         }
+        if (boardSprite !is null) {
+            boardSprite.Remove();
+        }
     }
 
     void HandleMenuEnd()
@@ -321,23 +363,23 @@ namespace MenuScreen {
                 clockwise = true;
             }
         }
-        Vector2 mapDiff = mapInitialPosition - mapSprite.position;
-        mapSprite.position -= mapDirection * timeStep * 10.0f;
-        if (mapDiff.x < -100) {
-            mapDirection.x  = 1;
+        Vector2 boardDiff = boardInitialPosition - boardSprite.position;
+        boardSprite.position -= boardDirection * timeStep * 10.0f;
+        if (boardDiff.x < -100) {
+            boardDirection.x  = 1;
         }
-        if (mapDiff.x > 100) {
-            mapDirection.x = -1;
+        if (boardDiff.x > 100) {
+            boardDirection.x = -1;
         }
-        if (mapDiff.y < -100) {
-            mapDirection.y = 1;
+        if (boardDiff.y < -100) {
+            boardDirection.y = 1;
         }
-        if (mapDiff.y > 100) {
-            mapDirection.y = -1;
+        if (boardDiff.y > 100) {
+            boardDirection.y = -1;
         }
 
-        mapSprite.rotation = rotation;
-        mapSprite.SetScale(scale);
+        boardSprite.rotation = rotation;
+        boardSprite.SetScale(scale);
         for (uint i = 0; i < path.length; i++) {
             if (i == 0) {
                 if (path[i].opacity > 1.0f) {
