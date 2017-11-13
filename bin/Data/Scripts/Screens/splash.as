@@ -1,15 +1,11 @@
 namespace SplashScreen {
 
     Sprite@ logoSprite;
-    Text@ loadingText;
     float opacity; //current opacity
     bool show;
     const float FADE_SPEED = 1.0f; //How fast the logo should fade in and fade out
-    const float LOADING_TIMEOUT = 1.0f;
     bool ended = false;
-
     Array<String> textures;
-
     uint currentIndex = 0;
 
     /**
@@ -59,19 +55,6 @@ namespace SplashScreen {
 
     }
 
-    void SetLoadingText()
-    {
-        loadingText = ui.root.CreateChild("Text");
-        loadingText.text = "Please wait... Crashing the plane...";
-        loadingText.SetFont(cache.GetResource("Font", "Fonts/PainttheSky-Regular.otf"), 40);
-        loadingText.textAlignment = HA_CENTER; // Center rows in relation to each other
-
-        // Position the text relative to the screen center
-        loadingText.horizontalAlignment = HA_RIGHT;
-        loadingText.verticalAlignment = VA_BOTTOM;
-        loadingText.SetPosition(-20, -20);
-    }
-
     void CreateSplashScreen()
     {
         InitList();
@@ -87,9 +70,6 @@ namespace SplashScreen {
     {
         if (logoSprite !is null) {
             logoSprite.Remove();
-        }
-        if (loadingText !is null) {
-            loadingText.Remove();
         }
     }
 
@@ -115,8 +95,7 @@ namespace SplashScreen {
                 currentIndex++;
                 if (currentIndex >= textures.length) {
                     ended = true;
-                    DelayedExecute(LOADING_TIMEOUT, false, "void SplashScreen::HandleSplashEnd()");
-                    SetLoadingText();
+                    HandleSplashEnd();
                 } else {
                     show = true;
                     SetTexture();

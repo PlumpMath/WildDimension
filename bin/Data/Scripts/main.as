@@ -32,6 +32,7 @@
 #include "Missions/missions.as"
 
 #include "Screens/splash.as"
+#include "Screens/menu.as"
 
 Scene@ scene_;
 uint screenJoystickIndex = M_MAX_UNSIGNED; // Screen joystick index for navigational controls (mobile platforms only)
@@ -90,6 +91,7 @@ void Start()
     SubscribeToEvent("ToggleDebugDraw", "HandleToggleDebugDraw");
 
     SubscribeToEvent("SplashScreenEnd", "HandleSplashScreenEnd");
+    SubscribeToEvent("NewGame", "HandleNewGame");
 
     if (engine.headless) {
         NetworkHandler::StartServer();
@@ -120,6 +122,11 @@ void HandleExit(StringHash eventType, VariantMap& eventData)
 }
 
 void HandleSplashScreenEnd(StringHash eventType, VariantMap& eventData)
+{
+    MenuScreen::CreateScreen();
+}
+
+void HandleNewGame(StringHash eventType, VariantMap& eventData)
 {
     if (GetPlatform() == "Android" || GetPlatform() == "iOS" || input.touchEmulation) {
         // On mobile platform, enable touch by adding a screen joystick
@@ -166,6 +173,7 @@ void Stop()
     ConsoleHandler::Destroy();
     GUIHandler::Destroy();
     SplashScreen::Destroy();
+    MenuScreen::Destroy();
 }
 
 void CreateScene()
@@ -231,30 +239,6 @@ void SetupViewport()
     effectRenderPath.SetEnabled("FXAA2", true);
     //effectRenderPath.SetEnabled("AutoExposure", true);
     viewport.renderPath = effectRenderPath;
-}
-
-void SampleInitMouseMode(MouseMode mode)
-{
-  useMouseMode_ = mode;
-
-    if (GetPlatform() != "Web")
-    {
-      if (useMouseMode_ == MM_FREE)
-          input.mouseVisible = true;
-
-      if (useMouseMode_ != MM_ABSOLUTE)
-      {
-          input.mouseMode = useMouseMode_;
-          if (console.visible)
-              input.SetMouseMode(MM_ABSOLUTE, true);
-      }
-    }
-    else
-    {
-        input.mouseVisible = true;
-        SubscribeToEvent("MouseButtonDown", "HandleMouseModeRequest");
-        SubscribeToEvent("MouseModeChanged", "HandleMouseModeChange");
-    }
 }
 
 void HandleReload(StringHash eventType, VariantMap& eventData)
@@ -539,26 +523,6 @@ void HandleTouchBegin(StringHash eventType, VariantMap& eventData)
 {
     // On some platforms like Windows the presence of touch input can only be detected dynamically
     UnsubscribeFromEvent("TouchBegin");
-}
-
-// If the user clicks the canvas, attempt to switch to relative mouse mode on web platform
-void HandleMouseModeRequest(StringHash eventType, VariantMap& eventData)
-{
-    if (console !is null && console.visible)
-        return;
-
-    if (useMouseMode_ == MM_ABSOLUTE)
-        input.mouseVisible = false;
-    else if (useMouseMode_ == MM_FREE)
-        input.mouseVisible = true;
-
-    input.mouseMode = useMouseMode_;
-}
-
-void HandleMouseModeChange(StringHash eventType, VariantMap& eventData)
-{
-    bool mouseLocked = eventData["MouseLocked"].GetBool();
-    input.SetMouseVisible(!mouseLocked);
 }
 
 void HandlePostRenderUpdate(StringHash eventType, VariantMap& eventData)

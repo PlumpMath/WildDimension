@@ -65,7 +65,7 @@ void Urho3DPlayer::Setup()
     // properly (including resource path prefix), as the resource system is not yet initialized at this point
     FileSystem* filesystem = GetSubsystem<FileSystem>();
     const String commandFileName = filesystem->GetProgramDir() + "Data/CommandLine.txt";
-    if (GetArguments().Empty() && filesystem->FileExists(commandFileName))
+    if (filesystem->FileExists(commandFileName))
     {
         SharedPtr<File> commandFile(new File(context_, commandFileName));
         if (commandFile->IsOpen())
@@ -141,6 +141,8 @@ void Urho3DPlayer::Setup()
         // Use the script file name as the base name for the log file
         engineParameters_[EP_LOG_NAME] = filesystem->GetAppPreferencesDir("urho3d", "logs") + GetFileNameAndExtension(scriptFileName_) + ".log";
         engineParameters_[EP_FULL_SCREEN] = false;
+        engineParameters_[EP_WINDOW_WIDTH] = 1280;
+        engineParameters_[EP_WINDOW_HEIGHT] = 720;
     }
 #else
     // On Web platform setup a default windowed resolution similar to the executable samples
@@ -158,7 +160,7 @@ void Urho3DPlayer::Start()
 {
     // Reattempt reading the command line from the resource system now if not read before
     // Note that the engine can not be reconfigured at this point; only the script name can be specified
-    if (GetArguments().Empty() && !commandLineRead_)
+    if (GetArguments().Empty())
     {
         SharedPtr<File> commandFile = GetSubsystem<ResourceCache>()->GetFile("CommandLine.txt", false);
         if (commandFile)
@@ -188,11 +190,6 @@ void Urho3DPlayer::Start()
         // Hold a shared pointer to the script file to make sure it is not unloaded during runtime
         scriptFile_ = GetSubsystem<ResourceCache>()->GetResource<ScriptFile>(scriptFileName_);
 
-        /// \hack If we are running the editor, also instantiate Lua subsystem to enable editing Lua ScriptInstances
-#ifdef URHO3D_LUA
-        if (scriptFileName_.Contains("Editor.as", false))
-            context_->RegisterSubsystem(new LuaScript(context_));
-#endif
         // If script loading is successful, proceed to main loop
         if (scriptFile_ && scriptFile_->Execute("void Start()"))
         {
@@ -210,21 +207,6 @@ void Urho3DPlayer::Start()
     }
     else
     {
-#ifdef URHO3D_LUA
-        // Instantiate and register the Lua script subsystem
-        LuaScript* luaScript = new LuaScript(context_);
-        context_->RegisterSubsystem(luaScript);
-
-        // If script loading is successful, proceed to main loop
-        if (luaScript->ExecuteFile(scriptFileName_))
-        {
-            luaScript->ExecuteFunction("Start");
-            return;
-        }
-#else
-        ErrorExit("Lua is not enabled!");
-        return;
-#endif
     }
 
     // The script was not successfully loaded. Show the last error message and do not run the main loop
@@ -243,15 +225,6 @@ void Urho3DPlayer::Stop()
 #else
     if (false)
     {
-    }
-#endif
-
-#ifdef URHO3D_LUA
-    else
-    {
-        LuaScript* luaScript = GetSubsystem<LuaScript>();
-        if (luaScript && luaScript->GetFunction("Stop", true))
-            luaScript->ExecuteFunction("Stop");
     }
 #endif
 }
@@ -294,35 +267,4 @@ void Urho3DPlayer::GetScriptFileName()
     const Vector<String>& arguments = GetArguments();
     if (arguments.Size() && arguments[0][0] != '-')
         scriptFileName_ = GetInternalPath(arguments[0]);
-}
-
-void Urho3DPlayer::HandleControlsPreUpdate(StringHash eventType, VariantMap& eventData)
-{
-    /*
-    using namespace Update;
-    const float YAW_SENSITIVITY = 0.5f;
-    Controls controls = eventData["Controls"].Get
-
-    Input* input = GetSubsystem<Input>();
-    GameController* gameController = GetSubsystem<GameController>();
-
-    gameController->UpdateControlInputs(character_->controls_);
-
-    // **note** the buttons controls are handled in the character class update fn.
-
-    // right stick - camera
-    Variant rStick = character_->controls_.extraData_[VAR_AXIS_1];
-
-    if (!rStick.IsEmpty())
-    {
-        Vector2 axisInput = rStick.GetVector2();
-        character_->controls_.yaw_ += axisInput.x_ * YAW_SENSITIVITY;
-        character_->controls_.pitch_ += axisInput.y_ * YAW_SENSITIVITY;
-    }
-
-    // Limit pitch
-    character_->controls_.pitch_ = Clamp(character_->controls_.pitch_, -90.0f, 90.0f);
-    // Set rotation already here so that it's updated every rendering frame instead of every physics frame
-    character_->GetNode()->SetRotation(Quaternion(character_->controls_.yaw_, Vector3::UP));,
-    */
 }

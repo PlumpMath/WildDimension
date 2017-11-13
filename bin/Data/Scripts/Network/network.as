@@ -17,6 +17,7 @@ namespace NetworkHandler {
 
     void StartServer()
     {
+        input.mouseVisible = false;
         //network.simulatedLatency = 500;
         //network.simulatedPacketLoss = 0.9;
         NetworkHandler::StopServer();
