@@ -117,10 +117,6 @@ namespace MenuScreen {
 
     void CreateButtons()
     {
-        XMLFile@ uiStyle = cache.GetResource("XMLFile", "UI/DefaultStyle.xml");
-        // Set style to the UI root so that elements will inherit it
-        ui.root.defaultStyle = uiStyle;
-
         Font@ font = cache.GetResource("Font", GUIHandler::GUI_FONT);
 
         // Create the button and center the text onto it

@@ -67,6 +67,10 @@ void Start()
 {
     cache.autoReloadResources = true;
 
+    XMLFile@ uiStyle = cache.GetResource("XMLFile", "UI/DefaultStyle.xml");
+    // Set style to the UI root so that elements will inherit it
+    ui.root.defaultStyle = uiStyle;
+
     // Set custom window Title & Icon
     SetWindowTitleAndIcon();
 
@@ -74,6 +78,7 @@ void Start()
     CreateDebugHud();
     
     ConsoleHandler::CreateConsole();
+    ConsoleHandler::Subscribe();
 
     // Subscribe key down event
     SubscribeToEvent("KeyDown", "HandleKeyDown");
@@ -140,7 +145,6 @@ void HandleNewGame(StringHash eventType, VariantMap& eventData)
     SubscribeToEvent("PostUpdate", "HandlePostUpdate");
     SubscribeToEvent("Update", "HandleUpdate");
 
-    ConsoleHandler::Subscribe();
     GUIHandler::Subscribe();
     NetworkHandler::Subscribe();
 

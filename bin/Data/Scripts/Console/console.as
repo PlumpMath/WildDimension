@@ -32,6 +32,7 @@ namespace ConsoleHandler {
         console.AddAutoComplete("disconnect");
         console.autoVisibleOnError = false;
         console.UpdateElements();
+        console.commandInterpreter = "ScriptEventInvoker";
         DelayedExecute(1.0, false, "void ConsoleHandler::ShowInfo()");
         log.timeStamp = false;
         log.level = 1;
