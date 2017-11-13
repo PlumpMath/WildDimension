@@ -4,6 +4,7 @@ namespace MenuScreen {
     Sprite@ toSprite;
     Sprite@ mapSprite;
     Sprite@ boardSprite;
+    Sprite@ pencilSprite;
     Array<Sprite@> path;
     Vector2 fromLocation(190, 220);
     Vector2 toLocation(410, 380);
@@ -26,6 +27,51 @@ namespace MenuScreen {
 
     Vector2 boardInitialPosition;
     Vector2 boardDirection;
+
+    void AddSpriteToTable(Vector2 position, float rotation, String texture, int priority)
+    {
+        Sprite@ sprite = boardSprite.CreateChild("Sprite");
+        Texture2D@ logoTexture = cache.GetResource("Texture2D", texture);
+        //if (logoTexture is null)
+          //  return;
+
+        // Set logo sprite texture
+        sprite.texture = logoTexture;
+
+        int textureWidth = logoTexture.width;
+        int textureHeight = logoTexture.height;
+
+        // Set logo sprite scale
+        sprite.SetScale(1);
+
+        // Set logo sprite size
+        sprite.SetSize(textureWidth, textureHeight);
+
+        //mapSprite.position = Vector2(textureWidth/2, -textureHeight/2);
+
+        // Set logo sprite hot spot
+        sprite.SetHotSpot(textureWidth / 2, textureHeight / 2);
+
+        // Set logo sprite alignment
+        sprite.SetAlignment(HA_CENTER, VA_CENTER);
+        //mapSprite.position = Vector2(-textureWidth/2, -textureHeight/2);
+
+        // Make logo not fully opaque to show the scene underneath
+        sprite.opacity = 1.0;
+        sprite.position = position;
+        sprite.blendMode = BLEND_REPLACE;
+
+        // Set a low priority for the logo so that other UI elements can be drawn on top
+        sprite.priority = priority;
+        sprite.rotation = rotation;
+    }
+
+    void FillTable()
+    {
+        AddSpriteToTable(Vector2(-500, 250), 22.0f, "Textures/notes.png", -60);
+        AddSpriteToTable(Vector2(350, -150), -5.0f, "Textures/pencil.png", -60);
+        AddSpriteToTable(Vector2(400, -300), -15.0f, "Textures/coffe.png", -60);
+    }
 
     void CreateBoard()
     {
@@ -63,6 +109,8 @@ namespace MenuScreen {
 
         boardInitialPosition = boardSprite.position;
         boardDirection = Vector2(-0.4, -0.7);
+
+        FillTable();
     }
 
     void CreateScreen()
@@ -184,7 +232,7 @@ namespace MenuScreen {
     void CreateFromSprite()
     {
         fromSprite = mapSprite.CreateChild("Sprite");
-        Texture2D@ logoTexture = cache.GetResource("Texture2D", "Textures/map_marker.png");
+        Texture2D@ logoTexture = cache.GetResource("Texture2D", "Textures/map_destination.png");
         //if (logoTexture is null)
           //  return;
 
@@ -291,14 +339,20 @@ namespace MenuScreen {
             sprite.priority = -80;
 
             Vector2 diff = toLocation - position;
-            direction += diff / 200;
+            direction += diff / 400;
             if (direction.length > 0) {
                 direction.Normalize();
             }
             position += direction * DOT_MARGIN;
 
             if (position.length > toLocation.length - 10) {
-                reached = true;
+                if (toLocation == fromLocation) {
+                    if (Vector2(toLocation - position).length < 10) {
+                        reached = true;
+                    }
+                }
+                //reached = true;
+                toLocation = fromLocation;
             }
             path.Push(sprite);
         }
