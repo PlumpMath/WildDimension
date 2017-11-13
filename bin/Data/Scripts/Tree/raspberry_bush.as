@@ -46,7 +46,7 @@ namespace RaspberryBush {
         tree.lifetime = 20.0f + Random(20.0f);
         tree.stage = 0;
         tree.model = object;
-        CreateBerries(1 + RandomInt(5), tree);
+        CreateBerries(1 + RandomInt(2), tree);
         trees.Push(tree);
         return treeNode;
     }

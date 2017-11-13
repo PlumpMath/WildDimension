@@ -15,6 +15,7 @@ namespace MenuScreen {
     Button@ startButton;
     Button@ exitButton;
     Text@ loadingText;
+    bool started = false;
 
     void CreateScreen()
     {
@@ -102,13 +103,16 @@ namespace MenuScreen {
     {
         Destroy();
         SetLoadingText();
-        DelayedExecute(1.0, false, "void MenuScreen::StartGame()");
+        DelayedExecute(2.0, false, "void MenuScreen::StartGame()");
     }
 
     void StartGame()
     {
         Destroy();
-        SendEvent("NewGame");
+        if (!started) {
+            SendEvent("NewGame");
+            started = true;
+        }
     }
 
     void HandleExitGame(StringHash eventType, VariantMap& eventData)

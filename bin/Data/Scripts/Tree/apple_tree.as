@@ -53,7 +53,7 @@ namespace AppleTree {
         tree.lifetime = 20.0f + Random(20.0f);
         tree.stage = 0;
         tree.model = object;
-        CreateApples(1 + RandomInt(5), tree);
+        CreateApples(1 + RandomInt(2), tree);
         trees.Push(tree);
         return treeNode;
     }
