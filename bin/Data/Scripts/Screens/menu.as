@@ -152,9 +152,10 @@ namespace MenuScreen {
 
     void HandleNewGame(StringHash eventType, VariantMap& eventData)
     {
+        UnsubscribeFromEvents(startButton);
         Destroy();
         SetLoadingText();
-        DelayedExecute(2.0, false, "void MenuScreen::StartGame()");
+        DelayedExecute(1.0, false, "void MenuScreen::StartGame()");
     }
 
     void StartGame()
@@ -332,12 +333,6 @@ namespace MenuScreen {
         }
     }
 
-    void HandleMenuEnd()
-    {
-        Destroy();
-        SendEvent("NewGame");
-    }
-
     void HandleUpdate(StringHash eventType, VariantMap& eventData)
     {
         float timeStep = eventData["TimeStep"].GetFloat();
@@ -348,7 +343,7 @@ namespace MenuScreen {
             }
         } else {
             scale -= timeStep / 50.0f;
-            if (scale < 1.2f) {
+            if (scale < 0.8f) {
                 zoomIn = true;
             }
         }
