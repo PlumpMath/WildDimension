@@ -6,7 +6,6 @@ namespace ActiveTool {
     Node@ node;
     Node@ toolNode;
     uint activeToolIndex = 0;
-    uint activeToolType;
     bool use = false;
     bool back = false;
     float sleepTime = 0.0f;
@@ -125,7 +124,6 @@ namespace ActiveTool {
         Drawable@ hitDrawable;
         Vector3 direction;
 
-        log.Warning("activeToolType " + activeToolType);
         if (Raycast(2.0f, hitPos, hitDrawable, direction)) {
             // Check if target scene node already has a DecalSet component. If not, create now
             Node@ targetNode = hitDrawable.node;
@@ -141,21 +139,21 @@ namespace ActiveTool {
             if (targetNode.HasTag("Adj")) {
                 baseNode = targetNode.parent;
                 if (targetNode.GetParentComponent("RigidBody") !is null) {
-                    if (activeToolType == TOOL_AXE) {
+                    if (activeTool.type == TOOL_AXE) {
                         RigidBody@ body = targetNode.GetParentComponent("RigidBody");
                         body.ApplyImpulse(direction * hitPower * body.mass);
                     }
                 }
             } else {
                 if (targetNode.HasComponent("RigidBody")) {
-                    if (activeToolType == TOOL_AXE) {
+                    if (activeTool.type == TOOL_AXE) {
                         RigidBody@ body = targetNode.GetComponent("RigidBody");
                         body.ApplyImpulse(direction * hitPower * body.mass);
                     }
                 }
             }
             if (baseNode.HasTag("Enemy")) {
-                if (activeToolType == TOOL_AXE) {
+                if (activeTool.type == TOOL_AXE) {
                     if (baseNode.HasTag("Snake")) {
                         GameSounds::Play(GameSounds::HIT_SNAKE);
                         VariantMap data;
@@ -172,7 +170,7 @@ namespace ActiveTool {
                 }
             }
             if (targetNode.name == "Tree") {
-                if (activeToolType == TOOL_AXE) {
+                if (activeTool.type == TOOL_AXE) {
                     GameSounds::Play(GameSounds::HIT_TREE);
                     AxeHit(hitPos);
                     VariantMap data;
@@ -180,7 +178,7 @@ namespace ActiveTool {
                     SendEvent("UnlockAchievement", data);
                 }
             } else {
-                if (activeToolType == TOOL_TRAP) {
+                if (activeTool.type == TOOL_TRAP) {
                     GameSounds::Play(GameSounds::HIT_FOOD);
                     VariantMap data;
                     data["Name"] = "HitFood";

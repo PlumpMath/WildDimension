@@ -6,10 +6,10 @@
 		"Smoothing Constant": 50.0,
 		"Snap Threshold": 5.0,
 		"Elapsed Time": 0.0,
-		"Next Replicated Node ID": 195,
-		"Next Replicated Component ID": 265,
-		"Next Local Node ID": 16779521,
-		"Next Local Component ID": 16779524,
+		"Next Replicated Node ID": 196,
+		"Next Replicated Component ID": 268,
+		"Next Local Node ID": 16783491,
+		"Next Local Component ID": 16783505,
 		"Variables": {},
 		"Variable Names": ""
 	},
@@ -144,6 +144,48 @@
 					"id": 7,
 					"attributes": {
 						"Shape Type": "Terrain"
+					}
+				}
+			],
+			"children": []
+		},
+		{
+			"id": 195,
+			"attributes": {
+				"Is Enabled": true,
+				"Name": "",
+				"Tags": [],
+				"Position": "58.4327 25.9417 -37.815",
+				"Rotation": "0.972166 0.234294 0 0",
+				"Scale": "3 3 3",
+				"Variables": {}
+			},
+			"components": [
+				{
+					"type": "StaticModel",
+					"id": 265,
+					"attributes": {
+						"Model": "Model;Models/Airplane.mdl",
+						"Material": "Material;Materials/Axe.xml;Materials/Axe.xml;Materials/Axe.xml;Materials/Axe.xml;Materials/Axe.xml;Materials/Axe.xml;Materials/Axe.xml;Materials/Axe.xml;Materials/Axe.xml;Materials/Axe.xml;Materials/Axe.xml;Materials/Axe.xml;Materials/Axe.xml;Materials/Axe.xml;Materials/Axe.xml;Materials/Axe.xml;Materials/Axe.xml;Materials/Axe.xml;Materials/Axe.xml;Materials/Axe.xml;Materials/Axe.xml;Materials/Axe.xml;Materials/Axe.xml;Materials/Axe.xml"
+					}
+				},
+				{
+					"type": "CollisionShape",
+					"id": 266,
+					"attributes": {
+						"Shape Type": "TriangleMesh",
+						"Model": "Model;Models/Airplane.mdl",
+						"Collision Margin": 0.6700000166893005
+					}
+				},
+				{
+					"type": "RigidBody",
+					"id": 267,
+					"attributes": {
+						"Physics Rotation": "0.972166 0.234294 0 0",
+						"Physics Position": "58.4327 25.9417 -37.815",
+						"Friction": 0.20000000298023225,
+						"Restitution": 0.5
 					}
 				}
 			],
