@@ -12278,7 +12278,7 @@
 							"attributes": {
 								"Sound": "Sound;Sounds/plane.wav",
 								"Frequency": 44100.0,
-								"Gain": 0.30000001192092898,
+								"Gain": 0.10000001192092898,
 								"Is Playing": true
 							}
 						}

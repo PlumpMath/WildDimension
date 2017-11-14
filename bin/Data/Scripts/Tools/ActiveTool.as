@@ -62,7 +62,7 @@ namespace ActiveTool {
 
         Camera@ camera = cameraNode.GetComponent("Camera");
         Ray cameraRay = camera.GetScreenRay(0.5, 0.5);
-        cameraRay.origin += cameraNode.direction / 10.0f;
+        //cameraRay.origin += cameraNode.direction / 100.0f;
         direction = cameraNode.direction;
         // Pick only geometry objects, not eg. zones or lights, only get the first (closest) hit
         // Note the convenience accessor to scene's Octree component
@@ -124,10 +124,9 @@ namespace ActiveTool {
         Drawable@ hitDrawable;
         Vector3 direction;
 
-        if (Raycast(1.0f, hitPos, hitDrawable, direction)) {
+        if (Raycast(3.0f, hitPos, hitDrawable, direction)) {
             // Check if target scene node already has a DecalSet component. If not, create now
             Node@ targetNode = hitDrawable.node;
-            log.Info("Hit " + targetNode.name);
             
             /*VariantMap data;
             data["Message"] = "You hit " + targetNode.name + "!";
