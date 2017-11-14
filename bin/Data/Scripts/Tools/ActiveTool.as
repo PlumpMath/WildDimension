@@ -1,8 +1,13 @@
 namespace ActiveTool {
+
+    const uint TOOL_AXE = 0;
+    const uint TOOL_TRAP = 1;
+    const uint TOOL_BRANCH = 2;
     Node@ node;
     Node@ toolNode;
     Array<Node@> tools;
     uint activeToolIndex = 0;
+    uint activeToolType;
     bool use = false;
     bool back = false;
     float sleepTime = 0.0f;
@@ -106,6 +111,7 @@ namespace ActiveTool {
         Drawable@ hitDrawable;
         Vector3 direction;
 
+        log.Warning("activeToolType " + activeToolType);
         if (Raycast(2.0f, hitPos, hitDrawable, direction)) {
             // Check if target scene node already has a DecalSet component. If not, create now
             Node@ targetNode = hitDrawable.node;
@@ -121,43 +127,57 @@ namespace ActiveTool {
             if (targetNode.HasTag("Adj")) {
                 baseNode = targetNode.parent;
                 if (targetNode.GetParentComponent("RigidBody") !is null) {
-                    RigidBody@ body = targetNode.GetParentComponent("RigidBody");
-                    body.ApplyImpulse(direction * hitPower * body.mass);
+                    if (activeToolType == TOOL_AXE) {
+                        RigidBody@ body = targetNode.GetParentComponent("RigidBody");
+                        body.ApplyImpulse(direction * hitPower * body.mass);
+                    }
                 }
             } else {
                 if (targetNode.HasComponent("RigidBody")) {
-                    RigidBody@ body = targetNode.GetComponent("RigidBody");
-                    body.ApplyImpulse(direction * hitPower * body.mass);
+                    if (activeToolType == TOOL_AXE) {
+                        RigidBody@ body = targetNode.GetComponent("RigidBody");
+                        body.ApplyImpulse(direction * hitPower * body.mass);
+                    }
                 }
             }
             if (baseNode.HasTag("Enemy")) {
-                if (baseNode.HasTag("Snake")) {
-                    Snake::HitSnake(baseNode);
-                } else if (baseNode.HasTag("Pacman")) {
-                    Pacman::HitPacman(baseNode);
+                if (activeToolType == TOOL_AXE) {
+                    if (baseNode.HasTag("Snake")) {
+                        Snake::HitSnake(baseNode);
+                    } else if (baseNode.HasTag("Pacman")) {
+                        Pacman::HitPacman(baseNode);
+                    }
                 }
             }
             if (targetNode.name == "Tree") {
-                GameSounds::Play(GameSounds::HIT_TREE);
-                AxeHit(hitPos);
-                VariantMap data;
-                data["Name"] = "HitTree";
-                SendEvent("UnlockAchievement", data);
+                if (activeToolType == TOOL_AXE) {
+                    GameSounds::Play(GameSounds::HIT_TREE);
+                    AxeHit(hitPos);
+                    VariantMap data;
+                    data["Name"] = "HitTree";
+                    SendEvent("UnlockAchievement", data);
+                }
             } else if(targetNode.name == "Snake") {
-                GameSounds::Play(GameSounds::HIT_SNAKE);
-                VariantMap data;
-                data["Name"] = "HitSnake";
-                SendEvent("UnlockAchievement", data);
+                if (activeToolType == TOOL_AXE) {
+                    GameSounds::Play(GameSounds::HIT_SNAKE);
+                    VariantMap data;
+                    data["Name"] = "HitSnake";
+                    SendEvent("UnlockAchievement", data);
+                }
             } else if (targetNode.name == "Pacman") {
-                GameSounds::Play(GameSounds::HIT_PACMAN);
-                VariantMap data;
-                data["Name"] = "HitPacman";
-                SendEvent("UnlockAchievement", data);
+                if (activeToolType == TOOL_AXE) {
+                    GameSounds::Play(GameSounds::HIT_PACMAN);
+                    VariantMap data;
+                    data["Name"] = "HitPacman";
+                    SendEvent("UnlockAchievement", data);
+                }
             } else {
-                GameSounds::Play(GameSounds::HIT_FOOD);
-                VariantMap data;
-                data["Name"] = "HitFood";
-                SendEvent("UnlockAchievement", data);
+                if (activeToolType == TOOL_TRAP) {
+                    GameSounds::Play(GameSounds::HIT_FOOD);
+                    VariantMap data;
+                    data["Name"] = "HitFood";
+                    SendEvent("UnlockAchievement", data);
+                }
             }
             /*DecalSet@ decal = targetNode.GetComponent("DecalSet");
             if (decal is null)
@@ -224,6 +244,13 @@ namespace ActiveTool {
                 Node@ node = tools[i];
                 node.SetDeepEnabled(false);
             }
+            if (tools[activeToolIndex].name == "Axe") {
+                activeToolType = TOOL_AXE;
+            } else if (tools[activeToolIndex].name == "Trap") {
+                activeToolType = TOOL_TRAP;
+            } else if (tools[activeToolIndex].name == "Branch") {
+                activeToolType = TOOL_BRANCH;
+            }
             tools[activeToolIndex].SetDeepEnabled(true);
         }
     }
@@ -235,6 +262,14 @@ namespace ActiveTool {
             if (newTool.id == node.id) {
                 node.SetDeepEnabled(true);
                 activeToolIndex = i;
+                if (node.name == "Axe") {
+                    activeToolType = TOOL_AXE;
+                } else if (node.name == "Trap") {
+                    activeToolType = TOOL_TRAP;
+                } else if (node.name == "Branch") {
+                    activeToolType = TOOL_BRANCH;
+                }
+
             } else {
                 node.SetDeepEnabled(false);
             }
