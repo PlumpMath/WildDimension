@@ -5,11 +5,11 @@
 		"Time Scale": 1.0,
 		"Smoothing Constant": 50.0,
 		"Snap Threshold": 5.0,
-		"Elapsed Time": 0.0,
-		"Next Replicated Node ID": 196,
-		"Next Replicated Component ID": 268,
-		"Next Local Node ID": 16783491,
-		"Next Local Component ID": 16783505,
+		"Elapsed Time": 105.1208724975586,
+		"Next Replicated Node ID": 198,
+		"Next Replicated Component ID": 270,
+		"Next Local Node ID": 16787461,
+		"Next Local Component ID": 16787486,
 		"Variables": {},
 		"Variable Names": ""
 	},
@@ -153,11 +153,11 @@
 			"id": 195,
 			"attributes": {
 				"Is Enabled": true,
-				"Name": "",
+				"Name": "Airplane",
 				"Tags": [],
 				"Position": "58.4327 25.9417 -37.815",
 				"Rotation": "0.972166 0.234294 0 0",
-				"Scale": "3 3 3",
+				"Scale": "4 4 4",
 				"Variables": {}
 			},
 			"components": [
@@ -189,7 +189,54 @@
 					}
 				}
 			],
-			"children": []
+			"children": [
+				{
+					"id": 196,
+					"attributes": {
+						"Is Enabled": true,
+						"Name": "",
+						"Tags": [],
+						"Position": "0.984889 0.301484 0.589149",
+						"Rotation": "1 0 0 0",
+						"Scale": "1 1 1",
+						"Variables": {}
+					},
+					"components": [
+						{
+							"type": "ParticleEmitter",
+							"id": 268,
+							"attributes": {
+								"Effect": "ParticleEffect;Particle/Campfire.xml",
+								"Animation LOD Bias": 0.0
+							}
+						}
+					],
+					"children": []
+				},
+				{
+					"id": 197,
+					"attributes": {
+						"Is Enabled": true,
+						"Name": "",
+						"Tags": [],
+						"Position": "-0.992656 0.323441 0.632055",
+						"Rotation": "1 0 0 0",
+						"Scale": "1 1 1",
+						"Variables": {}
+					},
+					"components": [
+						{
+							"type": "ParticleEmitter",
+							"id": 269,
+							"attributes": {
+								"Effect": "ParticleEffect;Particle/Campfire.xml",
+								"Animation LOD Bias": 0.0
+							}
+						}
+					],
+					"children": []
+				}
+			]
 		}
 	]
 }

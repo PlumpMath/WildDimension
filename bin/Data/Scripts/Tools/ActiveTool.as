@@ -124,7 +124,7 @@ namespace ActiveTool {
         Drawable@ hitDrawable;
         Vector3 direction;
 
-        if (Raycast(2.0f, hitPos, hitDrawable, direction)) {
+        if (Raycast(1.0f, hitPos, hitDrawable, direction)) {
             // Check if target scene node already has a DecalSet component. If not, create now
             Node@ targetNode = hitDrawable.node;
             log.Info("Hit " + targetNode.name);
