@@ -115,8 +115,11 @@ namespace ActiveTool {
             data["Message"] = "You hit " + targetNode.name + "!";
             SendEvent("UpdateEventLogGUI", data);*/
 
+            Node@ baseNode = targetNode;
+
             float hitPower = 20;
             if (targetNode.HasTag("Adj")) {
+                baseNode = targetNode.parent;
                 if (targetNode.GetParentComponent("RigidBody") !is null) {
                     RigidBody@ body = targetNode.GetParentComponent("RigidBody");
                     body.ApplyImpulse(direction * hitPower * body.mass);
@@ -125,6 +128,13 @@ namespace ActiveTool {
                 if (targetNode.HasComponent("RigidBody")) {
                     RigidBody@ body = targetNode.GetComponent("RigidBody");
                     body.ApplyImpulse(direction * hitPower * body.mass);
+                }
+            }
+            if (baseNode.HasTag("Enemy")) {
+                if (baseNode.HasTag("Snake")) {
+                    Snake::HitSnake(baseNode);
+                } else if (baseNode.HasTag("Pacman")) {
+                    Pacman::HitPacman(baseNode);
                 }
             }
             if (targetNode.name == "Tree") {

@@ -246,12 +246,12 @@ namespace MenuScreen {
         //logoSprite.SetScale(256.0f / textureWidth);
 
         // Set logo sprite size
-        fromSprite.SetSize(textureWidth/2, textureHeight/2);
+        fromSprite.SetSize(textureWidth/4, textureHeight/4);
 
         fromSprite.position = fromLocation;
 
         // Set logo sprite hot spot
-        fromSprite.SetHotSpot(fromSprite.size.x/2, fromSprite.size.y);
+        fromSprite.SetHotSpot(fromSprite.size.x/4, fromSprite.size.y);
 
         // Set logo sprite alignment
         fromSprite.SetAlignment(HA_LEFT, VA_TOP);
@@ -282,12 +282,12 @@ namespace MenuScreen {
 
         // Set logo sprite size
         //toSprite.SetSize(textureWidth/2, textureHeight/2);
-        toSprite.SetSize(textureWidth/2, textureHeight/2);
+        toSprite.SetSize(textureWidth/4, textureHeight/4);
 
         toSprite.position = toLocation;
 
         // Set logo sprite hot spot
-        toSprite.SetHotSpot(toSprite.size.x/2, toSprite.size.y);
+        toSprite.SetHotSpot(toSprite.size.x/4, toSprite.size.y);
 
         // Set logo sprite alignment
         toSprite.SetAlignment(HA_LEFT, VA_TOP);
@@ -351,7 +351,7 @@ namespace MenuScreen {
                         reached = true;
                     }
                 }
-                //reached = true;
+                reached = true;
                 toLocation = fromLocation;
             }
             path.Push(sprite);

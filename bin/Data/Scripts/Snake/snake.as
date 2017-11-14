@@ -1,6 +1,7 @@
 namespace Snake {
     class SnakeBody {
         Array<Node@> body;
+        Node@ headNode;
         Node@ targetNode;
         float lastTurn;
         uint stage;
@@ -18,6 +19,8 @@ namespace Snake {
     Node@ Create(Vector3 position)
     {
         Node@ snakeNode = scene_.CreateChild("Snake");
+        snakeNode.AddTag("Enemy");
+        snakeNode.AddTag("Snake");
         snakeNode.temporary = true;
         position.y = NetworkHandler::terrain.GetHeight(position) + 2;
         snakeNode.position = position;
@@ -57,6 +60,7 @@ namespace Snake {
         particleEmitter.emitting = false;
 
         SnakeBody snakeBody;
+        snakeBody.headNode = snakeNode;
         snakeBody.body.Push(snakeNode);
         snakeBody.targetNode = getNearestApple(snakeBody.body[0].worldPosition);
         snakeBody.lastTurn = 0.0f;
@@ -99,6 +103,17 @@ namespace Snake {
     void HandleSnakeRemove(StringHash eventType, VariantMap& eventData)
     {
         Destroy();
+    }
+
+    void HitSnake(Node@ snakeNode)
+    {
+        for (uint i = 0; i < snakes.length; i++) {
+            if (snakes[i].headNode.id == snakeNode.id) {
+                snakes[i].stage = 1;
+                snakes[i].sleepTime = -5.0f;
+                snakes[i].particleEmitter.emitting = true;
+            }
+        }
     }
 
     Node@ createSnakeBodyPart(SnakeBody@ parent)
