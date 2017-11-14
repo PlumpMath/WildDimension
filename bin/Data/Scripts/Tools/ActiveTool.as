@@ -5,12 +5,18 @@ namespace ActiveTool {
     const uint TOOL_BRANCH = 2;
     Node@ node;
     Node@ toolNode;
-    Array<Node@> tools;
     uint activeToolIndex = 0;
     uint activeToolType;
     bool use = false;
     bool back = false;
     float sleepTime = 0.0f;
+
+    class Tool {
+        Node@ node;
+        uint type;
+    };
+    Tool activeTool;
+    Array<Tool> tools;
 
     void Create()
     {
@@ -36,6 +42,14 @@ namespace ActiveTool {
         // Create the capsule shape with an offset so that it is correctly aligned with the model, which
         // has its origin at the feet
         shape.SetCapsule(0.7f, 2.0f, Vector3(0.0f, 1.0f, 0.0f));*/
+    }
+
+    void AddTool(Node@ node, uint type)
+    {
+        Tool tool;
+        tool.node = node;
+        tool.type = type;
+        tools.Push(tool);
     }
 
     void Subscribe()
@@ -143,8 +157,16 @@ namespace ActiveTool {
             if (baseNode.HasTag("Enemy")) {
                 if (activeToolType == TOOL_AXE) {
                     if (baseNode.HasTag("Snake")) {
+                        GameSounds::Play(GameSounds::HIT_SNAKE);
+                        VariantMap data;
+                        data["Name"] = "HitSnake";
+                        SendEvent("UnlockAchievement", data);
                         Snake::HitSnake(baseNode);
                     } else if (baseNode.HasTag("Pacman")) {
+                        GameSounds::Play(GameSounds::HIT_PACMAN);
+                        VariantMap data;
+                        data["Name"] = "HitPacman";
+                        SendEvent("UnlockAchievement", data);
                         Pacman::HitPacman(baseNode);
                     }
                 }
@@ -157,20 +179,6 @@ namespace ActiveTool {
                     data["Name"] = "HitTree";
                     SendEvent("UnlockAchievement", data);
                 }
-            } else if(targetNode.name == "Snake") {
-                if (activeToolType == TOOL_AXE) {
-                    GameSounds::Play(GameSounds::HIT_SNAKE);
-                    VariantMap data;
-                    data["Name"] = "HitSnake";
-                    SendEvent("UnlockAchievement", data);
-                }
-            } else if (targetNode.name == "Pacman") {
-                if (activeToolType == TOOL_AXE) {
-                    GameSounds::Play(GameSounds::HIT_PACMAN);
-                    VariantMap data;
-                    data["Name"] = "HitPacman";
-                    SendEvent("UnlockAchievement", data);
-                }
             } else {
                 if (activeToolType == TOOL_TRAP) {
                     GameSounds::Play(GameSounds::HIT_FOOD);
@@ -179,18 +187,6 @@ namespace ActiveTool {
                     SendEvent("UnlockAchievement", data);
                 }
             }
-            /*DecalSet@ decal = targetNode.GetComponent("DecalSet");
-            if (decal is null)
-            {
-                decal = targetNode.CreateComponent("DecalSet");
-                decal.material = cache.GetResource("Material", "Materials/UrhoDecal.xml");
-            }
-            // Add a square decal to the decal set using the geometry of the drawable that was hit, orient it to face the camera,
-            // use full texture UV's (0,0) to (1,1). Note that if we create several decals to a large object (such as the ground
-            // plane) over a large area using just one DecalSet component, the decals will all be culled as one unit. If that is
-            // undesirable, it may be necessary to create more than one DecalSet based on the distance
-            decal.AddDecal(hitDrawable, hitPos, cameraNode.rotation, 0.5f, 1.0f, 1.0f, Vector2::ZERO, Vector2::ONE);
-            */
         }
     }
 
@@ -234,41 +230,28 @@ namespace ActiveTool {
             return;
         }
         if (tools.length == 1) {
-            tools[0].SetDeepEnabled(true);
+            tools[0].node.SetDeepEnabled(true);
         } else {
             activeToolIndex++;
             if (activeToolIndex >= tools.length) {
                 activeToolIndex = 0;
             }
             for (uint i = 0; i < tools.length; i++) {
-                Node@ node = tools[i];
+                Node@ node = tools[i].node;
                 node.SetDeepEnabled(false);
             }
-            if (tools[activeToolIndex].name == "Axe") {
-                activeToolType = TOOL_AXE;
-            } else if (tools[activeToolIndex].name == "Trap") {
-                activeToolType = TOOL_TRAP;
-            } else if (tools[activeToolIndex].name == "Branch") {
-                activeToolType = TOOL_BRANCH;
-            }
-            tools[activeToolIndex].SetDeepEnabled(true);
+            activeTool = tools[activeToolIndex];
+            tools[activeToolIndex].node.SetDeepEnabled(true);
         }
     }
 
     void SetActiveTool(Node@ newTool)
     {
         for (uint i = 0; i < tools.length; i++) {
-            Node@ node = tools[i];
+            Node@ node = tools[i].node;
             if (newTool.id == node.id) {
                 node.SetDeepEnabled(true);
-                activeToolIndex = i;
-                if (node.name == "Axe") {
-                    activeToolType = TOOL_AXE;
-                } else if (node.name == "Trap") {
-                    activeToolType = TOOL_TRAP;
-                } else if (node.name == "Branch") {
-                    activeToolType = TOOL_BRANCH;
-                }
+                activeTool = tools[i];
 
             } else {
                 node.SetDeepEnabled(false);

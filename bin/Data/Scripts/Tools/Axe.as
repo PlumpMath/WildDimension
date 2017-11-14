@@ -19,7 +19,8 @@ namespace Axe {
         object.materials[1] = cache.GetResource("Material", "Materials/WoodFps.xml");
 
         node.SetDeepEnabled(false);
-        ActiveTool::tools.Push(node);
+        //ActiveTool::tools.Push(node);
+        ActiveTool::AddTool(node, ActiveTool::TOOL_AXE);
     }
 
     void Subscribe()
