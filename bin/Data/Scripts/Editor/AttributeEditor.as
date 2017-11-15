@@ -1516,9 +1516,9 @@ void InitVectorStructs()
             for (uint attributeIndex = 0; attributeIndex < attributes.length; attributeIndex++)
             {
                 AttributeInfo attribute = attributes[attributeIndex];
-                if (attribute.type == VAR_VARIANTVECTOR and attribute.metadata.Contains("VectorStructElements"))
+                if (attribute.type == VAR_VARIANTVECTOR and attribute.variantStructureElementNames.length > 0)
                 {
-                    Array<String>@ elementsNames = attribute.metadata["VectorStructElements"].GetStringVector();
+                    Array<String> elementsNames = attribute.variantStructureElementNames;
                     vectorStructs.Push(VectorStruct(objectName, attribute.name, elementsNames, 1));
                 }
             }
