@@ -6,10 +6,10 @@
 		"Smoothing Constant": 50.0,
 		"Snap Threshold": 5.0,
 		"Elapsed Time": 105.1208724975586,
-		"Next Replicated Node ID": 198,
-		"Next Replicated Component ID": 275,
-		"Next Local Node ID": 16799372,
-		"Next Local Component ID": 16799430,
+		"Next Replicated Node ID": 200,
+		"Next Replicated Component ID": 281,
+		"Next Local Node ID": 16803342,
+		"Next Local Component ID": 16803411,
 		"Variables": {},
 		"Variable Names": ""
 	},
@@ -37,7 +37,7 @@
 				"Is Enabled": true,
 				"Name": "Zone",
 				"Tags": [],
-				"Position": "0 0 0",
+				"Position": "200.101 34.2078 0",
 				"Rotation": "1 0 0 0",
 				"Scale": "1 1 1",
 				"Variables": {}
@@ -51,7 +51,8 @@
 						"Bounding Box Max": "1000 1000 1000",
 						"Fog Color": "0.3 0.3 0.3 1",
 						"Fog Start": 100.0,
-						"Fog End": 500.0
+						"Fog End": 5000.0,
+						"Fog Height Scale": 0.0
 					}
 				}
 			],
@@ -135,7 +136,6 @@
 					"type": "RigidBody",
 					"id": 5,
 					"attributes": {
-						"Physics Rotation": "1 0 0 0",
 						"Restitution": 0.5
 					}
 				},
@@ -12278,7 +12278,7 @@
 							"attributes": {
 								"Sound": "Sound;Sounds/plane.wav",
 								"Frequency": 44100.0,
-								"Gain": 0.10000001192092898,
+								"Gain": 0.10000000894069672,
 								"Is Playing": true
 							}
 						}
@@ -12286,6 +12286,82 @@
 					"children": []
 				}
 			]
+		},
+		{
+			"id": 198,
+			"attributes": {
+				"Is Enabled": true,
+				"Name": "",
+				"Tags": [],
+				"Position": "224.45 63.6371 1025.17",
+				"Rotation": "1 0 0 0",
+				"Scale": "4 4 4",
+				"Variables": {}
+			},
+			"components": [
+				{
+					"type": "StaticModel",
+					"id": 275,
+					"attributes": {
+						"Model": "Model;Models/Models/Piramid.mdl",
+						"Material": "Material;"
+					}
+				},
+				{
+					"type": "CollisionShape",
+					"id": 279,
+					"attributes": {
+						"Shape Type": "TriangleMesh",
+						"Model": "Model;Models/Models/Piramid.mdl"
+					}
+				},
+				{
+					"type": "RigidBody",
+					"id": 280,
+					"attributes": {
+						"Physics Position": "224.45 63.6371 1025.17"
+					}
+				}
+			],
+			"children": []
+		},
+		{
+			"id": 199,
+			"attributes": {
+				"Is Enabled": true,
+				"Name": "",
+				"Tags": [],
+				"Position": "375.782 11.3701 -1317.98",
+				"Rotation": "1 0 0 0",
+				"Scale": "1 1 1",
+				"Variables": {}
+			},
+			"components": [
+				{
+					"type": "StaticModel",
+					"id": 276,
+					"attributes": {
+						"Model": "Model;Models/Models/Stonehenge.mdl",
+						"Material": "Material;"
+					}
+				},
+				{
+					"type": "CollisionShape",
+					"id": 277,
+					"attributes": {
+						"Shape Type": "TriangleMesh",
+						"Model": "Model;Models/Models/Stonehenge.mdl"
+					}
+				},
+				{
+					"type": "RigidBody",
+					"id": 278,
+					"attributes": {
+						"Physics Position": "375.782 11.3701 -1317.98"
+					}
+				}
+			],
+			"children": []
 		}
 	]
 }
