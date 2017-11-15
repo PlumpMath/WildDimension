@@ -1,11 +1,21 @@
 namespace ActiveTool {
+
+    const uint TOOL_AXE = 0;
+    const uint TOOL_TRAP = 1;
+    const uint TOOL_BRANCH = 2;
     Node@ node;
     Node@ toolNode;
-    Array<Node@> tools;
     uint activeToolIndex = 0;
     bool use = false;
     bool back = false;
     float sleepTime = 0.0f;
+
+    class Tool {
+        Node@ node;
+        uint type;
+    };
+    Tool activeTool;
+    Array<Tool> tools;
 
     void Create()
     {
@@ -33,6 +43,14 @@ namespace ActiveTool {
         shape.SetCapsule(0.7f, 2.0f, Vector3(0.0f, 1.0f, 0.0f));*/
     }
 
+    void AddTool(Node@ node, uint type)
+    {
+        Tool tool;
+        tool.node = node;
+        tool.type = type;
+        tools.Push(tool);
+    }
+
     void Subscribe()
     {
         SubscribeToEvent("NextTool", "ActiveTool::HandleNextTool");
@@ -44,7 +62,7 @@ namespace ActiveTool {
 
         Camera@ camera = cameraNode.GetComponent("Camera");
         Ray cameraRay = camera.GetScreenRay(0.5, 0.5);
-        cameraRay.origin += cameraNode.direction / 10.0f;
+        //cameraRay.origin += cameraNode.direction / 100.0f;
         direction = cameraNode.direction;
         // Pick only geometry objects, not eg. zones or lights, only get the first (closest) hit
         // Note the convenience accessor to scene's Octree component
@@ -106,61 +124,66 @@ namespace ActiveTool {
         Drawable@ hitDrawable;
         Vector3 direction;
 
-        if (Raycast(2.0f, hitPos, hitDrawable, direction)) {
+        if (Raycast(3.0f, hitPos, hitDrawable, direction)) {
             // Check if target scene node already has a DecalSet component. If not, create now
             Node@ targetNode = hitDrawable.node;
-            log.Info("Hit " + targetNode.name);
             
             /*VariantMap data;
             data["Message"] = "You hit " + targetNode.name + "!";
             SendEvent("UpdateEventLogGUI", data);*/
 
+            Node@ baseNode = targetNode;
+
             float hitPower = 20;
             if (targetNode.HasTag("Adj")) {
+                baseNode = targetNode.parent;
                 if (targetNode.GetParentComponent("RigidBody") !is null) {
-                    RigidBody@ body = targetNode.GetParentComponent("RigidBody");
-                    body.ApplyImpulse(direction * hitPower * body.mass);
+                    if (activeTool.type == TOOL_AXE) {
+                        RigidBody@ body = targetNode.GetParentComponent("RigidBody");
+                        body.ApplyImpulse(direction * hitPower * body.mass);
+                    }
                 }
             } else {
                 if (targetNode.HasComponent("RigidBody")) {
-                    RigidBody@ body = targetNode.GetComponent("RigidBody");
-                    body.ApplyImpulse(direction * hitPower * body.mass);
+                    if (activeTool.type == TOOL_AXE) {
+                        RigidBody@ body = targetNode.GetComponent("RigidBody");
+                        body.ApplyImpulse(direction * hitPower * body.mass);
+                    }
+                }
+            }
+            if (baseNode.HasTag("Enemy")) {
+                if (activeTool.type == TOOL_AXE) {
+                    if (baseNode.HasTag("Snake")) {
+                        GameSounds::Play(GameSounds::HIT_SNAKE);
+                        VariantMap data;
+                        data["Name"] = "HitSnake";
+                        SendEvent("UnlockAchievement", data);
+                        Snake::HitSnake(baseNode);
+                    } else if (baseNode.HasTag("Pacman")) {
+                        GameSounds::Play(GameSounds::HIT_PACMAN);
+                        VariantMap data;
+                        data["Name"] = "HitPacman";
+                        SendEvent("UnlockAchievement", data);
+                        Pacman::HitPacman(baseNode);
+                    }
                 }
             }
             if (targetNode.name == "Tree") {
-                GameSounds::Play(GameSounds::HIT_TREE);
-                AxeHit(hitPos);
-                VariantMap data;
-                data["Name"] = "HitTree";
-                SendEvent("UnlockAchievement", data);
-            } else if(targetNode.name == "Snake") {
-                GameSounds::Play(GameSounds::HIT_SNAKE);
-                VariantMap data;
-                data["Name"] = "HitSnake";
-                SendEvent("UnlockAchievement", data);
-            } else if (targetNode.name == "Pacman") {
-                GameSounds::Play(GameSounds::HIT_PACMAN);
-                VariantMap data;
-                data["Name"] = "HitPacman";
-                SendEvent("UnlockAchievement", data);
+                if (activeTool.type == TOOL_AXE) {
+                    GameSounds::Play(GameSounds::HIT_TREE);
+                    AxeHit(hitPos);
+                    VariantMap data;
+                    data["Name"] = "HitTree";
+                    SendEvent("UnlockAchievement", data);
+                }
             } else {
-                GameSounds::Play(GameSounds::HIT_FOOD);
-                VariantMap data;
-                data["Name"] = "HitFood";
-                SendEvent("UnlockAchievement", data);
+                if (activeTool.type == TOOL_TRAP) {
+                    GameSounds::Play(GameSounds::HIT_FOOD);
+                    VariantMap data;
+                    data["Name"] = "HitFood";
+                    SendEvent("UnlockAchievement", data);
+                }
             }
-            /*DecalSet@ decal = targetNode.GetComponent("DecalSet");
-            if (decal is null)
-            {
-                decal = targetNode.CreateComponent("DecalSet");
-                decal.material = cache.GetResource("Material", "Materials/UrhoDecal.xml");
-            }
-            // Add a square decal to the decal set using the geometry of the drawable that was hit, orient it to face the camera,
-            // use full texture UV's (0,0) to (1,1). Note that if we create several decals to a large object (such as the ground
-            // plane) over a large area using just one DecalSet component, the decals will all be culled as one unit. If that is
-            // undesirable, it may be necessary to create more than one DecalSet based on the distance
-            decal.AddDecal(hitDrawable, hitPos, cameraNode.rotation, 0.5f, 1.0f, 1.0f, Vector2::ZERO, Vector2::ONE);
-            */
         }
     }
 
@@ -204,27 +227,29 @@ namespace ActiveTool {
             return;
         }
         if (tools.length == 1) {
-            tools[0].SetDeepEnabled(true);
+            tools[0].node.SetDeepEnabled(true);
         } else {
             activeToolIndex++;
             if (activeToolIndex >= tools.length) {
                 activeToolIndex = 0;
             }
             for (uint i = 0; i < tools.length; i++) {
-                Node@ node = tools[i];
+                Node@ node = tools[i].node;
                 node.SetDeepEnabled(false);
             }
-            tools[activeToolIndex].SetDeepEnabled(true);
+            activeTool = tools[activeToolIndex];
+            tools[activeToolIndex].node.SetDeepEnabled(true);
         }
     }
 
     void SetActiveTool(Node@ newTool)
     {
         for (uint i = 0; i < tools.length; i++) {
-            Node@ node = tools[i];
+            Node@ node = tools[i].node;
             if (newTool.id == node.id) {
                 node.SetDeepEnabled(true);
-                activeToolIndex = i;
+                activeTool = tools[i];
+
             } else {
                 node.SetDeepEnabled(false);
             }

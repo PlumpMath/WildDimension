@@ -1,10 +1,18 @@
 namespace Pacman {
-    Array<Node@> pacmans;
+    class SinglePacman {
+        Node@ node;
+        ParticleEmitter@ particleEmitter;
+        uint stage;
+        float sleepTime;
+    };
+    Array<SinglePacman> pacmans;
     const float PACMAN_MOVE_SPEED = 0.05f;
 
     Node@ Create(Vector3 position)
     {
         Node@ pacmanNode = scene_.CreateChild("Pacman");
+        pacmanNode.AddTag("Enemy");
+        pacmanNode.AddTag("Pacman");
         pacmanNode.temporary = true;
         position.y = NetworkHandler::terrain.GetHeight(position) + 2;
         pacmanNode.position = position;
@@ -38,16 +46,25 @@ namespace Pacman {
         CollisionShape@ shape = pacmanNode.CreateComponent("CollisionShape");
         shape.SetBox(Vector3(2, 2, 2));
 
+        ParticleEmitter@ particleEmitter = pacmanNode.CreateComponent("ParticleEmitter");
+        particleEmitter.effect = cache.GetResource("ParticleEffect", "Particle/Dreaming.xml");
+        particleEmitter.emitting = false;
+
         GameSounds::AddLoopedSoundToNode(pacmanNode, GameSounds::PACMAN);
 
-        pacmans.Push(pacmanNode);
+        SinglePacman pacman;
+        pacman.node = pacmanNode;
+        pacman.particleEmitter = particleEmitter;
+        pacman.stage = 0;
+        pacman.sleepTime = 0.0f;
+        pacmans.Push(pacman);
         return pacmanNode;
     }
 
     void Destroy()
     {
         for (uint i = 0; i < pacmans.length; i++) {
-            pacmans[i].Remove();
+            pacmans[i].node.Remove();
         }
         pacmans.Clear();
     }
@@ -68,6 +85,17 @@ namespace Pacman {
     void HandlePacmanRemove(StringHash eventType, VariantMap& eventData)
     {
         Destroy();
+    }
+
+    void HitPacman(Node@ pacmanNode)
+    {
+        for (uint i = 0; i < pacmans.length; i++) {
+            if (pacmans[i].node.id == pacmanNode.id) {
+                pacmans[i].stage = 1;
+                pacmans[i].particleEmitter.emitting = true;
+                pacmans[i].sleepTime = 5.0f;
+            }
+        }
     }
 
     Node@ getNearestRaspberry(Vector3 position)
@@ -103,8 +131,16 @@ namespace Pacman {
     {
         float timeStep = eventData["TimeStep"].GetFloat();
         for (uint i = 0; i < pacmans.length; i++) {
-            Node@ pacmanNode = pacmans[i];
-            RigidBody@ pacmanBody = pacmans[i].GetComponent("RigidBody");
+            if (pacmans[i].stage == 1) {
+                pacmans[i].sleepTime -= timeStep;
+                if (pacmans[i].sleepTime <= 0.0f) {
+                    pacmans[i].stage = 0;
+                    pacmans[i].particleEmitter.emitting = false;
+                }
+                continue;
+            }
+            Node@ pacmanNode = pacmans[i].node;
+            RigidBody@ pacmanBody = pacmans[i].node.GetComponent("RigidBody");
 
             Node@ raspberryNode = getNearestRaspberry(pacmanNode.worldPosition);
             Vector3 targetPosition = raspberryNode.worldPosition;

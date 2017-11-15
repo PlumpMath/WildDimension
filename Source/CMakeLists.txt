@@ -140,7 +140,7 @@ add_subdirectory (Urho3D)
 #endif ()
 
 # Urho3D tools
-#add_subdirectory (Tools)
+add_subdirectory (Tools)
 
 # Urho3D samples
 # Samples are built on iOS/tvOS platform too when enabled. Currently there is no available mechanism to package each sample apps into individual *.apk

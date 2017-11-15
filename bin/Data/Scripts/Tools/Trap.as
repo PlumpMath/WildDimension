@@ -18,7 +18,8 @@ namespace Trap {
         object.materials[0] = cache.GetResource("Material", "Materials/StoneFps.xml");
 
         node.SetDeepEnabled(false);
-        ActiveTool::tools.Push(node);
+        //ActiveTool::tools.Push(node);
+        ActiveTool::AddTool(node, ActiveTool::TOOL_TRAP);
     }
 
     void CreatePickable(Vector3 position)
