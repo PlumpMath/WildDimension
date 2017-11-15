@@ -28,14 +28,15 @@ namespace NetworkHandler {
         terrainNode = scene_.GetChild("Terrain");
         terrain = terrainNode.GetComponent("Terrain");
         // Create a Zone component for ambient lighting & fog control
-        /*Node@ zoneNode = scene_.CreateChild("Zone");
+        Node@ zoneNode = scene_.CreateChild("Zone");
         Zone@ zone = zoneNode.CreateComponent("Zone");
         zone.boundingBox = BoundingBox(-1000.0f, 1000.0f);
-        zone.fogColor = Color(0.3f, 0.3f, 0.3f);
+        zone.ambientColor = Color(0.4, 0.4, 0.4);
+        //zone.fogColor = Color(0.3f, 0.3f, 0.3f);
         zone.fogStart = 100.0f;
         zone.fogEnd = 500.0f;
         zone.occluder = true;
-
+        /*
         // Create a directional light without shadows
         Node@ lightNode1 = scene_.CreateChild("DirectionalLight");
         lightNode1.direction = Vector3(0.5f, -1.0f, 0.5f);
@@ -110,6 +111,16 @@ namespace NetworkHandler {
 
         for (int i = -10; i < 10; i+=1) {
             for (int j = -10; j < 10; j+=1) {
+                Vector3 position = Vector3(i * 41 + Random(30.0f), 0.0, j * 37 + Random(30.0f));
+                //RandomTree::Create(position);
+                position.x += Random(10.0f);
+                position.z += Random(10.0f);
+                RandomRock::Create(position);
+            }
+        }
+
+        for (int i = -10; i < 10; i+=1) {
+            for (int j = -10; j < 10; j+=1) {
                 Vector3 position = Vector3(i * 41 + Random(30.0f), 0.0, j * 33 + + Random(30.0f));
                 AppleTree::Create(position);
 
@@ -177,6 +188,9 @@ namespace NetworkHandler {
         ActiveTool::Subscribe();
         Axe::Subscribe();
         Trap::Subscribe();
+        
+        RandomRock::Subscribe();
+        RandomRock::RegisterConsoleCommands();
 
         Inventory::RegisterConsoleCommands();
         ActiveTool::RegisterConsoleCommands();

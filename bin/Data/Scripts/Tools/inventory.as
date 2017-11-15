@@ -11,6 +11,7 @@ namespace Inventory {
         SubscribeToEvent("InventoryAddAxe", "Inventory::HandleInventoryAddAxe");
         SubscribeToEvent("InventoryAddTrap", "Inventory::HandleInventoryAddTrap");
         SubscribeToEvent("InventoryAddBranch", "Inventory::HandleInventoryAddBranch");
+        SubscribeToEvent("InventoryAddRock", "Inventory::HandleInventoryAddRock");
     }
 
     int GetItemCount(String name)
@@ -66,5 +67,10 @@ namespace Inventory {
     void HandleInventoryAddTrap(StringHash eventType, VariantMap& eventData)
     {
         AddItem("Trap");
+    }
+
+    void HandleInventoryAddRock(StringHash eventType, VariantMap& eventData)
+    {
+        AddItem("Rock");
     }
 }

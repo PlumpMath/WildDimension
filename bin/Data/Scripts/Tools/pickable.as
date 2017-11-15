@@ -15,6 +15,8 @@ class PickableObject : ScriptObject
                 SendEvent("GetAxe");
             } else if(node.name == "Trap") {
                 SendEvent("GetTrap");
+            } else if(node.name == "Rock") {
+                SendEvent("GetRock");
             } else if (node.name == "Branch") {
                 SendEvent("InventoryAddBranch");
 

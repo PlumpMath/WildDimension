@@ -8,8 +8,8 @@
 		"Elapsed Time": 105.1208724975586,
 		"Next Replicated Node ID": 200,
 		"Next Replicated Component ID": 281,
-		"Next Local Node ID": 16803342,
-		"Next Local Component ID": 16803411,
+		"Next Local Node ID": 16807312,
+		"Next Local Component ID": 16807392,
 		"Variables": {},
 		"Variable Names": ""
 	},
@@ -51,7 +51,8 @@
 						"Bounding Box Max": "1000 1000 1000",
 						"Fog Color": "0.3 0.3 0.3 1",
 						"Fog Start": 100.0,
-						"Fog End": 5000.0,
+						"Fog End": 500.0,
+						"Fog Height": 1.0,
 						"Fog Height Scale": 0.0
 					}
 				}
