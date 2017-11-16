@@ -19,7 +19,7 @@ namespace Player {
         // Create rigidbody, and set non-zero mass so that the body becomes dynamic
         playerBody = playerNode.CreateComponent("RigidBody");
         playerBody.collisionLayer = COLLISION_PLAYER_LEVEL;
-        playerBody.collisionMask = COLLISION_TERRAIN_LEVEL | COLLISION_PACMAN_LEVEL | COLLISION_SNAKE_BODY_LEVEL | COLLISION_SNAKE_HEAD_LEVEL | COLLISION_PICKABLE_LEVEL | COLLISION_FOOD_LEVEL | COLLISION_TREE_LEVEL;
+        playerBody.collisionMask = COLLISION_TERRAIN_LEVEL | COLLISION_PACMAN_LEVEL | COLLISION_SNAKE_BODY_LEVEL | COLLISION_SNAKE_HEAD_LEVEL | COLLISION_PICKABLE_LEVEL | COLLISION_FOOD_LEVEL | COLLISION_TREE_LEVEL | COLLISION_STATIC_OBJECTS;
         playerBody.mass = 1.0f;
 
         // Set zero angular factor so that physics doesn't turn the character on its own.

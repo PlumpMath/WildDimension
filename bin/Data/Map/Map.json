@@ -47,11 +47,11 @@
 					"type": "Zone",
 					"id": 1,
 					"attributes": {
-						"Bounding Box Min": "-1000 -1000 -1000",
-						"Bounding Box Max": "1000 1000 1000",
-						"Fog Color": "0.3 0.3 0.3 1",
+						"Bounding Box Min": "-5000 -5000 -5000",
+						"Bounding Box Max": "5000 5000 5000",
+						"Fog Color": "0.4 0.4 0.4 1",
 						"Fog Start": 100.0,
-						"Fog End": 500.0,
+						"Fog End": 1000.0,
 						"Fog Height": 1.0,
 						"Fog Height Scale": 0.0
 					}

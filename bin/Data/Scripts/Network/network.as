@@ -154,6 +154,21 @@ namespace NetworkHandler {
             }
         }
 
+        for (int i = -10; i < 10; i+=2) {
+            for (int j = -10; j < 10; j+=2) {
+                Vector3 position = Vector3(i * 100 + Random(50.0f), 0.0, j * 100 + Random(50.0f));
+                EnvObjects::Create(position, "Models/Models/Large_rock.mdl");
+                position = Vector3(i * 66 + Random(50.0f), 0.0, j * 55 + Random(50.0f));
+                EnvObjects::Create(position, "Models/Models/Medium_rock.mdl");
+                position = Vector3(i * 48 + Random(50.0f), 0.0, j * 37 + Random(50.0f));
+                EnvObjects::Create(position, "Models/Models/Big_tree.mdl");
+                position = Vector3(i * 98 + Random(50.0f), 0.0, j * 67 + Random(50.0f));
+                EnvObjects::Create(position, "Models/Models/Big_tree2.mdl");
+                position = Vector3(i * 88 + Random(50.0f), 0.0, j * 59 + Random(50.0f));
+                EnvObjects::Create(position, "Models/Models/Big_tree3.mdl");
+            }
+        }
+
         GameSounds::PlayAmbient(GameSounds::AMBIENT_SOUND);
 
         /*File file("Map.xml", FILE_WRITE);

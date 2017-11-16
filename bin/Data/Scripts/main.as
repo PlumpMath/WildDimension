@@ -38,6 +38,8 @@
 #include "Screens/splash.as"
 #include "Screens/menu.as"
 
+#include "EnvironmentObjects/env_objects.as"
+
 Scene@ scene_;
 uint screenJoystickIndex = M_MAX_UNSIGNED; // Screen joystick index for navigational controls (mobile platforms only)
 uint screenJoystickSettingsIndex = M_MAX_UNSIGNED; // Screen joystick index for settings (mobile platforms only)

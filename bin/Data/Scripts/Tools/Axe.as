@@ -11,7 +11,7 @@ namespace Axe {
         node.AddTag("Axe");
 
         StaticModel@ object = node.CreateComponent("StaticModel");
-        object.model = cache.GetResource("Model", "Models/Models/Axe.mdl");
+        object.model = cache.GetResource("Model", "Models/Models/Axe.001.mdl");
 
         node.SetScale(0.5f);
         object.castShadows = true;

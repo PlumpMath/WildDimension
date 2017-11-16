@@ -40,7 +40,7 @@ namespace Snake {
         // Create rigidbody, and set non-zero mass so that the body becomes dynamic
         RigidBody@ pacmanBody = snakeNode.CreateComponent("RigidBody");
         pacmanBody.collisionLayer = COLLISION_SNAKE_HEAD_LEVEL;
-        pacmanBody.collisionMask = COLLISION_TERRAIN_LEVEL | COLLISION_PACMAN_LEVEL | COLLISION_PLAYER_LEVEL | COLLISION_SNAKE_HEAD_LEVEL | COLLISION_FOOD_LEVEL | COLLISION_TREE_LEVEL;
+        pacmanBody.collisionMask = COLLISION_TERRAIN_LEVEL | COLLISION_PACMAN_LEVEL | COLLISION_PLAYER_LEVEL | COLLISION_SNAKE_HEAD_LEVEL | COLLISION_FOOD_LEVEL | COLLISION_TREE_LEVEL | COLLISION_STATIC_OBJECTS;
         pacmanBody.mass = 1.0f;
 
         // Set zero angular factor so that physics doesn't turn the character on its own.
@@ -53,7 +53,7 @@ namespace Snake {
         // Set a capsule shape for collision
         CollisionShape@ shape = snakeNode.CreateComponent("CollisionShape");
         //shape.SetConvexHull(pacmanObject.model);
-        shape.SetBox(Vector3(1.0, 1.0, 1.0));
+        shape.SetBox(Vector3(1.0, 1.0, 1.2));
 
         ParticleEmitter@ particleEmitter = snakeNode.CreateComponent("ParticleEmitter");
         particleEmitter.effect = cache.GetResource("ParticleEffect", "Particle/Dreaming.xml");

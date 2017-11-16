@@ -66,7 +66,7 @@ namespace RaspberryBush {
             StaticModel@ object = apple.CreateComponent("StaticModel");
             object.model = cache.GetResource("Model", "Models/Models/Raspberry.mdl");
 
-            apple.SetScale(0.8f + Random(0.5f));
+            apple.SetScale(1.0f + Random(0.8f));
             object.castShadows = true;
             object.materials[0] = cache.GetResource("Material", "Materials/Raspberry.xml");
             object.materials[1] = cache.GetResource("Material", "Materials/TreeGreen.xml");
@@ -75,7 +75,7 @@ namespace RaspberryBush {
             // Create rigidbody, and set non-zero mass so that the body becomes dynamic
             /*RigidBody@ body = apple.CreateComponent("RigidBody");
             body.collisionLayer = COLLISION_FOOD_LEVEL;
-            body.collisionMask = COLLISION_TERRAIN_LEVEL | COLLISION_PACMAN_LEVEL | COLLISION_SNAKE_BODY_LEVEL | COLLISION_SNAKE_HEAD_LEVEL | COLLISION_PLAYER_LEVEL | COLLISION_TREE_LEVEL | COLLISION_FOOD_LEVEL;
+            body.collisionMask = COLLISION_TERRAIN_LEVEL | COLLISION_PACMAN_LEVEL | COLLISION_SNAKE_BODY_LEVEL | COLLISION_SNAKE_HEAD_LEVEL | COLLISION_PLAYER_LEVEL | COLLISION_TREE_LEVEL | COLLISION_FOOD_LEVEL | COLLISION_STATIC_OBJECTS;
             body.mass = 0.1f;
 
             // Set zero angular factor so that physics doesn't turn the character on its own.
