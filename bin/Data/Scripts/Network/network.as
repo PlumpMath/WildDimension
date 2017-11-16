@@ -29,6 +29,7 @@ namespace NetworkHandler {
         terrain = terrainNode.GetComponent("Terrain");
         // Create a Zone component for ambient lighting & fog control
         Node@ zoneNode = scene_.CreateChild("Zone");
+        zoneNode.temporary = true;
         Zone@ zone = zoneNode.CreateComponent("Zone");
         zone.boundingBox = BoundingBox(-1000.0f, 1000.0f);
         zone.ambientColor = Color(0.4, 0.4, 0.4);
@@ -187,6 +188,7 @@ namespace NetworkHandler {
         SubscribeToEvent("ServerConnected", "NetworkHandler::HandleConnectionStatus");
         SubscribeToEvent("ClientIdentity", "NetworkHandler::HandleClientIdentity");
         SubscribeToEvent("ClientsList", "NetworkHandler::HandleClientsList");
+        SubscribeToEvent("SaveMap", "NetworkHandler::HandleSaveMap");
         //SubscribeToEvent("ServerDisconnected", "HandleConnectionStatus");
 
         Clouds::Subscribe();
@@ -230,6 +232,10 @@ namespace NetworkHandler {
 
         data["CONSOLE_COMMAND_NAME"] = "disconnect";
         data["CONSOLE_COMMAND_EVENT"] = "DisconnectFromServer";
+        SendEvent("ConsoleCommandAdd", data);
+
+        data["CONSOLE_COMMAND_NAME"] = "save_map";
+        data["CONSOLE_COMMAND_EVENT"] = "SaveMap";
         SendEvent("ConsoleCommandAdd", data);
     }
 
@@ -354,5 +360,11 @@ namespace NetworkHandler {
         }
         log.Info("#####################");
         log.Info("");
+    }
+
+    void HandleSaveMap(StringHash eventType, VariantMap& eventData)
+    {
+        File file("Data/Map/Map.json", FILE_WRITE);
+        scene_.SaveJSON(file);
     }
 }
