@@ -11,7 +11,7 @@ namespace EnvObjects {
 
         StaticModel@ object = node.CreateComponent("StaticModel");
         object.model = cache.GetResource("Model", model);
-        node.SetScale(1.0f + Random(0.5f));
+        node.SetScale(1.0f);
         object.castShadows = true;
         object.materials[0] = cache.GetResource("Material", "Materials/Stone.xml");
 
@@ -79,45 +79,78 @@ namespace EnvObjects {
     {
         float timeStep = eventData["TimeStep"].GetFloat();
         if (objects.length > 0) {
-            if (input.keyDown[KEY_I]) {
+            //Move front
+            if (input.keyDown[KEY_KP_8]) {
                 Vector3 position = objects[objects.length - 1].position;
                 position.z -= timeStep;
                 objects[objects.length - 1].position = position;
             }
-            if (input.keyDown[KEY_K]) {
+            //Move back
+            if (input.keyDown[KEY_KP_2]) {
                 Vector3 position = objects[objects.length - 1].position;
                 position.z += timeStep;
                 objects[objects.length - 1].position = position;
             }
-            if (input.keyDown[KEY_J]) {
+            //Move left
+            if (input.keyDown[KEY_KP_4]) {
                 Vector3 position = objects[objects.length - 1].position;
                 position.x += timeStep;
                 objects[objects.length - 1].position = position;
             }
-            if (input.keyDown[KEY_L]) {
+            //Move right
+            if (input.keyDown[KEY_6]) {
                 Vector3 position = objects[objects.length - 1].position;
                 position.x -= timeStep;
                 objects[objects.length - 1].position = position;
             }
-            if (input.keyDown[KEY_U]) {
+            //Move up
+            if (input.keyDown[KEY_KP_9]) {
                 Vector3 position = objects[objects.length - 1].position;
                 position.y += timeStep;
                 objects[objects.length - 1].position = position;
             }
-            if (input.keyDown[KEY_H]) {
+            //Move down
+            if (input.keyDown[KEY_KP_3]) {
                 Vector3 position = objects[objects.length - 1].position;
                 position.y -= timeStep;
                 objects[objects.length - 1].position = position;
             }
 
-            if (input.keyDown[KEY_B]) {
+            //Rotate Y
+            if (input.keyDown[KEY_I]) {
                 objects[objects.length - 1].Yaw(timeStep * 10);
             }
-            if (input.keyDown[KEY_N]) {
+            if (input.keyDown[KEY_J]) {
+                objects[objects.length - 1].Yaw(-timeStep * 10);
+            }
+            //Rotate X
+            if (input.keyDown[KEY_O]) {
                 objects[objects.length - 1].Pitch(timeStep * 10);
             }
-            if (input.keyDown[KEY_M]) {
+            if (input.keyDown[KEY_K]) {
+                objects[objects.length - 1].Pitch(-timeStep * 10);
+            }
+            //Rotate Z
+            if (input.keyDown[KEY_P]) {
                 objects[objects.length - 1].Roll(timeStep * 10);
+            }
+            if (input.keyDown[KEY_L]) {
+                objects[objects.length - 1].Roll(-timeStep * 10);
+            }
+
+            if (input.keyDown[KEY_KP_PLUS]) {
+                Vector3 oldScale = objects[objects.length - 1].scale;
+                oldScale.x += timeStep;
+                oldScale.y += timeStep;
+                oldScale.z += timeStep;
+                objects[objects.length - 1].Scale(oldScale);
+            }
+            if (input.keyDown[KEY_KP_MINUS]) {
+                Vector3 oldScale = objects[objects.length - 1].scale;
+                oldScale.x -= timeStep;
+                oldScale.y -= timeStep;
+                oldScale.z -= timeStep;
+                objects[objects.length - 1].Scale(oldScale);
             }
         }
     }
