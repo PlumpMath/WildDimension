@@ -8,10 +8,7 @@ namespace Inventory {
 
 	void Subscribe()
     {
-        SubscribeToEvent("InventoryAddAxe", "Inventory::HandleInventoryAddAxe");
-        SubscribeToEvent("InventoryAddTrap", "Inventory::HandleInventoryAddTrap");
-        SubscribeToEvent("InventoryAddBranch", "Inventory::HandleInventoryAddBranch");
-        SubscribeToEvent("InventoryAddRock", "Inventory::HandleInventoryAddRock");
+        SubscribeToEvent("InventoryAdd", "Inventory::HandleInventoryAdd");
     }
 
     int GetItemCount(String name)
@@ -54,23 +51,10 @@ namespace Inventory {
     	SendEvent("UpdateInventoryGUI");
     }
 
-    void HandleInventoryAddAxe(StringHash eventType, VariantMap& eventData)
+    void HandleInventoryAdd(StringHash eventType, VariantMap& eventData)
     {
-        AddItem("Axe");
-    }
-
-    void HandleInventoryAddBranch(StringHash eventType, VariantMap& eventData)
-    {
-        AddItem("Branch");
-    }
-
-    void HandleInventoryAddTrap(StringHash eventType, VariantMap& eventData)
-    {
-        AddItem("Trap");
-    }
-
-    void HandleInventoryAddRock(StringHash eventType, VariantMap& eventData)
-    {
-        AddItem("Rock");
+        String name = eventData["Name"].GetString();
+        AddItem(name);
+        ActiveTool::SetActiveToolByName(name);
     }
 }

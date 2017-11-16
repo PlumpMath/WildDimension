@@ -5,7 +5,6 @@ namespace ActiveTool {
     const uint TOOL_BRANCH = 2;
     Node@ node;
     Node@ toolNode;
-    uint activeToolIndex = 0;
     bool use = false;
     bool back = false;
     float sleepTime = 0.0f;
@@ -32,15 +31,8 @@ namespace ActiveTool {
         position += node.rotation * Vector3::UP * -0.1f;
         node.position = position;
 
-        /*RigidBody@ body = toolNode.CreateComponent("RigidBody");
-        // The trigger mode makes the rigid body only detect collisions, but impart no forces on the
-        // colliding objects
-        body.trigger = true;
-        body.collisionMask = 0;
-        CollisionShape@ shape = toolNode.CreateComponent("CollisionShape");
-        // Create the capsule shape with an offset so that it is correctly aligned with the model, which
-        // has its origin at the feet
-        shape.SetCapsule(0.7f, 2.0f, Vector3(0.0f, 1.0f, 0.0f));*/
+        Axe::Create();
+        Trap::Create();
     }
 
     void AddTool(Node@ node, uint type)
@@ -223,22 +215,42 @@ namespace ActiveTool {
 
     void HandleNextTool(StringHash eventType, VariantMap& eventData)
     {
-        if (tools.length == 0) {
-            return;
-        }
-        if (tools.length == 1) {
-            tools[0].node.SetDeepEnabled(true);
-        } else {
-            activeToolIndex++;
-            if (activeToolIndex >= tools.length) {
-                activeToolIndex = 0;
-            }
+        if (activeTool.node is null) {
             for (uint i = 0; i < tools.length; i++) {
-                Node@ node = tools[i].node;
-                node.SetDeepEnabled(false);
+                if (Inventory::GetItemCount(tools[i].node.name) > 0) {
+                    SetActiveToolByName(tools[i].node.name);
+                }
             }
-            activeTool = tools[activeToolIndex];
-            tools[activeToolIndex].node.SetDeepEnabled(true);
+        } else {
+            uint currentIndex = 0;
+            for (uint i = 0; i < tools.length; i++) {
+                if (activeTool.node.id == tools[i].node.id) {
+                    currentIndex = i;
+                }
+            }
+            bool foundNext = false;
+            for (uint i = currentIndex + 1; i < tools.length; i++) {
+                if (foundNext) {
+                    continue;
+                }
+                if (Inventory::GetItemCount(tools[i].node.name) > 0) {
+                    currentIndex = i;
+                    foundNext = true;
+                    SetActiveToolByName(tools[i].node.name);
+                }
+            }
+            if (foundNext == false) {
+                for (uint i = 0; i < tools.length; i++) {
+                    if (foundNext) {
+                        continue;
+                    }
+                    if (Inventory::GetItemCount(tools[i].node.name) > 0) {
+                        currentIndex = i;
+                        foundNext = true;
+                        SetActiveToolByName(tools[i].node.name);
+                    }
+                }   
+            }
         }
     }
 
@@ -252,6 +264,32 @@ namespace ActiveTool {
 
             } else {
                 node.SetDeepEnabled(false);
+            }
+        }
+    }
+
+    void SetActiveToolByName(String name)
+    {
+        if (Inventory::GetItemCount(name) <= 0) {
+            return;
+        }
+        bool found = false;
+        for (uint i = 0; i < tools.length; i++) {
+            Node@ node = tools[i].node;
+            if (name == node.name) {
+                found = true;
+            }
+        }
+        if (found) {
+            for (uint i = 0; i < tools.length; i++) {
+                Node@ node = tools[i].node;
+                if (name == node.name) {
+                    node.SetDeepEnabled(true);
+                    activeTool = tools[i];
+
+                } else {
+                    node.SetDeepEnabled(false);
+                }
             }
         }
     }
