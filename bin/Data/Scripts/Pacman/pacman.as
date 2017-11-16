@@ -4,6 +4,7 @@ namespace Pacman {
         ParticleEmitter@ particleEmitter;
         uint stage;
         float sleepTime;
+        Node@ targetNode;
     };
     Array<SinglePacman> pacmans;
     const float PACMAN_MOVE_SPEED = 0.05f;
@@ -142,8 +143,10 @@ namespace Pacman {
             Node@ pacmanNode = pacmans[i].node;
             RigidBody@ pacmanBody = pacmans[i].node.GetComponent("RigidBody");
 
-            Node@ raspberryNode = getNearestRaspberry(pacmanNode.worldPosition);
-            Vector3 targetPosition = raspberryNode.worldPosition;
+            if (pacmans[i].targetNode is null || pacmans[i].targetNode.enabled == false) {
+                pacmans[i].targetNode = getNearestRaspberry(pacmanNode.worldPosition);
+            }
+            Vector3 targetPosition = pacmans[i].targetNode.worldPosition;
             targetPosition.y = pacmanNode.position.y;
             pacmanNode.LookAt(targetPosition);
 
@@ -155,8 +158,8 @@ namespace Pacman {
             Vector3 diff = pacmanNode.worldPosition - targetPosition;
             if (diff.lengthSquared < 2.0f) {
                 moveDir = Vector3::ZERO;
-                if (raspberryNode.HasTag("Raspberry")) {
-                    raspberryNode.SetDeepEnabled(false);
+                if (pacmans[i].targetNode.HasTag("Raspberry")) {
+                    pacmans[i].targetNode.SetDeepEnabled(false);
                 }
             }
 

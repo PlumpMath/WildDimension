@@ -193,15 +193,11 @@ namespace Snake {
         float timeStep = eventData["TimeStep"].GetFloat();
         for (uint i = 0; i < snakes.length; i++) {
             SnakeBody@ snakeBody = snakes[i];
-            //if (snakeBody.targetNode.enabled == false) {
+            
+            if (snakeBody.targetNode is null || snakeBody.targetNode.enabled == false) {
                 snakeBody.targetNode = getNearestApple(snakeBody.body[0].worldPosition);
-            //}
-            /*if (time.elapsedTime % 5 < 1.0f && snakeBody.lastTurn > 0.5f + Random(1.0f)) {
-                snakeBody.targetNode = getNearestApple(snakeBody.body[0].position);
-                snakeBody.lastTurn = 0.0f;
-            } else {
-                snakeBody.lastTurn += timeStep;
-            }*/
+            }
+
             if (snakeBody.stage == 0) {
                 MoveBodyPart(i, 0, snakeBody.body[0], snakeBody.targetNode, timeStep);
             } else {
