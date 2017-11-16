@@ -114,11 +114,15 @@ namespace ConsoleHandler {
         }
     }
 
-    void ParseCommand(String command)
+    void ParseCommand(String line)
     {
+        Array<String> commands = line.Split(' ', true);
+        String command = commands[0];
         for (uint i = 0; i < consoleCommands.length; i++) {
             if (consoleCommands[i].command == command) {
-                SendEvent(consoleCommands[i].eventToCall);
+                VariantMap map;
+                map["PARAMETERS"] = commands;
+                SendEvent(consoleCommands[i].eventToCall, map);
             }
         }
     }

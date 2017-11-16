@@ -1,8 +1,9 @@
 namespace ActiveTool {
 
-    const uint TOOL_AXE = 0;
-    const uint TOOL_TRAP = 1;
-    const uint TOOL_BRANCH = 2;
+    const uint TOOL_NONE = 0;
+    const uint TOOL_AXE = 1;
+    const uint TOOL_TRAP = 2;
+    const uint TOOL_BRANCH = 3;
     Node@ node;
     Node@ toolNode;
     bool use = false;
@@ -95,17 +96,8 @@ namespace ActiveTool {
         body.collisionMask = COLLISION_TERRAIN_LEVEL | COLLISION_PACMAN_LEVEL | COLLISION_SNAKE_BODY_LEVEL | COLLISION_SNAKE_HEAD_LEVEL | COLLISION_PLAYER_LEVEL | COLLISION_TREE_LEVEL | COLLISION_FOOD_LEVEL;
         body.mass = 0.1f;
 
-        // Set zero angular factor so that physics doesn't turn the character on its own.
-        // Instead we will control the character yaw manually
-        //body.angularFactor = Vector3::ZERO;
-
-        // Set the rigidbody to signal collision also when in rest, so that we get ground collisions properly
-        body.collisionEventMode = COLLISION_ALWAYS;
-
         CollisionShape@ shape = branchNode.CreateComponent("CollisionShape");
         shape.SetConvexHull(object.model);
-        //shape.SetBox(Vector3(0.1, 3.0, 0.1));
-    
 
         branchNode.CreateScriptObject(scriptFile, "PickableObject");
     }
@@ -185,12 +177,14 @@ namespace ActiveTool {
         sleepTime -= timeStep;
         if (tools.length > 0) {
             if ((isMobilePlatform == false && input.mouseButtonDown[MOUSEB_LEFT]) || input.keyDown[KEY_E]) {
-                if (use == false && sleepTime <= 0) {
-                    use = true;
-                    toolNode.Roll(-60.0f);
-                    back = true;
-                    sleepTime = 0.2f;
-                    HitObject();
+                if (activeTool.node !is null) {
+                    if (use == false && sleepTime <= 0) {
+                        use = true;
+                        toolNode.Roll(-60.0f);
+                        back = true;
+                        sleepTime = 0.2f;
+                        HitObject();
+                    }
                 }
             }
             if (back == true && sleepTime <= 0) {

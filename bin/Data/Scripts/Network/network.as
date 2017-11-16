@@ -126,10 +126,10 @@ namespace NetworkHandler {
 
                 position.x += 2.0f + Random(5.0f);
                 position.z += 2.0f + Random(5.0f);
-                Axe::CreatePickable(position);
+                Pickable::Create(position, "Axe", "Models/Models/Axe.001.mdl");
                 position.x += 2.0f + Random(5.0f);
                 position.z += 2.0f + Random(5.0f);
-                Trap::CreatePickable(position);
+                Pickable::Create(position, "Trap", "Models/Box.mdl");
             }
         }
 
@@ -201,16 +201,18 @@ namespace NetworkHandler {
         //Tools
         Inventory::Subscribe();
         ActiveTool::Subscribe();
-        Axe::Subscribe();
-        Trap::Subscribe();
         
         RandomRock::Subscribe();
         RandomRock::RegisterConsoleCommands();
 
         Inventory::RegisterConsoleCommands();
         ActiveTool::RegisterConsoleCommands();
-        Axe::RegisterConsoleCommands();
-        Trap::RegisterConsoleCommands();
+
+        Pickable::Subscribe();
+        Pickable::RegisterConsoleCommands();
+
+        EnvObjects::Subscribe();
+        EnvObjects::RegisterConsoleCommands();
     }
 
     void RegisterConsoleCommands()
@@ -244,6 +246,7 @@ namespace NetworkHandler {
         AppleTree::HandleUpdate(eventType, eventData);
         RaspberryBush::HandleUpdate(eventType, eventData);
         Clouds::HandleUpdate(eventType, eventData);
+        EnvObjects::HandlePostUpdate(eventType, eventData);
 
         //Get client terrain if it not exist
         if (terrain is null && scene_ !is null) {
