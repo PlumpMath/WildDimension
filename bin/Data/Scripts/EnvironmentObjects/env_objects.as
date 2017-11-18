@@ -1,9 +1,10 @@
 namespace EnvObjects {
     Array<Node@> objects;
 
-    Node@ Create(Vector3 position, String model, bool temporary = true)
+    Node@ Create(Vector3 position, String model, bool temporary = true, String name = "Custom")
     {
         Node@ node = scene_.CreateChild();
+        node.name = name;
         node.temporary = temporary;
         position.y = NetworkHandler::terrain.GetHeight(position);
         node.position = position;
@@ -63,7 +64,7 @@ namespace EnvObjects {
     
         Vector3 position = cameraNode.position;
         position += cameraNode.direction * 10;
-        Node@ node = Create(position, commands[1], false);
+        Node@ node = Create(position, commands[1], false, "Custom");
     }
 
     void HandleDestroySpawnedObject(StringHash eventType, VariantMap& eventData)

@@ -72,9 +72,9 @@ namespace ActiveTool {
 
     void AxeHit(Vector3 position)
     {
-        Node@ branchNode = scene_.CreateChild("Branch");
+        Node@ branchNode = scene_.CreateChild("Wood");
         branchNode.temporary = true;
-        branchNode.AddTag("Branch");
+        branchNode.AddTag("Wood");
         //Vector3 position = parentTree.node.position;
         //position.x += -1.0f + Random(2.0f);
         //position.z += -1.0f + Random(2.0f);

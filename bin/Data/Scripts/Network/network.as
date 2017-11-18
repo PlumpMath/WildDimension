@@ -101,27 +101,23 @@ namespace NetworkHandler {
             }
         }
 
-        for (int i = -10; i < 10; i+=2) {
-            for (int j = -10; j < 10; j+=2) {
-                Vector3 position = Vector3(i * 141 + Random(130.0f), 0.0, j * 137 + Random(130.0f));
-                //RandomTree::Create(position);
-                position.x += Random(10.0f);
-                position.z += Random(10.0f);
-                RandomRock::Create(position);
-            }
-        }
-
-        for (int i = -20; i < 20; i+=6) {
-            for (int j = -20; j < 20; j+=6) {
+        for (int i = -20; i < 20; i+=3) {
+            for (int j = -20; j < 20; j+=3) {
                 Vector3 position = Vector3(i * 141 + Random(130.0f), 0.0, j * 133 + + Random(130.0f));
                 AppleTree::Create(position);
 
-                position.x += 2.0f + Random(5.0f);
-                position.z += 2.0f + Random(5.0f);
-                Pickable::Create(position, "Axe", "Models/Models/Axe.mdl");
-                position.x += 2.0f + Random(5.0f);
-                position.z += 2.0f + Random(5.0f);
-                Pickable::Create(position, "Trap", "Models/Box.mdl");
+                position.x += 12.0f + Random(12.0f);
+                position.z += 12.0f + Random(12.0f);
+                Pickable::Create(position, "Rock", "Models/Models/Small_rock.mdl");
+                position.x += 12.0f + Random(12.0f);
+                position.z += 12.0f + Random(12.0f);
+                Pickable::Create(position, "Rock", "Models/Models/Small_rock2.mdl");
+                position.x += 12.0f + Random(12.0f);
+                position.z += 12.0f + Random(12.0f);
+                Pickable::Create(position, "Rock", "Models/Models/Small_rock3.mdl");
+                position.x += 12.0f + Random(12.0f);
+                position.z += 12.0f + Random(12.0f);
+                Pickable::Create(position, "Rock", "Models/Models/Small_rock4.mdl");
             }
         }
 
@@ -149,15 +145,15 @@ namespace NetworkHandler {
         for (int i = -20; i < 20; i+=5) {
             for (int j = -20; j < 20; j+=5) {
                 Vector3 position = Vector3(i * 100 + Random(100.0f), 0.0, j * 100 + Random(100.0f));
-                EnvObjects::Create(position, "Models/Models/Large_rock.mdl");
+                EnvObjects::Create(position, "Models/Models/Large_rock.mdl", true, "Rock");
                 position = Vector3(i * 66 + Random(100.0f), 0.0, j * 55 + Random(100.0f));
-                EnvObjects::Create(position, "Models/Models/Medium_rock.mdl");
+                EnvObjects::Create(position, "Models/Models/Medium_rock.mdl", true, "Rock");
                 position = Vector3(i * 48 + Random(100.0f), 0.0, j * 37 + Random(100.0f));
-                EnvObjects::Create(position, "Models/Models/Big_tree.mdl");
+                EnvObjects::Create(position, "Models/Models/Big_tree.mdl", true, "Tree");
                 position = Vector3(i * 98 + Random(100.0f), 0.0, j * 67 + Random(100.0f));
-                EnvObjects::Create(position, "Models/Models/Big_tree2.mdl");
+                EnvObjects::Create(position, "Models/Models/Big_tree2.mdl", true, "Tree");
                 position = Vector3(i * 88 + Random(100.0f), 0.0, j * 59 + Random(100.0f));
-                EnvObjects::Create(position, "Models/Models/Big_tree3.mdl");
+                EnvObjects::Create(position, "Models/Models/Big_tree3.mdl", true, "Tree");
             }
         }
 
@@ -194,9 +190,6 @@ namespace NetworkHandler {
         //Tools
         Inventory::Subscribe();
         ActiveTool::Subscribe();
-        
-        RandomRock::Subscribe();
-        RandomRock::RegisterConsoleCommands();
 
         Inventory::RegisterConsoleCommands();
         ActiveTool::RegisterConsoleCommands();

@@ -11,13 +11,25 @@ class PickableObject : ScriptObject
         Node@ otherNode = eventData["OtherNode"].GetPtr();
         if (otherNode.HasTag("Player")) {
             log.Info("Player " + otherNode.id + " picked up " + node.name);
-            VariantMap data;
-            data["Name"] = node.name;
-            SendEvent("InventoryAdd", data);
+            if (node.name == "Stem") {
+                VariantMap data;
+                data["Name"] = "Axe";
+                SendEvent("InventoryAdd", data);
+                data["Name"] = "Wood";
+                SendEvent("InventoryAdd", data);
 
-            data["Name"] = "Get" + node.name;
-            SendEvent("UnlockAchievement", data);
+                data["Name"] = "GetAxe";
+                SendEvent("UnlockAchievement", data);
+                data["Name"] = "GetWood";
+                SendEvent("UnlockAchievement", data);
+            } else {
+                VariantMap data;
+                data["Name"] = node.name;
+                SendEvent("InventoryAdd", data);
 
+                data["Name"] = "Get" + node.name;
+                SendEvent("UnlockAchievement", data);
+            }
             GameSounds::Play(GameSounds::PICKUP_TOOL);
             node.Remove();
         }
@@ -32,7 +44,7 @@ namespace Pickable {
         Node@ node = scene_.CreateChild(name);
         node.temporary = true;
         node.AddTag(name);
-        position.y = NetworkHandler::terrain.GetHeight(position) + 1.0f;
+        position.y = NetworkHandler::terrain.GetHeight(position);
         node.position = position;
 
         StaticModel@ object = node.CreateComponent("StaticModel");
@@ -40,8 +52,18 @@ namespace Pickable {
 
         node.SetScale(1.0f);
         object.castShadows = true;
-        object.materials[0] = cache.GetResource("Material", "Materials/Stone.xml");
-        object.materials[1] = cache.GetResource("Material", "Materials/Wood.xml");
+        if (name == "Stem") {
+            object.materials[0] = cache.GetResource("Material", "Materials/Wood.xml");
+            object.materials[1] = cache.GetResource("Material", "Materials/Wood.xml");
+            object.materials[2] = cache.GetResource("Material", "Materials/Wood.xml");
+            object.materials[3] = cache.GetResource("Material", "Materials/Stone.xml");
+        } else if (name == "Axe") {
+            object.materials[0] = cache.GetResource("Material", "Materials/Stone.xml");
+            object.materials[1] = cache.GetResource("Material", "Materials/Wood.xml");
+        }
+        else {
+            object.materials[0] = cache.GetResource("Material", "Materials/Stone.xml");
+        }
 
         RigidBody@ body = node.CreateComponent("RigidBody");
         body.collisionLayer = COLLISION_PICKABLE_LEVEL;
@@ -79,6 +101,19 @@ namespace Pickable {
             return;
         }
         String name = commands[1];
+        if (name == "Stem") {
+            VariantMap data;
+            data["Name"] = "Axe";
+            SendEvent("InventoryAdd", data);
+            data["Name"] = "Wood";
+            SendEvent("InventoryAdd", data);
+
+            data["Name"] = "GetAxe";
+            SendEvent("UnlockAchievement", data);
+            data["Name"] = "GetWood";
+            SendEvent("UnlockAchievement", data);
+            return;
+        }
         VariantMap data;
         data["Name"] = name;
         SendEvent("InventoryAdd", data);

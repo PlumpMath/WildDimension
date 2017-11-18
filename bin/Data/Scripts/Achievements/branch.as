@@ -5,8 +5,8 @@ namespace AchievementsBranch {
         int count = 1;
         while(true) {
             Achievements::AchievementItem item;
-            item.eventName = "GetBranch";
-            item.name = "Get branch " + count;
+            item.eventName = "GetWood";
+            item.name = "Get wood " + count;
             item.current = 0.0f;
             item.target = count;
             item.completed = false;

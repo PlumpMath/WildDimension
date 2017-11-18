@@ -99,8 +99,8 @@ namespace Missions {
         item.name = "Woodchopper";
         item.description = "Wood is always\n useful, I should\n gather some!";
         item.shortDescription = "Gather 5 branches";
-        item.eventName = "GetBranch";
-        item.itemName = "Branch";
+        item.eventName = "GetWood";
+        item.itemName = "Wood";
         item.current = 0;
         item.target = 5;
         item.completed = false;

@@ -15,8 +15,6 @@
 
 #include "Tree/apple_tree.as"
 #include "Tree/raspberry_bush.as"
-#include "Tree/random.as"
-#include "Tree/rocks.as"
 
 #include "Clouds/clouds.as"
 #include "Tools/Axe.as"
