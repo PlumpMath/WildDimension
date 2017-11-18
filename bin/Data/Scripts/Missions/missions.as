@@ -50,17 +50,32 @@ namespace Missions {
                     VariantMap data;
                     data["Name"] = item.eventName;
                     SendEvent("MissionCompleted", data);    
+                } else {
+                    Array<Variant> parameters;
+                    parameters.Push(Variant(item.description));
+                    DelayedExecute(1.0, false, "void Missions::ShowTip(String)", parameters);
                 }
                 return;
             }
         }
     }
 
+    void ShowTip(String description)
+    {
+        VariantMap data;
+        data["MESSAGE"] = description;
+        SendEvent("ShowTip", data);
+
+        //Array<Variant> parameters;
+        //parameters.Push(Variant(description));
+        //DelayedExecute(10.0, false, "void Missions::ShowTip(String)", parameters);
+    }
+
     void Init()
     {
         MissionItem item;
         item.name = "Survivalist";
-        item.description = "Get axe from somewhere";
+        item.description = "I need to find\nsome tools!";
         item.shortDescription = "Get axe";
         item.eventName = "GetAxe";
         item.itemName = "Axe";
@@ -71,7 +86,7 @@ namespace Missions {
         AddMission(item);
 
         item.name = "Defense";
-        item.description = "Create trap";
+        item.description = "I need to create\n a trap";
         item.shortDescription = "Get trap";
         item.eventName = "GetTrap";
         item.itemName = "Trap";
@@ -82,7 +97,7 @@ namespace Missions {
         AddMission(item);
 
         item.name = "Woodchopper";
-        item.description = "Gather some wood";
+        item.description = "Wood is always\n useful, I should\n gather some!";
         item.shortDescription = "Gather 5 branches";
         item.eventName = "GetBranch";
         item.itemName = "Branch";

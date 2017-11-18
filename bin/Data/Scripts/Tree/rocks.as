@@ -33,6 +33,7 @@ namespace RandomRock {
         body.collisionLayer = COLLISION_TREE_LEVEL;
         body.collisionMask = COLLISION_PACMAN_LEVEL | COLLISION_SNAKE_BODY_LEVEL | COLLISION_SNAKE_HEAD_LEVEL | COLLISION_PLAYER_LEVEL | COLLISION_FOOD_LEVEL;
         body.mass = 0.0f;
+        body.trigger = true;
 
         // Set zero angular factor so that physics doesn't turn the character on its own.
         // Instead we will control the character yaw manually
@@ -44,7 +45,8 @@ namespace RandomRock {
         // Set a capsule shape for collision
         CollisionShape@ shape = treeNode.CreateComponent("CollisionShape");
         //shape.SetConvexHull(object.model);
-        shape.SetTriangleMesh(object.model);
+        //shape.SetTriangleMesh(object.model);
+        shape.SetSphere(1.0f);
 
         treeNode.CreateScriptObject(scriptFile, "PickableObject");
         Tree tree;

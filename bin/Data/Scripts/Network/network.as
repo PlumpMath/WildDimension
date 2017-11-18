@@ -27,16 +27,7 @@ namespace NetworkHandler {
 
         terrainNode = scene_.GetChild("Terrain");
         terrain = terrainNode.GetComponent("Terrain");
-        // Create a Zone component for ambient lighting & fog control
-        Node@ zoneNode = scene_.CreateChild("Zone");
-        zoneNode.temporary = true;
-        Zone@ zone = zoneNode.CreateComponent("Zone");
-        zone.boundingBox = BoundingBox(-1000.0f, 1000.0f);
-        zone.ambientColor = Color(0.4, 0.4, 0.4);
-        //zone.fogColor = Color(0.3f, 0.3f, 0.3f);
-        zone.fogStart = 100.0f;
-        zone.fogEnd = 500.0f;
-        zone.occluder = true;
+
         /*
         // Create a directional light without shadows
         Node@ lightNode1 = scene_.CreateChild("DirectionalLight");
@@ -98,21 +89,21 @@ namespace NetworkHandler {
         ActiveTool::Create();
         for (int i = -5; i < 5; i+=5) {
             for (int j = -5; j < 5; j+=5) {
-                Vector3 position = Vector3(i * 40 + Random(20.0f), 0.0, j * 40 + Random(20.0f));
+                Vector3 position = Vector3(i * 140 + Random(120.0f), 0.0, j * 140 + Random(120.0f));
                 Pacman::Create(position);
             }
         }
 
         for (int i = -5; i < 5; i+=5) {
             for (int j = -5; j < 5; j+=5) {
-                Vector3 position = Vector3(i * 20 + Random(30.0f), 0.0, j * 20 + Random(30.0f));
+                Vector3 position = Vector3(i * 120 + Random(130.0f), 0.0, j * 120 + Random(130.0f));
                 Snake::Create(position);
             }
         }
 
-        for (int i = -10; i < 10; i+=1) {
-            for (int j = -10; j < 10; j+=1) {
-                Vector3 position = Vector3(i * 41 + Random(30.0f), 0.0, j * 37 + Random(30.0f));
+        for (int i = -10; i < 10; i+=2) {
+            for (int j = -10; j < 10; j+=2) {
+                Vector3 position = Vector3(i * 141 + Random(130.0f), 0.0, j * 137 + Random(130.0f));
                 //RandomTree::Create(position);
                 position.x += Random(10.0f);
                 position.z += Random(10.0f);
@@ -120,29 +111,29 @@ namespace NetworkHandler {
             }
         }
 
-        for (int i = -10; i < 10; i+=1) {
-            for (int j = -10; j < 10; j+=1) {
-                Vector3 position = Vector3(i * 41 + Random(30.0f), 0.0, j * 33 + + Random(30.0f));
+        for (int i = -20; i < 20; i+=6) {
+            for (int j = -20; j < 20; j+=6) {
+                Vector3 position = Vector3(i * 141 + Random(130.0f), 0.0, j * 133 + + Random(130.0f));
                 AppleTree::Create(position);
 
                 position.x += 2.0f + Random(5.0f);
                 position.z += 2.0f + Random(5.0f);
-                Pickable::Create(position, "Axe", "Models/Models/Axe.001.mdl");
+                Pickable::Create(position, "Axe", "Models/Models/Axe.mdl");
                 position.x += 2.0f + Random(5.0f);
                 position.z += 2.0f + Random(5.0f);
                 Pickable::Create(position, "Trap", "Models/Box.mdl");
             }
         }
 
-        for (int i = -10; i < 10; i+=1) {
-            for (int j = -10; j < 10; j+=1) {
-                Vector3 position = Vector3(i * 26 + Random(20.0f), 0.0, j * 26 + Random(20.0f));
+        for (int i = -20; i < 20; i+=5) {
+            for (int j = -20; j < 20; j+=5) {
+                Vector3 position = Vector3(i * 126 + Random(120.0f), 0.0, j * 126 + Random(120.0f));
                 RaspberryBush::Create(position);
             }
         }
 
-        for (int i = -10; i < 10; i+=4) {
-            for (int j = -10; j < 10; j+=4) {
+        for (int i = -10; i < 10; i+=5) {
+            for (int j = -10; j < 10; j+=5) {
                 Vector3 position = Vector3(i * 100 + Random(300.0f), 0.0, j * 100 + + Random(300.0f));
                 Clouds::Create(position);
             }
@@ -155,17 +146,17 @@ namespace NetworkHandler {
             }
         }
 
-        for (int i = -10; i < 10; i+=2) {
-            for (int j = -10; j < 10; j+=2) {
-                Vector3 position = Vector3(i * 100 + Random(50.0f), 0.0, j * 100 + Random(50.0f));
+        for (int i = -20; i < 20; i+=5) {
+            for (int j = -20; j < 20; j+=5) {
+                Vector3 position = Vector3(i * 100 + Random(100.0f), 0.0, j * 100 + Random(100.0f));
                 EnvObjects::Create(position, "Models/Models/Large_rock.mdl");
-                position = Vector3(i * 66 + Random(50.0f), 0.0, j * 55 + Random(50.0f));
+                position = Vector3(i * 66 + Random(100.0f), 0.0, j * 55 + Random(100.0f));
                 EnvObjects::Create(position, "Models/Models/Medium_rock.mdl");
-                position = Vector3(i * 48 + Random(50.0f), 0.0, j * 37 + Random(50.0f));
+                position = Vector3(i * 48 + Random(100.0f), 0.0, j * 37 + Random(100.0f));
                 EnvObjects::Create(position, "Models/Models/Big_tree.mdl");
-                position = Vector3(i * 98 + Random(50.0f), 0.0, j * 67 + Random(50.0f));
+                position = Vector3(i * 98 + Random(100.0f), 0.0, j * 67 + Random(100.0f));
                 EnvObjects::Create(position, "Models/Models/Big_tree2.mdl");
-                position = Vector3(i * 88 + Random(50.0f), 0.0, j * 59 + Random(50.0f));
+                position = Vector3(i * 88 + Random(100.0f), 0.0, j * 59 + Random(100.0f));
                 EnvObjects::Create(position, "Models/Models/Big_tree3.mdl");
             }
         }

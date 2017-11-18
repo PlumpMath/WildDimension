@@ -1,6 +1,7 @@
 <material>
-    <technique name="Techniques/DiffFps.xml" quality="0" />
+    <technique name="Techniques/Diff.xml" quality="0" />
     <texture unit="diffuse" name="Textures/StoneDiffuse.dds" />
     <texture unit="normal" name="Textures/StoneNormal.dds" />
     <parameter name="MatSpecColor" value="0.1 0.1 0.1 16" />
+    <depthbias constant="-0.1" slopescaled="0" />
 </material>

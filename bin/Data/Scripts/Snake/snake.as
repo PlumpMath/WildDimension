@@ -194,12 +194,14 @@ namespace Snake {
         for (uint i = 0; i < snakes.length; i++) {
             SnakeBody@ snakeBody = snakes[i];
             
-            if (snakeBody.targetNode is null || snakeBody.targetNode.enabled == false) {
+            if (snakeBody.targetNode is null || snakeBody.targetNode.enabled == false || snakeBody.targetNode.name == "Camera") {
                 snakeBody.targetNode = getNearestApple(snakeBody.body[0].worldPosition);
             }
 
             if (snakeBody.stage == 0) {
-                MoveBodyPart(i, 0, snakeBody.body[0], snakeBody.targetNode, timeStep);
+                if (snakeBody.targetNode !is null) {
+                    MoveBodyPart(i, 0, snakeBody.body[0], snakeBody.targetNode, timeStep);
+                }
             } else {
                 snakeBody.sleepTime += timeStep;
                 if (snakeBody.sleepTime > 1.0f) {
