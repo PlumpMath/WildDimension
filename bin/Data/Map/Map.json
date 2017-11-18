@@ -132,8 +132,7 @@
 						"Vertex Spacing": "1 0.5 1",
 						"Patch Size": 128,
 						"Smooth Height Map": true,
-						"Is Occluder": true,
-						"Cast Shadows": true
+						"Is Occluder": true
 					}
 				},
 				{
