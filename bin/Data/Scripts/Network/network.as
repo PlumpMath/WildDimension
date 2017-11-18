@@ -118,7 +118,7 @@ namespace NetworkHandler {
 
                 position.x += 2.0f + Random(5.0f);
                 position.z += 2.0f + Random(5.0f);
-                Pickable::Create(position, "Axe", "Models/Models/Axe.001.mdl");
+                Pickable::Create(position, "Axe", "Models/Models/Axe.mdl");
                 position.x += 2.0f + Random(5.0f);
                 position.z += 2.0f + Random(5.0f);
                 Pickable::Create(position, "Trap", "Models/Box.mdl");

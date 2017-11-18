@@ -12,9 +12,9 @@
     <velocity min="1" max="1.3" />
     <particlesize min="0.2 0.2" max="0.3 0.3" />
     <sizedelta add="0" mul="1.2" />
-    <timetolive value="20" />
+    <timetolive value="25" />
     <constantforce value="-0.05 0 -0.05" />
     <colorfade color="0.6 0.6 0.6 1" time="0" />
-    <colorfade color="0.2 0.2 0.2 0.2" time="5" />
-    <colorfade color="0.2 0.2 0.2 0" time="15" />
+    <colorfade color="0.2 0.2 0.2 0.2" time="10" />
+    <colorfade color="0.2 0.2 0.2 0" time="20" />
 </particleemitter>
