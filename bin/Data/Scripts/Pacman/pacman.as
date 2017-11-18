@@ -143,7 +143,7 @@ namespace Pacman {
             Node@ pacmanNode = pacmans[i].node;
             RigidBody@ pacmanBody = pacmans[i].node.GetComponent("RigidBody");
 
-            if (pacmans[i].targetNode is null || pacmans[i].targetNode.enabled == false) {
+            if (pacmans[i].targetNode is null || pacmans[i].targetNode.enabled == false || pacmans[i].targetNode.name == "Camera") {
                 pacmans[i].targetNode = getNearestRaspberry(pacmanNode.worldPosition);
             }
             Vector3 targetPosition = pacmans[i].targetNode.worldPosition;

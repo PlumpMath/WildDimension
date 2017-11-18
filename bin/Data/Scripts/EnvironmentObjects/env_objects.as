@@ -4,7 +4,6 @@ namespace EnvObjects {
     Node@ Create(Vector3 position, String model, bool temporary = true)
     {
         Node@ node = scene_.CreateChild();
-        log.Info("Spawning temporary " + temporary);
         node.temporary = temporary;
         position.y = NetworkHandler::terrain.GetHeight(position);
         node.position = position;

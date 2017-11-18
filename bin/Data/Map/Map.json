@@ -8,8 +8,8 @@
 		"Elapsed Time": 105.1208724975586,
 		"Next Replicated Node ID": 200,
 		"Next Replicated Component ID": 281,
-		"Next Local Node ID": 16807312,
-		"Next Local Component ID": 16807392,
+		"Next Local Node ID": 16891478,
+		"Next Local Component ID": 16891579,
 		"Variables": {},
 		"Variable Names": ""
 	},
@@ -49,11 +49,13 @@
 					"attributes": {
 						"Bounding Box Min": "-5000 -5000 -5000",
 						"Bounding Box Max": "5000 5000 5000",
-						"Fog Color": "0.4 0.4 0.4 1",
-						"Fog Start": 100.0,
-						"Fog End": 1000.0,
+						"Ambient Color": "0.2 0.2 0.2 1",
+						"Fog Color": "0.5 0.5 0.5 1",
+						"Fog Start": 500.0,
+						"Fog End": 5000.0,
 						"Fog Height": 1.0,
-						"Fog Height Scale": 0.0
+						"Fog Height Scale": 0.0,
+						"Zone Texture": "TextureCube;Materials/Stone.xml"
 					}
 				}
 			],
@@ -76,8 +78,8 @@
 					"id": 2,
 					"attributes": {
 						"Light Type": "Directional",
-						"Color": "0.8 0.8 0.8 1",
-						"Specular Intensity": 0.20000000298023225,
+						"Color": "0.6 0.6 0.6 1",
+						"Specular Intensity": 2.0,
 						"Cast Shadows": true,
 						"CSM Splits": "10 50 200 0",
 						"Depth Constant Bias": 0.0002500000118743628
@@ -128,9 +130,10 @@
 						"Height Map": "Image;Textures/HeightMap.png",
 						"Material": "Material;Materials/Terrain.xml",
 						"Vertex Spacing": "1 0.5 1",
-						"Patch Size": 64,
+						"Patch Size": 128,
 						"Smooth Height Map": true,
-						"Is Occluder": true
+						"Is Occluder": true,
+						"Cast Shadows": true
 					}
 				},
 				{
@@ -148,7 +151,22 @@
 					}
 				}
 			],
-			"children": []
+			"children": [
+				{
+					"id": 16811283,
+					"attributes": {
+						"Is Enabled": true,
+						"Name": "",
+						"Tags": [],
+						"Position": "45.5067 32.9273 -38.3585",
+						"Rotation": "1 0 0 0",
+						"Scale": "1 1 1",
+						"Variables": {}
+					},
+					"components": [],
+					"children": []
+				}
+			]
 		},
 		{
 			"id": 195,
@@ -156,7 +174,7 @@
 				"Is Enabled": true,
 				"Name": "Airplane",
 				"Tags": [],
-				"Position": "58.4327 25.9417 -37.815",
+				"Position": "58.4327 25.9417 -65.1312",
 				"Rotation": "0.972166 0.234294 0 0",
 				"Scale": "4 4 4",
 				"Variables": {}
@@ -184,7 +202,7 @@
 					"id": 267,
 					"attributes": {
 						"Physics Rotation": "0.972166 0.234294 0 0",
-						"Physics Position": "58.4327 25.9417 -37.815",
+						"Physics Position": "58.4327 25.9417 -65.1312",
 						"Friction": 0.20000000298023225,
 						"Restitution": 0.5
 					}
@@ -12305,7 +12323,7 @@
 					"id": 275,
 					"attributes": {
 						"Model": "Model;Models/Models/Piramid.mdl",
-						"Material": "Material;"
+						"Material": "Material;Materials/Stone.xml"
 					}
 				},
 				{
@@ -12330,11 +12348,13 @@
 			"id": 199,
 			"attributes": {
 				"Is Enabled": true,
-				"Name": "",
-				"Tags": [],
+				"Name": "Stonehedg",
+				"Tags": [
+					"VisitPlace"
+				],
 				"Position": "375.782 11.3701 -1317.98",
 				"Rotation": "1 0 0 0",
-				"Scale": "1 1 1",
+				"Scale": "2 2 2",
 				"Variables": {}
 			},
 			"components": [
@@ -12343,7 +12363,7 @@
 					"id": 276,
 					"attributes": {
 						"Model": "Model;Models/Models/Stonehenge.mdl",
-						"Material": "Material;"
+						"Material": "Material;Materials/Stone.xml"
 					}
 				},
 				{

@@ -3,6 +3,7 @@ namespace GUIHandler {
     const String GUI_FONT = "Fonts/PainttheSky-Regular.otf";
     const int GUI_FONT_SIZE = 20;
     const int GUI_NOTES_FONT_SIZE = 14;
+    const int GUI_TIPS_FONT_SIZE = 26;
 
     Sprite@ logoSprite;
     Text@ bytesIn;
@@ -16,6 +17,13 @@ namespace GUIHandler {
 
     Text@ positionText;
 
+    class Tip {
+        Sprite@ sprite;
+        Text@ text;
+        float lifetime;
+    };
+    Tip tip;
+
     void CreateGUI()
     {
         //CreateLogo();
@@ -24,6 +32,7 @@ namespace GUIHandler {
         CreateEventLog();
         CreatePositionText();
         CreateNotes();
+        CreateDreamCloudSprite();
     }
 
     void CreateLogo()
@@ -64,6 +73,56 @@ namespace GUIHandler {
         logoSprite.priority = -100;
     }
 
+    void CreateDreamCloudSprite()
+    {
+        if (engine.headless) {
+            return;
+        }
+        // Get logo texture
+        Texture2D@ texture = cache.GetResource("Texture2D", "Textures/dream_cloud.png");
+        if (texture is null)
+            return;
+
+        // Create logo sprite and add to the UI layout
+        tip.sprite = ui.root.CreateChild("Sprite");
+
+        // Set logo sprite texture
+        tip.sprite.texture = texture;
+
+        int textureWidth = texture.width;
+        int textureHeight = texture.height;
+
+        // Set logo sprite scale
+        //logoSprite.SetScale(256.0f / textureWidth);
+
+        // Set logo sprite size
+        tip.sprite.SetSize(textureWidth, textureHeight);
+
+        // Set logo sprite hot spot
+        tip.sprite.SetHotSpot(textureWidth, 0);
+
+        // Set logo sprite alignment
+        tip.sprite.SetAlignment(HA_RIGHT, VA_TOP);
+
+        // Make logo not fully opaque to show the scene underneath
+        tip.sprite.opacity = 0.0f;
+
+        // Set a low priority for the logo so that other UI elements can be drawn on top
+        tip.sprite.priority = -100;
+        tip.sprite.position = Vector2(-50, 50);
+
+        tip.text = tip.sprite.CreateChild("Text");
+        tip.text.text = "";//String(i) + "element";
+        tip.text.SetFont(cache.GetResource("Font", GUI_FONT), GUI_TIPS_FONT_SIZE);
+        tip.text.textAlignment = HA_LEFT; // Center rows in relation to each other
+        tip.text.color = Color(0.5, 0.5, 0.5);
+
+        // Position the text relative to the screen center
+        tip.text.horizontalAlignment = HA_LEFT;
+        tip.text.verticalAlignment = VA_TOP;
+        tip.text.SetPosition(60, 30);
+    }
+
     void CreateNotes()
     {
         if (engine.headless) {
@@ -89,13 +148,13 @@ namespace GUIHandler {
 
         // Set logo sprite size
         notesSprite.SetSize(textureWidth, textureHeight);
-        notesSprite.position = Vector2(-10, 10);
+        notesSprite.position = Vector2(-20, -20);
 
         // Set logo sprite hot spot
-        notesSprite.SetHotSpot(textureWidth, 0);
+        notesSprite.SetHotSpot(textureWidth, textureHeight);
 
         // Set logo sprite alignment
-        notesSprite.SetAlignment(HA_RIGHT, VA_TOP);
+        notesSprite.SetAlignment(HA_RIGHT, VA_BOTTOM);
 
         // Make logo not fully opaque to show the scene underneath
         notesSprite.opacity = 1.0f;
@@ -139,6 +198,8 @@ namespace GUIHandler {
         SubscribeToEvent("UpdateInventoryGUI", "GUIHandler::HandleUpdateInventoryGUI");
         SubscribeToEvent("UpdateEventLogGUI", "GUIHandler::HandleUpdateEventLog");
         SubscribeToEvent("UpdateMissionsGUI", "GUIHandler::HandleUpdateMissionsGUI");
+
+        SubscribeToEvent("ShowTip", "GUIHandler::HandleShowTip");
     }
 
     void RegisterConsoleCommands()
@@ -171,6 +232,12 @@ namespace GUIHandler {
         }
         if (notesSprite !is null) {
             notesSprite.Remove();
+        }
+        if (tip.sprite !is null) {
+            tip.sprite.Remove();
+        }
+        if (tip.text !is null) {
+            tip.text.Remove();
         }
     }
 
@@ -290,8 +357,38 @@ namespace GUIHandler {
         }
     }
 
+    void HandleShowTip(StringHash eventType, VariantMap& eventData)
+    {
+        String message = eventData["MESSAGE"].GetString();
+        tip.lifetime = 10.0f;
+        tip.text.text = message;
+        log.Info("Showing tip: " + message);
+    }
+
     void HandleUpdate(StringHash eventType, VariantMap& eventData)
     {
+        float timeStep = eventData["TimeStep"].GetFloat();
+        if (tip.lifetime > 1) {
+            if (tip.sprite.opacity < 1.0f) {
+                tip.sprite.opacity += timeStep;
+                if (tip.sprite.opacity > 1.0) {
+                    tip.sprite.opacity = 1.0;
+                }
+                tip.text.opacity = tip.sprite.opacity;
+            }
+            tip.lifetime -= timeStep;
+        } else if (tip.lifetime <= 1 && tip.lifetime > 0) {
+            tip.lifetime -= timeStep;
+            tip.sprite.opacity -= timeStep;
+            if (tip.lifetime < 0) {
+                tip.lifetime = 0;
+            }
+            if (tip.sprite.opacity < 0) {
+                tip.sprite.opacity = 0;
+            }
+            tip.text.opacity = tip.sprite.opacity;
+        }
+
         Connection@ serverConnection = network.serverConnection;
         if (serverConnection !is null) {
             if (bytesIn !is null) {

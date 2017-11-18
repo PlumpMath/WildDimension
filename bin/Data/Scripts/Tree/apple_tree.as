@@ -45,8 +45,8 @@ namespace AppleTree {
 
         // Set a capsule shape for collision
         CollisionShape@ shape = treeNode.CreateComponent("CollisionShape");
-        //shape.SetConvexHull(object.model);
-        shape.SetBox(Vector3(1.3, 10.0, 1.3));
+        shape.SetTriangleMesh(object.model);
+        //shape.SetBox(Vector3(1.3, 10.0, 1.3));
 
         Tree tree;
         tree.node = treeNode;

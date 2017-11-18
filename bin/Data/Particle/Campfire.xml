@@ -5,7 +5,7 @@
     <numparticles value="100" />
     <!-- <activetime value="2" /> -->
     <inactivetime value="0" />
-    <emissionrate min="3" max="5" />
+    <emissionrate min="2" max="3" />
     <sorted enable="true" />
     <rotationspeed min="-60" max="60" />
     <direction min="-0.0 1 -0.0" max="-0.1 1 -0.1" />

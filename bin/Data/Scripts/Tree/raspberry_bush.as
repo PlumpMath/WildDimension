@@ -40,7 +40,7 @@ namespace RaspberryBush {
 
         // Set a capsule shape for collision
         CollisionShape@ shape = treeNode.CreateComponent("CollisionShape");
-        shape.SetConvexHull(object.model);
+        shape.SetTriangleMesh(object.model);
         Bush tree;
         tree.node = treeNode;
         tree.lifetime = 20.0f + Random(20.0f);
