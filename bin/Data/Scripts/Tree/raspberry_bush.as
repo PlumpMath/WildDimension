@@ -16,10 +16,7 @@ namespace RaspberryBush {
         position.y = NetworkHandler::terrain.GetHeight(position);
         treeNode.position = position;
 
-        Node@ adjNode = treeNode.CreateChild("Bush");
-        adjNode.rotation = Quaternion(-90.0f, Vector3::UP);
-
-        StaticModel@ object = adjNode.CreateComponent("StaticModel");
+        StaticModel@ object = treeNode.CreateComponent("StaticModel");
         object.model = cache.GetResource("Model", "Models/Models/Raspberry_bush.mdl");
         treeNode.SetScale(0.8f + Random(0.5f));
         object.castShadows = true;
@@ -125,5 +122,24 @@ namespace RaspberryBush {
                 }
             }
         }
+    }
+
+    void DisableFurthestObjects()
+    {
+        log.Warning("RaspberryBush::DisableFurthestObjects");
+        for (uint i = 0; i < trees.length; i++) {
+            Bush@ obj = trees[i];
+            int distanceSquared = Vector3(cameraNode.position - obj.node.position).lengthSquared;
+            if (distanceSquared > DISTANCE_FACTOR * DISTANCE_FACTOR * DISTANCE_FACTOR) {
+                obj.node.enabled = false;
+            } else {
+                obj.node.enabled = true;
+            }
+            for (uint j = 0; j < obj.berries.length; j++) {
+                Node@ berry = obj.berries[j];
+                berry.enabled = obj.node.enabled;
+            }
+        }
+        DelayedExecute(5.0, false, "void RaspberryBush::DisableFurthestObjects()");
     }
 }

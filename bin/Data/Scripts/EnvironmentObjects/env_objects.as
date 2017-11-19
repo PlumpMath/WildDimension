@@ -159,15 +159,14 @@ namespace EnvObjects {
 
     void DisableFurthestObjects()
     {
-        log.Warning("DisableFurthestObjects");
+        log.Warning("EnvObjects::DisableFurthestObjects");
         for (uint i = 0; i < objects.length; i++) {
             Node@ obj = objects[i];
             int distanceSquared = Vector3(cameraNode.position - obj.position).lengthSquared;
-            int distFactor = 20;
-            if (distanceSquared > distFactor * distFactor * distFactor) {
-                obj.SetDeepEnabled(false);
+            if (distanceSquared > DISTANCE_FACTOR * DISTANCE_FACTOR * DISTANCE_FACTOR) {
+                obj.enabled = false;
             } else {
-                obj.SetDeepEnabled(true);
+                obj.enabled = true;
             }
         }
         DelayedExecute(5.0, false, "void EnvObjects::DisableFurthestObjects()");

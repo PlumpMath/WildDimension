@@ -83,6 +83,7 @@ namespace Pickable {
     void Subscribe()
     {
         SubscribeToEvent("GetItem", "Pickable::HandlePickup");
+        DelayedExecute(5.0, false, "void Pickable::DisableFurthestObjects()");
     }
 
     void RegisterConsoleCommands()
@@ -120,5 +121,21 @@ namespace Pickable {
 
         data["Name"] = "Get" + name;
         SendEvent("UnlockAchievement", data);
+    }
+
+    void DisableFurthestObjects()
+    {
+        log.Warning("Pickable::DisableFurthestObjects");
+        for (uint i = 0; i < pickables.length; i++) {
+            Node@ obj = pickables[i];
+            int distanceSquared = Vector3(cameraNode.position - obj.position).lengthSquared;
+            int distFactor = 20;
+            if (distanceSquared > distFactor * distFactor * distFactor) {
+                obj.enabled = false;
+            } else {
+                obj.enabled = true;
+            }
+        }
+        DelayedExecute(5.0, false, "void Pickable::DisableFurthestObjects()");
     }
 }

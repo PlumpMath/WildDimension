@@ -16,10 +16,7 @@ namespace AppleTree {
         position.y = NetworkHandler::terrain.GetHeight(position);
         treeNode.position = position;
 
-        Node@ adjNode = treeNode.CreateChild("Tree");
-        adjNode.rotation = Quaternion(-90.0f, Vector3::UP);
-
-        StaticModel@ object = adjNode.CreateComponent("StaticModel");
+        StaticModel@ object = treeNode.CreateComponent("StaticModel");
         if (RandomInt(2) == 1) {
             object.model = cache.GetResource("Model", "Models/Models/Apple_tree.mdl");
         } else {
@@ -136,5 +133,24 @@ namespace AppleTree {
                 }
             }
         }
+    }
+
+    void DisableFurthestObjects()
+    {
+        log.Warning("AppleTree::DisableFurthestObjects");
+        for (uint i = 0; i < trees.length; i++) {
+            Tree@ obj = trees[i];
+            int distanceSquared = Vector3(cameraNode.position - obj.node.position).lengthSquared;
+            if (distanceSquared > DISTANCE_FACTOR * DISTANCE_FACTOR * DISTANCE_FACTOR) {
+                obj.node.enabled = false;
+            } else {
+                obj.node.enabled = true;
+            }
+            for (uint j = 0; j < obj.apples.length; j++) {
+                Node@ apple = obj.apples[j];
+                apple.enabled = obj.node.enabled;
+            }
+        }
+        DelayedExecute(5.0, false, "void AppleTree::DisableFurthestObjects()");
     }
 }

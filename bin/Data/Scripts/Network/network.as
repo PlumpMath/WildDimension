@@ -142,12 +142,11 @@ namespace NetworkHandler {
             }
         }
 
-        for (int i = -5; i < 5; i+=5) {
-            for (int j = -5; j < 5; j+=5) {
-                Vector3 position = Vector3(i * 37 + Random(20.0f), 0.0, j * 37 + Random(20.0f));
-                Camp::Create(position);
-            }
-        }
+        AppleTree::DisableFurthestObjects();
+        RaspberryBush::DisableFurthestObjects();
+
+        Vector3 position = Vector3(37 + Random(20.0f), 0.0, 37 + Random(20.0f));
+        Camp::Create(position);
 
         for (int i = -20; i < 20; i+=5) {
             for (int j = -20; j < 20; j+=5) {
