@@ -4,12 +4,15 @@ namespace Player {
     const int CTRL_LEFT = 4;
     const int CTRL_RIGHT = 8;
     const int CTRL_JUMP = 16;
+    const int CTRL_SPRINT = 32;
+    const int CTRL_DUCK = 64;
 
     Node@ playerNode;
     Controls playerControls;
     RigidBody@ playerBody;
     const float PLAYER_BRAKE_FORCE = 0.15f;
     SoundSource@ walkSoundSource;
+    CollisionShape@ shape;
 
     Node@ CreatePlayer()
     {
@@ -35,8 +38,8 @@ namespace Player {
         //playerBody.collisionEventMode = COLLISION_ALWAYS;
 
         // Set a capsule shape for collision
-        CollisionShape@ shape = playerNode.CreateComponent("CollisionShape");
-        shape.SetCapsule(0.7f, 1.8f, Vector3(0.0f, 0.9f, 0.0f));
+        shape = playerNode.CreateComponent("CollisionShape");
+        shape.SetCapsule(0.7f, 1.8f, Vector3(0.0f, 0.5f, 0.0f));
 
         // Get the sound resource
         Sound@ sound = cache.GetResource("Sound", GameSounds::WALK);
@@ -72,6 +75,8 @@ namespace Player {
             playerControls.Set(CTRL_BACK, input.keyDown[KEY_S]);
             playerControls.Set(CTRL_LEFT, input.keyDown[KEY_A]);
             playerControls.Set(CTRL_RIGHT, input.keyDown[KEY_D]);
+            playerControls.Set(CTRL_SPRINT, input.keyDown[KEY_LSHIFT]);
+            playerControls.Set(CTRL_DUCK, input.keyDown[KEY_LCTRL]);
         }
         playerControls.Set(CTRL_JUMP, input.keyDown[KEY_SPACE]);
 
@@ -92,6 +97,11 @@ namespace Player {
         if (playerControls.IsDown(CTRL_RIGHT)) {
             moveDir += Vector3::RIGHT;
             //log.Info("moving right");
+        }
+        if (playerControls.IsDown(CTRL_DUCK)) {
+            shape.SetCapsule(0.7f, 1.1f, Vector3(0.0f, 0.5f, 0.0f));
+        } else {
+            shape.SetCapsule(0.7f, 1.8f, Vector3(0.0f, 0.5f, 0.0f));
         }
 
         if (walkSoundSource !is null) {
@@ -127,6 +137,9 @@ namespace Player {
         if (moveDir.lengthSquared > 0.0f)
             moveDir.Normalize();
 
+        if (playerControls.IsDown(CTRL_SPRINT)) {
+            moveDir *= 2;
+        }
         playerBody.ApplyImpulse(lookAt2 * moveDir);
 
         Vector3 brakeForce = -planeVelocity * PLAYER_BRAKE_FORCE;
