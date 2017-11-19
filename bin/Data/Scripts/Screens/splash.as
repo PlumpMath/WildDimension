@@ -13,8 +13,8 @@ namespace SplashScreen {
      */
     void InitList()
     {
-        textures.Push("Textures/FishBoneLogo.png");
-        textures.Push("Textures/UrhoIcon.png");
+        textures.Push("Textures/Logo/Game_logo.png");
+        textures.Push("Textures/Logo/logo.png");
     }
 
     void SetTexture()
