@@ -1,3 +1,15 @@
+//apple -> abols, lapa, katins
+//apple tree ->  stumbrs, lapas
+//axe -> metals, kats
+//big fireplace -> kocins, kocins, akmeni
+//big tree -> stumbrs, lapas
+//flag -> koks, audums
+//House -> durvju aile, arejas sienas, ieksejas sienas, jumts
+//House3 -> durvju aile, arejas sienas, ieksejas sienas, jumts, trepes
+//stem -> celma malas, celma virsotne, cirvja kats, cirvja metals
+//torch -> kats, augsha
+
+
 namespace EnvObjects {
     Array<Node@> objects;
 
