@@ -32,12 +32,84 @@ namespace NetworkHandler {
 
         network.updateFps = 10;
 
+         Node@ zoneNode = scene_.CreateChild("Zone");
+        Zone@ zone = zoneNode.CreateComponent("Zone");
+        // Set same volume as the Octree, set a close bluish fog and some ambient light
+        zone.boundingBox = BoundingBox(-10000.0f, 10000.0f);
+        zone.ambientColor = Color(0.4f, 0.4f, 0.3f);
+        zone.fogColor = Color(0.8f, 0.8f, 0.7f);
+        zone.fogStart = 500.0f;
+        zone.fogEnd = 1000.0f;
+        /*Array<Terrain@> terrains;
+        for (int x = 0; x < 1; x++) {
+            for (int y = 0; y < 1; y++) {
+                int num = x * 4 + y;
+
+                //North - ziemeļi
+                //South - Dienvidi
+                //West - Rietumi
+                //East - austrumi
+                x = 2; y = 2;
+                //void SetNeighbors(TerrainPatch* north, TerrainPatch* south, TerrainPatch* west, TerrainPatch* east);
+                terrainNode = scene_.CreateChild("Terrain");
+                Image@ mapTexture = cache.GetResource("Image", "Textures/Map/HeightMap-" + x + "-" + y + ".png");
+                terrainNode.position = Vector3(y * (mapTexture.height - 64), 0, x * -(mapTexture.width - 64));
+                //terrainNode.scale = Vector3(0.1f, 0.1f, 0.1f);
+                //terrainNode.position = Vector3(0.0f, -10.0f, 0.0f);
+
+                int textureWidth = mapTexture.width;
+                int textureHeight = mapTexture.height;
+
+                terrain = terrainNode.CreateComponent("Terrain");
+                terrain.patchSize = 64;
+                terrainNode.SetScale(10.0f);
+                terrain.spacing = Vector3(1.0f, 1.0f, 1.0f); // Spacing between vertices and vertical resolution of the height map
+                terrain.smoothing = true;
+                terrain.heightMap = mapTexture;
+                terrain.material = cache.GetResource("Material", "Materials/Terrain-" + x + "-" + y + ".xml");
+                // The terrain consists of large triangles, which fits well for occlusion rendering, as a hill can occlude all
+                // terrain patches and other objects behind it
+                terrain.occluder = true;
+                terrains.Push(terrain);
+
+                RigidBody@ body = terrainNode.CreateComponent("RigidBody");
+                body.collisionLayer = COLLISION_TERRAIN_LEVEL; // Use layer bitmask 2 for static geometry
+                body.restitution = 0.5f;
+                CollisionShape@ shape = terrainNode.CreateComponent("CollisionShape");
+                shape.SetTerrain();
+            }
+        }*/
         terrainNode = scene_.GetChild("Terrain");
         terrain = terrainNode.GetComponent("Terrain");
-
-        /*
+        /*for (int x = 0; x < 4; x++) {
+            for (int y = 0; y < 4; y++) {
+                int num = x * 4 + y;
+                Terrain@ north;
+                Terrain@ south;
+                Terrain@ west;
+                Terrain@ east;
+                if (y > 0) {
+                    int numN = x * 4 + y - 1;
+                    north = terrains[numN];
+                }
+                if (y < 3) {
+                    int numS = x * 4 + y + 1;
+                    south = terrains[numS];   
+                }
+                if (x > 0) {
+                    int numW = (x - 1) * 4 + y;
+                    west = terrains[numW];
+                }
+                if (x < 3) {
+                    int numE = (x + 1) * 4 + y;
+                    east = terrains[numE];   
+                }
+                terrains[num].SetNeighbors(north, south, west, east);
+            }
+        }*/
+        
         // Create a directional light without shadows
-        Node@ lightNode1 = scene_.CreateChild("DirectionalLight");
+        /*Node@ lightNode1 = scene_.CreateChild("DirectionalLight");
         lightNode1.direction = Vector3(0.5f, -1.0f, 0.5f);
         Light@ light1 = lightNode1.CreateComponent("Light");
         light1.lightType = LIGHT_DIRECTIONAL;
@@ -45,9 +117,9 @@ namespace NetworkHandler {
         light1.specularIntensity = 0.2f;
         light1.castShadows = true;
         light1.shadowBias = BiasParameters(0.00025f, 0.5f);
-        light1.shadowCascade = CascadeParameters(10.0f, 50.0f, 200.0f, 0.0f, 0.8f);
+        light1.shadowCascade = CascadeParameters(10.0f, 50.0f, 200.0f, 0.0f, 0.8f);*/
         
-        /*
+        
         // Create a "floor" consisting of several tiles
         /*for (int y = -50; y <= 50; ++y)
         {
@@ -72,7 +144,8 @@ namespace NetworkHandler {
         Skybox@ skybox = skyNode.CreateComponent("Skybox");
         skybox.model = cache.GetResource("Model", "Models/SkyDome.mdl");
         skybox.material = cache.GetResource("Material", "Materials/Skybox.xml");
-
+        */
+        /*
         // Create heightmap terrain
         terrainNode = scene_.CreateChild("Terrain");
         //terrainNode.scale = Vector3(0.1f, 0.1f, 0.1f);

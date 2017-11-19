@@ -37,6 +37,7 @@ namespace Camp {
         campfire.particleEmitter = campfire.node.CreateComponent("ParticleEmitter");
         campfire.particleEmitter.effect = cache.GetResource("ParticleEffect", "Particle/Campfire.xml");
         campfire.particleEmitter.emitting = true;
+        campfire.particleEmitter.viewMask = VIEW_MASK_STATIC_OBJECT;
 
         position.x += 5 + Random(10.0f);
         position.z += 5 + Random(10.0f);

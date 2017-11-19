@@ -50,6 +50,7 @@ namespace Pacman {
         ParticleEmitter@ particleEmitter = pacmanNode.CreateComponent("ParticleEmitter");
         particleEmitter.effect = cache.GetResource("ParticleEffect", "Particle/Dreaming.xml");
         particleEmitter.emitting = false;
+        particleEmitter.viewMask = VIEW_MASK_STATIC_OBJECT;
 
         GameSounds::AddLoopedSoundToNode(pacmanNode, GameSounds::PACMAN);
 

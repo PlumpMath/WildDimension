@@ -71,7 +71,7 @@ const uint VIEW_MASK_INTERACTABLE = 2;
 
 const float JOYSTICK_DEAD_ZONE = 0.3f;
 
-const int DISTANCE_FACTOR = 50;
+const int DISTANCE_FACTOR = 500;
 
 bool isMobilePlatform = false;
 Controls oldControls;
