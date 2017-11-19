@@ -8,14 +8,14 @@ namespace Player {
     Node@ playerNode;
     Controls playerControls;
     RigidBody@ playerBody;
-    const float PLAYER_BRAKE_FORCE = 0.0015f;
+    const float PLAYER_BRAKE_FORCE = 0.05f;
     SoundSource@ walkSoundSource;
 
     Node@ CreatePlayer()
     {
         Vector3 position = scene_.GetChild("Airplane").position;
-        position.x += 5.0f;
-        position.z += 5.0f;
+        position.x += 10.0f;
+        position.z += 10.0f;
         playerNode = scene_.CreateChild("PlayerNode");
         playerNode.position = position;
         playerNode.temporary = true;

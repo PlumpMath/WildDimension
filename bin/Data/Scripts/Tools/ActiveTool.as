@@ -4,6 +4,7 @@ namespace ActiveTool {
     const uint TOOL_AXE = 1;
     const uint TOOL_TRAP = 2;
     const uint TOOL_BRANCH = 3;
+    const uint TOOL_FLAG = 4;
     Node@ node;
     Node@ toolNode;
     bool use = false;
@@ -34,6 +35,7 @@ namespace ActiveTool {
 
         Axe::Create();
         Trap::Create();
+        Flag::Create();
     }
 
     void AddTool(Node@ node, uint type)
@@ -54,12 +56,12 @@ namespace ActiveTool {
         hitDrawable = null;
 
         Camera@ camera = cameraNode.GetComponent("Camera");
-        Ray cameraRay = camera.GetScreenRay(0.5, 0.5);
-        //cameraRay.origin += cameraNode.direction / 100.0f;
+        Ray cameraRay = camera.GetScreenRay(0.5f, 0.5f);
         direction = cameraNode.direction;
+        //cameraRay.origin += cameraNode.direction;
         // Pick only geometry objects, not eg. zones or lights, only get the first (closest) hit
         // Note the convenience accessor to scene's Octree component
-        RayQueryResult result = scene_.octree.RaycastSingle(cameraRay, RAY_TRIANGLE, maxDistance, DRAWABLE_GEOMETRY);
+        RayQueryResult result = scene_.octree.RaycastSingle(cameraRay, RAY_TRIANGLE, maxDistance, DRAWABLE_GEOMETRY, VIEW_MASK_INTERACTABLE);
         if (result.drawable !is null)
         {
             hitPos = result.position;
@@ -68,6 +70,27 @@ namespace ActiveTool {
         }
 
         return false;
+    }
+
+    void CreateFlag(Vector3 position)
+    {
+        node = scene_.CreateChild("Flag");
+        node.AddTag("Flag");
+        position.y = NetworkHandler::terrain.GetHeight(position);
+        node.position = position;
+
+        StaticModel@ object = node.CreateComponent("StaticModel");
+        object.model = cache.GetResource("Model", "Models/Models/Flag.mdl");
+
+        node.SetScale(1.0f);
+        object.castShadows = true;
+        object.materials[0] = cache.GetResource("Material", "Materials/Wood.xml");
+        object.materials[1] = cache.GetResource("Material", "Materials/SnakeSkin.xml");
+
+        Inventory::RemoveItem("Flag");
+        RemoveActiveTool();
+        SendEvent("NextTool");
+        SendEvent("GameFinished");
     }
 
     void AxeHit(Vector3 position)
@@ -93,7 +116,7 @@ namespace ActiveTool {
         // Create rigidbody, and set non-zero mass so that the body becomes dynamic
         RigidBody@ body = branchNode.CreateComponent("RigidBody");
         body.collisionLayer = COLLISION_FOOD_LEVEL;
-        body.collisionMask = COLLISION_TERRAIN_LEVEL | COLLISION_PACMAN_LEVEL | COLLISION_SNAKE_BODY_LEVEL | COLLISION_SNAKE_HEAD_LEVEL | COLLISION_PLAYER_LEVEL | COLLISION_TREE_LEVEL | COLLISION_FOOD_LEVEL;
+        body.collisionMask = COLLISION_TERRAIN_LEVEL | COLLISION_PACMAN_LEVEL | COLLISION_SNAKE_BODY_LEVEL | COLLISION_SNAKE_HEAD_LEVEL | COLLISION_PLAYER_LEVEL | COLLISION_TREE_LEVEL | COLLISION_FOOD_LEVEL | COLLISION_STATIC_OBJECTS;
         body.mass = 0.1f;
 
         CollisionShape@ shape = branchNode.CreateComponent("CollisionShape");
@@ -111,13 +134,28 @@ namespace ActiveTool {
         if (Raycast(3.0f, hitPos, hitDrawable, direction)) {
             // Check if target scene node already has a DecalSet component. If not, create now
             Node@ targetNode = hitDrawable.node;
-            
-            /*VariantMap data;
-            data["Message"] = "You hit " + targetNode.name + "!";
-            SendEvent("UpdateEventLogGUI", data);*/
+            VariantMap data;
+            data["Message"] = "You hit " + targetNode.name + "[" + targetNode.id + "]!";
+            SendEvent("UpdateEventLogGUI", data);
+
+            /*DecalSet@ decal = targetNode.GetComponent("DecalSet");
+            if (decal is null)
+            {
+                decal = targetNode.CreateComponent("DecalSet");
+                decal.material = cache.GetResource("Material", "Materials/UrhoDecal.xml");
+            }*/
+            // Add a square decal to the decal set using the geometry of the drawable that was hit, orient it to face the camera,
+            // use full texture UV's (0,0) to (1,1). Note that if we create several decals to a large object (such as the ground
+            // plane) over a large area using just one DecalSet component, the decals will all be culled as one unit. If that is
+            // undesirable, it may be necessary to create more than one DecalSet based on the distance
+            //decal.AddDecal(hitDrawable, hitPos, cameraNode.rotation, 0.5f, 1.0f, 1.0f, Vector2::ZERO, Vector2::ONE);
 
             Node@ baseNode = targetNode;
 
+            if (activeTool.type == TOOL_FLAG) {
+                CreateFlag(hitPos);
+                return;
+            }
             float hitPower = 20;
             if (targetNode.HasTag("Adj")) {
                 baseNode = targetNode.parent;
@@ -245,6 +283,16 @@ namespace ActiveTool {
                     }
                 }   
             }
+        }
+    }
+
+    void RemoveActiveTool()
+    {
+        activeTool.type = TOOL_NONE;
+        activeTool.node = null;
+        for (uint i = 0; i < tools.length; i++) {
+            Node@ node = tools[i].node;
+            node.SetDeepEnabled(false);
         }
     }
 

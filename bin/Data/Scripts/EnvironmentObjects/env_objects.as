@@ -3,8 +3,7 @@ namespace EnvObjects {
 
     Node@ Create(Vector3 position, String model, bool temporary = true, String name = "Custom")
     {
-        Node@ node = scene_.CreateChild();
-        node.name = name;
+        Node@ node = scene_.CreateChild(name);
         node.temporary = temporary;
         position.y = NetworkHandler::terrain.GetHeight(position);
         node.position = position;
@@ -14,6 +13,7 @@ namespace EnvObjects {
         node.SetScale(1.0f);
         object.castShadows = true;
         object.materials[0] = cache.GetResource("Material", "Materials/Stone.xml");
+        object.viewMask = VIEW_MASK_INTERACTABLE;
 
         // Create rigidbody, and set non-zero mass so that the body becomes dynamic
         RigidBody@ body = node.CreateComponent("RigidBody");
@@ -26,7 +26,8 @@ namespace EnvObjects {
         body.angularFactor = Vector3::ZERO;
 
         // Set the rigidbody to signal collision also when in rest, so that we get ground collisions properly
-        body.collisionEventMode = COLLISION_ALWAYS;
+        //body.collisionEventMode = COLLISION_ALWAYS;
+
 
         // Set a capsule shape for collision
         CollisionShape@ shape = node.CreateComponent("CollisionShape");
@@ -40,6 +41,7 @@ namespace EnvObjects {
     {
         SubscribeToEvent("SpawnObject", "EnvObjects::HandleSpawnObject");
         SubscribeToEvent("DestroySpawnedObject", "EnvObjects::HandleDestroySpawnedObject");
+        DelayedExecute(5.0, false, "void EnvObjects::DisableFurthestObjects()");
     }
 
     void RegisterConsoleCommands()
@@ -153,5 +155,21 @@ namespace EnvObjects {
                 objects[objects.length - 1].Scale(oldScale);
             }
         }
+    }
+
+    void DisableFurthestObjects()
+    {
+        log.Warning("DisableFurthestObjects");
+        for (uint i = 0; i < objects.length; i++) {
+            Node@ obj = objects[i];
+            int distanceSquared = Vector3(cameraNode.position - obj.position).lengthSquared;
+            int distFactor = 20;
+            if (distanceSquared > distFactor * distFactor * distFactor) {
+                obj.SetDeepEnabled(false);
+            } else {
+                obj.SetDeepEnabled(true);
+            }
+        }
+        DelayedExecute(5.0, false, "void EnvObjects::DisableFurthestObjects()");
     }
 }

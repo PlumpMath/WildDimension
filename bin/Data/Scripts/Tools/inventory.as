@@ -51,6 +51,20 @@ namespace Inventory {
     	SendEvent("UpdateInventoryGUI");
     }
 
+    void RemoveItem(String name)
+    {
+        for (uint i = 0; i < items.length; i++) {
+            Item@ item = items[i];
+            if (item.name == name) {
+                item.count--;
+                if (item.count <= 0) {
+                    items.Erase(i);
+                    return;
+                }
+            }
+        }
+    }
+
     void HandleInventoryAdd(StringHash eventType, VariantMap& eventData)
     {
         String name = eventData["Name"].GetString();

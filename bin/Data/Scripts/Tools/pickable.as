@@ -74,7 +74,7 @@ namespace Pickable {
         CollisionShape@ shape = node.CreateComponent("CollisionShape");
         // Create the capsule shape with an offset so that it is correctly aligned with the model, which
         // has its origin at the feet
-        shape.SetSphere(1.5f);
+        shape.SetSphere(2.0f);
 
         node.CreateScriptObject(scriptFile, "PickableObject");
         pickables.Push(node);

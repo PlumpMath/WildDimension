@@ -8,7 +8,10 @@
 
 #include "Console/console.as"
 #include "Network/network.as"
+
 #include "GUI/gui.as"
+#include "GUI/finish.as"
+
 #include "Player/player.as"
 #include "Pacman/pacman.as"
 #include "Snake/snake.as"
@@ -22,6 +25,7 @@
 #include "Tools/ActiveTool.as"
 #include "Tools/pickable.as"
 #include "Tools/inventory.as"
+#include "Tools/flag.as"
 #include "Sounds/sounds.as"
 #include "Camp/camp.as"
 
@@ -61,6 +65,9 @@ const uint COLLISION_PICKABLE_LEVEL = 32;
 const uint COLLISION_FOOD_LEVEL = 64;
 const uint COLLISION_TREE_LEVEL = 128;
 const uint COLLISION_STATIC_OBJECTS = 256;
+
+const uint VIEW_MASK_STATIC_OBJECT = 1;
+const uint VIEW_MASK_INTERACTABLE = 2;
 
 const float JOYSTICK_DEAD_ZONE = 0.3f;
 
@@ -149,6 +156,9 @@ void HandleNewGame(StringHash eventType, VariantMap& eventData)
     SubscribeToEvent("PostUpdate", "HandlePostUpdate");
     SubscribeToEvent("Update", "HandleUpdate");
 
+    FinishGUI::Subscribe();
+    FinishGUI::RegisterConsoleCommands();
+
     GUIHandler::Subscribe();
     NetworkHandler::Subscribe();
 
@@ -182,6 +192,8 @@ void Stop()
     GUIHandler::Destroy();
     SplashScreen::Destroy();
     MenuScreen::Destroy();
+    FinishGUI::Destroy();
+    scene_.Remove();
 }
 
 void CreateScene()

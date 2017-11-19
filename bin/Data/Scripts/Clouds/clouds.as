@@ -10,7 +10,7 @@ namespace Clouds {
 
     Node@ Create(Vector3 position)
     {
-        Node@ cloudNode = scene_.CreateChild("SnakeNode");
+        Node@ cloudNode = scene_.CreateChild("Cloud");
         cloudNode.temporary = true;
         position.y = NetworkHandler::terrain.GetHeight(position) + 250.0f + Random(50.0f);
         cloudNode.position = position;

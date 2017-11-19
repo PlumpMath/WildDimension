@@ -7,7 +7,7 @@ namespace Camp {
 
     void Create(Vector3 position) {
         Campfire campfire;
-        campfire.node = scene_.CreateChild("Snake");
+        campfire.node = scene_.CreateChild("Campfire");
         position.y = NetworkHandler::terrain.GetHeight(position);
         campfire.node.position = position;
         campfire.node.temporary = true;
@@ -21,6 +21,7 @@ namespace Camp {
         }
         object.castShadows = true;
         object.materials[0] = cache.GetResource("Material", "Materials/Snake.xml");
+        object.viewMask = VIEW_MASK_INTERACTABLE;
 
         // Create rigidbody, and set non-zero mass so that the body becomes dynamic
         RigidBody@ body = campfire.node.CreateComponent("RigidBody");

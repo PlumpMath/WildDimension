@@ -4,6 +4,12 @@ namespace NetworkHandler {
     Node@ terrainNode;
     Terrain@ terrain;
 
+    class Stats {
+        float gameTime;
+    }
+
+    Stats stats;
+
     void LoadScene()
     {
         File file("Data/Map/Map.json", FILE_READ);
@@ -17,6 +23,7 @@ namespace NetworkHandler {
 
     void StartServer()
     {
+        stats.gameTime = 0.0f;
         input.mouseVisible = false;
         //network.simulatedLatency = 500;
         //network.simulatedPacketLoss = 0.9;
@@ -247,6 +254,8 @@ namespace NetworkHandler {
         }
         // Take the frame time step, which is stored as a float
         float timeStep = eventData["TimeStep"].GetFloat();
+
+        stats.gameTime += timeStep;
         // Get the light and billboard scene nodes
         Array<Node@> lightNodes = scene_.GetChildrenWithComponent("Light");
         Array<Node@> billboardNodes = scene_.GetChildrenWithComponent("BillboardSet");
