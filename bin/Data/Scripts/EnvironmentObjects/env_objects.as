@@ -12,7 +12,13 @@ namespace EnvObjects {
         object.model = cache.GetResource("Model", model);
         node.SetScale(1.0f);
         object.castShadows = true;
-        object.materials[0] = cache.GetResource("Material", "Materials/Stone.xml");
+        for (uint i = 0; i < 10; i++) {
+            Array<String> mat;
+            mat.Push("Materials/Wood.xml");
+            mat.Push("Materials/Stone.xml");
+            mat.Push("Materials/Metal.xml");
+            object.materials[i] = cache.GetResource("Material", mat[RandomInt(mat.length)]);
+        }
         object.viewMask = VIEW_MASK_INTERACTABLE;
 
         // Create rigidbody, and set non-zero mass so that the body becomes dynamic

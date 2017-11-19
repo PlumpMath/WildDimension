@@ -200,9 +200,9 @@ namespace Snake {
             }
 
             if (snakeBody.stage == 0) {
-                if (snakeBody.targetNode !is null) {
+                //if (snakeBody.targetNode !is null) {
                     MoveBodyPart(i, 0, snakeBody.body[0], snakeBody.targetNode, timeStep);
-                }
+                //}
             } else {
                 snakeBody.sleepTime += timeStep;
                 if (snakeBody.sleepTime > 1.0f) {

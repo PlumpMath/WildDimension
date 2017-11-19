@@ -233,6 +233,13 @@ namespace NetworkHandler {
                 EnvObjects::Create(position, "Models/Models/Big_tree2.mdl", true, "Tree");
                 position = Vector3(i * 88 + Random(100.0f), 0.0, j * 59 + Random(100.0f));
                 EnvObjects::Create(position, "Models/Models/Big_tree3.mdl", true, "Tree");
+
+                position = Vector3(i * 78 + Random(200.0f), 0.0, j * 56 + Random(200.0f));
+                EnvObjects::Create(position, "Models/Models/House1.mdl", true, "House");
+                position = Vector3(i * 68 + Random(200.0f), 0.0, j * 134 + Random(200.0f));
+                EnvObjects::Create(position, "Models/Models/House2.mdl", true, "House");
+                position = Vector3(i * 215 + Random(200.0f), 0.0, j * 156 + Random(200.0f));
+                EnvObjects::Create(position, "Models/Models/House3.mdl", true, "House");
             }
         }
 
