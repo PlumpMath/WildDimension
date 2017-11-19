@@ -22,7 +22,7 @@ namespace AppleTree {
         } else {
             object.model = cache.GetResource("Model", "Models/Models/Apple_tree2.mdl");
         }
-        treeNode.SetScale(1.0f + Random(0.8f));
+        treeNode.SetScale(2.0f + Random(0.8f));
         object.castShadows = true;
         object.materials[0] = cache.GetResource("Material", "Materials/Wood.xml");
         object.materials[1] = cache.GetResource("Material", "Materials/TreeGreen.xml");

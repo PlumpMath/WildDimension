@@ -4,8 +4,8 @@
 //big fireplace -> kocins, kocins, akmeni
 //big tree -> stumbrs, lapas
 //flag -> koks, audums
-//House -> durvju aile, arejas sienas, ieksejas sienas, jumts
-//House3 -> durvju aile, arejas sienas, ieksejas sienas, jumts, trepes
+//+ House -> durvju aile, arejas sienas, ieksejas sienas, jumts
+//+ House3 -> durvju aile, arejas sienas, ieksejas sienas, jumts, trepes
 //stem -> celma malas, celma virsotne, cirvja kats, cirvja metals
 //torch -> kats, augsha
 
@@ -24,13 +24,29 @@ namespace EnvObjects {
         object.model = cache.GetResource("Model", model);
         node.SetScale(1.0f);
         object.castShadows = true;
-        for (uint i = 0; i < 10; i++) {
-            Array<String> mat;
-            mat.Push("Materials/Wood.xml");
-            mat.Push("Materials/Stone.xml");
-            mat.Push("Materials/Metal.xml");
-            object.materials[i] = cache.GetResource("Material", mat[RandomInt(mat.length)]);
+        if (name == "House1" || name == "House2") {
+            object.materials[0] = cache.GetResource("Material", "Materials/Wood.xml");
+            object.materials[1] = cache.GetResource("Material", "Materials/Wood.xml");
+            object.materials[2] = cache.GetResource("Material", "Materials/Wood.xml");
+            object.materials[3] = cache.GetResource("Material", "Materials/Roof.xml");
+        } else if (name == "House3") {
+            object.materials[0] = cache.GetResource("Material", "Materials/Wood.xml");
+            object.materials[1] = cache.GetResource("Material", "Materials/Wood.xml");
+            object.materials[2] = cache.GetResource("Material", "Materials/Wood.xml");
+            object.materials[3] = cache.GetResource("Material", "Materials/Roof.xml");
+            object.materials[4] = cache.GetResource("Material", "Materials/Stone.xml");
+        } else if (name == "Rock") {
+            object.materials[0] = cache.GetResource("Material", "Materials/Stone.xml");
+        } else if (name == "Tree") {
+            object.materials[0] = cache.GetResource("Material", "Materials/Wood.xml");
+            if (RandomInt(2) == 1) {
+                object.materials[1] = cache.GetResource("Material", "Materials/TreeGreen.xml");
+            } else {
+                object.materials[1] = cache.GetResource("Material", "Materials/TreeYellow.xml");
+            }
+            node.SetScale(10.0f);
         }
+        
         object.viewMask = VIEW_MASK_INTERACTABLE;
 
         // Create rigidbody, and set non-zero mass so that the body becomes dynamic

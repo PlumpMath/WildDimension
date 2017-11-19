@@ -18,7 +18,7 @@ namespace RaspberryBush {
 
         StaticModel@ object = treeNode.CreateComponent("StaticModel");
         object.model = cache.GetResource("Model", "Models/Models/Raspberry_bush.mdl");
-        treeNode.SetScale(0.8f + Random(0.5f));
+        treeNode.SetScale(1.8f + Random(0.5f));
         object.castShadows = true;
         object.materials[0] = cache.GetResource("Material", "Materials/TreeGreen.xml");
 

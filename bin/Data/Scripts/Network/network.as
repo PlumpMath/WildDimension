@@ -221,8 +221,8 @@ namespace NetworkHandler {
         Vector3 position = Vector3(37 + Random(20.0f), 0.0, 37 + Random(20.0f));
         Camp::Create(position);
 
-        for (int i = -20; i < 20; i+=5) {
-            for (int j = -20; j < 20; j+=5) {
+        for (int i = -40; i < 40; i+=10) {
+            for (int j = -40; j < 40; j+=10) {
                 Vector3 position = Vector3(i * 100 + Random(100.0f), 0.0, j * 100 + Random(100.0f));
                 EnvObjects::Create(position, "Models/Models/Large_rock.mdl", true, "Rock");
                 position = Vector3(i * 66 + Random(100.0f), 0.0, j * 55 + Random(100.0f));
@@ -234,12 +234,12 @@ namespace NetworkHandler {
                 position = Vector3(i * 88 + Random(100.0f), 0.0, j * 59 + Random(100.0f));
                 EnvObjects::Create(position, "Models/Models/Big_tree3.mdl", true, "Tree");
 
-                position = Vector3(i * 78 + Random(200.0f), 0.0, j * 56 + Random(200.0f));
-                EnvObjects::Create(position, "Models/Models/House1.mdl", true, "House");
+                /*position = Vector3(i * 78 + Random(200.0f), 0.0, j * 56 + Random(200.0f));
+                EnvObjects::Create(position, "Models/Models/House1.mdl", true, "House1");
                 position = Vector3(i * 68 + Random(200.0f), 0.0, j * 134 + Random(200.0f));
-                EnvObjects::Create(position, "Models/Models/House2.mdl", true, "House");
+                EnvObjects::Create(position, "Models/Models/House2.mdl", true, "House2");
                 position = Vector3(i * 215 + Random(200.0f), 0.0, j * 156 + Random(200.0f));
-                EnvObjects::Create(position, "Models/Models/House3.mdl", true, "House");
+                EnvObjects::Create(position, "Models/Models/House3.mdl", true, "House3");*/
             }
         }
 
