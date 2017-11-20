@@ -140,6 +140,6 @@ namespace RaspberryBush {
                 berry.enabled = obj.node.enabled;
             }
         }
-        DelayedExecute(5.0, false, "void RaspberryBush::DisableFurthestObjects()");
+        //DelayedExecute(5.0, false, "void RaspberryBush::DisableFurthestObjects()");
     }
 }

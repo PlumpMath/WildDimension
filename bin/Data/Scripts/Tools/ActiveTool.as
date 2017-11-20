@@ -11,6 +11,8 @@ namespace ActiveTool {
     bool back = false;
     float sleepTime = 0.0f;
 
+    const float BRANCH_DISSAPEAR_TIME = 10.0f;
+
     class Tool {
         Node@ node;
         uint type;
@@ -95,6 +97,7 @@ namespace ActiveTool {
 
     void AxeHit(Vector3 position)
     {
+        position -= cameraNode.direction;
         Node@ branchNode = scene_.CreateChild("Wood");
         branchNode.temporary = true;
         branchNode.AddTag("Wood");
@@ -103,7 +106,7 @@ namespace ActiveTool {
         //position.z += -1.0f + Random(2.0f);
         //position.y = NetworkHandler::terrain.GetHeight(position) + 0.2f;
         branchNode.worldPosition = position;
-
+        branchNode.SetScale(2.0);
         StaticModel@ object = branchNode.CreateComponent("StaticModel");
         object.model = cache.GetResource("Model", "Models/Models/Branch.mdl");
 
@@ -123,6 +126,20 @@ namespace ActiveTool {
         shape.SetConvexHull(object.model);
 
         branchNode.CreateScriptObject(scriptFile, "PickableObject");
+
+        Array<Variant> parameters;
+        parameters.Push(Variant(branchNode.id));
+
+        //Automatically remove branches 
+        DelayedExecute(BRANCH_DISSAPEAR_TIME, false, "void ActiveTool::DestroyBranch(uint)", parameters);
+    }
+
+    void DestroyBranch(uint nodeId)
+    {
+        Node@ node = scene_.GetNode(nodeId);
+        if (node !is null) {
+            node.Remove();
+        }
     }
 
     void HitObject()
@@ -131,7 +148,7 @@ namespace ActiveTool {
         Drawable@ hitDrawable;
         Vector3 direction;
 
-        if (Raycast(3.0f, hitPos, hitDrawable, direction)) {
+        if (Raycast(5.0f, hitPos, hitDrawable, direction)) {
             // Check if target scene node already has a DecalSet component. If not, create now
             Node@ targetNode = hitDrawable.node;
             VariantMap data;

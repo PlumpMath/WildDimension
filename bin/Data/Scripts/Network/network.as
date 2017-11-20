@@ -215,8 +215,8 @@ namespace NetworkHandler {
             }
         }
 
-        AppleTree::DisableFurthestObjects();
-        RaspberryBush::DisableFurthestObjects();
+        //AppleTree::DisableFurthestObjects();
+        //RaspberryBush::DisableFurthestObjects();
 
         Vector3 position = Vector3(37 + Random(20.0f), 0.0, 37 + Random(20.0f));
         Camp::Create(position);

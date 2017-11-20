@@ -10,7 +10,7 @@ namespace Player {
     Node@ playerNode;
     Controls playerControls;
     RigidBody@ playerBody;
-    const float PLAYER_BRAKE_FORCE = 0.0015f;
+    const float PLAYER_BRAKE_FORCE = 0.015f;
     SoundSource@ walkSoundSource;
     CollisionShape@ shape;
 

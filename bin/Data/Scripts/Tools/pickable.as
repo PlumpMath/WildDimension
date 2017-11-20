@@ -83,7 +83,7 @@ namespace Pickable {
     void Subscribe()
     {
         SubscribeToEvent("GetItem", "Pickable::HandlePickup");
-        DelayedExecute(5.0, false, "void Pickable::DisableFurthestObjects()");
+        //DelayedExecute(5.0, false, "void Pickable::DisableFurthestObjects()");
     }
 
     void RegisterConsoleCommands()
@@ -136,6 +136,6 @@ namespace Pickable {
                 obj.enabled = true;
             }
         }
-        DelayedExecute(5.0, false, "void Pickable::DisableFurthestObjects()");
+        //DelayedExecute(5.0, false, "void Pickable::DisableFurthestObjects()");
     }
 }

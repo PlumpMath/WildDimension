@@ -75,7 +75,7 @@ namespace EnvObjects {
     {
         SubscribeToEvent("SpawnObject", "EnvObjects::HandleSpawnObject");
         SubscribeToEvent("DestroySpawnedObject", "EnvObjects::HandleDestroySpawnedObject");
-        DelayedExecute(5.0, false, "void EnvObjects::DisableFurthestObjects()");
+        //DelayedExecute(5.0, false, "void EnvObjects::DisableFurthestObjects()");
     }
 
     void RegisterConsoleCommands()
@@ -203,6 +203,6 @@ namespace EnvObjects {
                 obj.enabled = true;
             }
         }
-        DelayedExecute(5.0, false, "void EnvObjects::DisableFurthestObjects()");
+        //DelayedExecute(5.0, false, "void EnvObjects::DisableFurthestObjects()");
     }
 }

@@ -151,6 +151,6 @@ namespace AppleTree {
                 apple.enabled = obj.node.enabled;
             }
         }
-        DelayedExecute(5.0, false, "void AppleTree::DisableFurthestObjects()");
+        //DelayedExecute(5.0, false, "void AppleTree::DisableFurthestObjects()");
     }
 }
