@@ -23,6 +23,7 @@ namespace Achievements {
         AddAchievement(AchievementsTrap::GetAchievments());
         AddAchievement(AchievementsHit::GetAchievments());
         AddAchievement(AchievementsBranch::GetAchievments());
+        AddAchievement(AchievementsPlaces::GetAchievments());
     }
 
     void Subscribe()

@@ -23,6 +23,7 @@ namespace NetworkHandler {
 
     void StartServer()
     {
+        Places::Init();
         stats.gameTime = 0.0f;
         input.mouseVisible = false;
         //network.simulatedLatency = 500;

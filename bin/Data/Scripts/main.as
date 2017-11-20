@@ -34,6 +34,7 @@
 #include "Achievements/trap.as"
 #include "Achievements/hit.as"
 #include "Achievements/branch.as"
+#include "Achievements/places.as"
 
 #include "Missions/missions.as"
 
@@ -41,6 +42,8 @@
 #include "Screens/menu.as"
 
 #include "EnvironmentObjects/env_objects.as"
+
+#include "Places/places.as"
 
 Scene@ scene_;
 uint screenJoystickIndex = M_MAX_UNSIGNED; // Screen joystick index for navigational controls (mobile platforms only)

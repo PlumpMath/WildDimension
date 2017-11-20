@@ -8,10 +8,9 @@
 		"Elapsed Time": 2.3009321689605715,
 		"Next Replicated Node ID": 1894,
 		"Next Replicated Component ID": 5516,
-		"Next Local Node ID": 16777915,
-		"Next Local Component ID": 16777969,
-		"Variables": {},
-		"Variable Names": "Visit"
+		"Next Local Node ID": 16778141,
+		"Next Local Component ID": 16778206,
+		"Variables": {}
 	},
 	"components": [
 		{
@@ -76,9 +75,6 @@
 					"attributes": {
 						"Is Enabled": true,
 						"Name": "Village",
-						"Tags": [
-							"Visit"
-						],
 						"Position": "150.506 37.3131 -305.187",
 						"Rotation": "0.677261 0 -0.735743 0",
 						"Scale": "0.2 0.2 0.2",
@@ -168,7 +164,7 @@
 									"type": "RigidBody",
 									"id": 16777956,
 									"attributes": {
-										"Physics Rotation": "0.196032 0 0.980598 0",
+										"Physics Rotation": "0.196032 0 0.980597 0",
 										"Physics Position": "735.166 186.046 -1544.83"
 									}
 								}
@@ -402,7 +398,7 @@
 									"type": "RigidBody",
 									"id": 16777943,
 									"attributes": {
-										"Physics Rotation": "-0.207229 0 0.978293 0",
+										"Physics Rotation": "-0.207229 0 0.978292 0",
 										"Physics Position": "704.307 187.16 -1538.04"
 									}
 								}
@@ -452,7 +448,7 @@
 							"id": 16777914,
 							"attributes": {
 								"Is Enabled": true,
-								"Name": "",
+								"Name": "Village",
 								"Tags": [
 									"Visit"
 								],
@@ -528,9 +524,7 @@
 					"attributes": {
 						"Is Enabled": true,
 						"Name": "Pyramid",
-						"Tags": [
-							"Visit"
-						],
+						"Tags": [],
 						"Position": "-356.844 21.4925 0.9",
 						"Rotation": "1 0 0 0",
 						"Scale": "0.5 0.5 0.5",
@@ -566,7 +560,7 @@
 							"id": 16777912,
 							"attributes": {
 								"Is Enabled": true,
-								"Name": "",
+								"Name": "Pyramid",
 								"Tags": [
 									"Visit"
 								],
@@ -602,9 +596,7 @@
 					"attributes": {
 						"Is Enabled": true,
 						"Name": "Stonehedge",
-						"Tags": [
-							"Visit"
-						],
+						"Tags": [],
 						"Position": "266.513 27.6105 -24.228",
 						"Rotation": "1 0 0 0",
 						"Scale": "0.3 0.3 0.3",
@@ -640,7 +632,7 @@
 							"id": 16777913,
 							"attributes": {
 								"Is Enabled": true,
-								"Name": "",
+								"Name": "Stonehedge",
 								"Tags": [
 									"Visit"
 								],
@@ -703,7 +695,7 @@
 							"type": "RigidBody",
 							"id": 16777929,
 							"attributes": {
-								"Physics Rotation": "0.87536 0.0981144 -0.470259 -0.0545341",
+								"Physics Rotation": "0.87536 0.0981145 -0.470259 -0.0545341",
 								"Physics Position": "1463.05 152.847 -878.663"
 							}
 						}
