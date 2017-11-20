@@ -4,7 +4,20 @@ namespace Inventory {
 		int count;
 	};
 
+    VariantMap registeredItemList;
+
 	Array<Item> items;
+
+    void Init()
+    {
+        Subscribe();
+        RegisterConsoleCommands();
+
+        registeredItemList["Axe"] = true;
+        registeredItemList["Trap"] = true;
+        registeredItemList["Wood"] = true;
+        registeredItemList["Flag"] = true;
+    }
 
 	void Subscribe()
     {
@@ -33,6 +46,9 @@ namespace Inventory {
 
     void AddItem(String name)
     {
+        if (!registeredItemList[name].GetBool()) {
+            return;
+        }
     	bool alreadyExists = false;
     	for (uint i = 0; i < items.length; i++) {
     		Item@ item = items[i];

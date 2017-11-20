@@ -275,10 +275,9 @@ namespace NetworkHandler {
         Snake::RegisterConsoleCommands();
 
         //Tools
-        Inventory::Subscribe();
+        Inventory::Init();
         ActiveTool::Subscribe();
 
-        Inventory::RegisterConsoleCommands();
         ActiveTool::RegisterConsoleCommands();
 
         Pickable::Subscribe();

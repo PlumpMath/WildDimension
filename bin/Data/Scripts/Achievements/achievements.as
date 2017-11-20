@@ -29,16 +29,17 @@ namespace Achievements {
     void Subscribe()
     {
         SubscribeToEvent("UnlockAchievement", "Achievements::HandleAchievement");
+        SubscribeToEvent("AchievementStatistics", "Achievements::HandleAchievementStatistics");
     }
 
     void RegisterConsoleCommands()
     {
-        /*
+        
         VariantMap data;
-        data["CONSOLE_COMMAND_NAME"] = "get_axe";
-        data["CONSOLE_COMMAND_EVENT"] = "GetAxe";
+        data["CONSOLE_COMMAND_NAME"] = "achievments";
+        data["CONSOLE_COMMAND_EVENT"] = "AchievementStatistics";
         SendEvent("ConsoleCommandAdd", data);
-        */
+        
     }
 
     void UnlockAchievement(String eventName, float value)
@@ -69,5 +70,19 @@ namespace Achievements {
             parameters.Push(Variant(1.0f));
             DelayedExecute(1.0, false, "void Achievements::UnlockAchievement(String, float)", parameters);
         }
+    }
+
+    void HandleAchievementStatistics(StringHash eventType, VariantMap& eventData)
+    {
+        float completed = 0;
+        for (uint i = 0; i < achievementList.length; i++) {
+            if (achievementList[i].completed) {
+                completed+=1;
+            }
+        }
+        log.Info("------ Achievments ------");
+        float ratio = completed / achievementList.length;
+        log.Info("Completed/Total: " + completed + "/" + achievementList.length + "(" + ratio * 100 + "%)");
+        log.Info("-------------------------");
     }
 }

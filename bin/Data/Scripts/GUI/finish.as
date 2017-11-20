@@ -7,6 +7,7 @@ namespace FinishGUI {
 
     void CreateScore()
     {
+        Destroy();
         if (engine.headless) {
             return;
         }

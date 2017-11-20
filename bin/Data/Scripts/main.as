@@ -20,12 +20,15 @@
 #include "Tree/raspberry_bush.as"
 
 #include "Clouds/clouds.as"
+
 #include "Tools/Axe.as"
 #include "Tools/Trap.as"
 #include "Tools/ActiveTool.as"
 #include "Tools/pickable.as"
 #include "Tools/inventory.as"
 #include "Tools/flag.as"
+#include "Tools/crafting.as"
+
 #include "Sounds/sounds.as"
 #include "Camp/camp.as"
 
@@ -175,6 +178,9 @@ void HandleNewGame(StringHash eventType, VariantMap& eventData)
 
     Achievements::Init();
     Achievements::Subscribe();
+    Achievements::RegisterConsoleCommands();
+
+    Craft::Init();
 
     RegisterConsoleCommands();
     GUIHandler::RegisterConsoleCommands();
