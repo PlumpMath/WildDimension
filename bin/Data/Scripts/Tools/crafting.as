@@ -48,8 +48,8 @@ namespace Craft {
 		recipe.name = "Flag";
 
 		Inventory::Item item;
-		item.name = "Branch";
-		item.count = 2;
+		item.name = "Wood";
+		item.count = 1;
 		
 		recipe.items.Push(item);
 
