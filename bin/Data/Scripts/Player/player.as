@@ -13,6 +13,7 @@ namespace Player {
     const float PLAYER_BRAKE_FORCE = 0.015f;
     SoundSource@ walkSoundSource;
     CollisionShape@ shape;
+    String destination;
 
     Node@ CreatePlayer()
     {

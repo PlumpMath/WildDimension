@@ -10,6 +10,7 @@ class Visitor : ScriptObject
     {
         Node@ otherNode = eventData["OtherNode"].GetPtr();
         if (otherNode.HasTag("Player")) {
+            Player::destination = node.name;
             log.Info("Player [" + otherNode.id + "] reached place " + node.name);
             VariantMap data;
             data["Name"] = "Visit" + node.name;

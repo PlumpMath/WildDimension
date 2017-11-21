@@ -9,6 +9,7 @@ namespace Missions {
         String shortDescription;
         String eventName;
         String itemName;
+        String placeName;
         float current;
         float target;
         bool completed;
@@ -33,7 +34,9 @@ namespace Missions {
                 return true;
             }
         } else if (item.type == TYPE_REACH_POINT) {
-
+            if (item.placeName == Player::destination) {
+                return true;
+            }
         }
         return false;
     }
@@ -85,15 +88,16 @@ namespace Missions {
         item.type = TYPE_PICKUP;
         AddMission(item);
 
-        item.name = "Defense";
-        item.description = "I need to create\n a trap";
-        item.shortDescription = "Get trap";
-        item.eventName = "GetTrap";
-        item.itemName = "Trap";
+        item.name = "Find pyramid";
+        item.description = "I need to explore\npyramids!";
+        item.shortDescription = "Find pyramid";
+        item.eventName = "VisitPyramid";
+        item.itemName = "";
+        item.placeName = "Pyramid";
         item.current = 0;
-        item.target = 1;
+        item.target = 0;
         item.completed = false;
-        item.type = TYPE_PICKUP;
+        item.type = TYPE_REACH_POINT;
         AddMission(item);
 
         item.name = "Woodchopper";
@@ -103,6 +107,17 @@ namespace Missions {
         item.itemName = "Wood";
         item.current = 0;
         item.target = 5;
+        item.completed = false;
+        item.type = TYPE_PICKUP;
+        AddMission(item);
+
+        item.name = "Defense";
+        item.description = "I need to create\n a trap";
+        item.shortDescription = "Get trap";
+        item.eventName = "GetTrap";
+        item.itemName = "Trap";
+        item.current = 0;
+        item.target = 1;
         item.completed = false;
         item.type = TYPE_PICKUP;
         AddMission(item);
