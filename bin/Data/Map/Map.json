@@ -8,9 +8,10 @@
 		"Elapsed Time": 2.3009321689605715,
 		"Next Replicated Node ID": 1894,
 		"Next Replicated Component ID": 5516,
-		"Next Local Node ID": 16778141,
-		"Next Local Component ID": 16778206,
-		"Variables": {}
+		"Next Local Node ID": 16778368,
+		"Next Local Component ID": 16778445,
+		"Variables": {},
+		"Variable Names": ""
 	},
 	"components": [
 		{
@@ -58,6 +59,7 @@
 					"type": "RigidBody",
 					"id": 2,
 					"attributes": {
+						"Physics Rotation": "1 0 0 0",
 						"Restitution": 0.5
 					}
 				},
@@ -75,6 +77,7 @@
 					"attributes": {
 						"Is Enabled": true,
 						"Name": "Village",
+						"Tags": [],
 						"Position": "150.506 37.3131 -305.187",
 						"Rotation": "0.677261 0 -0.735743 0",
 						"Scale": "0.2 0.2 0.2",
@@ -164,7 +167,7 @@
 									"type": "RigidBody",
 									"id": 16777956,
 									"attributes": {
-										"Physics Rotation": "0.196032 0 0.980597 0",
+										"Physics Rotation": "0.196032 0 0.980598 0",
 										"Physics Position": "735.166 186.046 -1544.83"
 									}
 								}
@@ -517,7 +520,42 @@
 							}
 						}
 					],
-					"children": []
+					"children": [
+						{
+							"id": 16778367,
+							"attributes": {
+								"Is Enabled": true,
+								"Name": "Airplane",
+								"Tags": [
+									"Visit"
+								],
+								"Position": "0 0 0",
+								"Rotation": "1 0 0 0",
+								"Scale": "1 1 1",
+								"Variables": {}
+							},
+							"components": [
+								{
+									"type": "CollisionShape",
+									"id": 16778443,
+									"attributes": {
+										"Shape Type": "Sphere",
+										"Size": "30 30 30"
+									}
+								},
+								{
+									"type": "RigidBody",
+									"id": 16778444,
+									"attributes": {
+										"Physics Rotation": "-0.214832 0.0435055 0.975606 -0.0121535",
+										"Physics Position": "140.561 203.456 -56.213",
+										"Is Trigger": true
+									}
+								}
+							],
+							"children": []
+						}
+					]
 				},
 				{
 					"id": 16777895,
@@ -551,6 +589,7 @@
 							"type": "RigidBody",
 							"id": 16777961,
 							"attributes": {
+								"Physics Rotation": "1 0 0 0",
 								"Physics Position": "-1784.22 107.463 4.5"
 							}
 						}
@@ -582,6 +621,7 @@
 									"type": "RigidBody",
 									"id": 16777963,
 									"attributes": {
+										"Physics Rotation": "1 0 0 0",
 										"Physics Position": "-1784.22 107.463 4.5",
 										"Is Trigger": true
 									}
@@ -623,6 +663,7 @@
 							"type": "RigidBody",
 							"id": 16777926,
 							"attributes": {
+								"Physics Rotation": "1 0 0 0",
 								"Physics Position": "1332.56 138.053 -121.14"
 							}
 						}
@@ -654,6 +695,7 @@
 									"type": "RigidBody",
 									"id": 16777965,
 									"attributes": {
+										"Physics Rotation": "1 0 0 0",
 										"Physics Position": "1332.56 138.053 -121.14",
 										"Is Trigger": true
 									}
@@ -695,7 +737,7 @@
 							"type": "RigidBody",
 							"id": 16777929,
 							"attributes": {
-								"Physics Rotation": "0.87536 0.0981145 -0.470259 -0.0545341",
+								"Physics Rotation": "0.87536 0.0981146 -0.470259 -0.0545341",
 								"Physics Position": "1463.05 152.847 -878.663"
 							}
 						}

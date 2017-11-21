@@ -77,6 +77,19 @@ namespace Missions {
     void Init()
     {
         MissionItem item;
+
+        item.name = "Find airplane";
+        item.description = "I need to find my\nairplane!";
+        item.shortDescription = "Find airplane";
+        item.eventName = "VisitAirplane";
+        item.itemName = "";
+        item.placeName = "Airplane";
+        item.current = 0;
+        item.target = 0;
+        item.completed = false;
+        item.type = TYPE_REACH_POINT;
+        AddMission(item);
+
         item.name = "Survivalist";
         item.description = "I need to find\nsome tools!";
         item.shortDescription = "Get axe";
