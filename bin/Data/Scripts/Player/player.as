@@ -15,6 +15,7 @@ namespace Player {
     CollisionShape@ shape;
     String destination;
     bool onGround;
+    bool noclip = false;
 
     Node@ CreatePlayer()
     {
@@ -59,8 +60,35 @@ namespace Player {
         }
 
         SubscribeToEvent(playerNode, "NodeCollision", "Player::HandleNodeCollision");
-
+        Subscribe();
+        RegisterConsoleCommands();
         return playerNode;
+    }
+
+    void Subscribe()
+    {
+        SubscribeToEvent("NoclipToggle", "Player::HandleNoclip");
+    }
+
+    void RegisterConsoleCommands()
+    {
+        VariantMap data;
+        data["CONSOLE_COMMAND_NAME"] = "noclip";
+        data["CONSOLE_COMMAND_EVENT"] = "NoclipToggle";
+        SendEvent("ConsoleCommandAdd", data);   
+    }
+
+    void HandleNoclip(StringHash eventType, VariantMap& eventData)
+    {
+        noclip = !noclip;
+        log.Warning("Noclip " + noclip);
+        if (noclip) {
+            playerBody.enabled = false;
+            shape.enabled = false;
+        } else {
+            playerBody.enabled = true;
+            shape.enabled = true;
+        }
     }
 
     void HandlePhysicsPreStep(StringHash eventType, VariantMap& eventData)
@@ -124,7 +152,11 @@ namespace Player {
 
         //Ignore Y to allow moving only in X,Z directions
         Quaternion lookAt2 = Quaternion(0.0f, yaw, 0.0f);
-        playerNode.rotation = lookAt2;
+        if (noclip) {
+            playerNode.rotation = lookAt;
+        } else {
+            playerNode.rotation = lookAt2;
+        }
         Quaternion rot = playerNode.rotation;
 
         Vector3 position = playerNode.position;
@@ -142,7 +174,11 @@ namespace Player {
         if (playerControls.IsDown(CTRL_SPRINT)) {
             moveDir *= 2;
         }
-        playerBody.ApplyImpulse(lookAt2 * moveDir);
+        if (noclip) {
+            playerNode.Translate(lookAt * moveDir, TS_WORLD);
+        } else {
+            playerBody.ApplyImpulse(lookAt2 * moveDir);
+        }
 
         Vector3 brakeForce = -planeVelocity * PLAYER_BRAKE_FORCE;
         playerBody.ApplyImpulse(brakeForce);
