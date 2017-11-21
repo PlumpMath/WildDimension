@@ -44,16 +44,41 @@ namespace Craft {
 		Subscribe();
 		RegisterConsoleCommands();
 
-		Recipe recipe;
-		recipe.name = "Flag";
+        {
+    		Recipe recipe;
+    		recipe.name = "Flag";
+    		Inventory::Item item;
+    		item.name = "Wood";
+    		item.count = 1;
+    		recipe.items.Push(item);
+            item.name = "Skin";
+            item.count = 1;
+            recipe.items.Push(item);
+    		recipes.Push(recipe);
+        }
 
-		Inventory::Item item;
-		item.name = "Wood";
-		item.count = 1;
-		
-		recipe.items.Push(item);
+        {
+            Recipe recipe;
+            recipe.name = "Trap";
+            Inventory::Item item;
+            item.name = "Wood";
+            item.count = 10;
+            recipe.items.Push(item);
+            recipes.Push(recipe);
+        }
 
-		recipes.Push(recipe);
+        {
+            Recipe recipe;
+            recipe.name = "Axe";
+            Inventory::Item item;
+            item.name = "Wood";
+            item.count = 1;
+            recipe.items.Push(item);
+            item.name = "Rock";
+            item.count = 1;
+            recipe.items.Push(item);
+            recipes.Push(recipe);
+        }
 	}
 
 	void Subscribe()

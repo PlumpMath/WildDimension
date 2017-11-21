@@ -14,9 +14,11 @@ namespace Inventory {
         RegisterConsoleCommands();
 
         registeredItemList["Axe"] = true;
+        registeredItemList["Rock"] = true;
         registeredItemList["Trap"] = true;
         registeredItemList["Wood"] = true;
         registeredItemList["Flag"] = true;
+        registeredItemList["Skin"] = true;
     }
 
 	void Subscribe()
