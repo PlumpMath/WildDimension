@@ -149,9 +149,12 @@ namespace ActiveTool {
         Vector3 direction;
 
         if (Raycast(5.0f, hitPos, hitDrawable, direction)) {
+            VariantMap data;
+            data["Name"] = "Use" + activeTool.node.name;
+            SendEvent("UnlockAchievement", data);
+
             // Check if target scene node already has a DecalSet component. If not, create now
             Node@ targetNode = hitDrawable.node;
-            VariantMap data;
             data["Message"] = "You hit " + targetNode.name + "[" + targetNode.id + "]!";
             SendEvent("UpdateEventLogGUI", data);
 

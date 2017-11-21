@@ -2,6 +2,7 @@ namespace Missions {
 
     const uint TYPE_PICKUP = 0;
     const uint TYPE_REACH_POINT = 1;
+    const uint TYPE_USE_ITEM = 2;
 
     class MissionItem {
         String name;
@@ -37,6 +38,13 @@ namespace Missions {
             if (item.placeName == Player::destination) {
                 return true;
             }
+        } else if (item.type == TYPE_USE_ITEM) {
+            log.Warning("CheckIfCompleted item " + item.name);
+            log.Warning("CheckIfCompleted current " + item.current);
+            log.Warning("CheckIfCompleted target " + item.target);
+            if (item.target <= item.current) {
+                return true;
+            }
         }
         return false;
     }
@@ -50,9 +58,10 @@ namespace Missions {
                 log.Info("Your next mission: " + activeMission);
                 log.Info("Description: " + item.description);
                 if (CheckIfCompleted(item)) {
-                    VariantMap data;
-                    data["Name"] = item.eventName;
-                    SendEvent("MissionCompleted", data);    
+                    item.completed = true;
+                    SendEvent("UpdateMissionsGUI");
+                    NextMission();
+                    return; 
                 } else {
                     Array<Variant> parameters;
                     parameters.Push(Variant(item.description));
@@ -99,6 +108,18 @@ namespace Missions {
         item.target = 1;
         item.completed = false;
         item.type = TYPE_PICKUP;
+        AddMission(item);
+
+        item.name = "Use Axe";
+        item.description = "Let's try the axe!";
+        item.shortDescription = "Use axe";
+        item.eventName = "UseAxe";
+        item.itemName = "";
+        item.placeName = "";
+        item.current = 0;
+        item.target = 1;
+        item.completed = false;
+        item.type = TYPE_USE_ITEM;
         AddMission(item);
 
         item.name = "Find pyramid";
@@ -160,6 +181,7 @@ namespace Missions {
             for (uint i = 0; i < missionList.length; i++) {
                 MissionItem@ item = missionList[i];
                 if (item.eventName == name && item.completed == false && activeMission == item.eventName) {
+                    item.current++;
                     if (CheckIfCompleted(item)) {
                         item.completed = true;
                         VariantMap data;
