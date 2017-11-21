@@ -8,8 +8,8 @@
 		"Elapsed Time": 2.3009321689605715,
 		"Next Replicated Node ID": 1894,
 		"Next Replicated Component ID": 5516,
-		"Next Local Node ID": 16778596,
-		"Next Local Component ID": 16778687,
+		"Next Local Node ID": 16778822,
+		"Next Local Component ID": 16778924,
 		"Variables": {},
 		"Variable Names": ""
 	},
@@ -113,7 +113,8 @@
 									"id": 16777957,
 									"attributes": {
 										"Model": "Model;Models/Models/House2.mdl",
-										"Material": "Material;Materials/Wood.xml;Materials/Sandstone.xml;Materials/Sandstone.xml;Materials/Roof.xml"
+										"Material": "Material;Materials/Wood.xml;Materials/Sandstone.xml;Materials/Sandstone.xml;Materials/Roof.xml",
+										"Cast Shadows": true
 									}
 								},
 								{
@@ -152,7 +153,8 @@
 									"id": 16777954,
 									"attributes": {
 										"Model": "Model;Models/Models/House2.mdl",
-										"Material": "Material;Materials/Wood.xml;Materials/Sandstone.xml;Materials/Sandstone.xml;Materials/Roof.xml"
+										"Material": "Material;Materials/Wood.xml;Materials/Sandstone.xml;Materials/Sandstone.xml;Materials/Roof.xml",
+										"Cast Shadows": true
 									}
 								},
 								{
@@ -191,7 +193,8 @@
 									"id": 16777939,
 									"attributes": {
 										"Model": "Model;Models/Models/House1.mdl",
-										"Material": "Material;Materials/Wood.xml;Materials/Sandstone.xml;Materials/Sandstone.xml;Materials/Roof.xml"
+										"Material": "Material;Materials/Wood.xml;Materials/Sandstone.xml;Materials/Sandstone.xml;Materials/Roof.xml",
+										"Cast Shadows": true
 									}
 								},
 								{
@@ -230,7 +233,8 @@
 									"id": 16777938,
 									"attributes": {
 										"Model": "Model;Models/Models/House2.mdl",
-										"Material": "Material;Materials/Wood.xml;Materials/Sandstone.xml;Materials/Sandstone.xml;Materials/Roof.xml"
+										"Material": "Material;Materials/Wood.xml;Materials/Sandstone.xml;Materials/Sandstone.xml;Materials/Roof.xml",
+										"Cast Shadows": true
 									}
 								},
 								{
@@ -269,7 +273,8 @@
 									"id": 16777937,
 									"attributes": {
 										"Model": "Model;Models/Models/House2.mdl",
-										"Material": "Material;Materials/Wood.xml;Materials/Sandstone.xml;Materials/Sandstone.xml;Materials/Roof.xml"
+										"Material": "Material;Materials/Wood.xml;Materials/Sandstone.xml;Materials/Sandstone.xml;Materials/Roof.xml",
+										"Cast Shadows": true
 									}
 								},
 								{
@@ -347,7 +352,8 @@
 									"id": 16777935,
 									"attributes": {
 										"Model": "Model;Models/Models/House1.mdl",
-										"Material": "Material;Materials/Wood.xml;Materials/Sandstone.xml;Materials/Sandstone.xml;Materials/Roof.xml"
+										"Material": "Material;Materials/Wood.xml;Materials/Sandstone.xml;Materials/Sandstone.xml;Materials/Roof.xml",
+										"Cast Shadows": true
 									}
 								},
 								{
@@ -386,7 +392,8 @@
 									"id": 16777934,
 									"attributes": {
 										"Model": "Model;Models/Models/Large_rock.mdl",
-										"Material": "Material;Materials/Stone.xml"
+										"Material": "Material;Materials/Stone.xml",
+										"Cast Shadows": true
 									}
 								},
 								{
@@ -425,7 +432,8 @@
 									"id": 16777930,
 									"attributes": {
 										"Model": "Model;Models/Models/House3.mdl",
-										"Material": "Material;Materials/Wood.xml;Materials/Sandstone.xml;Materials/Sandstone.xml;Materials/Roof.xml;"
+										"Material": "Material;Materials/Wood.xml;Materials/Sandstone.xml;Materials/Sandstone.xml;Materials/Roof.xml;",
+										"Cast Shadows": true
 									}
 								},
 								{
@@ -500,7 +508,8 @@
 							"id": 16777920,
 							"attributes": {
 								"Model": "Model;Models/Airplane.mdl",
-								"Material": "Material;Materials/Metal.xml;Materials/Metal.xml;Materials/Metal.xml;Materials/Metal.xml;Materials/Metal.xml;Materials/Metal.xml;Materials/Metal.xml;Materials/Metal.xml;Materials/Metal.xml;Materials/Metal.xml;Materials/Metal.xml;Materials/Metal.xml;Materials/Metal.xml;Materials/Metal.xml;Materials/Metal.xml;Materials/Metal.xml;Materials/Metal.xml;Materials/Metal.xml;Materials/Metal.xml;Materials/Metal.xml;Materials/Metal.xml;Materials/Metal.xml;Materials/Metal.xml;Materials/Metal.xml"
+								"Material": "Material;Materials/Metal.xml;Materials/Metal.xml;Materials/Metal.xml;Materials/Metal.xml;Materials/Metal.xml;Materials/Metal.xml;Materials/Metal.xml;Materials/Metal.xml;Materials/Metal.xml;Materials/Metal.xml;Materials/Metal.xml;Materials/Metal.xml;Materials/Metal.xml;Materials/Metal.xml;Materials/Metal.xml;Materials/Metal.xml;Materials/Metal.xml;Materials/Metal.xml;Materials/Metal.xml;Materials/Metal.xml;Materials/Metal.xml;Materials/Metal.xml;Materials/Metal.xml;Materials/Metal.xml",
+								"Cast Shadows": true
 							}
 						},
 						{
@@ -574,7 +583,8 @@
 							"id": 16777923,
 							"attributes": {
 								"Model": "Model;Models/Models/Piramid.mdl",
-								"Material": "Material;Materials/Sandstone.xml"
+								"Material": "Material;Materials/Sandstone.xml",
+								"Cast Shadows": true
 							}
 						},
 						{
@@ -648,7 +658,8 @@
 							"id": 16777924,
 							"attributes": {
 								"Model": "Model;Models/Models/Stonehenge.mdl",
-								"Material": "Material;Materials/Stone.xml"
+								"Material": "Material;Materials/Stone.xml",
+								"Cast Shadows": true
 							}
 						},
 						{
@@ -722,7 +733,8 @@
 							"id": 16777927,
 							"attributes": {
 								"Model": "Model;Models/Models/Fallen_tree.mdl",
-								"Material": "Material;"
+								"Material": "Material;",
+								"Cast Shadows": true
 							}
 						},
 						{
@@ -743,6 +755,80 @@
 						}
 					],
 					"children": []
+				},
+				{
+					"id": 16778594,
+					"attributes": {
+						"Is Enabled": true,
+						"Name": "Castle",
+						"Tags": [],
+						"Position": "-85.4698 107.366 100.505",
+						"Rotation": "1 0 0 0",
+						"Scale": "1 1 1",
+						"Variables": {}
+					},
+					"components": [
+						{
+							"type": "StaticModel",
+							"id": 16778682,
+							"attributes": {
+								"Model": "Model;Models/castle.mdl",
+								"Material": "Material;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Wood.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Wood.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Roof.xml;Materials/Stone.xml;Materials/Roof.xml;Materials/Roof.xml;Materials/Roof.xml;Materials/Roof.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Metal.xml;Materials/Wood.xml;Materials/Wood.xml;Materials/Wood.xml;Materials/Wood.xml;Materials/Stone.xml;Materials/Roof.xml;Materials/Stone.xml",
+								"Cast Shadows": true
+							}
+						},
+						{
+							"type": "CollisionShape",
+							"id": 16778683,
+							"attributes": {
+								"Shape Type": "TriangleMesh",
+								"Model": "Model;Models/castle.mdl"
+							}
+						},
+						{
+							"type": "RigidBody",
+							"id": 16778684,
+							"attributes": {
+								"Physics Rotation": "1 0 0 0",
+								"Physics Position": "-427.349 536.829 502.527"
+							}
+						}
+					],
+					"children": [
+						{
+							"id": 16778595,
+							"attributes": {
+								"Is Enabled": true,
+								"Name": "Castle",
+								"Tags": [
+									"Visit"
+								],
+								"Position": "0 0 0",
+								"Rotation": "1 0 0 0",
+								"Scale": "20 20 20",
+								"Variables": {}
+							},
+							"components": [
+								{
+									"type": "CollisionShape",
+									"id": 16778685,
+									"attributes": {
+										"Shape Type": "Sphere"
+									}
+								},
+								{
+									"type": "RigidBody",
+									"id": 16778686,
+									"attributes": {
+										"Physics Rotation": "1 0 0 0",
+										"Physics Position": "-427.349 536.829 502.527",
+										"Is Trigger": true
+									}
+								}
+							],
+							"children": []
+						}
+					]
 				}
 			]
 		},
@@ -795,79 +881,6 @@
 				}
 			],
 			"children": []
-		},
-		{
-			"id": 16778594,
-			"attributes": {
-				"Is Enabled": true,
-				"Name": "Castle",
-				"Tags": [],
-				"Position": "-427.349 536.829 502.527",
-				"Rotation": "1 0 0 0",
-				"Scale": "5 5 5",
-				"Variables": {}
-			},
-			"components": [
-				{
-					"type": "StaticModel",
-					"id": 16778682,
-					"attributes": {
-						"Model": "Model;Models/castle.mdl",
-						"Material": "Material;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Wood.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Wood.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Roof.xml;Materials/Stone.xml;Materials/Roof.xml;Materials/Roof.xml;Materials/Roof.xml;Materials/Roof.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Metal.xml;Materials/Wood.xml;Materials/Wood.xml;Materials/Wood.xml;Materials/Wood.xml;Materials/Stone.xml;Materials/Roof.xml;Materials/Stone.xml"
-					}
-				},
-				{
-					"type": "CollisionShape",
-					"id": 16778683,
-					"attributes": {
-						"Shape Type": "TriangleMesh",
-						"Model": "Model;Models/castle.mdl"
-					}
-				},
-				{
-					"type": "RigidBody",
-					"id": 16778684,
-					"attributes": {
-						"Physics Rotation": "1 0 0 0",
-						"Physics Position": "-427.349 536.829 502.527"
-					}
-				}
-			],
-			"children": [
-				{
-					"id": 16778595,
-					"attributes": {
-						"Is Enabled": true,
-						"Name": "Castle",
-						"Tags": [
-							"Visit"
-						],
-						"Position": "0 0 0",
-						"Rotation": "1 0 0 0",
-						"Scale": "20 20 20",
-						"Variables": {}
-					},
-					"components": [
-						{
-							"type": "CollisionShape",
-							"id": 16778685,
-							"attributes": {
-								"Shape Type": "Sphere"
-							}
-						},
-						{
-							"type": "RigidBody",
-							"id": 16778686,
-							"attributes": {
-								"Physics Rotation": "1 0 0 0",
-								"Physics Position": "-427.349 536.829 502.527",
-								"Is Trigger": true
-							}
-						}
-					],
-					"children": []
-				}
-			]
 		}
 	]
 }
