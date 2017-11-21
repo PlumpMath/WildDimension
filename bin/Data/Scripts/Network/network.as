@@ -439,4 +439,9 @@ namespace NetworkHandler {
         File file("Data/Map/Map.json", FILE_WRITE);
         scene_.SaveJSON(file);
     }
+
+    void HandlePhysicsPreStep(StringHash eventType, VariantMap& eventData)
+    {
+        Player::HandlePhysicsPreStep(eventType, eventData);
+    }
 }

@@ -10,10 +10,11 @@ namespace Player {
     Node@ playerNode;
     Controls playerControls;
     RigidBody@ playerBody;
-    const float PLAYER_BRAKE_FORCE = 0.015f;
+    const float PLAYER_BRAKE_FORCE = 0.15f;
     SoundSource@ walkSoundSource;
     CollisionShape@ shape;
     String destination;
+    bool onGround;
 
     Node@ CreatePlayer()
     {
@@ -57,10 +58,12 @@ namespace Player {
             log.Debug("Player walk sound created");
         }
 
+        SubscribeToEvent(playerNode, "NodeCollision", "Player::HandleNodeCollision");
+
         return playerNode;
     }
 
-    void HandlePostUpdate(StringHash eventType, VariantMap& eventData)
+    void HandlePhysicsPreStep(StringHash eventType, VariantMap& eventData)
     {
         if (playerNode is null) {
             return;
@@ -115,7 +118,6 @@ namespace Player {
         bool jump = false;
         if (playerControls.IsPressed(CTRL_JUMP, oldControls)) {
             jump = true;
-            GameSounds::Play(GameSounds::JUMP);
         }
 
         Quaternion lookAt = Quaternion(pitch, yaw, 0.0f);
@@ -145,8 +147,9 @@ namespace Player {
         Vector3 brakeForce = -planeVelocity * PLAYER_BRAKE_FORCE;
         playerBody.ApplyImpulse(brakeForce);
 
-        if (jump) {
+        if (jump && onGround) {
             playerBody.ApplyImpulse(Vector3::UP * 5);
+            GameSounds::Play(GameSounds::JUMP);
         }
 
         if (playerNode.position.y < NetworkHandler::terrain.GetHeight(playerNode.position)) {
@@ -154,6 +157,8 @@ namespace Player {
             playerPosition.y = NetworkHandler::terrain.GetHeight(playerPosition);
             playerNode.position = playerPosition;
         }
+
+        onGround = false;
     }
 
     void HandleKeyDown(StringHash eventType, VariantMap& eventData)
@@ -167,6 +172,27 @@ namespace Player {
     {
         int key = eventData["Key"].GetInt();
         if (key == KEY_F1) {
+        }
+    }
+
+    void HandleNodeCollision(StringHash eventType, VariantMap& eventData)
+    {
+        VectorBuffer contacts = eventData["Contacts"].GetBuffer();
+
+        while (!contacts.eof)
+        {
+            Vector3 contactPosition = contacts.ReadVector3();
+            Vector3 contactNormal = contacts.ReadVector3();
+            float contactDistance = contacts.ReadFloat();
+            float contactImpulse = contacts.ReadFloat();
+
+            // If contact is below node center and pointing up, assume it's a ground contact
+            if (contactPosition.y < (playerNode.position.y + 1.0f))
+            {
+                float level = contactNormal.y;
+                if (level > 0.75)
+                    onGround = true;
+            }
         }
     }
 }

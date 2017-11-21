@@ -163,6 +163,7 @@ void HandleNewGame(StringHash eventType, VariantMap& eventData)
 
     SubscribeToEvent("PostUpdate", "HandlePostUpdate");
     SubscribeToEvent("Update", "HandleUpdate");
+    SubscribeToEvent("PhysicsPreStep", "HandlePhysicsPreStep");
 
     FinishGUI::Subscribe();
     FinishGUI::RegisterConsoleCommands();
@@ -287,7 +288,6 @@ void HandleUpdate(StringHash eventType, VariantMap& eventData)
         pitch = Clamp(pitch, -90.0f, 90.0f);
     }
 
-    Player::HandlePostUpdate(eventType, eventData);
     GUIHandler::HandleUpdate(eventType, eventData);
     // Take the frame time step, which is stored as a float
     float timeStep = eventData["TimeStep"].GetFloat();
@@ -563,4 +563,9 @@ void HandlePostRenderUpdate(StringHash eventType, VariantMap& eventData)
     if (drawDebug) {
         scene_.physicsWorld.DrawDebugGeometry(true);
     }
+}
+
+void HandlePhysicsPreStep(StringHash eventType, VariantMap& eventData)
+{
+    NetworkHandler::HandlePhysicsPreStep(eventType, eventData);
 }
