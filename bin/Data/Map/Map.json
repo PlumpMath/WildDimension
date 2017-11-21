@@ -8,8 +8,8 @@
 		"Elapsed Time": 2.3009321689605715,
 		"Next Replicated Node ID": 1894,
 		"Next Replicated Component ID": 5516,
-		"Next Local Node ID": 16778368,
-		"Next Local Component ID": 16778445,
+		"Next Local Node ID": 16778596,
+		"Next Local Component ID": 16778687,
 		"Variables": {},
 		"Variable Names": ""
 	},
@@ -78,9 +78,9 @@
 						"Is Enabled": true,
 						"Name": "Village",
 						"Tags": [],
-						"Position": "150.506 37.3131 -305.187",
+						"Position": "163.465 40.7296 -286.061",
 						"Rotation": "0.677261 0 -0.735743 0",
-						"Scale": "0.2 0.2 0.2",
+						"Scale": "0.3 0.3 0.3",
 						"Variables": {
 							"9D497A0B": {
 								"type": "Int",
@@ -102,7 +102,7 @@
 								"Is Enabled": true,
 								"Name": "",
 								"Tags": [],
-								"Position": "-25.2566 -2.66706 22.8076",
+								"Position": "-25.2566 -3.41954 22.8076",
 								"Rotation": "0.85951 -0.0161654 -0.510137 0.0272364",
 								"Scale": "0.923079 0.923077 0.923079",
 								"Variables": {}
@@ -129,7 +129,7 @@
 									"id": 16777959,
 									"attributes": {
 										"Physics Rotation": "-0.206784 0.0309872 0.977874 -0.00655262",
-										"Physics Position": "731.889 183.898 -1552.99"
+										"Physics Position": "786.361 198.519 -1470.89"
 									}
 								}
 							],
@@ -141,7 +141,7 @@
 								"Is Enabled": true,
 								"Name": "",
 								"Tags": [],
-								"Position": "-17.3982 -0.51973 18.8674",
+								"Position": "-17.3982 -3.49828 18.8674",
 								"Rotation": "0.588703 -0 -0.80835 0",
 								"Scale": "0.769232 0.769231 0.769232",
 								"Variables": {}
@@ -168,7 +168,7 @@
 									"id": 16777956,
 									"attributes": {
 										"Physics Rotation": "0.196032 0 0.980598 0",
-										"Physics Position": "735.166 186.046 -1544.83"
+										"Physics Position": "791.277 198.4 -1458.65"
 									}
 								}
 							],
@@ -180,7 +180,7 @@
 								"Is Enabled": true,
 								"Name": "",
 								"Tags": [],
-								"Position": "-8.54932 -0.105133 23.8762",
+								"Position": "-8.54938 -3.50136 23.8762",
 								"Rotation": "-0.272951 0 0.962028 0",
 								"Scale": "0.76923 0.769231 0.76923",
 								"Variables": {}
@@ -207,7 +207,7 @@
 									"id": 16777953,
 									"attributes": {
 										"Physics Rotation": "0.522945 0 0.852366 0",
-										"Physics Position": "729.443 186.46 -1536.43"
+										"Physics Position": "782.692 198.396 -1446.05"
 									}
 								}
 							],
@@ -219,7 +219,7 @@
 								"Is Enabled": true,
 								"Name": "",
 								"Tags": [],
-								"Position": "-4.61401 -0.826233 32.9826",
+								"Position": "-4.61401 -3.5027 32.9826",
 								"Rotation": "0.252914 0 0.967489 0",
 								"Scale": "0.846154 0.846154 0.846154",
 								"Variables": {}
@@ -246,7 +246,7 @@
 									"id": 16777951,
 									"attributes": {
 										"Physics Rotation": "0.883112 0 0.469163 0",
-										"Physics Position": "720.043 185.739 -1533.26"
+										"Physics Position": "768.592 198.394 -1441.29"
 									}
 								}
 							],
@@ -258,8 +258,8 @@
 								"Is Enabled": true,
 								"Name": "",
 								"Tags": [],
-								"Position": "-24.5358 -2.89786 37.4676",
-								"Rotation": "0.943286 0.0144799 0.324822 0.0670337",
+								"Position": "-26.8522 -3.48857 39.4584",
+								"Rotation": "0.944465 6.94342e-10 0.328611 -2.41585e-10",
 								"Scale": "1.15385 1.15385 1.15385",
 								"Variables": {}
 							},
@@ -284,8 +284,8 @@
 									"type": "RigidBody",
 									"id": 16777949,
 									"attributes": {
-										"Physics Rotation": "0.877836 -0.0395128 -0.474026 0.0560528",
-										"Physics Position": "717.219 183.668 -1553.48"
+										"Physics Rotation": "0.881423 6.47995e-10 -0.472328 3.47241e-10",
+										"Physics Position": "761.668 198.415 -1475.34"
 									}
 								}
 							],
@@ -297,7 +297,7 @@
 								"Is Enabled": true,
 								"Name": "",
 								"Tags": [],
-								"Position": "-18.4668 -2.29829 43.1545",
+								"Position": "-18.4668 -3.66005 43.1545",
 								"Rotation": "0.677261 -0 0.735743 0",
 								"Scale": "0.769231 0.769231 0.769231",
 								"Variables": {}
@@ -324,7 +324,7 @@
 									"id": 16777947,
 									"attributes": {
 										"Physics Rotation": "1 0 -5.96046e-08 0",
-										"Physics Position": "711.05 184.267 -1547.91"
+										"Physics Position": "755.103 198.158 -1463.26"
 									}
 								}
 							],
@@ -336,7 +336,7 @@
 								"Is Enabled": true,
 								"Name": "",
 								"Tags": [],
-								"Position": "-10.2827 -1.30572 40.4951",
+								"Position": "-10.2827 -3.57661 40.4951",
 								"Rotation": "0.567125 -0 0.823631 0",
 								"Scale": "0.769231 0.769231 0.769231",
 								"Variables": {}
@@ -363,7 +363,7 @@
 									"id": 16777945,
 									"attributes": {
 										"Physics Rotation": "0.990073 0 0.140556 0",
-										"Physics Position": "713.024 185.26 -1539.53"
+										"Physics Position": "758.064 198.283 -1450.7"
 									}
 								}
 							],
@@ -375,7 +375,7 @@
 								"Is Enabled": true,
 								"Name": "",
 								"Tags": [],
-								"Position": "-8.07764 0.594681 49.0601",
+								"Position": "-10.4355 -2.20047 49.2556",
 								"Rotation": "0.860119 0 -0.510093 0",
 								"Scale": "2.30769 3.07692 2.30769",
 								"Variables": {}
@@ -402,7 +402,7 @@
 									"id": 16777943,
 									"attributes": {
 										"Physics Rotation": "-0.207229 0 0.978292 0",
-										"Physics Position": "704.307 187.16 -1538.04"
+										"Physics Position": "744.987 200.347 -1452.01"
 									}
 								}
 							],
@@ -414,7 +414,7 @@
 								"Is Enabled": true,
 								"Name": "",
 								"Tags": [],
-								"Position": "-29.8572 -3.9437 30.9817",
+								"Position": "-29.8572 -3.6078 30.9817",
 								"Rotation": "1 0 -4.47035e-08 0",
 								"Scale": "1 1 1",
 								"Variables": {}
@@ -441,7 +441,7 @@
 									"id": 16777941,
 									"attributes": {
 										"Physics Rotation": "0.677261 0 -0.735743 0",
-										"Physics Position": "724.123 182.622 -1558.25"
+										"Physics Position": "774.712 198.236 -1478.78"
 									}
 								}
 							],
@@ -474,7 +474,7 @@
 									"id": 16777968,
 									"attributes": {
 										"Physics Rotation": "0.677261 0 -0.735743 0",
-										"Physics Position": "726.399 186.565 -1547.07",
+										"Physics Position": "778.125 203.648 -1462.02",
 										"Is Trigger": true
 									}
 								}
@@ -737,7 +737,7 @@
 							"type": "RigidBody",
 							"id": 16777929,
 							"attributes": {
-								"Physics Rotation": "0.87536 0.0981146 -0.470259 -0.0545341",
+								"Physics Rotation": "0.87536 0.0981147 -0.470259 -0.0545341",
 								"Physics Position": "1463.05 152.847 -878.663"
 							}
 						}
@@ -795,6 +795,79 @@
 				}
 			],
 			"children": []
+		},
+		{
+			"id": 16778594,
+			"attributes": {
+				"Is Enabled": true,
+				"Name": "Castle",
+				"Tags": [],
+				"Position": "-427.349 536.829 502.527",
+				"Rotation": "1 0 0 0",
+				"Scale": "5 5 5",
+				"Variables": {}
+			},
+			"components": [
+				{
+					"type": "StaticModel",
+					"id": 16778682,
+					"attributes": {
+						"Model": "Model;Models/castle.mdl",
+						"Material": "Material;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Wood.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Wood.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Roof.xml;Materials/Stone.xml;Materials/Roof.xml;Materials/Roof.xml;Materials/Roof.xml;Materials/Roof.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Stone.xml;Materials/Metal.xml;Materials/Wood.xml;Materials/Wood.xml;Materials/Wood.xml;Materials/Wood.xml;Materials/Stone.xml;Materials/Roof.xml;Materials/Stone.xml"
+					}
+				},
+				{
+					"type": "CollisionShape",
+					"id": 16778683,
+					"attributes": {
+						"Shape Type": "TriangleMesh",
+						"Model": "Model;Models/castle.mdl"
+					}
+				},
+				{
+					"type": "RigidBody",
+					"id": 16778684,
+					"attributes": {
+						"Physics Rotation": "1 0 0 0",
+						"Physics Position": "-427.349 536.829 502.527"
+					}
+				}
+			],
+			"children": [
+				{
+					"id": 16778595,
+					"attributes": {
+						"Is Enabled": true,
+						"Name": "Castle",
+						"Tags": [
+							"Visit"
+						],
+						"Position": "0 0 0",
+						"Rotation": "1 0 0 0",
+						"Scale": "20 20 20",
+						"Variables": {}
+					},
+					"components": [
+						{
+							"type": "CollisionShape",
+							"id": 16778685,
+							"attributes": {
+								"Shape Type": "Sphere"
+							}
+						},
+						{
+							"type": "RigidBody",
+							"id": 16778686,
+							"attributes": {
+								"Physics Rotation": "1 0 0 0",
+								"Physics Position": "-427.349 536.829 502.527",
+								"Is Trigger": true
+							}
+						}
+					],
+					"children": []
+				}
+			]
 		}
 	]
 }
