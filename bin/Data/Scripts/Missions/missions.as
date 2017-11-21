@@ -157,21 +157,43 @@ namespace Missions {
         AddMission(item);
 
         NextMission();
+
+        Subscribe();
+        RegisterConsoleCommands();
     }
 
     void Subscribe()
     {
         SubscribeToEvent("MissionCompleted", "Missions::HandleMission");
+        SubscribeToEvent("CompleteCurrentMission", "Missions::HandleCompleteCurrentMission");
     }
 
     void RegisterConsoleCommands()
     {
-        /*
         VariantMap data;
-        data["CONSOLE_COMMAND_NAME"] = "get_axe";
-        data["CONSOLE_COMMAND_EVENT"] = "GetAxe";
+        data["CONSOLE_COMMAND_NAME"] = "mission_complete";
+        data["CONSOLE_COMMAND_EVENT"] = "CompleteCurrentMission";
         SendEvent("ConsoleCommandAdd", data);
-        */
+    }
+
+    void HandleCompleteCurrentMission(StringHash eventType, VariantMap& eventData)
+    {
+        log.Info("Mission " + activeMission);
+        for (uint i = 0; i < missionList.length; i++) {
+            MissionItem@ item = missionList[i];
+            if (activeMission == item.eventName) {
+                missionList[i].current = missionList[i].target;
+                missionList[i].completed = true;
+                VariantMap data;
+                data["Message"] = "Mission [" + item.name +"] completed!";
+                SendEvent("UpdateEventLogGUI", data);
+                SendEvent("UpdateMissionsGUI");
+
+                GameSounds::Play(GameSounds::MISSION_COMPLETE);
+                NextMission();
+                return;
+            }
+        }
     }
 
     void HandleMission(StringHash eventType, VariantMap& eventData)

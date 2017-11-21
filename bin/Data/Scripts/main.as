@@ -187,7 +187,6 @@ void HandleNewGame(StringHash eventType, VariantMap& eventData)
     GUIHandler::RegisterConsoleCommands();
 
     Missions::Init();
-    Missions::Subscribe();
 }
 
 void HandleToggleDebugDraw(StringHash eventType, VariantMap& eventData)
