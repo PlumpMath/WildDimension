@@ -20,8 +20,8 @@ namespace Player {
     Node@ CreatePlayer()
     {
         Vector3 position = scene_.GetChild("Airplane", true).position;
-        position.x += 10.0f;
-        position.z += 10.0f;
+        position.x += 5.0f;
+        position.z += 5.0f;
         playerNode = scene_.CreateChild("PlayerNode");
         playerNode.position = position;
         playerNode.temporary = true;
