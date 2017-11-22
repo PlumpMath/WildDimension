@@ -5,6 +5,7 @@ namespace ActiveTool {
     const uint TOOL_TRAP = 2;
     const uint TOOL_BRANCH = 3;
     const uint TOOL_FLAG = 4;
+    const uint TOOL_TENT = 5;
     Node@ node;
     Node@ toolNode;
     bool use = false;
@@ -38,6 +39,7 @@ namespace ActiveTool {
         Axe::Create();
         Trap::Create();
         Flag::Create();
+        Tent::Create();
     }
 
     void AddTool(Node@ node, uint type)
@@ -93,6 +95,25 @@ namespace ActiveTool {
         RemoveActiveTool();
         SendEvent("NextTool");
         SendEvent("GameFinished");
+    }
+
+    void CreateTent(Vector3 position)
+    {
+        node = scene_.CreateChild("Tent");
+        node.AddTag("Tent");
+        position.y = NetworkHandler::terrain.GetHeight(position);
+        node.position = position;
+
+        StaticModel@ object = node.CreateComponent("StaticModel");
+        object.model = cache.GetResource("Model", "Models/Pyramid.mdl");
+
+        node.SetScale(1.0f);
+        object.castShadows = true;
+        object.materials[0] = cache.GetResource("Material", "Materials/Wood.xml");
+
+        Inventory::RemoveItem("Tent");
+        RemoveActiveTool();
+        SendEvent("NextTool");
     }
 
     void AxeHit(Vector3 position)
@@ -174,6 +195,10 @@ namespace ActiveTool {
 
             if (activeTool.type == TOOL_FLAG) {
                 CreateFlag(hitPos);
+                return;
+            }
+            if (activeTool.type == TOOL_TENT) {
+                CreateTent(hitPos);
                 return;
             }
             float hitPower = 20;

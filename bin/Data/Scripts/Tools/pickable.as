@@ -22,6 +22,17 @@ class PickableObject : ScriptObject
                 SendEvent("UnlockAchievement", data);
                 data["Name"] = "GetWood";
                 SendEvent("UnlockAchievement", data);
+            } else if (node.name == "Backpack") {
+                VariantMap data;
+                data["Name"] = "Passport";
+                SendEvent("InventoryAdd", data);
+                data["Name"] = "Tent";
+                SendEvent("InventoryAdd", data);
+
+                data["Name"] = "GetPassport";
+                SendEvent("UnlockAchievement", data);
+                data["Name"] = "GetTent";
+                SendEvent("UnlockAchievement", data);
             } else {
                 VariantMap data;
                 data["Name"] = node.name;
@@ -126,6 +137,18 @@ namespace Pickable {
             data["Name"] = "GetAxe";
             SendEvent("UnlockAchievement", data);
             data["Name"] = "GetWood";
+            SendEvent("UnlockAchievement", data);
+            return;
+        } else if (name == "Backpack") {
+            VariantMap data;
+            data["Name"] = "Passport";
+            SendEvent("InventoryAdd", data);
+            data["Name"] = "Tent";
+            SendEvent("InventoryAdd", data);
+
+            data["Name"] = "GetPassport";
+            SendEvent("UnlockAchievement", data);
+            data["Name"] = "GetTent";
             SendEvent("UnlockAchievement", data);
             return;
         }

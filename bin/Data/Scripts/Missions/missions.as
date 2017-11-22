@@ -2,12 +2,12 @@ namespace Missions {
 
     const uint TYPE_PICKUP = 0;
     const uint TYPE_REACH_POINT = 1;
-    const uint TYPE_USE_ITEM = 2;
+    const uint TYPE_LEAVE_POINT = 2;
+    const uint TYPE_USE_ITEM = 3;
 
     class MissionItem {
         String name;
         String description;
-        String shortDescription;
         String eventName;
         String itemName;
         String placeName;
@@ -36,6 +36,10 @@ namespace Missions {
             }
         } else if (item.type == TYPE_REACH_POINT) {
             if (item.placeName == Player::destination) {
+                return true;
+            }
+        } else if (item.type == TYPE_LEAVE_POINT) {
+            if (item.placeName != Player::destination) {
                 return true;
             }
         } else if (item.type == TYPE_USE_ITEM) {
@@ -87,9 +91,8 @@ namespace Missions {
     {
         MissionItem item;
 
-        item.name = "Find airplane";
-        item.description = "I need to find my\nairplane!";
-        item.shortDescription = "Find airplane";
+        item.name = "First";
+        item.description = "Hmm... how did get\nhere? I should find\nmy plane...";
         item.eventName = "VisitAirplane";
         item.itemName = "";
         item.placeName = "Airplane";
@@ -99,9 +102,30 @@ namespace Missions {
         item.type = TYPE_REACH_POINT;
         AddMission(item);
 
-        item.name = "Survivalist";
-        item.description = "I need to find\nsome tools!";
-        item.shortDescription = "Get axe";
+        item.name = "Second";
+        item.description = "I should find\nmy stuff!";
+        item.eventName = "GetPassport";
+        item.itemName = "Passport";
+        item.placeName = "";
+        item.current = 0;
+        item.target = 1;
+        item.completed = false;
+        item.type = TYPE_PICKUP;
+        AddMission(item);
+
+        item.name = "Third";
+        item.description = "I should find someone...\nThere's a smoke, maybe\nit's worth checking out.";
+        item.eventName = "VisitCampfire";
+        item.itemName = "";
+        item.placeName = "Campfire";
+        item.current = 0;
+        item.target = 0;
+        item.completed = false;
+        item.type = TYPE_REACH_POINT;
+        AddMission(item);
+
+        item.name = "Fourth";
+        item.description = "Sh*t!!! There's nobody\nhere, maybe i can find\nsome tools?!";
         item.eventName = "GetAxe";
         item.itemName = "Axe";
         item.current = 0;
@@ -110,44 +134,30 @@ namespace Missions {
         item.type = TYPE_PICKUP;
         AddMission(item);
 
-        item.name = "Use Axe";
-        item.description = "Let's try the axe!";
-        item.shortDescription = "Use axe";
-        item.eventName = "UseAxe";
+        item.name = "Fifth";
+        item.description = "What is this place?\nI should look around";
+        item.eventName = "VisitStonehenge";
         item.itemName = "";
-        item.placeName = "";
-        item.current = 0;
-        item.target = 1;
-        item.completed = false;
-        item.type = TYPE_USE_ITEM;
-        AddMission(item);
-
-        item.name = "Find pyramid";
-        item.description = "I need to explore\npyramids!";
-        item.shortDescription = "Find pyramid";
-        item.eventName = "VisitPyramid";
-        item.itemName = "";
-        item.placeName = "Pyramid";
+        item.placeName = "Stonehenge";
         item.current = 0;
         item.target = 0;
         item.completed = false;
         item.type = TYPE_REACH_POINT;
         AddMission(item);
 
-        item.name = "Woodchopper";
-        item.description = "Wood is always\n useful, I should\n gather some!";
-        item.shortDescription = "Gather 5 branches";
-        item.eventName = "GetWood";
-        item.itemName = "Wood";
+        item.name = "Sixt";
+        item.description = "Good that I have an axe...\nI should get away from here!";
+        item.eventName = "LeaveStonehenge";
+        item.itemName = "";
+        item.placeName = "Stonehenge";
         item.current = 0;
-        item.target = 5;
+        item.target = 0;
         item.completed = false;
-        item.type = TYPE_PICKUP;
+        item.type = TYPE_LEAVE_POINT;
         AddMission(item);
 
-        item.name = "Defense";
-        item.description = "I need to create\n a trap";
-        item.shortDescription = "Get trap";
+        item.name = "Seventh";
+        item.description = "I should figure out\nhow to capture them...\nIt's not safe out here";
         item.eventName = "GetTrap";
         item.itemName = "Trap";
         item.current = 0;
@@ -155,6 +165,37 @@ namespace Missions {
         item.completed = false;
         item.type = TYPE_PICKUP;
         AddMission(item);
+
+        item.name = "Eight";
+        item.description = "I need to find\na place, where I\ncan build a tent.";
+        item.eventName = "UseTent";
+        item.itemName = "Tent";
+        item.current = 0;
+        item.target = 1;
+        item.completed = false;
+        item.type = TYPE_USE_ITEM;
+        AddMission(item);
+
+        item.name = "Nine";
+        item.description = "I should make small\ncampfire that can\nceep me warm";
+        item.eventName = "GetCampfire";
+        item.itemName = "Campfire";
+        item.current = 0;
+        item.target = 1;
+        item.completed = false;
+        item.type = TYPE_PICKUP;
+        AddMission(item);
+
+        item.name = "Ten";
+        item.description = "Now i should\nlight it up";
+        item.eventName = "UseLighter";
+        item.itemName = "Lighter";
+        item.current = 0;
+        item.target = 3;
+        item.completed = false;
+        item.type = TYPE_USE_ITEM;
+        AddMission(item);
+
 
         NextMission();
 

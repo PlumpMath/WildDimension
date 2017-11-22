@@ -28,6 +28,7 @@
 #include "Tools/inventory.as"
 #include "Tools/flag.as"
 #include "Tools/crafting.as"
+#include "Tools/tent.as"
 
 #include "Sounds/sounds.as"
 #include "Camp/camp.as"

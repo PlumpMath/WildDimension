@@ -335,7 +335,7 @@ namespace GUIHandler {
                 } else {
                     notesLines[i].color = Color(0.9f, 0.1f, 0.1f);
                 }
-                notesLines[i].text = Missions::missionList[i].shortDescription;
+                notesLines[i].text = Missions::missionList[i].name;
             }
         }
     }

@@ -3,10 +3,11 @@ class Visitor : ScriptObject
     void Start()
     {
         // Subscribe physics collisions that concern this scene node
-        SubscribeToEvent(node, "NodeCollisionStart", "HandleNodeCollision");
+        SubscribeToEvent(node, "NodeCollisionStart", "HandleNodeCollisionStart");
+        SubscribeToEvent(node, "NodeCollisionEnd", "HandleNodeCollisionEnd");
     }
 
-    void HandleNodeCollision(StringHash eventType, VariantMap& eventData)
+    void HandleNodeCollisionStart(StringHash eventType, VariantMap& eventData)
     {
         Node@ otherNode = eventData["OtherNode"].GetPtr();
         if (otherNode.HasTag("Player")) {
@@ -17,6 +18,21 @@ class Visitor : ScriptObject
             SendEvent("UnlockAchievement", data);
 
             data["Message"] = "Player [" + otherNode.id + "] reached place " + node.name;
+            SendEvent("UpdateEventLogGUI", data);
+        }
+    }
+
+    void HandleNodeCollisionEnd(StringHash eventType, VariantMap& eventData)
+    {
+        Node@ otherNode = eventData["OtherNode"].GetPtr();
+        if (otherNode.HasTag("Player")) {
+            Player::destination = "";
+            log.Info("Player [" + otherNode.id + "] leaved place " + node.name);
+            VariantMap data;
+            data["Name"] = "Leave" + node.name;
+            SendEvent("UnlockAchievement", data);
+
+            data["Message"] = "Player [" + otherNode.id + "] leaved place " + node.name;
             SendEvent("UpdateEventLogGUI", data);
         }
     }

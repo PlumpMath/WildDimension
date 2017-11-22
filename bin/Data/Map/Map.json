@@ -5,11 +5,11 @@
 		"Time Scale": 1.0,
 		"Smoothing Constant": 50.0,
 		"Snap Threshold": 5.0,
-		"Elapsed Time": 2.3009321689605715,
-		"Next Replicated Node ID": 1894,
+		"Elapsed Time": 196.23294067382813,
+		"Next Replicated Node ID": 1895,
 		"Next Replicated Component ID": 5516,
-		"Next Local Node ID": 16779048,
-		"Next Local Component ID": 16779161,
+		"Next Local Node ID": 16779504,
+		"Next Local Component ID": 16779641,
 		"Variables": {},
 		"Variable Names": ""
 	},
@@ -642,7 +642,7 @@
 					"id": 16777896,
 					"attributes": {
 						"Is Enabled": true,
-						"Name": "Stonehedge",
+						"Name": "Stonehenge",
 						"Tags": [],
 						"Position": "266.513 27.6105 -24.228",
 						"Rotation": "1 0 0 0",
@@ -680,13 +680,13 @@
 							"id": 16777913,
 							"attributes": {
 								"Is Enabled": true,
-								"Name": "Stonehedge",
+								"Name": "Stonehenge",
 								"Tags": [
 									"Visit"
 								],
 								"Position": "0 0 0",
 								"Rotation": "1 0 0 0",
-								"Scale": "1 1 1",
+								"Scale": "0.3 0.3 0.3",
 								"Variables": {}
 							},
 							"components": [
@@ -816,6 +816,6117 @@
 									"attributes": {
 										"Physics Position": "-427.349 536.829 502.527",
 										"Is Trigger": true
+									}
+								}
+							],
+							"children": []
+						}
+					]
+				},
+				{
+					"id": 16779274,
+					"attributes": {
+						"Is Enabled": true,
+						"Name": "Campfire",
+						"Tags": [],
+						"Position": "188.786 33.1309 -0.28805",
+						"Rotation": "-0.214832 0.0435055 0.975606 -0.0121535",
+						"Scale": "0.2 0.2 0.2",
+						"Variables": {}
+					},
+					"components": [
+						{
+							"type": "StaticModel",
+							"id": 16779398,
+							"attributes": {
+								"Model": "Model;Models/Models/Small_campfire.mdl",
+								"Material": "Material;;;;;;;;;"
+							}
+						},
+						{
+							"type": "CollisionShape",
+							"id": 16779399,
+							"attributes": {
+								"Shape Type": "TriangleMesh",
+								"Model": "Model;Models/Models/Small_campfire.mdl"
+							}
+						},
+						{
+							"type": "RigidBody",
+							"id": 16779400,
+							"attributes": {
+								"Physics Rotation": "-0.214832 0.0435055 0.975606 -0.0121535",
+								"Physics Position": "943.93 165.655 -1.44025"
+							}
+						}
+					],
+					"children": [
+						{
+							"id": 16779276,
+							"attributes": {
+								"Is Enabled": true,
+								"Name": "Campfire",
+								"Tags": [
+									"Visit"
+								],
+								"Position": "0 0 0",
+								"Rotation": "1 0 0 0",
+								"Scale": "50 50 50",
+								"Variables": {}
+							},
+							"components": [
+								{
+									"type": "CollisionShape",
+									"id": 16779401,
+									"attributes": {
+										"Shape Type": "Sphere"
+									}
+								},
+								{
+									"type": "RigidBody",
+									"id": 16779402,
+									"attributes": {
+										"Physics Rotation": "-0.214832 0.0435055 0.975606 -0.0121535",
+										"Physics Position": "943.93 165.655 -1.44025",
+										"Is Trigger": true
+									}
+								}
+							],
+							"children": []
+						},
+						{
+							"id": 16779503,
+							"attributes": {
+								"Is Enabled": true,
+								"Name": "",
+								"Tags": [],
+								"Position": "0 0 0.00012207",
+								"Rotation": "1 0 0 0",
+								"Scale": "5 5 5",
+								"Variables": {}
+							},
+							"components": [
+								{
+									"type": "ParticleEmitter",
+									"id": 16779640,
+									"attributes": {
+										"Effect": "ParticleEffect;Particle/Campfire.xml",
+										"Animation LOD Bias": 0.0,
+										"Period Timer": 193.9317626953125,
+										"Emission Timer": -0.11384450644254685,
+										"View Mask": 1,
+										"Particles": [
+											{
+												"type": "Int",
+												"value": 100
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.733388 1.12061 -0.943062"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.228379 0.228379"
+											},
+											{
+												"type": "Float",
+												"value": 17.47931671142578
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 32.021427154541019
+											},
+											{
+												"type": "Float",
+												"value": -44.988555908203128
+											},
+											{
+												"type": "Int",
+												"value": 1
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.687653 1.09037 -0.928961"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.257665 0.257665"
+											},
+											{
+												"type": "Float",
+												"value": 16.979318618774415
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 29.002805709838868
+											},
+											{
+												"type": "Float",
+												"value": -37.40409851074219
+											},
+											{
+												"type": "Int",
+												"value": 1
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.672552 1.15155 -0.866885"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.220347 0.220347"
+											},
+											{
+												"type": "Float",
+												"value": 16.179309844970704
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 24.753629684448243
+											},
+											{
+												"type": "Float",
+												"value": -1.6681404113769532
+											},
+											{
+												"type": "Int",
+												"value": 1
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.591334 1.16668 -0.831927"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.261293 0.261293"
+											},
+											{
+												"type": "Float",
+												"value": 15.77931022644043
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 22.86851692199707
+											},
+											{
+												"type": "Float",
+												"value": 5.59404182434082
+											},
+											{
+												"type": "Int",
+												"value": 1
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.602789 1.27519 -0.806108"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.238667 0.238667"
+											},
+											{
+												"type": "Float",
+												"value": 15.079305648803711
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 19.908430099487306
+											},
+											{
+												"type": "Float",
+												"value": -45.62578582763672
+											},
+											{
+												"type": "Int",
+												"value": 1
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.598959 1.29135 -0.772877"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.273043 0.273043"
+											},
+											{
+												"type": "Float",
+												"value": 14.67930793762207
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 18.392330169677736
+											},
+											{
+												"type": "Float",
+												"value": -52.45216369628906
+											},
+											{
+												"type": "Int",
+												"value": 1
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.535573 1.16382 -0.68248"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.259014 0.259014"
+											},
+											{
+												"type": "Float",
+												"value": 14.279306411743164
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 16.99164390563965
+											},
+											{
+												"type": "Float",
+												"value": -18.61690330505371
+											},
+											{
+												"type": "Int",
+												"value": 1
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.534913 1.13476 -0.756208"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.296878 0.296878"
+											},
+											{
+												"type": "Float",
+												"value": 13.779304504394532
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 15.38985824584961
+											},
+											{
+												"type": "Float",
+												"value": -23.103120803833009
+											},
+											{
+												"type": "Int",
+												"value": 1
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.47258 1.11783 -0.709749"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.246919 0.246919"
+											},
+											{
+												"type": "Float",
+												"value": 13.379302978515625
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 14.21785831451416
+											},
+											{
+												"type": "Float",
+												"value": 17.47795295715332
+											},
+											{
+												"type": "Int",
+												"value": 1
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.526099 1.0113 -0.611203"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.284307 0.284307"
+											},
+											{
+												"type": "Float",
+												"value": 12.879301071166993
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 12.877545356750489
+											},
+											{
+												"type": "Float",
+												"value": -48.54457092285156
+											},
+											{
+												"type": "Int",
+												"value": 1
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.421478 1.19161 -0.689908"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.238508 0.238508"
+											},
+											{
+												"type": "Float",
+												"value": 12.479299545288086
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 11.896869659423829
+											},
+											{
+												"type": "Float",
+												"value": 28.098390579223634
+											},
+											{
+												"type": "Int",
+												"value": 1
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.430239 0.995339 -0.600565"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.26419 0.26419"
+											},
+											{
+												"type": "Float",
+												"value": 12.07929801940918
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 10.99086856842041
+											},
+											{
+												"type": "Float",
+												"value": -46.84530258178711
+											},
+											{
+												"type": "Int",
+												"value": 1
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.43144 1.24564 -0.573831"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.240422 0.240422"
+											},
+											{
+												"type": "Float",
+												"value": 11.579296112060547
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 9.954768180847168
+											},
+											{
+												"type": "Float",
+												"value": 50.30976867675781
+											},
+											{
+												"type": "Int",
+												"value": 1
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.376995 1.1175 -0.569109"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.201309 0.201309"
+											},
+											{
+												"type": "Float",
+												"value": 10.779293060302735
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 8.496304512023926
+											},
+											{
+												"type": "Float",
+												"value": 4.817655563354492
+											},
+											{
+												"type": "Int",
+												"value": 1
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.401099 1.07198 -0.561193"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.242961 0.242961"
+											},
+											{
+												"type": "Float",
+												"value": 10.379291534423829
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 7.849269390106201
+											},
+											{
+												"type": "Float",
+												"value": -40.949127197265628
+											},
+											{
+												"type": "Int",
+												"value": 1
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.324358 1.09273 -0.496107"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.295813 0.295813"
+											},
+											{
+												"type": "Float",
+												"value": 9.879289627075196
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 7.109321594238281
+											},
+											{
+												"type": "Float",
+												"value": 3.008514404296875
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.377844 1.03076 -0.513242"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.221494 0.221494"
+											},
+											{
+												"type": "Float",
+												"value": 9.379289627075196
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 6.439133644104004
+											},
+											{
+												"type": "Float",
+												"value": 34.02386474609375
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.298001 1.23576 -0.447248"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.221027 0.221027"
+											},
+											{
+												"type": "Float",
+												"value": 8.979291915893555
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 5.948768615722656
+											},
+											{
+												"type": "Float",
+												"value": -51.020233154296878
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.259228 1.12847 -0.410233"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.244737 0.244737"
+											},
+											{
+												"type": "Float",
+												"value": 8.479288101196289
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 5.3879804611206059
+											},
+											{
+												"type": "Float",
+												"value": -38.23542022705078
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.240353 1.26162 -0.351741"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.205533 0.205533"
+											},
+											{
+												"type": "Float",
+												"value": 8.0792875289917
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 4.977661609649658
+											},
+											{
+												"type": "Float",
+												"value": -3.429666519165039
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.227818 1.07346 -0.411945"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.242384 0.242384"
+											},
+											{
+												"type": "Float",
+												"value": 7.606419563293457
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 4.529077053070068
+											},
+											{
+												"type": "Float",
+												"value": -16.69423484802246
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.18657 1.22877 -0.307282"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.230833 0.230833"
+											},
+											{
+												"type": "Float",
+												"value": 7.108270645141602
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 4.0999250411987309
+											},
+											{
+												"type": "Float",
+												"value": -58.61933898925781
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.192862 1.0486 -0.347014"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.287503 0.287503"
+											},
+											{
+												"type": "Float",
+												"value": 6.7832112312316898
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 3.842068910598755
+											},
+											{
+												"type": "Float",
+												"value": -1.9098472595214844
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.190381 1.16393 -0.296945"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.265368 0.265368"
+											},
+											{
+												"type": "Float",
+												"value": 6.329245567321777
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 3.511575937271118
+											},
+											{
+												"type": "Float",
+												"value": -52.162845611572269
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.177433 1.03685 -0.301859"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.28677 0.28677"
+											},
+											{
+												"type": "Float",
+												"value": 5.929245948791504
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 3.244155168533325
+											},
+											{
+												"type": "Float",
+												"value": 58.51313781738281
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.136957 1.18181 -0.245249"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.210974 0.210974"
+											},
+											{
+												"type": "Float",
+												"value": 5.529245853424072
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 2.997097969055176
+											},
+											{
+												"type": "Float",
+												"value": -28.819847106933595
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.130581 1.18245 -0.243242"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.283197 0.283197"
+											},
+											{
+												"type": "Float",
+												"value": 5.129244804382324
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 2.768855094909668
+											},
+											{
+												"type": "Float",
+												"value": 39.43296813964844
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.0807862 1.24696 -0.195439"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.261904 0.261904"
+											},
+											{
+												"type": "Float",
+												"value": 4.629245758056641
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 2.5078377723693849
+											},
+											{
+												"type": "Float",
+												"value": 34.52925109863281
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.0575558 1.17067 -0.19365"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.271374 0.271374"
+											},
+											{
+												"type": "Float",
+												"value": 4.129247665405273
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 2.271425485610962
+											},
+											{
+												"type": "Float",
+												"value": 42.725303649902347
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.00100276 1.04779 -0.168305"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.276272 0.276272"
+											},
+											{
+												"type": "Float",
+												"value": 3.729247570037842
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 2.098446846008301
+											},
+											{
+												"type": "Float",
+												"value": 40.894187927246097
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.00314931 1.27846 -0.116327"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.225196 0.225196"
+											},
+											{
+												"type": "Float",
+												"value": 3.3292479515075685
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 1.938640832901001
+											},
+											{
+												"type": "Float",
+												"value": -23.202003479003908
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "0.0227936 1.02971 -0.193509"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.260057 0.260057"
+											},
+											{
+												"type": "Float",
+												"value": 2.8292479515075685
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 1.7558873891830445
+											},
+											{
+												"type": "Float",
+												"value": -39.78820037841797
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "0.0315253 1.21047 -0.16487"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.238112 0.238112"
+											},
+											{
+												"type": "Float",
+												"value": 2.4292473793029787
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 1.6221684217453004
+											},
+											{
+												"type": "Float",
+												"value": -8.864408493041993
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "0.0686848 1.13163 -0.175557"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.263601 0.263601"
+											},
+											{
+												"type": "Float",
+												"value": 2.029247522354126
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 1.4986320734024048
+											},
+											{
+												"type": "Float",
+												"value": 31.390729904174806
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "0.10014 1.22053 -0.0968777"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.275832 0.275832"
+											},
+											{
+												"type": "Float",
+												"value": 1.6292473077774048
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 1.3845049142837525
+											},
+											{
+												"type": "Float",
+												"value": -34.18866729736328
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "0.127681 0.997036 -0.10832"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.290567 0.290567"
+											},
+											{
+												"type": "Float",
+												"value": 1.2087057828903199
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 1.2732062339782715
+											},
+											{
+												"type": "Float",
+												"value": 19.316383361816408
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "0.150578 1.04577 -0.0940358"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.241594 0.241594"
+											},
+											{
+												"type": "Float",
+												"value": 0.7625600695610046
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 1.1646076440811158
+											},
+											{
+												"type": "Float",
+												"value": -23.952756881713868
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "0.118736 1.2391 -0.0352154"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.219428 0.219428"
+											},
+											{
+												"type": "Float",
+												"value": 0.3758945167064667
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 1.0780091285705567
+											},
+											{
+												"type": "Float",
+												"value": 46.911224365234378
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-1.13553 1.25936 -1.28824"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.205222 0.205222"
+											},
+											{
+												"type": "Float",
+												"value": 25.003463745117189
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 141.98143005371095
+											},
+											{
+												"type": "Float",
+												"value": -42.604454040527347
+											},
+											{
+												"type": "Int",
+												"value": 2
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-1.08238 1.27143 -1.23956"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.231352 0.231352"
+											},
+											{
+												"type": "Float",
+												"value": 24.979358673095704
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 141.4012908935547
+											},
+											{
+												"type": "Float",
+												"value": 41.000396728515628
+											},
+											{
+												"type": "Int",
+												"value": 2
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-1.10278 1.00475 -1.25252"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.291192 0.291192"
+											},
+											{
+												"type": "Float",
+												"value": 24.579357147216798
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 130.63290405273438
+											},
+											{
+												"type": "Float",
+												"value": -12.317878723144532
+											},
+											{
+												"type": "Int",
+												"value": 2
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-1.03482 1.00635 -1.22002"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.265484 0.265484"
+											},
+											{
+												"type": "Float",
+												"value": 24.17935562133789
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 120.68461608886719
+											},
+											{
+												"type": "Float",
+												"value": -22.04107666015625
+											},
+											{
+												"type": "Int",
+												"value": 2
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.947172 1.17323 -1.18594"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.249187 0.249187"
+											},
+											{
+												"type": "Float",
+												"value": 23.67934799194336
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 109.3078384399414
+											},
+											{
+												"type": "Float",
+												"value": 10.168153762817383
+											},
+											{
+												"type": "Int",
+												"value": 2
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-1.0608 1.01124 -1.1949"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.276449 0.276449"
+											},
+											{
+												"type": "Float",
+												"value": 23.279340744018556
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 100.98355865478516
+											},
+											{
+												"type": "Float",
+												"value": 20.36744499206543
+											},
+											{
+												"type": "Int",
+												"value": 2
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.988658 1.02044 -1.18629"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.208295 0.208295"
+											},
+											{
+												"type": "Float",
+												"value": 22.77933692932129
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 91.46395874023438
+											},
+											{
+												"type": "Float",
+												"value": -40.707420349121097
+											},
+											{
+												"type": "Int",
+												"value": 2
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.966738 1.01707 -1.14017"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.279904 0.279904"
+											},
+											{
+												"type": "Float",
+												"value": 22.279335021972658
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 82.8416748046875
+											},
+											{
+												"type": "Float",
+												"value": 32.712791442871097
+											},
+											{
+												"type": "Int",
+												"value": 2
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.933904 1.24814 -1.08772"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.254262 0.254262"
+											},
+											{
+												"type": "Float",
+												"value": 21.979333877563478
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 78.0635757446289
+											},
+											{
+												"type": "Float",
+												"value": 51.353492736816409
+											},
+											{
+												"type": "Int",
+												"value": 2
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.922278 1.00832 -1.12883"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.279226 0.279226"
+											},
+											{
+												"type": "Float",
+												"value": 21.57933235168457
+											},
+											{
+												"type": "Float",
+												"value": 24.999998092651368
+											},
+											{
+												"type": "Float",
+												"value": 72.11864471435547
+											},
+											{
+												"type": "Float",
+												"value": 16.71986961364746
+											},
+											{
+												"type": "Int",
+												"value": 2
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.919799 1.24689 -1.06531"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.294708 0.294708"
+											},
+											{
+												"type": "Float",
+												"value": 21.27933120727539
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 67.95905303955078
+											},
+											{
+												"type": "Float",
+												"value": 49.016998291015628
+											},
+											{
+												"type": "Int",
+												"value": 2
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.821204 1.21344 -1.02252"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.286975 0.286975"
+											},
+											{
+												"type": "Float",
+												"value": 20.779329299926759
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 61.55259704589844
+											},
+											{
+												"type": "Float",
+												"value": -16.60634422302246
+											},
+											{
+												"type": "Int",
+												"value": 2
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.815911 1.12467 -1.01116"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.236876 0.236876"
+											},
+											{
+												"type": "Float",
+												"value": 20.37932777404785
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 56.86508560180664
+											},
+											{
+												"type": "Float",
+												"value": -19.136938095092775
+											},
+											{
+												"type": "Int",
+												"value": 2
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.817756 1.19855 -1.0045"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.258895 0.258895"
+											},
+											{
+												"type": "Float",
+												"value": 19.979326248168947
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 52.53455352783203
+											},
+											{
+												"type": "Float",
+												"value": -39.967647552490237
+											},
+											{
+												"type": "Int",
+												"value": 1
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.870545 1.07258 -0.998909"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.27788 0.27788"
+											},
+											{
+												"type": "Float",
+												"value": 19.57932472229004
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 48.53384780883789
+											},
+											{
+												"type": "Float",
+												"value": 35.93920135498047
+											},
+											{
+												"type": "Int",
+												"value": 1
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.770233 1.14353 -0.998063"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.240382 0.240382"
+											},
+											{
+												"type": "Float",
+												"value": 19.179323196411134
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 44.8377571105957
+											},
+											{
+												"type": "Float",
+												"value": 12.277595520019532
+											},
+											{
+												"type": "Int",
+												"value": 1
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.811579 1.02115 -0.917426"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.207404 0.207404"
+											},
+											{
+												"type": "Float",
+												"value": 18.879322052001954
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 42.2515983581543
+											},
+											{
+												"type": "Float",
+												"value": -6.765953063964844
+											},
+											{
+												"type": "Int",
+												"value": 1
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.758448 1.0328 -0.994283"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.225486 0.225486"
+											},
+											{
+												"type": "Float",
+												"value": 18.37932014465332
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 38.26852035522461
+											},
+											{
+												"type": "Float",
+												"value": 41.139564514160159
+											},
+											{
+												"type": "Int",
+												"value": 1
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.750087 1.03501 -0.884171"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.222974 0.222974"
+											},
+											{
+												"type": "Float",
+												"value": 17.979318618774415
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 35.354225158691409
+											},
+											{
+												"type": "Float",
+												"value": -13.731494903564454
+											},
+											{
+												"type": "Int",
+												"value": 1
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.634298 1.12749 -0.81533"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.267354 0.267354"
+											},
+											{
+												"type": "Float",
+												"value": 16.57931137084961
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 26.79412269592285
+											},
+											{
+												"type": "Float",
+												"value": -23.267927169799806
+											},
+											{
+												"type": "Int",
+												"value": 1
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.605735 1.05484 -0.772461"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.248418 0.248418"
+											},
+											{
+												"type": "Float",
+												"value": 15.47930908203125
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 21.549524307250978
+											},
+											{
+												"type": "Float",
+												"value": 27.699209213256837
+											},
+											{
+												"type": "Int",
+												"value": 1
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.408261 1.16515 -0.609565"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.245079 0.245079"
+											},
+											{
+												"type": "Float",
+												"value": 11.179296493530274
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 9.196662902832032
+											},
+											{
+												"type": "Float",
+												"value": -5.304725646972656
+											},
+											{
+												"type": "Int",
+												"value": 1
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-1.08515 1.00744 -1.31674"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.24962 0.24962"
+											},
+											{
+												"type": "Float",
+												"value": 25.000059127807618
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 141.2670440673828
+											},
+											{
+												"type": "Float",
+												"value": 26.32587432861328
+											},
+											{
+												"type": "Int",
+												"value": 2
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-1.09394 1.14375 -1.30723"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.276168 0.276168"
+											},
+											{
+												"type": "Float",
+												"value": 25.000059127807618
+											},
+											{
+												"type": "Float",
+												"value": 25.0
+											},
+											{
+												"type": "Float",
+												"value": 141.2670440673828
+											},
+											{
+												"type": "Float",
+												"value": -53.44462585449219
+											},
+											{
+												"type": "Int",
+												"value": 2
+											},
+											{
+												"type": "Int",
+												"value": 0
+											},
+											{
+												"type": "Vector3",
+												"value": "-2.15027 940.292 170.008"
+											},
+											{
+												"type": "Vector2",
+												"value": "-2.05812 -1.71465e+38"
+											},
+											{
+												"type": "Float",
+												"value": 940.291748046875
+											},
+											{
+												"type": "Float",
+												"value": 170.00753784179688
+											},
+											{
+												"type": "Float",
+												"value": -2.058123826980591
+											},
+											{
+												"type": "Float",
+												"value": 940.2393798828125
+											},
+											{
+												"type": "Int",
+												"value": 1126823192
+											},
+											{
+												"type": "Int",
+												"value": -1073344942
+											},
+											{
+												"type": "Vector3",
+												"value": "-1.71465e+38 940.029 170.201"
+											},
+											{
+												"type": "Vector2",
+												"value": "-1.85954 940.005"
+											},
+											{
+												"type": "Float",
+												"value": 170.09266662597657
+											},
+											{
+												"type": "Float",
+												"value": -1.9670608043670655
+											},
+											{
+												"type": "Float",
+												"value": -1.714652191593956e38
+											},
+											{
+												"type": "Float",
+												"value": 940.0048828125
+											},
+											{
+												"type": "Int",
+												"value": 1126832057
+											},
+											{
+												"type": "Int",
+												"value": -1074018138
+											},
+											{
+												"type": "Vector3",
+												"value": "939.978 170.091 -1.81315"
+											},
+											{
+												"type": "Vector2",
+												"value": "-1.71465e+38 939.978"
+											},
+											{
+												"type": "Float",
+												"value": 170.0913543701172
+											},
+											{
+												"type": "Float",
+												"value": -1.8131471872329713
+											},
+											{
+												"type": "Float",
+												"value": 940.0288696289063
+											},
+											{
+												"type": "Float",
+												"value": 170.20111083984376
+											},
+											{
+												"type": "Int",
+												"value": -1074920086
+											},
+											{
+												"type": "Int",
+												"value": -16711936
+											},
+											{
+												"type": "Vector3",
+												"value": "939.978 170.091 -1.81315"
+											},
+											{
+												"type": "Vector2",
+												"value": "940.071 170.112"
+											},
+											{
+												"type": "Float",
+												"value": -1.786155104637146
+											},
+											{
+												"type": "Float",
+												"value": -1.714652191593956e38
+											},
+											{
+												"type": "Float",
+												"value": 940.0714721679688
+											},
+											{
+												"type": "Float",
+												"value": 170.1121063232422
+											},
+											{
+												"type": "Int",
+												"value": -1075535685
+											},
+											{
+												"type": "Int",
+												"value": 1147863513
+											},
+											{
+												"type": "Vector3",
+												"value": "170.201 -1.85954 -1.71465e+38"
+											},
+											{
+												"type": "Vector2",
+												"value": "940.029 170.201"
+											},
+											{
+												"type": "Float",
+												"value": -1.8595402240753174
+											},
+											{
+												"type": "Float",
+												"value": 939.9779052734375
+											},
+											{
+												"type": "Float",
+												"value": 170.0913543701172
+											},
+											{
+												"type": "Float",
+												"value": -1.8131471872329713
+											},
+											{
+												"type": "Int",
+												"value": -16711936
+											},
+											{
+												"type": "Int",
+												"value": 1147864265
+											},
+											{
+												"type": "Vector3",
+												"value": "170.063 -1.77927 940.071"
+											},
+											{
+												"type": "Vector2",
+												"value": "170.112 -1.78616"
+											},
+											{
+												"type": "Float",
+												"value": -1.714652191593956e38
+											},
+											{
+												"type": "Float",
+												"value": 940.0714721679688
+											},
+											{
+												"type": "Float",
+												"value": 170.1121063232422
+											},
+											{
+												"type": "Float",
+												"value": -1.786155104637146
+											},
+											{
+												"type": "Int",
+												"value": 1147862678
+											},
+											{
+												"type": "Int",
+												"value": 1126831971
+											},
+											{
+												"type": "Vector3",
+												"value": "-1.81315 -1.71465e+38 939.978"
+											},
+											{
+												"type": "Vector2",
+												"value": "170.091 -1.81315"
+											},
+											{
+												"type": "Float",
+												"value": 940.0747680664063
+											},
+											{
+												"type": "Float",
+												"value": 170.06292724609376
+											},
+											{
+												"type": "Float",
+												"value": -1.779268741607666
+											},
+											{
+												"type": "Float",
+												"value": -1.714652191593956e38
+											},
+											{
+												"type": "Int",
+												"value": 1147863506
+											},
+											{
+												"type": "Int",
+												"value": 1126838317
+											},
+											{
+												"type": "Vector3",
+												"value": "-1.71118 939.999 170.056"
+											},
+											{
+												"type": "Vector2",
+												"value": "-1.74225 -1.71465e+38"
+											},
+											{
+												"type": "Float",
+												"value": 939.9994506835938
+											},
+											{
+												"type": "Float",
+												"value": 170.05642700195313
+											},
+											{
+												"type": "Float",
+												"value": -1.7422516345977784
+											},
+											{
+												"type": "Float",
+												"value": 939.9733276367188
+											},
+											{
+												"type": "Int",
+												"value": 1126833843
+											},
+											{
+												"type": "Int",
+												"value": -1076787392
+											},
+											{
+												"type": "Vector3",
+												"value": "-1.71465e+38 939.973 170.12"
+											},
+											{
+												"type": "Vector2",
+												"value": "-1.63694 940.028"
+											},
+											{
+												"type": "Float",
+												"value": 170.1881866455078
+											},
+											{
+												"type": "Float",
+												"value": -1.7111780643463135
+											},
+											{
+												"type": "Float",
+												"value": -1.714652191593956e38
+											},
+											{
+												"type": "Float",
+												"value": 940.0284423828125
+											},
+											{
+												"type": "Int",
+												"value": 1126838317
+											},
+											{
+												"type": "Int",
+												"value": -1076164638
+											},
+											{
+												"type": "Vector3",
+												"value": "940.114 170.223 -1.73794"
+											},
+											{
+												"type": "Vector2",
+												"value": "-1.71465e+38 940.114"
+											},
+											{
+												"type": "Float",
+												"value": 170.22250366210938
+											},
+											{
+												"type": "Float",
+												"value": -1.7379368543624879
+											},
+											{
+												"type": "Float",
+												"value": 940.0626831054688
+											},
+											{
+												"type": "Float",
+												"value": 170.12159729003907
+											},
+											{
+												"type": "Int",
+												"value": -1075581851
+											},
+											{
+												"type": "Int",
+												"value": -16711936
+											},
+											{
+												"type": "Vector3",
+												"value": "940.063 170.122 -1.78065"
+											},
+											{
+												"type": "Vector2",
+												"value": "940.028 170.188"
+											},
+											{
+												"type": "Float",
+												"value": -1.7111780643463135
+											},
+											{
+												"type": "Float",
+												"value": -1.714652191593956e38
+											},
+											{
+												"type": "Float",
+												"value": 939.9733276367188
+											},
+											{
+												"type": "Float",
+												"value": 170.1199188232422
+											},
+											{
+												"type": "Int",
+												"value": -1076787392
+											},
+											{
+												"type": "Int",
+												"value": 1147863031
+											},
+											{
+												"type": "Vector3",
+												"value": "170.056 -1.74225 -1.71465e+38"
+											},
+											{
+												"type": "Vector2",
+												"value": "939.999 170.056"
+											},
+											{
+												"type": "Float",
+												"value": -1.7422516345977784
+											},
+											{
+												"type": "Float",
+												"value": 939.9801635742188
+											},
+											{
+												"type": "Float",
+												"value": 170.0047149658203
+											},
+											{
+												"type": "Float",
+												"value": -1.714660406112671
+											},
+											{
+												"type": "Int",
+												"value": -16711936
+											},
+											{
+												"type": "Int",
+												"value": 1147862715
+											},
+											{
+												"type": "Vector3",
+												"value": "170.005 -1.71466 939.973"
+											},
+											{
+												"type": "Vector2",
+												"value": "170.12 -1.63694"
+											},
+											{
+												"type": "Float",
+												"value": -1.714652191593956e38
+											},
+											{
+												"type": "Float",
+												"value": 940.0284423828125
+											},
+											{
+												"type": "Float",
+												"value": 170.1881866455078
+											},
+											{
+												"type": "Float",
+												"value": -1.7111780643463135
+											},
+											{
+												"type": "Int",
+												"value": 1147864067
+											},
+											{
+												"type": "Int",
+												"value": 1126833953
+											},
+											{
+												"type": "Vector3",
+												"value": "-1.78065 -1.71465e+38 940.063"
+											},
+											{
+												"type": "Vector2",
+												"value": "170.122 -1.78065"
+											},
+											{
+												"type": "Float",
+												"value": 939.9994506835938
+											},
+											{
+												"type": "Float",
+												"value": 170.05642700195313
+											},
+											{
+												"type": "Float",
+												"value": -1.7422516345977784
+											},
+											{
+												"type": "Float",
+												"value": -1.714652191593956e38
+											},
+											{
+												"type": "Int",
+												"value": 1147863031
+											},
+											{
+												"type": "Int",
+												"value": 1126829682
+											},
+											{
+												"type": "Vector3",
+												"value": "-1.74225 940.028 170.188"
+											},
+											{
+												"type": "Vector2",
+												"value": "-1.71118 -1.71465e+38"
+											},
+											{
+												"type": "Float",
+												"value": 939.9994506835938
+											},
+											{
+												"type": "Float",
+												"value": 170.05642700195313
+											},
+											{
+												"type": "Float",
+												"value": -1.7422516345977784
+											},
+											{
+												"type": "Float",
+												"value": 940.0626831054688
+											},
+											{
+												"type": "Int",
+												"value": 1126833953
+											},
+											{
+												"type": "Int",
+												"value": -1075581851
+											},
+											{
+												"type": "Vector3",
+												"value": "-1.71465e+38 940.063 170.122"
+											},
+											{
+												"type": "Vector2",
+												"value": "-1.78065 940.06"
+											},
+											{
+												"type": "Float",
+												"value": 170.01084899902345
+											},
+											{
+												"type": "Float",
+												"value": -1.7772859334945679
+											},
+											{
+												"type": "Float",
+												"value": -1.714652191593956e38
+											},
+											{
+												"type": "Float",
+												"value": 940.0598754882813
+											},
+											{
+												"type": "Int",
+												"value": 1126826695
+											},
+											{
+												"type": "Int",
+												"value": -1075610085
+											},
+											{
+												"type": "Vector3",
+												"value": "939.999 170.056 -1.74225"
+											},
+											{
+												"type": "Vector2",
+												"value": "-1.71465e+38 940.071"
+											},
+											{
+												"type": "Float",
+												"value": 170.1121063232422
+											},
+											{
+												"type": "Float",
+												"value": -1.786155104637146
+											},
+											{
+												"type": "Float",
+												"value": 940.1683349609375
+											},
+											{
+												"type": "Float",
+												"value": 170.18251037597657
+											},
+											{
+												"type": "Int",
+												"value": -1075080648
+											},
+											{
+												"type": "Int",
+												"value": -16711936
+											},
+											{
+												"type": "Vector3",
+												"value": "940.168 170.183 -1.8404"
+											},
+											{
+												"type": "Vector2",
+												"value": "940.12 170.229"
+											},
+											{
+												"type": "Float",
+												"value": -1.9206501245498658
+											},
+											{
+												"type": "Float",
+												"value": -1.714652191593956e38
+											},
+											{
+												"type": "Float",
+												"value": 940.1195678710938
+											},
+											{
+												"type": "Float",
+												"value": 170.22882080078126
+											},
+											{
+												"type": "Int",
+												"value": -1074407459
+											},
+											{
+												"type": "Int",
+												"value": 1147864211
+											},
+											{
+												"type": "Vector3",
+												"value": "170.112 -1.78616 -1.71465e+38"
+											},
+											{
+												"type": "Vector2",
+												"value": "940.071 170.112"
+											},
+											{
+												"type": "Float",
+												"value": -1.786155104637146
+											},
+											{
+												"type": "Float",
+												"value": 940.14208984375
+											},
+											{
+												"type": "Float",
+												"value": 170.08416748046876
+											},
+											{
+												"type": "Float",
+												"value": -1.7819076776504517
+											},
+											{
+												"type": "Int",
+												"value": -16711936
+											},
+											{
+												"type": "Int",
+												"value": 1147865368
+											},
+											{
+												"type": "Vector3",
+												"value": "170.084 -1.78191 940.168"
+											},
+											{
+												"type": "Vector2",
+												"value": "170.183 -1.8404"
+											},
+											{
+												"type": "Float",
+												"value": -1.714652191593956e38
+											},
+											{
+												"type": "Float",
+												"value": 940.1683349609375
+											},
+											{
+												"type": "Float",
+												"value": 170.18251037597657
+											},
+											{
+												"type": "Float",
+												"value": -1.8403997421264649
+											},
+											{
+												"type": "Int",
+												"value": 1147864211
+											},
+											{
+												"type": "Int",
+												"value": 1126833331
+											},
+											{
+												"type": "Vector3",
+												"value": "-1.78616 -1.71465e+38 940.114"
+											},
+											{
+												"type": "Vector2",
+												"value": "170.223 -1.73794"
+											},
+											{
+												"type": "Float",
+												"value": 940.1396484375
+											},
+											{
+												"type": "Float",
+												"value": 170.09722900390626
+											},
+											{
+												"type": "Float",
+												"value": -1.7928954362869263
+											},
+											{
+												"type": "Float",
+												"value": -1.714652191593956e38
+											},
+											{
+												"type": "Int",
+												"value": 1147865328
+											},
+											{
+												"type": "Int",
+												"value": 1126832356
+											},
+											{
+												"type": "Vector3",
+												"value": "-1.7929 940.063 170.122"
+											},
+											{
+												"type": "Vector2",
+												"value": "-1.78065 -1.71465e+38"
+											},
+											{
+												"type": "Float",
+												"value": 940.0626831054688
+											},
+											{
+												"type": "Float",
+												"value": 170.12159729003907
+											},
+											{
+												"type": "Float",
+												"value": -1.7806516885757447
+											},
+											{
+												"type": "Float",
+												"value": 940.1139526367188
+											},
+											{
+												"type": "Int",
+												"value": 1126840566
+											},
+											{
+												"type": "Int",
+												"value": -1075940169
+											},
+											{
+												"type": "Vector3",
+												"value": "-1.71465e+38 940.195 170.246"
+											},
+											{
+												"type": "Vector2",
+												"value": "-1.71018 940.14"
+											},
+											{
+												"type": "Float",
+												"value": 170.09722900390626
+											},
+											{
+												"type": "Float",
+												"value": -1.7928954362869263
+											},
+											{
+												"type": "Float",
+												"value": -1.714652191593956e38
+											},
+											{
+												"type": "Float",
+												"value": 940.1396484375
+											},
+											{
+												"type": "Int",
+												"value": 1126832356
+											},
+											{
+												"type": "Int",
+												"value": -1075479143
+											},
+											{
+												"type": "Vector3",
+												"value": "940.114 170.223 -1.73794"
+											},
+											{
+												"type": "Vector2",
+												"value": "-1.71465e+38 940.114"
+											},
+											{
+												"type": "Float",
+												"value": 170.22250366210938
+											},
+											{
+												"type": "Float",
+												"value": -1.7379368543624879
+											},
+											{
+												"type": "Float",
+												"value": 940.195068359375
+											},
+											{
+												"type": "Float",
+												"value": 170.24557495117188
+											},
+											{
+												"type": "Int",
+												"value": -1076173022
+											},
+											{
+												"type": "Int",
+												"value": -16711936
+											},
+											{
+												"type": "Vector3",
+												"value": "940.029 170.201 -1.85954"
+											},
+											{
+												"type": "Vector2",
+												"value": "940.071 170.112"
+											},
+											{
+												"type": "Float",
+												"value": -1.786155104637146
+											},
+											{
+												"type": "Float",
+												"value": -1.714652191593956e38
+											},
+											{
+												"type": "Float",
+												"value": 940.0714721679688
+											},
+											{
+												"type": "Float",
+												"value": 170.1121063232422
+											},
+											{
+												"type": "Int",
+												"value": -1075535685
+											},
+											{
+												"type": "Int",
+												"value": 1147864999
+											},
+											{
+												"type": "Vector3",
+												"value": "170.229 -1.92065 -1.71465e+38"
+											},
+											{
+												"type": "Vector2",
+												"value": "940.12 170.229"
+											},
+											{
+												"type": "Float",
+												"value": -1.9206501245498658
+											},
+											{
+												"type": "Float",
+												"value": 940.0288696289063
+											},
+											{
+												"type": "Float",
+												"value": 170.20111083984376
+											},
+											{
+												"type": "Float",
+												"value": -1.8595402240753174
+											},
+											{
+												"type": "Int",
+												"value": -16711936
+											},
+											{
+												"type": "Int",
+												"value": 1147865328
+											},
+											{
+												"type": "Vector3",
+												"value": "170.097 -1.7929 940.148"
+											},
+											{
+												"type": "Vector2",
+												"value": "169.983 -1.78729"
+											},
+											{
+												"type": "Float",
+												"value": -1.714652191593956e38
+											},
+											{
+												"type": "Float",
+												"value": 940.1475830078125
+											},
+											{
+												"type": "Float",
+												"value": 169.98294067382813
+											},
+											{
+												"type": "Float",
+												"value": -1.7872917652130128
+											},
+											{
+												"type": "Int",
+												"value": 1147864021
+											},
+											{
+												"type": "Int",
+												"value": 1126826695
+											},
+											{
+												"type": "Vector3",
+												"value": "-1.77729 -1.71465e+38 940.06"
+											},
+											{
+												"type": "Vector2",
+												"value": "170.011 -1.77729"
+											},
+											{
+												"type": "Float",
+												"value": 940.1396484375
+											},
+											{
+												"type": "Float",
+												"value": 170.09722900390626
+											},
+											{
+												"type": "Float",
+												"value": -1.7928954362869263
+											},
+											{
+												"type": "Float",
+												"value": -1.714652191593956e38
+											},
+											{
+												"type": "Int",
+												"value": 1147864265
+											},
+											{
+												"type": "Int",
+												"value": 1126830108
+											},
+											{
+												"type": "Vector3",
+												"value": "-1.77927 940.142 170.084"
+											},
+											{
+												"type": "Vector2",
+												"value": "-1.78191 -1.71465e+38"
+											},
+											{
+												"type": "Float",
+												"value": 940.14208984375
+											},
+											{
+												"type": "Float",
+												"value": 170.08416748046876
+											},
+											{
+												"type": "Float",
+												"value": -1.7819076776504517
+											},
+											{
+												"type": "Float",
+												"value": 940.0714721679688
+											},
+											{
+												"type": "Int",
+												"value": 1126833331
+											},
+											{
+												"type": "Int",
+												"value": -1075535685
+											},
+											{
+												"type": "Vector3",
+												"value": "-1.71465e+38 940.071 170.112"
+											},
+											{
+												"type": "Vector2",
+												"value": "-1.78616 940.075"
+											},
+											{
+												"type": "Float",
+												"value": 170.06292724609376
+											},
+											{
+												"type": "Float",
+												"value": -1.779268741607666
+											},
+											{
+												"type": "Float",
+												"value": -1.714652191593956e38
+											},
+											{
+												"type": "Float",
+												"value": 940.0626831054688
+											},
+											{
+												"type": "Int",
+												"value": 1126833953
+											},
+											{
+												"type": "Int",
+												"value": -1075581851
+											},
+											{
+												"type": "Vector3",
+												"value": "940.14 170.097 -1.7929"
+											},
+											{
+												"type": "Vector2",
+												"value": "-1.71465e+38 940.14"
+											},
+											{
+												"type": "Float",
+												"value": 170.09722900390626
+											},
+											{
+												"type": "Float",
+												"value": -1.7928954362869263
+											},
+											{
+												"type": "Float",
+												"value": 940.0598754882813
+											},
+											{
+												"type": "Float",
+												"value": 170.01084899902345
+											},
+											{
+												"type": "Int",
+												"value": -1075610085
+											},
+											{
+												"type": "Int",
+												"value": -16711936
+											},
+											{
+												"type": "Vector3",
+												"value": "940.06 170.011 -1.77729"
+											},
+											{
+												"type": "Vector2",
+												"value": "940.063 170.122"
+											},
+											{
+												"type": "Float",
+												"value": -1.7806516885757447
+											},
+											{
+												"type": "Float",
+												"value": -1.714652191593956e38
+											},
+											{
+												"type": "Float",
+												"value": 940.0747680664063
+											},
+											{
+												"type": "Float",
+												"value": 170.06292724609376
+											},
+											{
+												"type": "Int",
+												"value": -1075593452
+											},
+											{
+												"type": "Int",
+												"value": 1147866001
+											},
+											{
+												"type": "Vector3",
+												"value": "170.03 -1.78256 -1.71465e+38"
+											},
+											{
+												"type": "Vector2",
+												"value": "940.181 170.03"
+											},
+											{
+												"type": "Float",
+												"value": -1.7825638055801392
+											},
+											{
+												"type": "Float",
+												"value": 940.14208984375
+											},
+											{
+												"type": "Float",
+												"value": 170.08416748046876
+											},
+											{
+												"type": "Float",
+												"value": -1.7819076776504517
+											},
+											{
+												"type": "Int",
+												"value": -16711936
+											},
+											{
+												"type": "Int",
+												"value": 1147865368
+											},
+											{
+												"type": "Vector3",
+												"value": "170.084 -1.78191 940.075"
+											},
+											{
+												"type": "Vector2",
+												"value": "170.063 -1.77927"
+											},
+											{
+												"type": "Float",
+												"value": -1.714652191593956e38
+											},
+											{
+												"type": "Float",
+												"value": 940.0048828125
+											},
+											{
+												"type": "Float",
+												"value": 170.09266662597657
+											},
+											{
+												"type": "Float",
+												"value": -1.9670608043670655
+											},
+											{
+												"type": "Int",
+												"value": 1147863445
+											},
+											{
+												"type": "Int",
+												"value": 1126823445
+											},
+											{
+												"type": "Vector3",
+												"value": "-1.81165 -1.71465e+38 940.025"
+											},
+											{
+												"type": "Vector2",
+												"value": "169.961 -1.81165"
+											},
+											{
+												"type": "Float",
+												"value": 939.9779052734375
+											},
+											{
+												"type": "Float",
+												"value": 170.0913543701172
+											},
+											{
+												"type": "Float",
+												"value": -1.8131471872329713
+											},
+											{
+												"type": "Float",
+												"value": -1.714652191593956e38
+											},
+											{
+												"type": "Int",
+												"value": 1147862678
+											},
+											{
+												"type": "Int",
+												"value": 1126831971
+											},
+											{
+												"type": "Vector3",
+												"value": "-1.81315 940.005 170.093"
+											},
+											{
+												"type": "Vector2",
+												"value": "-1.96706 -1.71465e+38"
+											},
+											{
+												"type": "Float",
+												"value": 940.0048828125
+											},
+											{
+												"type": "Float",
+												"value": 170.09266662597657
+											},
+											{
+												"type": "Float",
+												"value": -1.9670608043670655
+											},
+											{
+												"type": "Float",
+												"value": 940.0086059570313
+											},
+											{
+												"type": "Int",
+												"value": 1126824534
+											},
+											{
+												"type": "Int",
+												"value": -1074079324
+											},
+											{
+												"type": "Vector3",
+												"value": "-1.71465e+38 940.009 169.978"
+											},
+											{
+												"type": "Vector2",
+												"value": "-1.95977 940.025"
+											},
+											{
+												"type": "Float",
+												"value": 169.9612579345703
+											},
+											{
+												"type": "Float",
+												"value": -1.8116517066955567
+											},
+											{
+												"type": "Float",
+												"value": -1.714652191593956e38
+											},
+											{
+												"type": "Float",
+												"value": 940.0247192382813
+											},
+											{
+												"type": "Int",
+												"value": 1126823445
+											},
+											{
+												"type": "Int",
+												"value": -1075321804
+											},
+											{
+												"type": "Vector3",
+												"value": "940.005 170.093 -1.96706"
+											},
+											{
+												"type": "Vector2",
+												"value": "-1.71465e+38 940.009"
+											},
+											{
+												"type": "Float",
+												"value": 169.97787475585938
+											},
+											{
+												"type": "Float",
+												"value": -1.9597668647766114
+											},
+											{
+												"type": "Float",
+												"value": 940.0618896484375
+											},
+											{
+												"type": "Float",
+												"value": 169.93551635742188
+											},
+											{
+												"type": "Int",
+												"value": -1073911742
+											},
+											{
+												"type": "Int",
+												"value": -16711936
+											}
+										],
+										"Billboards": [
+											{
+												"type": "Int",
+												"value": 100
+											},
+											{
+												"type": "Vector3",
+												"value": "917.839 263.591 -45.8564"
+											},
+											{
+												"type": "Vector2",
+												"value": "7.31303 7.31303"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.2 0.2 0.2 0.0504137"
+											},
+											{
+												"type": "Float",
+												"value": -786.3665161132813
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.447739 0.684139 -0.575746"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "921.408 258.222 -44.4491"
+											},
+											{
+												"type": "Vector2",
+												"value": "7.473 7.473"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.2 0.2 0.2 0.0604136"
+											},
+											{
+												"type": "Float",
+												"value": -635.0958862304688
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.432774 0.686222 -0.584641"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "922.075 258.811 -39.0173"
+											},
+											{
+												"type": "Vector2",
+												"value": "5.45438 5.45438"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.2 0.2 0.2 0.0764138"
+											},
+											{
+												"type": "Float",
+												"value": -26.989364624023439
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.42284 0.72399 -0.545019"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "928.234 257.702 -36.1184"
+											},
+											{
+												"type": "Vector2",
+												"value": "5.97539 5.97539"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.2 0.2 0.2 0.0844138"
+											},
+											{
+												"type": "Float",
+												"value": 88.26991271972656
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.381472 0.752632 -0.53668"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "926.749 261.798 -33.9514"
+											},
+											{
+												"type": "Vector2",
+												"value": "4.75148 4.75148"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.2 0.2 0.2 0.0984139"
+											},
+											{
+												"type": "Float",
+												"value": -688.0046997070313
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.371042 0.784933 -0.496193"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "926.753 260.435 -31.3831"
+											},
+											{
+												"type": "Vector2",
+												"value": "5.0219 5.0219"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.2 0.2 0.2 0.106414"
+											},
+											{
+												"type": "Float",
+												"value": -769.9611206054688
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.369778 0.79724 -0.477149"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "931.033 248.747 -24.8262"
+											},
+											{
+												"type": "Vector2",
+												"value": "4.40107 4.40107"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.2 0.2 0.2 0.114414"
+											},
+											{
+												"type": "Float",
+												"value": -265.8363952636719
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.368957 0.80176 -0.470161"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "930.67 243.836 -29.9471"
+											},
+											{
+												"type": "Vector2",
+												"value": "4.56891 4.56891"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.2 0.2 0.2 0.124414"
+											},
+											{
+												"type": "Float",
+												"value": -318.34454345703127
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.365177 0.774681 -0.516251"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "934.557 240.433 -26.6796"
+											},
+											{
+												"type": "Vector2",
+												"value": "3.51066 3.51066"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.2 0.2 0.2 0.132414"
+											},
+											{
+												"type": "Float",
+												"value": 233.8429412841797
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.336134 0.795087 -0.504827"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "930.657 230.778 -20.1941"
+											},
+											{
+												"type": "Vector2",
+												"value": "3.66118 3.66118"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.2 0.2 0.2 0.142414"
+											},
+											{
+												"type": "Float",
+												"value": -625.2194213867188
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.406734 0.781846 -0.472529"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "936.974 240.007 -25.1456"
+											},
+											{
+												"type": "Vector2",
+												"value": "2.8375 2.8375"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.2 0.2 0.2 0.150414"
+											},
+											{
+												"type": "Float",
+												"value": 350.6481628417969
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.292697 0.827516 -0.479109"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "936.064 225.769 -19.5926"
+											},
+											{
+												"type": "Vector2",
+												"value": "2.90367 2.90367"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.2 0.2 0.2 0.158414"
+											},
+											{
+												"type": "Float",
+												"value": -565.858642578125
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.347093 0.802984 -0.484502"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "935.599 237.773 -18.0159"
+											},
+											{
+												"type": "Vector2",
+												"value": "2.39334 2.39334"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.2 0.2 0.2 0.168414"
+											},
+											{
+												"type": "Float",
+												"value": 582.5513305664063
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.300085 0.8664 -0.399125"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "938.032 225.883 -17.6919"
+											},
+											{
+												"type": "Vector2",
+												"value": "1.71038 1.71038"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.2 0.2 0.2 0.184414"
+											},
+											{
+												"type": "Float",
+												"value": 51.93092346191406
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.28789 0.853372 -0.434597"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "936.483 221.287 -17.1958"
+											},
+											{
+												"type": "Vector2",
+												"value": "1.90707 1.90707"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.2 0.2 0.2 0.192414"
+											},
+											{
+												"type": "Float",
+												"value": -425.02264404296877
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.314652 0.840941 -0.440241"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "940.017 219.632 -13.8377"
+											},
+											{
+												"type": "Vector2",
+												"value": "2.10303 2.10303"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.204828 0.204828 0.204828 0.209657"
+											},
+											{
+												"type": "Float",
+												"value": 29.722021102905275
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.260918 0.879011 -0.399076"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "937.123 213.994 -14.5985"
+											},
+											{
+												"type": "Vector2",
+												"value": "1.42623 1.42623"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.224828 0.224828 0.224828 0.249657"
+											},
+											{
+												"type": "Float",
+												"value": 319.1200256347656
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.311784 0.850547 -0.42351"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "940.549 221.135 -11.522"
+											},
+											{
+												"type": "Vector2",
+												"value": "1.31484 1.31484"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.240828 0.240828 0.240828 0.281657"
+											},
+											{
+												"type": "Float",
+												"value": -458.1256103515625
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.22114 0.91703 -0.331893"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "941.854 213.498 -9.91946"
+											},
+											{
+												"type": "Vector2",
+												"value": "1.31864 1.31864"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.260828 0.260828 0.260828 0.321657"
+											},
+											{
+												"type": "Float",
+												"value": -324.20965576171877
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.211032 0.91866 -0.333961"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "942.311 216.62 -7.55905"
+											},
+											{
+												"type": "Vector2",
+												"value": "1.02307 1.02307"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.276828 0.276828 0.276828 0.353657"
+											},
+											{
+												"type": "Float",
+												"value": -27.70927619934082
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.180499 0.947442 -0.264147"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "942.43 206.48 -9.94343"
+											},
+											{
+												"type": "Vector2",
+												"value": "1.09778 1.09778"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.295743 0.295743 0.295743 0.391486"
+											},
+											{
+												"type": "Float",
+												"value": -126.98345184326172
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.194361 0.915811 -0.351447"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "943.548 209.326 -6.1133"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.946397 0.946397"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.315669 0.315669 0.315669 0.431338"
+											},
+											{
+												"type": "Float",
+												"value": -416.6820068359375
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.145727 0.959769 -0.240013"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "943.073 201.219 -7.52554"
+											},
+											{
+												"type": "Vector2",
+												"value": "1.10461 1.10461"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.328672 0.328672 0.328672 0.457343"
+											},
+											{
+												"type": "Float",
+												"value": -12.954895973205567
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.172008 0.935216 -0.309491"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "942.851 202.489 -5.89207"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.931858 0.931858"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.34683 0.34683 0.34683 0.49366"
+											},
+											{
+												"type": "Float",
+												"value": -330.1512451171875
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.156537 0.957018 -0.244158"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "943.008 196.393 -6.05178"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.930327 0.930327"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.36283 0.36283 0.36283 0.52566"
+											},
+											{
+												"type": "Float",
+												"value": 346.93878173828127
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.162132 0.947435 -0.275828"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "943.913 198.327 -4.45094"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.632311 0.632311"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.37883 0.37883 0.37883 0.55766"
+											},
+											{
+												"type": "Float",
+												"value": -159.35208129882813
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.112746 0.972896 -0.201895"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "943.823 195.98 -4.4369"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.78413 0.78413"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.39483 0.39483 0.39483 0.58966"
+											},
+											{
+												"type": "Float",
+												"value": 202.261474609375
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.10754 0.97381 -0.200322"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "944.699 194.517 -3.326"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.656812 0.656812"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.41483 0.41483 0.41483 0.62966"
+											},
+											{
+												"type": "Float",
+												"value": 159.8444061279297
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.0638744 0.985922 -0.154526"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "944.839 189.825 -3.3416"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.616405 0.616405"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.43483 0.43483 0.43483 0.66966"
+											},
+											{
+												"type": "Float",
+												"value": 176.42330932617188
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.0484487 0.985434 -0.163008"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "945.621 185.192 -2.86964"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.579742 0.579742"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.45083 0.45083 0.45083 0.70166"
+											},
+											{
+												"type": "Float",
+												"value": 152.50453186035157
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.000944906 0.987343 -0.158595"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "945.239 186.936 -2.01572"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.436574 0.436574"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.46683 0.46683 0.46683 0.73366"
+											},
+											{
+												"type": "Float",
+												"value": -77.24520874023438
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.00245323 0.995883 -0.0906155"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "945.235 180.221 -3.19539"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.456631 0.456631"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.48683 0.48683 0.48683 0.77366"
+											},
+											{
+												"type": "Float",
+												"value": -112.57067108154297
+											},
+											{
+												"type": "Vector3",
+												"value": "0.0217499 0.982564 -0.184648"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "945.037 180.357 -2.71845"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.386257 0.386257"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.50283 0.50283 0.50283 0.80566"
+											},
+											{
+												"type": "Float",
+												"value": -21.533842086791993
+											},
+											{
+												"type": "Vector3",
+												"value": "0.0257971 0.990522 -0.134913"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "945.133 177.136 -2.71506"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.39504 0.39504"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.51883 0.51883 0.51883 0.83766"
+											},
+											{
+												"type": "Float",
+												"value": 63.69954299926758
+											},
+											{
+												"type": "Vector3",
+												"value": "0.0598704 0.986407 -0.153028"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "945.074 175.597 -1.90093"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.381891 0.381891"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.53483 0.53483 0.53483 0.86966"
+											},
+											{
+												"type": "Float",
+												"value": -55.701778411865237
+											},
+											{
+												"type": "Vector3",
+												"value": "0.081517 0.993547 -0.0788613"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "944.883 171.68 -1.91365"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.369951 0.369951"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.551652 0.551652 0.551652 0.903304"
+											},
+											{
+												"type": "Float",
+												"value": 23.347827911376954
+											},
+											{
+												"type": "Vector3",
+												"value": "0.126292 0.98619 -0.107142"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "944.576 169.642 -1.72701"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.281362 0.281362"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.569498 0.569498 0.569498 0.938995"
+											},
+											{
+												"type": "Float",
+												"value": -18.265417098999025
+											},
+											{
+												"type": "Vector3",
+												"value": "0.141957 0.985895 -0.0886521"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "944.171 167.983 -1.48928"
+											},
+											{
+												"type": "Vector2",
+												"value": "0.236545 0.236545"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.584964 0.584964 0.584964 0.969928"
+											},
+											{
+												"type": "Float",
+												"value": 17.6336727142334
+											},
+											{
+												"type": "Vector3",
+												"value": "0.0953494 0.995042 -0.0282793"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "879.831 323.096 -84.6309"
+											},
+											{
+												"type": "Vector2",
+												"value": "29.1377 29.1377"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.2 0.2 0.2 0"
+											},
+											{
+												"type": "Float",
+												"value": -1065.2552490234376
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.533225 0.591376 -0.604935"
+											},
+											{
+												"type": "Bool",
+												"value": false
+											},
+											{
+												"type": "Vector3",
+												"value": "886.46 324.451 -78.542"
+											},
+											{
+												"type": "Vector2",
+												"value": "32.7134 32.7134"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.2 0.2 0.2 0"
+											},
+											{
+												"type": "Float",
+												"value": 1024.1605224609376
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.520484 0.611392 -0.596068"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "883.646 289.136 -80.1284"
+											},
+											{
+												"type": "Vector2",
+												"value": "38.0393 38.0393"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.2 0.2 0.2 0"
+											},
+											{
+												"type": "Float",
+												"value": -302.7640380859375
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.566126 0.515804 -0.642999"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "891.634 287.319 -76.127"
+											},
+											{
+												"type": "Vector2",
+												"value": "32.0398 32.0398"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.2 0.2 0.2 0"
+											},
+											{
+												"type": "Float",
+												"value": -532.9364624023438
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.547526 0.532466 -0.645519"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "901.613 304.56 -72.0265"
+											},
+											{
+												"type": "Vector2",
+												"value": "27.2381 27.2381"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.2 0.2 0.2 0"
+											},
+											{
+												"type": "Float",
+												"value": 240.77474975585938
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.493744 0.611585 -0.618208"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "887.938 283.358 -73.0408"
+											},
+											{
+												"type": "Vector2",
+												"value": "27.9168 27.9168"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.2 0.2 0.2 0"
+											},
+											{
+												"type": "Float",
+												"value": 474.13958740234377
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.56099 0.534778 -0.631905"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "895.935 281.88 -71.9453"
+											},
+											{
+												"type": "Vector2",
+												"value": "19.0515 19.0515"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.2 0.2 0.2 0"
+											},
+											{
+												"type": "Float",
+												"value": -927.2850952148438
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.534134 0.551307 -0.640907"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "898.039 278.952 -66.6521"
+											},
+											{
+												"type": "Vector2",
+												"value": "23.1877 23.1877"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.2 0.2 0.2 0"
+											},
+											{
+												"type": "Float",
+												"value": 728.8186645507813
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.534688 0.562528 -0.630612"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "901.44 302.821 -60.8331"
+											},
+											{
+												"type": "Vector2",
+												"value": "19.8486 19.8486"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.2 0.2 0.2 0"
+											},
+											{
+												"type": "Float",
+												"value": 1128.7156982421876
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.491314 0.656629 -0.572232"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "902.39 274.449 -65.2671"
+											},
+											{
+												"type": "Vector2",
+												"value": "20.1374 20.1374"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.2 0.2 0.2 0"
+											},
+											{
+												"type": "Float",
+												"value": 360.8032531738281
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.520341 0.568887 -0.636877"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "902.434 298.319 -58.4184"
+											},
+											{
+												"type": "Vector2",
+												"value": "20.0281 20.0281"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.2 0.2 0.2 0"
+											},
+											{
+												"type": "Float",
+												"value": 1043.0458984375
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.489169 0.663121 -0.566554"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "912.355 291.727 -53.9318"
+											},
+											{
+												"type": "Vector2",
+												"value": "17.664 17.664"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.2 0.2 0.2 0"
+											},
+											{
+												"type": "Float",
+												"value": -345.0683288574219
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.459616 0.679146 -0.572289"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "912.483 280.254 -52.782"
+											},
+											{
+												"type": "Vector2",
+												"value": "13.4699 13.4699"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.2 0.2 0.2 0"
+											},
+											{
+												"type": "Float",
+												"value": -389.99755859375
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.474798 0.654473 -0.588416"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "911.919 285.385 -52.1077"
+											},
+											{
+												"type": "Vector2",
+												"value": "13.6009 13.6009"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.2 0.2 0.2 0.000413477"
+											},
+											{
+												"type": "Float",
+												"value": -798.5253295898438
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.46339 0.679168 -0.569211"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "906.413 270.656 -51.5241"
+											},
+											{
+												"type": "Vector2",
+												"value": "13.4866 13.4866"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.2 0.2 0.2 0.00841351"
+											},
+											{
+												"type": "Float",
+												"value": 703.6653442382813
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.510665 0.629181 -0.585963"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "915.841 275.315 -51.3782"
+											},
+											{
+												"type": "Vector2",
+												"value": "10.7782 10.7782"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.2 0.2 0.2 0.0164135"
+											},
+											{
+												"type": "Float",
+												"value": 235.47512817382813
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.452527 0.671844 -0.586382"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "911.67 262.047 -43.6927"
+											},
+											{
+												"type": "Vector2",
+												"value": "8.76314 8.76314"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.2 0.2 0.2 0.0224136"
+											},
+											{
+												"type": "Float",
+												"value": -127.73645782470703
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.508921 0.640339 -0.575295"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "916.259 260.566 -50.7844"
+											},
+											{
+												"type": "Vector2",
+												"value": "8.62902 8.62902"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.2 0.2 0.2 0.0324136"
+											},
+											{
+												"type": "Float",
+												"value": 756.115966796875
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.467633 0.63679 -0.613041"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "916.714 258.698 -40.7101"
+											},
+											{
+												"type": "Vector2",
+												"value": "7.88308 7.88308"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.2 0.2 0.2 0.0404136"
+											},
+											{
+												"type": "Float",
+												"value": -246.8826141357422
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.482609 0.665931 -0.56888"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "925.533 259.12 -34.8444"
+											},
+											{
+												"type": "Vector2",
+												"value": "7.16353 7.16353"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.2 0.2 0.2 0.0684138"
+											},
+											{
+												"type": "Float",
+												"value": -385.765380859375
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.414801 0.737327 -0.533187"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "926.838 247.295 -31.4365"
+											},
+											{
+												"type": "Vector2",
+												"value": "5.35328 5.35328"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.2 0.2 0.2 0.0904138"
+											},
+											{
+												"type": "Float",
+												"value": 428.76458740234377
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.420376 0.732052 -0.536082"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "936.624 230.783 -19.9986"
+											},
+											{
+												"type": "Vector2",
+												"value": "2.25391 2.25391"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.2 0.2 0.2 0.176414"
+											},
+											{
+												"type": "Float",
+												"value": -59.30305480957031
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.29651 0.846219 -0.442713"
+											},
+											{
+												"type": "Bool",
+												"value": true
+											},
+											{
+												"type": "Vector3",
+												"value": "886.099 291.585 -88.2201"
+											},
+											{
+												"type": "Vector2",
+												"value": "35.2631 35.2631"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.2 0.2 0.2 0"
+											},
+											{
+												"type": "Float",
+												"value": 658.1466064453125
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.547645 0.508427 -0.66452"
+											},
+											{
+												"type": "Bool",
+												"value": false
+											},
+											{
+												"type": "Vector3",
+												"value": "885 308.622 -87.0315"
+											},
+											{
+												"type": "Vector2",
+												"value": "39.0135 39.0135"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "0.2 0.2 0.2 0"
+											},
+											{
+												"type": "Float",
+												"value": -1336.1182861328126
+											},
+											{
+												"type": "Vector3",
+												"value": "-0.53292 0.557183 -0.636823"
+											},
+											{
+												"type": "Bool",
+												"value": false
+											},
+											{
+												"type": "Vector3",
+												"value": "0 0 0"
+											},
+											{
+												"type": "Vector2",
+												"value": "1 1"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "1 1 1 1"
+											},
+											{
+												"type": "Float",
+												"value": 0.0
+											},
+											{
+												"type": "Vector3",
+												"value": "0 1 0"
+											},
+											{
+												"type": "Bool",
+												"value": false
+											},
+											{
+												"type": "Vector3",
+												"value": "0 0 0"
+											},
+											{
+												"type": "Vector2",
+												"value": "1 1"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "1 1 1 1"
+											},
+											{
+												"type": "Float",
+												"value": 0.0
+											},
+											{
+												"type": "Vector3",
+												"value": "0 1 0"
+											},
+											{
+												"type": "Bool",
+												"value": false
+											},
+											{
+												"type": "Vector3",
+												"value": "0 0 0"
+											},
+											{
+												"type": "Vector2",
+												"value": "1 1"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "1 1 1 1"
+											},
+											{
+												"type": "Float",
+												"value": 0.0
+											},
+											{
+												"type": "Vector3",
+												"value": "0 1 0"
+											},
+											{
+												"type": "Bool",
+												"value": false
+											},
+											{
+												"type": "Vector3",
+												"value": "0 0 0"
+											},
+											{
+												"type": "Vector2",
+												"value": "1 1"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "1 1 1 1"
+											},
+											{
+												"type": "Float",
+												"value": 0.0
+											},
+											{
+												"type": "Vector3",
+												"value": "0 1 0"
+											},
+											{
+												"type": "Bool",
+												"value": false
+											},
+											{
+												"type": "Vector3",
+												"value": "0 0 0"
+											},
+											{
+												"type": "Vector2",
+												"value": "1 1"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "1 1 1 1"
+											},
+											{
+												"type": "Float",
+												"value": 0.0
+											},
+											{
+												"type": "Vector3",
+												"value": "0 1 0"
+											},
+											{
+												"type": "Bool",
+												"value": false
+											},
+											{
+												"type": "Vector3",
+												"value": "0 0 0"
+											},
+											{
+												"type": "Vector2",
+												"value": "1 1"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "1 1 1 1"
+											},
+											{
+												"type": "Float",
+												"value": 0.0
+											},
+											{
+												"type": "Vector3",
+												"value": "0 1 0"
+											},
+											{
+												"type": "Bool",
+												"value": false
+											},
+											{
+												"type": "Vector3",
+												"value": "0 0 0"
+											},
+											{
+												"type": "Vector2",
+												"value": "1 1"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "1 1 1 1"
+											},
+											{
+												"type": "Float",
+												"value": 0.0
+											},
+											{
+												"type": "Vector3",
+												"value": "0 1 0"
+											},
+											{
+												"type": "Bool",
+												"value": false
+											},
+											{
+												"type": "Vector3",
+												"value": "0 0 0"
+											},
+											{
+												"type": "Vector2",
+												"value": "1 1"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "1 1 1 1"
+											},
+											{
+												"type": "Float",
+												"value": 0.0
+											},
+											{
+												"type": "Vector3",
+												"value": "0 1 0"
+											},
+											{
+												"type": "Bool",
+												"value": false
+											},
+											{
+												"type": "Vector3",
+												"value": "0 0 0"
+											},
+											{
+												"type": "Vector2",
+												"value": "1 1"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "1 1 1 1"
+											},
+											{
+												"type": "Float",
+												"value": 0.0
+											},
+											{
+												"type": "Vector3",
+												"value": "0 1 0"
+											},
+											{
+												"type": "Bool",
+												"value": false
+											},
+											{
+												"type": "Vector3",
+												"value": "0 0 0"
+											},
+											{
+												"type": "Vector2",
+												"value": "1 1"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "1 1 1 1"
+											},
+											{
+												"type": "Float",
+												"value": 0.0
+											},
+											{
+												"type": "Vector3",
+												"value": "0 1 0"
+											},
+											{
+												"type": "Bool",
+												"value": false
+											},
+											{
+												"type": "Vector3",
+												"value": "0 0 0"
+											},
+											{
+												"type": "Vector2",
+												"value": "1 1"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "1 1 1 1"
+											},
+											{
+												"type": "Float",
+												"value": 0.0
+											},
+											{
+												"type": "Vector3",
+												"value": "0 1 0"
+											},
+											{
+												"type": "Bool",
+												"value": false
+											},
+											{
+												"type": "Vector3",
+												"value": "0 0 0"
+											},
+											{
+												"type": "Vector2",
+												"value": "1 1"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "1 1 1 1"
+											},
+											{
+												"type": "Float",
+												"value": 0.0
+											},
+											{
+												"type": "Vector3",
+												"value": "0 1 0"
+											},
+											{
+												"type": "Bool",
+												"value": false
+											},
+											{
+												"type": "Vector3",
+												"value": "0 0 0"
+											},
+											{
+												"type": "Vector2",
+												"value": "1 1"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "1 1 1 1"
+											},
+											{
+												"type": "Float",
+												"value": 0.0
+											},
+											{
+												"type": "Vector3",
+												"value": "0 1 0"
+											},
+											{
+												"type": "Bool",
+												"value": false
+											},
+											{
+												"type": "Vector3",
+												"value": "0 0 0"
+											},
+											{
+												"type": "Vector2",
+												"value": "1 1"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "1 1 1 1"
+											},
+											{
+												"type": "Float",
+												"value": 0.0
+											},
+											{
+												"type": "Vector3",
+												"value": "0 1 0"
+											},
+											{
+												"type": "Bool",
+												"value": false
+											},
+											{
+												"type": "Vector3",
+												"value": "0 0 0"
+											},
+											{
+												"type": "Vector2",
+												"value": "1 1"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "1 1 1 1"
+											},
+											{
+												"type": "Float",
+												"value": 0.0
+											},
+											{
+												"type": "Vector3",
+												"value": "0 1 0"
+											},
+											{
+												"type": "Bool",
+												"value": false
+											},
+											{
+												"type": "Vector3",
+												"value": "0 0 0"
+											},
+											{
+												"type": "Vector2",
+												"value": "1 1"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "1 1 1 1"
+											},
+											{
+												"type": "Float",
+												"value": 0.0
+											},
+											{
+												"type": "Vector3",
+												"value": "0 1 0"
+											},
+											{
+												"type": "Bool",
+												"value": false
+											},
+											{
+												"type": "Vector3",
+												"value": "0 0 0"
+											},
+											{
+												"type": "Vector2",
+												"value": "1 1"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "1 1 1 1"
+											},
+											{
+												"type": "Float",
+												"value": 0.0
+											},
+											{
+												"type": "Vector3",
+												"value": "0 1 0"
+											},
+											{
+												"type": "Bool",
+												"value": false
+											},
+											{
+												"type": "Vector3",
+												"value": "0 0 0"
+											},
+											{
+												"type": "Vector2",
+												"value": "1 1"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "1 1 1 1"
+											},
+											{
+												"type": "Float",
+												"value": 0.0
+											},
+											{
+												"type": "Vector3",
+												"value": "0 1 0"
+											},
+											{
+												"type": "Bool",
+												"value": false
+											},
+											{
+												"type": "Vector3",
+												"value": "0 0 0"
+											},
+											{
+												"type": "Vector2",
+												"value": "1 1"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "1 1 1 1"
+											},
+											{
+												"type": "Float",
+												"value": 0.0
+											},
+											{
+												"type": "Vector3",
+												"value": "0 1 0"
+											},
+											{
+												"type": "Bool",
+												"value": false
+											},
+											{
+												"type": "Vector3",
+												"value": "0 0 0"
+											},
+											{
+												"type": "Vector2",
+												"value": "1 1"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "1 1 1 1"
+											},
+											{
+												"type": "Float",
+												"value": 0.0
+											},
+											{
+												"type": "Vector3",
+												"value": "0 1 0"
+											},
+											{
+												"type": "Bool",
+												"value": false
+											},
+											{
+												"type": "Vector3",
+												"value": "0 0 0"
+											},
+											{
+												"type": "Vector2",
+												"value": "1 1"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "1 1 1 1"
+											},
+											{
+												"type": "Float",
+												"value": 0.0
+											},
+											{
+												"type": "Vector3",
+												"value": "0 1 0"
+											},
+											{
+												"type": "Bool",
+												"value": false
+											},
+											{
+												"type": "Vector3",
+												"value": "0 0 0"
+											},
+											{
+												"type": "Vector2",
+												"value": "1 1"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "1 1 1 1"
+											},
+											{
+												"type": "Float",
+												"value": 0.0
+											},
+											{
+												"type": "Vector3",
+												"value": "0 1 0"
+											},
+											{
+												"type": "Bool",
+												"value": false
+											},
+											{
+												"type": "Vector3",
+												"value": "0 0 0"
+											},
+											{
+												"type": "Vector2",
+												"value": "1 1"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "1 1 1 1"
+											},
+											{
+												"type": "Float",
+												"value": 0.0
+											},
+											{
+												"type": "Vector3",
+												"value": "0 1 0"
+											},
+											{
+												"type": "Bool",
+												"value": false
+											},
+											{
+												"type": "Vector3",
+												"value": "0 0 0"
+											},
+											{
+												"type": "Vector2",
+												"value": "1 1"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "1 1 1 1"
+											},
+											{
+												"type": "Float",
+												"value": 0.0
+											},
+											{
+												"type": "Vector3",
+												"value": "0 1 0"
+											},
+											{
+												"type": "Bool",
+												"value": false
+											},
+											{
+												"type": "Vector3",
+												"value": "0 0 0"
+											},
+											{
+												"type": "Vector2",
+												"value": "1 1"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "1 1 1 1"
+											},
+											{
+												"type": "Float",
+												"value": 0.0
+											},
+											{
+												"type": "Vector3",
+												"value": "0 1 0"
+											},
+											{
+												"type": "Bool",
+												"value": false
+											},
+											{
+												"type": "Vector3",
+												"value": "0 0 0"
+											},
+											{
+												"type": "Vector2",
+												"value": "1 1"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "1 1 1 1"
+											},
+											{
+												"type": "Float",
+												"value": 0.0
+											},
+											{
+												"type": "Vector3",
+												"value": "0 1 0"
+											},
+											{
+												"type": "Bool",
+												"value": false
+											},
+											{
+												"type": "Vector3",
+												"value": "0 0 0"
+											},
+											{
+												"type": "Vector2",
+												"value": "1 1"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "1 1 1 1"
+											},
+											{
+												"type": "Float",
+												"value": 0.0
+											},
+											{
+												"type": "Vector3",
+												"value": "0 1 0"
+											},
+											{
+												"type": "Bool",
+												"value": false
+											},
+											{
+												"type": "Vector3",
+												"value": "0 0 0"
+											},
+											{
+												"type": "Vector2",
+												"value": "1 1"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "1 1 1 1"
+											},
+											{
+												"type": "Float",
+												"value": 0.0
+											},
+											{
+												"type": "Vector3",
+												"value": "0 1 0"
+											},
+											{
+												"type": "Bool",
+												"value": false
+											},
+											{
+												"type": "Vector3",
+												"value": "0 0 0"
+											},
+											{
+												"type": "Vector2",
+												"value": "1 1"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "1 1 1 1"
+											},
+											{
+												"type": "Float",
+												"value": 0.0
+											},
+											{
+												"type": "Vector3",
+												"value": "0 1 0"
+											},
+											{
+												"type": "Bool",
+												"value": false
+											},
+											{
+												"type": "Vector3",
+												"value": "0 0 0"
+											},
+											{
+												"type": "Vector2",
+												"value": "1 1"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "1 1 1 1"
+											},
+											{
+												"type": "Float",
+												"value": 0.0
+											},
+											{
+												"type": "Vector3",
+												"value": "0 1 0"
+											},
+											{
+												"type": "Bool",
+												"value": false
+											},
+											{
+												"type": "Vector3",
+												"value": "0 0 0"
+											},
+											{
+												"type": "Vector2",
+												"value": "1 1"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "1 1 1 1"
+											},
+											{
+												"type": "Float",
+												"value": 0.0
+											},
+											{
+												"type": "Vector3",
+												"value": "0 1 0"
+											},
+											{
+												"type": "Bool",
+												"value": false
+											},
+											{
+												"type": "Vector3",
+												"value": "0 0 0"
+											},
+											{
+												"type": "Vector2",
+												"value": "1 1"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "1 1 1 1"
+											},
+											{
+												"type": "Float",
+												"value": 0.0
+											},
+											{
+												"type": "Vector3",
+												"value": "0 1 0"
+											},
+											{
+												"type": "Bool",
+												"value": false
+											},
+											{
+												"type": "Vector3",
+												"value": "0 0 0"
+											},
+											{
+												"type": "Vector2",
+												"value": "1 1"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "1 1 1 1"
+											},
+											{
+												"type": "Float",
+												"value": 0.0
+											},
+											{
+												"type": "Vector3",
+												"value": "0 1 0"
+											},
+											{
+												"type": "Bool",
+												"value": false
+											},
+											{
+												"type": "Vector3",
+												"value": "0 0 0"
+											},
+											{
+												"type": "Vector2",
+												"value": "1 1"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "1 1 1 1"
+											},
+											{
+												"type": "Float",
+												"value": 0.0
+											},
+											{
+												"type": "Vector3",
+												"value": "0 1 0"
+											},
+											{
+												"type": "Bool",
+												"value": false
+											},
+											{
+												"type": "Vector3",
+												"value": "0 0 0"
+											},
+											{
+												"type": "Vector2",
+												"value": "1 1"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "1 1 1 1"
+											},
+											{
+												"type": "Float",
+												"value": 0.0
+											},
+											{
+												"type": "Vector3",
+												"value": "0 1 0"
+											},
+											{
+												"type": "Bool",
+												"value": false
+											},
+											{
+												"type": "Vector3",
+												"value": "0 0 0"
+											},
+											{
+												"type": "Vector2",
+												"value": "1 1"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "1 1 1 1"
+											},
+											{
+												"type": "Float",
+												"value": 0.0
+											},
+											{
+												"type": "Vector3",
+												"value": "0 1 0"
+											},
+											{
+												"type": "Bool",
+												"value": false
+											},
+											{
+												"type": "Vector3",
+												"value": "0 0 0"
+											},
+											{
+												"type": "Vector2",
+												"value": "1 1"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "1 1 1 1"
+											},
+											{
+												"type": "Float",
+												"value": 0.0
+											},
+											{
+												"type": "Vector3",
+												"value": "0 1 0"
+											},
+											{
+												"type": "Bool",
+												"value": false
+											},
+											{
+												"type": "Vector3",
+												"value": "0 0 0"
+											},
+											{
+												"type": "Vector2",
+												"value": "1 1"
+											},
+											{
+												"type": "Vector4",
+												"value": "0 0 1 1"
+											},
+											{
+												"type": "Color",
+												"value": "1 1 1 1"
+											},
+											{
+												"type": "Float",
+												"value": 0.0
+											},
+											{
+												"type": "Vector3",
+												"value": "0 1 0"
+											},
+											{
+												"type": "Bool",
+												"value": false
+											}
+										]
 									}
 								}
 							],
