@@ -42,7 +42,7 @@ namespace SplashScreen {
         //backgroundSprite.SetScale(256.0f / textureWidth);
 
         // Set logo sprite size
-        float width = graphics.width * 0.5;
+        float width = graphics.width * 0.6;
         float ratio = width / textureWidth;
         int newWidth = width;
         int newHeight = textureHeight * ratio;

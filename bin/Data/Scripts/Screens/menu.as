@@ -167,30 +167,36 @@ namespace MenuScreen {
     {
         Font@ font = cache.GetResource("Font", GUIHandler::GUI_FONT);
 
+        XMLFile@ uiStyle = cache.GetResource("XMLFile", "UI/Menu.xml");
+
         // Create the button and center the text onto it
         startButton = ui.root.CreateChild("Button");
-        startButton.SetStyleAuto();
+        startButton.SetStyleAuto(uiStyle);
         startButton.SetPosition(-20, -80);
         startButton.SetSize(100, 40);
         startButton.SetAlignment(HA_RIGHT, VA_BOTTOM);
 
         Text@ startButtonText = startButton.CreateChild("Text");
-        startButtonText.SetAlignment(HA_CENTER, VA_CENTER);
+        startButtonText.SetAlignment(HA_CENTER, VA_TOP);
         startButtonText.SetFont(font, 30);
+        startButtonText.textAlignment = HA_CENTER;
         startButtonText.text = "Start";
+        startButtonText.position = IntVector2(0, -10);
         SubscribeToEvent(startButton, "Released", "MenuScreen::HandleNewGame");
 
         // Create the button and center the text onto it
         exitButton = ui.root.CreateChild("Button");
-        exitButton.SetStyleAuto();
+        exitButton.SetStyleAuto(uiStyle);
         exitButton.SetPosition(-20, -20);
         exitButton.SetSize(100, 40);
         exitButton.SetAlignment(HA_RIGHT, VA_BOTTOM);
 
         Text@ exitButtonText = exitButton.CreateChild("Text");
-        exitButtonText.SetAlignment(HA_CENTER, VA_CENTER);
+        exitButtonText.SetAlignment(HA_CENTER, VA_TOP);
         exitButtonText.SetFont(font, 30);
+        exitButtonText.textAlignment = HA_CENTER;
         exitButtonText.text = "Exit";
+        exitButtonText.position = IntVector2(0, -10);
         SubscribeToEvent(exitButton, "Released", "MenuScreen::HandleExitGame");
     }
 

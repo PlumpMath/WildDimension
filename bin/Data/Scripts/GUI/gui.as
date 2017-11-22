@@ -346,6 +346,9 @@ namespace GUIHandler {
             latestEvents[i].text = latestEvents[i-1].text;
         }
         latestEvents[0].text = eventData["Message"].GetString();
+
+        //eventData["Type"] = Notifications::NOTIFICATION_TYPE_GOOD;
+        //SendEvent("AddNotification", eventData);
     }
 
     void HandleUpdateInventoryGUI(StringHash eventType, VariantMap& eventData)
