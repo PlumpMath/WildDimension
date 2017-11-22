@@ -170,7 +170,6 @@ void HandleNewGame(StringHash eventType, VariantMap& eventData)
     FinishGUI::Subscribe();
     FinishGUI::RegisterConsoleCommands();
 
-    GUIHandler::Subscribe();
     NetworkHandler::Subscribe();
 
     CreateScene();
@@ -186,7 +185,6 @@ void HandleNewGame(StringHash eventType, VariantMap& eventData)
     Craft::Init();
 
     RegisterConsoleCommands();
-    GUIHandler::RegisterConsoleCommands();
 
     Missions::Init();
 }

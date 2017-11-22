@@ -30,6 +30,7 @@ class PickableObject : ScriptObject
                 data["Name"] = "Get" + node.name;
                 SendEvent("UnlockAchievement", data);
             }
+
             GameSounds::Play(GameSounds::PICKUP_TOOL);
             node.Remove();
         }

@@ -23,9 +23,7 @@ namespace Craft {
 				if (haveAllNeededItems) {
 					for (uint j = 0; j < recipes[i].items.length; j++) {
 						Inventory::Item item = recipes[i].items[j];
-						for (uint k = 0; k < item.count; k++) {
-							Inventory::RemoveItem(item.name);
-						}
+						Inventory::RemoveItem(item.name, item.count);
 					}
 					VariantMap data;
 	                data["Name"] = recipes[i].name;

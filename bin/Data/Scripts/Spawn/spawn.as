@@ -159,10 +159,11 @@ namespace Spawn {
                     Clouds::DestroyById(spawner.units[i].id);
                 }
                 spawner.units.Erase(i);
-            }
-            if (scene_.GetNode(spawner.units[i].id) is null) {
-                //log.Warning("Spawner unit[" + spawner.units[i].id + "] was removed from scene");
-                spawner.units.Erase(i);
+            } else {
+                if (scene_.GetNode(spawner.units[i].id) is null) {
+                    //log.Warning("Spawner unit[" + spawner.units[i].id + "] was removed from scene");
+                    spawner.units.Erase(i);
+                }
             }
         }
         spawner.lastCheckTime = 0.0f;

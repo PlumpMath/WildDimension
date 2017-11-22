@@ -1,3 +1,5 @@
+#include "GUI/notifications.as"
+
 namespace GUIHandler {
 
     const String GUI_FONT = "Fonts/PainttheSky-Regular.otf";
@@ -33,6 +35,11 @@ namespace GUIHandler {
         CreatePositionText();
         CreateNotes();
         CreateDreamCloudSprite();
+
+        Notifications::Init();
+
+        Subscribe();
+        RegisterConsoleCommands();
     }
 
     void CreateLogo()
@@ -239,6 +246,8 @@ namespace GUIHandler {
         if (tip.text !is null) {
             tip.text.Remove();
         }
+
+        Notifications::Destroy();
     }
 
     void CreateNetworkTrafficDebug()
@@ -418,5 +427,7 @@ namespace GUIHandler {
         if (positionText !is null) {
             positionText.text = "X: " + String(cameraNode.worldPosition.x) + "\n" + "Y: " + String(cameraNode.worldPosition.y) + "\n" + "Z: " + String(cameraNode.worldPosition.z);
         }
+
+        Notifications::HandleUpdate(eventType, eventData);
     }
 }

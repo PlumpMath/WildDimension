@@ -67,14 +67,23 @@ namespace Inventory {
     	}
     	log.Info("Adding item[" + name + "] to inventory");
     	SendEvent("UpdateInventoryGUI");
+
+        VariantMap data;
+        data["Message"] = "+1 " + name;
+        data["Type"] = Notifications::NOTIFICATION_TYPE_GOOD;
+        SendEvent("AddNotification", data);
     }
 
-    void RemoveItem(String name)
+    void RemoveItem(String name, uint count = 1)
     {
         for (uint i = 0; i < items.length; i++) {
             Item@ item = items[i];
             if (item.name == name) {
-                item.count--;
+                item.count -= count;
+                VariantMap data;
+                data["Message"] = "-" + count + " " + name;
+                data["Type"] = Notifications::NOTIFICATION_TYPE_BAD;
+                SendEvent("AddNotification", data);
                 if (item.count <= 0) {
                     items.Erase(i);
                     return;
