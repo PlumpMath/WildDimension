@@ -20,8 +20,8 @@ namespace Player {
     Node@ CreatePlayer()
     {
         Vector3 position = scene_.GetChild("Airplane", true).position;
-        position.x += 5.0f;
-        position.z += 5.0f;
+        position.x += 10.0f;
+        position.z += 10.0f;
         playerNode = scene_.CreateChild("PlayerNode");
         playerNode.position = position;
         playerNode.temporary = true;
@@ -62,6 +62,9 @@ namespace Player {
         SubscribeToEvent(playerNode, "NodeCollision", "Player::HandleNodeCollision");
         Subscribe();
         RegisterConsoleCommands();
+
+        Spawn::Create(position, 10.0f, 5, 2.0f, 10.0f, Spawn::SPAWN_UNIT_SNAKE);
+        Spawn::Create(position, 10.0f, 5, 2.0f, 5.0f, Spawn::SPAWN_UNIT_PACMAN);
         return playerNode;
     }
 
@@ -75,7 +78,7 @@ namespace Player {
         VariantMap data;
         data["CONSOLE_COMMAND_NAME"] = "noclip";
         data["CONSOLE_COMMAND_EVENT"] = "NoclipToggle";
-        SendEvent("ConsoleCommandAdd", data);   
+        SendEvent("ConsoleCommandAdd", data);
     }
 
     void HandleNoclip(StringHash eventType, VariantMap& eventData)
@@ -184,7 +187,7 @@ namespace Player {
         playerBody.ApplyImpulse(brakeForce);
 
         if (jump && onGround) {
-            playerBody.ApplyImpulse(Vector3::UP * 5);
+            playerBody.ApplyImpulse(Vector3::UP * 8);
             GameSounds::Play(GameSounds::JUMP);
         }
 

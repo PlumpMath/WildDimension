@@ -171,14 +171,14 @@ namespace NetworkHandler {
         for (int i = -5; i < 5; i+=5) {
             for (int j = -5; j < 5; j+=5) {
                 Vector3 position = Vector3(i * 140 + Random(120.0f), 0.0, j * 140 + Random(120.0f));
-                Pacman::Create(position);
+                //Pacman::Create(position);
             }
         }
 
         for (int i = -5; i < 5; i+=5) {
             for (int j = -5; j < 5; j+=5) {
                 Vector3 position = Vector3(i * 120 + Random(130.0f), 0.0, j * 120 + Random(130.0f));
-                Snake::Create(position);
+                //Snake::Create(position);
             }
         }
 
@@ -323,8 +323,9 @@ namespace NetworkHandler {
         RaspberryBush::HandleUpdate(eventType, eventData);
         Clouds::HandleUpdate(eventType, eventData);
         EnvObjects::HandlePostUpdate(eventType, eventData);
+        Spawn::HandleUpdate(eventType, eventData);
 
-        //Get client terrain if it not exist
+        //Get client terrain if doesn't exist
         if (terrain is null && scene_ !is null) {
             terrainNode = scene_.GetChild("Terrain");
             if (terrainNode !is null) {
@@ -335,30 +336,6 @@ namespace NetworkHandler {
         float timeStep = eventData["TimeStep"].GetFloat();
 
         stats.gameTime += timeStep;
-        // Get the light and billboard scene nodes
-        Array<Node@> lightNodes = scene_.GetChildrenWithComponent("Light");
-        Array<Node@> billboardNodes = scene_.GetChildrenWithComponent("BillboardSet");
-
-        const float LIGHT_ROTATION_SPEED = 0.50f;
-        const float BILLBOARD_ROTATION_SPEED = 50.0f;
-
-        // Rotate the lights around the world Y-axis
-        for (uint i = 0; i < lightNodes.length; ++i)
-            lightNodes[i].Rotate(Quaternion(0.0f, LIGHT_ROTATION_SPEED * timeStep, 0.0f), TS_WORLD);
-
-        // Rotate the individual billboards within the billboard sets, then recommit to make the changes visible
-        for (uint i = 0; i < billboardNodes.length; ++i)
-        {
-            BillboardSet@ billboardObject = billboardNodes[i].GetComponent("BillboardSet");
-
-            for (uint j = 0; j < billboardObject.numBillboards; ++j)
-            {
-                Billboard@ bb = billboardObject.billboards[j];
-                bb.rotation += BILLBOARD_ROTATION_SPEED * timeStep;
-            }
-
-            billboardObject.Commit();
-        }
     }
 
     void DisconnectClients()

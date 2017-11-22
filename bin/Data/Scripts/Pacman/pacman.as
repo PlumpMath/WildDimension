@@ -5,6 +5,7 @@ namespace Pacman {
         uint stage;
         float sleepTime;
         Node@ targetNode;
+        float lifetime;
     };
     Array<SinglePacman> pacmans;
     const float PACMAN_MOVE_SPEED = 0.05f;
@@ -71,6 +72,17 @@ namespace Pacman {
         pacmans.Clear();
     }
 
+    void DestroyById(uint id)
+    {
+        for (uint i = 0; i < pacmans.length; i++) {
+            if (pacmans[i].node.id == id) {
+                pacmans[i].node.Remove();
+                pacmans.Erase(i);
+                return;
+            }
+        }
+    }
+
     void Subscribe()
     {
         SubscribeToEvent("PacmanRemove", "Pacman::HandlePacmanRemove");
@@ -133,6 +145,7 @@ namespace Pacman {
     {
         float timeStep = eventData["TimeStep"].GetFloat();
         for (uint i = 0; i < pacmans.length; i++) {
+            pacmans[i].lifetime += timeStep;
             if (pacmans[i].stage == 1) {
                 pacmans[i].sleepTime -= timeStep;
                 if (pacmans[i].sleepTime <= 0.0f) {

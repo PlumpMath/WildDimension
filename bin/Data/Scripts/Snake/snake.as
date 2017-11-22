@@ -7,6 +7,7 @@ namespace Snake {
         uint stage;
         float sleepTime;
         ParticleEmitter@ particleEmitter;
+        float lifetime;
     };
     const float SNAKE_MOVE_SPEED = 0.05f;
     const float SNAKE_SCALE = 1.0f;
@@ -72,10 +73,9 @@ namespace Snake {
             snakeBody.body.Push(createSnakeBodyPart(snakeBody));
         }
         GameSounds::AddLoopedSoundToNode(snakeNode, GameSounds::SNAKE);
-        
         snakes.Push(snakeBody);
 
-        return snakeNode;
+        return snakeBody.body[0];
     }
 
     void Destroy()
@@ -86,6 +86,20 @@ namespace Snake {
             }
         }
         snakes.Clear();
+    }
+
+    void DestroyById(uint id)
+    {
+        for (uint i = 0; i < snakes.length; i++) {
+            if (snakes[i].body[0].id == id) {
+                for (uint j = 0; j < snakes[i].body.length; j++) {
+                    snakes[i].body[j].Remove();
+                }
+                log.Warning("Destroying snake[" + id + "]");
+                snakes.Erase(i);
+                return;
+            }
+        }
     }
 
     void Subscribe()
@@ -194,6 +208,7 @@ namespace Snake {
         float timeStep = eventData["TimeStep"].GetFloat();
         for (uint i = 0; i < snakes.length; i++) {
             SnakeBody@ snakeBody = snakes[i];
+            snakeBody.lifetime += timeStep;
             
             if (snakeBody.targetNode is null || snakeBody.targetNode.enabled == false) {
                 snakeBody.targetNode = getNearestApple(snakeBody.body[0].worldPosition);

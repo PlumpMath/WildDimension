@@ -48,6 +48,8 @@
 
 #include "Places/places.as"
 
+#include "Spawn/spawn.as"
+
 Scene@ scene_;
 uint screenJoystickIndex = M_MAX_UNSIGNED; // Screen joystick index for navigational controls (mobile platforms only)
 uint screenJoystickSettingsIndex = M_MAX_UNSIGNED; // Screen joystick index for settings (mobile platforms only)
