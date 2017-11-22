@@ -82,6 +82,17 @@ namespace Pickable {
         return node;
     }
 
+    void DestroyById(uint id)
+    {
+        for (uint i = 0; i < pickables.length; i++) {
+            if (pickables[i].id == id) {
+                pickables[i].Remove();
+                pickables.Erase(i);
+                return;
+            }
+        }
+    }
+
     void Subscribe()
     {
         SubscribeToEvent("GetItem", "Pickable::HandlePickup");

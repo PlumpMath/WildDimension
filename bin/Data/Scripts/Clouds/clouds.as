@@ -55,6 +55,26 @@ namespace Clouds {
         }
     }
 
+    void DestroyById(uint id)
+    {
+        for (uint i = 0; i < clouds.length; i++) {
+            Cloud@ cloud = clouds[i];
+            if (id == cloud.node.id) {
+                for (uint j = 0; j < cloud.raindrops.length; j++) {
+                    cloud.raindrops[j].Remove();
+                }
+                Vector3 newPosition = cloud.node.position;
+                newPosition.x *= -1;
+                newPosition.z *= -1;
+                Create(newPosition);
+                cloud.node.Remove();
+                cloud.raindrops.Clear();
+                clouds.Erase(i);
+                return;
+            }
+        }
+    }
+
     void Destroy()
     {
         for (uint i = 0; i < clouds.length; i++) {
@@ -166,9 +186,6 @@ namespace Clouds {
             Cloud@ cloud = clouds[i];
             Vector3 wind = Vector3(timeStep * 30, 0, 0);
             cloud.node.Translate(wind, TS_WORLD);
-            if (Abs(cloud.node.position.x) > 2000 || Abs(cloud.node.position.z) > 2000) {
-                DestroySingle(cloud);
-            }
             if (cloud.active == false) {
                 continue;
             }

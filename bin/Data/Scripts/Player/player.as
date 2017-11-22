@@ -65,7 +65,13 @@ namespace Player {
 
         //Spawn::Create(position, 10.0f, 5, 2.0f, 10.0f, Spawn::SPAWN_UNIT_SNAKE);
         //Spawn::Create(position, 10.0f, 5, 2.0f, 5.0f, Spawn::SPAWN_UNIT_PACMAN);
-        Spawn::Create(position, 100.0f, 100.0f, 10, 1.0f, Spawn::SPAWN_UNIT_ROCK);
+        //Spawn::Create(position, 100.0f, 100.0f, 10, 1.0f, Spawn::SPAWN_UNIT_ROCK);
+        Spawn::Create(position, 10.0f, 200.0f, 200, 5, 1.0f, Spawn::SPAWN_UNIT_SNAKE);
+        Spawn::Create(position, 10.0f, 200.0f, 200, 5, 1.0f, Spawn::SPAWN_UNIT_PACMAN);
+        Spawn::Create(position, 10.0f, 200.0f, 200, 5, 1.0f, Spawn::SPAWN_UNIT_ROCK);
+        position.y += 200;
+        //position, minSpawnRadius, maxSpawnRadius, maxUnitRadius, maxUnits, spawnTime, type
+        Spawn::Create(position, 1000.0f, 2000.0f, 200, 5, 1.0f, Spawn::SPAWN_UNIT_CLOUD);
         return playerNode;
     }
 
