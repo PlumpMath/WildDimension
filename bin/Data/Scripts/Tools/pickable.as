@@ -39,7 +39,7 @@ class PickableObject : ScriptObject
 namespace Pickable {
     Array<Node@> pickables;
 
-    void Create(Vector3 position, String name, String model)
+    Node@ Create(Vector3 position, String name, String model)
     {
         Node@ node = scene_.CreateChild(name);
         node.temporary = true;
@@ -78,6 +78,8 @@ namespace Pickable {
 
         node.CreateScriptObject(scriptFile, "PickableObject");
         pickables.Push(node);
+
+        return node;
     }
 
     void Subscribe()

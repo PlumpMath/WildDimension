@@ -63,8 +63,9 @@ namespace Player {
         Subscribe();
         RegisterConsoleCommands();
 
-        Spawn::Create(position, 10.0f, 5, 2.0f, 10.0f, Spawn::SPAWN_UNIT_SNAKE);
-        Spawn::Create(position, 10.0f, 5, 2.0f, 5.0f, Spawn::SPAWN_UNIT_PACMAN);
+        //Spawn::Create(position, 10.0f, 5, 2.0f, 10.0f, Spawn::SPAWN_UNIT_SNAKE);
+        //Spawn::Create(position, 10.0f, 5, 2.0f, 5.0f, Spawn::SPAWN_UNIT_PACMAN);
+        Spawn::Create(position, 100.0f, 100.0f, 10, 1.0f, Spawn::SPAWN_UNIT_ROCK);
         return playerNode;
     }
 

@@ -168,26 +168,13 @@ namespace NetworkHandler {
         shape.SetTerrain();*/
 
         ActiveTool::Create();
-        for (int i = -5; i < 5; i+=5) {
-            for (int j = -5; j < 5; j+=5) {
-                Vector3 position = Vector3(i * 140 + Random(120.0f), 0.0, j * 140 + Random(120.0f));
-                //Pacman::Create(position);
-            }
-        }
-
-        for (int i = -5; i < 5; i+=5) {
-            for (int j = -5; j < 5; j+=5) {
-                Vector3 position = Vector3(i * 120 + Random(130.0f), 0.0, j * 120 + Random(130.0f));
-                //Snake::Create(position);
-            }
-        }
 
         for (int i = -20; i < 20; i+=3) {
             for (int j = -20; j < 20; j+=3) {
                 Vector3 position = Vector3(i * 141 + Random(130.0f), 0.0, j * 133 + + Random(130.0f));
                 AppleTree::Create(position);
 
-                position.x += 12.0f + Random(12.0f);
+                /*position.x += 12.0f + Random(12.0f);
                 position.z += 12.0f + Random(12.0f);
                 Pickable::Create(position, "Rock", "Models/Models/Small_rock.mdl");
                 position.x += 12.0f + Random(12.0f);
@@ -199,6 +186,7 @@ namespace NetworkHandler {
                 position.x += 12.0f + Random(12.0f);
                 position.z += 12.0f + Random(12.0f);
                 Pickable::Create(position, "Rock", "Models/Models/Small_rock4.mdl");
+                */
             }
         }
 

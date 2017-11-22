@@ -1,6 +1,7 @@
 namespace Spawn {
     const uint SPAWN_UNIT_SNAKE = 1;
     const uint SPAWN_UNIT_PACMAN = 2;
+    const uint SPAWN_UNIT_ROCK = 3;
 
     //Instead of checking units each frame, spawner will
     //check distances for spawner units and decide their fate
@@ -14,7 +15,7 @@ namespace Spawn {
 
     //If camera is closer than this distance
     //disable spawner
-    const float SPAWN_NEAR_DISTANCE = 30.0f;
+    const float SPAWN_NEAR_DISTANCE = 10.0f;
     const float SPAWN_NEAR_DISTANCE_SQUARED = SPAWN_NEAR_DISTANCE * SPAWN_NEAR_DISTANCE * SPAWN_NEAR_DISTANCE;
 
     class Spawner {
@@ -33,7 +34,6 @@ namespace Spawn {
 
     void Create(Vector3 position, float spawnRadius, float maxUnitRadius, uint maxUnits, float spawnTime, uint type)
     {
-        log.Warning("Creating spawner");
         Spawner spawner;
         spawner.node = scene_.CreateChild("Spawner");
         spawner.node.temporary = true;
@@ -58,9 +58,18 @@ namespace Spawn {
         }
     }
 
+    Vector3 GetRandomPositionInRange(Spawner& spawner)
+    {
+        Vector3 position = spawner.node.position;
+        position.x += Random(spawner.spawnRadius * 2) - (spawner.spawnRadius);
+        position.y += Random(spawner.spawnRadius * 2) - (spawner.spawnRadius);
+        position.z += Random(spawner.spawnRadius * 2) - (spawner.spawnRadius);
+        return position;
+    }
+
     void CreateSnake(Spawner& spawner)
     {
-        Node@ node = Snake::Create(spawner.node.position);
+        Node@ node = Snake::Create(GetRandomPositionInRange(spawner));
         log.Warning("Spawner creating snake[" + node.id + "]");
         spawner.units.Push(node);
         spawner.lastSpawnTime = 0.0f;
@@ -68,8 +77,17 @@ namespace Spawn {
 
     void CreatePacman(Spawner& spawner)
     {
-        Node@ node = Pacman::Create(spawner.node.position);
+        Node@ node = Pacman::Create(GetRandomPositionInRange(spawner));
         log.Warning("Spawner creating pacman[" + node.id + "]");
+        spawner.units.Push(node);
+        spawner.lastSpawnTime = 0.0f;
+    }
+
+    void CreateRock(Spawner& spawner)
+    {
+        int rockModelNum = 1 + RandomInt(4);   
+        Node@ node = Pickable::Create(GetRandomPositionInRange(spawner), "Rock", "Models/Models/Small_rock" + rockModelNum + ".mdl");
+        log.Warning("Spawner creating rock[" + node.id + "]");
         spawner.units.Push(node);
         spawner.lastSpawnTime = 0.0f;
     }
@@ -110,6 +128,10 @@ namespace Spawn {
                 }
                 spawner.units.Erase(i);
             }
+            if (scene_.GetNode(spawner.units[i].id) is null) {
+                log.Warning("Spawner unit[" + spawner.units[i].id + "] was removed from scene");
+                spawner.units.Erase(i);
+            }
         }
         spawner.lastCheckTime = 0.0f;
     }
@@ -141,6 +163,8 @@ namespace Spawn {
                         CreateSnake(spawners[i]);
                     } else if (spawners[i].type == SPAWN_UNIT_PACMAN) {
                         CreatePacman(spawners[i]);
+                    } else if (spawners[i].type == SPAWN_UNIT_ROCK) {
+                        CreateRock(spawners[i]);
                     }
                 }
             }
