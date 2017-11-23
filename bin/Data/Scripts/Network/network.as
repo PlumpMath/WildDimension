@@ -4,6 +4,25 @@ namespace NetworkHandler {
     Node@ terrainNode;
     Terrain@ terrain;
 
+    const float LIGHT_CHANGE_SPEED = 0.5f;
+    class Sunlight {
+        Node@ node;
+        Light@ light;
+        Color color;
+        float currentIntensity;
+        float targetIntensity;
+        float intensityBeforeChange;
+        float transitionTime;
+        bool change;
+        int hour;
+
+        Color ambientColor;
+        Color fogColor;
+        Zone@ zone;
+    };
+
+    Sunlight sunlight;
+
     class Stats {
         float gameTime;
     }
@@ -23,6 +42,12 @@ namespace NetworkHandler {
 
     void StartServer()
     {
+        sunlight.change = false;
+        sunlight.hour = 9;
+        sunlight.ambientColor = Color(0.1, 0.1, 0.1);
+        sunlight.fogColor = Color(0.8f, 0.8f, 0.7f);
+        SendEvent("HourChange");
+
         Places::Init();
         Spawn::Init();
         stats.gameTime = 0.0f;
@@ -34,14 +59,14 @@ namespace NetworkHandler {
 
         network.updateFps = 10;
 
-         Node@ zoneNode = scene_.CreateChild("Zone");
-        Zone@ zone = zoneNode.CreateComponent("Zone");
+        Node@ zoneNode = scene_.CreateChild("Zone");
+        sunlight.zone = zoneNode.CreateComponent("Zone");
         // Set same volume as the Octree, set a close bluish fog and some ambient light
-        zone.boundingBox = BoundingBox(-10000.0f, 10000.0f);
-        zone.ambientColor = Color(0.4f, 0.4f, 0.3f);
-        zone.fogColor = Color(0.8f, 0.8f, 0.7f);
-        zone.fogStart = 500.0f;
-        zone.fogEnd = 1000.0f;
+        sunlight.zone.boundingBox = BoundingBox(-10000.0f, 10000.0f);
+        sunlight.zone.ambientColor = sunlight.ambientColor;
+        sunlight.zone.fogColor = sunlight.fogColor;
+        sunlight.zone.fogStart = 500.0f;
+        sunlight.zone.fogEnd = 1000.0f;
         /*Array<Terrain@> terrains;
         for (int x = 0; x < 1; x++) {
             for (int y = 0; y < 1; y++) {
@@ -252,6 +277,7 @@ namespace NetworkHandler {
         SubscribeToEvent("ClientIdentity", "NetworkHandler::HandleClientIdentity");
         SubscribeToEvent("ClientsList", "NetworkHandler::HandleClientsList");
         SubscribeToEvent("SaveMap", "NetworkHandler::HandleSaveMap");
+        SubscribeToEvent("HourChange", "NetworkHandler::HandleDayNightTime");
         //SubscribeToEvent("ServerDisconnected", "HandleConnectionStatus");
 
         Clouds::Subscribe();
@@ -296,6 +322,10 @@ namespace NetworkHandler {
         data["CONSOLE_COMMAND_NAME"] = "save_map";
         data["CONSOLE_COMMAND_EVENT"] = "SaveMap";
         SendEvent("ConsoleCommandAdd", data);
+
+        data["CONSOLE_COMMAND_NAME"] = "hour_increase";
+        data["CONSOLE_COMMAND_EVENT"] = "HourChange";
+        SendEvent("ConsoleCommandAdd", data);
     }
 
     void HandleConnectionStatus(StringHash eventType, VariantMap& eventData)
@@ -324,6 +354,20 @@ namespace NetworkHandler {
         }
         // Take the frame time step, which is stored as a float
         float timeStep = eventData["TimeStep"].GetFloat();
+
+        //Handle light intensity change
+        if (sunlight.change && sunlight.light !is null) {
+            float diff = sunlight.targetIntensity - sunlight.intensityBeforeChange;
+            sunlight.transitionTime += timeStep * LIGHT_CHANGE_SPEED;
+            if (sunlight.transitionTime > 1.0f) {
+                sunlight.transitionTime = 1.0f;
+                sunlight.change = false;
+            }
+            sunlight.currentIntensity = sunlight.intensityBeforeChange + diff * sunlight.transitionTime;
+            sunlight.light.color = Color(sunlight.color.r * sunlight.currentIntensity, sunlight.color.g * sunlight.currentIntensity, sunlight.color.b * sunlight.currentIntensity);
+            sunlight.zone.ambientColor = Color(sunlight.ambientColor.r * sunlight.currentIntensity, sunlight.ambientColor.g * sunlight.currentIntensity, sunlight.ambientColor.b * sunlight.currentIntensity);
+            sunlight.zone.fogColor = Color(sunlight.fogColor.r * sunlight.currentIntensity, sunlight.fogColor.g * sunlight.currentIntensity, sunlight.fogColor.b * sunlight.currentIntensity);
+        }
 
         stats.gameTime += timeStep;
     }
@@ -410,5 +454,84 @@ namespace NetworkHandler {
     void HandlePhysicsPreStep(StringHash eventType, VariantMap& eventData)
     {
         Player::HandlePhysicsPreStep(eventType, eventData);
+    }
+
+    float GetHourLightIntensity(int hour) {
+        if (hour <= 3) {
+            return 0.1;
+        }
+        if (hour <= 4) {
+            return 0.15;
+        }
+        if (hour <= 5) {
+            return 0.3;
+        }
+        if (hour <= 6) {
+            return 0.4;
+        }
+        if (hour <= 7) {
+            return 0.6;
+        }
+        if (hour <= 8) {
+            return 0.8;
+        }
+        if (hour <= 9) {
+            return 0.85;
+        }
+        if (hour <= 10) {
+            return 0.9;
+        }
+        if (hour <= 12) {
+            return 0.95;
+        }
+        if (hour <= 18) {
+            return 1.0;
+        }
+        if (hour <= 19) {
+            return 0.9;
+        }
+        if (hour <= 20) {
+            return 0.8;
+        }
+        if (hour <= 21) {
+            return 0.6;
+        }
+        if (hour <= 22) {
+            return 0.4;
+        }
+        if (hour <= 23) {
+            return 0.2;
+        }
+
+        return 0.1f;
+    }
+
+    void HandleDayNightTime(StringHash eventType, VariantMap& eventData)
+    {
+
+        log.Warning("Current hour: " + sunlight.hour + ", intensity = " + GetHourLightIntensity(sunlight.hour));
+        if (eventData.Contains("Hour")) {
+            uint hour = eventData["Hour"].GetUInt();
+            sunlight.hour = hour;
+        } else {
+            sunlight.hour++;
+        }
+        log.Warning("New hour: " + sunlight.hour + ", intensity = " + GetHourLightIntensity(sunlight.hour));
+        if (sunlight.hour > 23) {
+            sunlight.hour = 0;
+        }
+        if (sunlight.node is null) {
+            sunlight.node = scene_.GetChild("DirectionalLight");
+        }
+        if (sunlight.light is null) {
+            sunlight.light = sunlight.node.GetComponent("Light");
+            sunlight.currentIntensity = GetHourLightIntensity(sunlight.hour);
+            sunlight.color = Color(0.8, 0.8, 0.8, 1);
+        }
+
+        sunlight.change = true;
+        sunlight.targetIntensity = GetHourLightIntensity(sunlight.hour);
+        sunlight.intensityBeforeChange = sunlight.currentIntensity;
+        sunlight.transitionTime = 0.0f;
     }
 }

@@ -26,6 +26,8 @@ namespace GUIHandler {
     };
     Tip tip;
 
+    Sprite@ crosshair;
+
     void CreateGUI()
     {
         //CreateLogo();
@@ -40,6 +42,7 @@ namespace GUIHandler {
 
         Subscribe();
         RegisterConsoleCommands();
+        CreateCrosshair();
     }
 
     void CreateLogo()
@@ -78,6 +81,44 @@ namespace GUIHandler {
 
         // Set a low priority for the logo so that other UI elements can be drawn on top
         logoSprite.priority = -100;
+    }
+
+    void CreateCrosshair()
+    {
+        if (engine.headless) {
+            return;
+        }
+        // Get logo texture
+        Texture2D@ texture = cache.GetResource("Texture2D", "Textures/crosshair.png");
+        if (texture is null)
+            return;
+
+        // Create logo sprite and add to the UI layout
+        crosshair = ui.root.CreateChild("Sprite");
+
+        // Set logo sprite texture
+        crosshair.texture = texture;
+
+        int textureWidth = texture.width;
+        int textureHeight = texture.height;
+
+        // Set logo sprite scale
+        crosshair.SetScale(256.0f / textureWidth);
+
+        // Set logo sprite size
+        crosshair.SetSize(textureWidth, textureHeight);
+
+        // Set logo sprite hot spot
+        crosshair.SetHotSpot(textureWidth/2, textureHeight/2);
+
+        // Set logo sprite alignment
+        crosshair.SetAlignment(HA_CENTER, VA_CENTER);
+
+        // Make logo not fully opaque to show the scene underneath
+        crosshair.opacity = 0.3f;
+
+        // Set a low priority for the logo so that other UI elements can be drawn on top
+        crosshair.priority = -100;
     }
 
     void CreateDreamCloudSprite()
@@ -247,6 +288,9 @@ namespace GUIHandler {
         if (tip.text !is null) {
             tip.text.Remove();
         }
+        if (crosshair !is null) {
+            crosshair.Remove();
+        }
 
         Notifications::Destroy();
     }
@@ -332,7 +376,6 @@ namespace GUIHandler {
         Missions::MissionItem missionItem  = Missions::GetActiveMission();
         if (missionItem.type == Missions::TYPE_PICKUP) {
             Craft::Recipe recipe = Craft::GetRecipe(missionItem.itemName);
-            log.Warning("Mission item " + recipe.name + " > " + missionItem.itemName);
             if (recipe.name.length > 0) {
                 notesLines[0].text = missionItem.itemName + ":";
                 notesLines[0].color = Color(0.2, 0.2, 0.2);

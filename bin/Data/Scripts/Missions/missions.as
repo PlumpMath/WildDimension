@@ -16,6 +16,7 @@ namespace Missions {
         bool completed;
         uint type;
         String launchEvent;
+        VariantMap eventData;
     };
 
     String activeMission;
@@ -69,7 +70,7 @@ namespace Missions {
     {
         item.completed = true;
         if (item.launchEvent.length > 0) {
-            SendEvent(item.launchEvent);
+            SendEvent(item.launchEvent, item.eventData);
         }
     }
 
@@ -121,6 +122,8 @@ namespace Missions {
         item.target = 0;
         item.completed = false;
         item.type = TYPE_REACH_POINT;
+        item.launchEvent = "HourChange";
+        item.eventData["Hour"] = 12;
         AddMission(item);
 
         item.name = "Second";
@@ -132,6 +135,8 @@ namespace Missions {
         item.target = 1;
         item.completed = false;
         item.type = TYPE_PICKUP;
+        item.launchEvent = "HourChange";
+        item.eventData["Hour"] = 13;
         AddMission(item);
 
         item.name = "Third";
@@ -143,6 +148,8 @@ namespace Missions {
         item.target = 0;
         item.completed = false;
         item.type = TYPE_REACH_POINT;
+        item.launchEvent = "HourChange";
+        item.eventData["Hour"] = 15;
         AddMission(item);
 
         item.name = "Fourth";
@@ -153,6 +160,8 @@ namespace Missions {
         item.target = 1;
         item.completed = false;
         item.type = TYPE_PICKUP;
+        item.launchEvent = "HourChange";
+        item.eventData["Hour"] = 16;
         AddMission(item);
 
         item.name = "Fifth";
@@ -176,6 +185,8 @@ namespace Missions {
         item.target = 0;
         item.completed = false;
         item.type = TYPE_LEAVE_POINT;
+        item.launchEvent = "HourChange";
+        item.eventData["Hour"] = 18;
         AddMission(item);
 
         item.name = "Seventh";
@@ -186,6 +197,8 @@ namespace Missions {
         item.target = 1;
         item.completed = false;
         item.type = TYPE_PICKUP;
+        item.launchEvent = "HourChange";
+        item.eventData["Hour"] = 19;
         AddMission(item);
 
         item.name = "Eight";
@@ -196,6 +209,8 @@ namespace Missions {
         item.target = 1;
         item.completed = false;
         item.type = TYPE_USE_ITEM;
+        item.launchEvent = "HourChange";
+        item.eventData["Hour"] = 20;
         AddMission(item);
 
         item.name = "Nine";
@@ -206,6 +221,8 @@ namespace Missions {
         item.target = 1;
         item.completed = false;
         item.type = TYPE_PICKUP;
+        item.launchEvent = "HourChange";
+        item.eventData["Hour"] = 21;
         AddMission(item);
 
         item.name = "Ten";
@@ -216,6 +233,8 @@ namespace Missions {
         item.target = 3;
         item.completed = false;
         item.type = TYPE_USE_ITEM;
+        item.launchEvent = "HourChange";
+        item.eventData["Hour"] = 23;
         AddMission(item);
 
 
@@ -241,7 +260,6 @@ namespace Missions {
 
     void HandleCompleteCurrentMission(StringHash eventType, VariantMap& eventData)
     {
-        log.Info("Mission " + activeMission);
         for (uint i = 0; i < missionList.length; i++) {
             MissionItem@ item = missionList[i];
             if (activeMission == item.eventName) {

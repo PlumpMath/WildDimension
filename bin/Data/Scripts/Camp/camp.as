@@ -8,6 +8,7 @@ namespace Camp {
         ParticleEmitter@ smokeEmitter;
         ParticleEmitter@ fireEmitter;
         uint state;
+        Light@ light;
     };
     Array<Campfire> campfires;
 
@@ -58,6 +59,14 @@ namespace Camp {
         campfire.fireEmitter.emitting = false;
         campfire.fireEmitter.viewMask = VIEW_MASK_STATIC_OBJECT;
 
+        Node@ lightNode = campfire.node.CreateChild("LightNode");
+        lightNode.position = Vector3(0, 0.5, 0);
+        campfire.light = lightNode.CreateComponent("Light");
+        campfire.light.lightType = LIGHT_POINT;
+        campfire.light.color = Color(0.88, 0.34, 0.13);
+        campfire.light.range = 100.0f;
+        campfire.light.enabled = false;
+
         campfires.Push(campfire);
     }
 
@@ -72,12 +81,15 @@ namespace Camp {
                 if (campfires[i].state == STATE_INACTIVE) {
                     campfires[i].smokeEmitter.emitting = false;
                     campfires[i].fireEmitter.emitting = false;
+                    campfires[i].light.enabled = false;
                 } else if (campfires[i].state == STATE_SMOKING) {
                     campfires[i].smokeEmitter.emitting = true;
                     campfires[i].fireEmitter.emitting = false;
+                    campfires[i].light.enabled = false;
                 } else if (campfires[i].state == STATE_BURNING) {
                     campfires[i].smokeEmitter.emitting = true;
                     campfires[i].fireEmitter.emitting = true;
+                    campfires[i].light.enabled = true;
                 }
             }
         }
