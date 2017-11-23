@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <particleeffect>
-	<material name="Materials/Z.xml" />
+	<material name="Materials/Star.xml" />
 	<numparticles value="50" />
 	<updateinvisible enable="true" />
 	<relative enable="true" />
@@ -10,16 +10,16 @@
 	<emittertype value="Box" />
 	<emittersize value="1 1 1" />
 	<direction min="-0.15 1 -0.15" max="0.15 1 0.15" />
-	<constantforce value="0 2 0" />
+	<constantforce value="0 0 0" />
 	<dampingforce value="2" />
 	<activetime value="0" />
 	<inactivetime value="0" />
 	<emissionrate min="5" max="10" />
-	<particlesize min="0.1 0.1" max="0.3 0.3" />
+	<particlesize min="0.2 0.2" max="0.4 0.4" />
 	<timetolive min="4" max="4" />
-	<velocity min="1" max="5" />
+	<velocity min="0" max="0" />
 	<rotation min="0" max="0" />
-	<rotationspeed min="5" max="10" />
+	<rotationspeed min="10" max="20" />
 	<sizedelta add="0" mul="1.3" />
 	<colorfade color="1 1 1 0" time="0" />
 	<colorfade color="0.69 0.33 0.2 0.5" time="0.64" />

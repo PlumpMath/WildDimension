@@ -1,7 +1,12 @@
 namespace Pacman {
+    const uint STAGE_MOVE = 0;
+    const uint STAGE_SLEEP = 1;
+    const uint STAGE_DULL = 2;
+
     class SinglePacman {
         Node@ node;
-        ParticleEmitter@ particleEmitter;
+        ParticleEmitter@ sleepParticleEmitter;
+        ParticleEmitter@ dullParticleEmitter;
         uint stage;
         float sleepTime;
         Node@ targetNode;
@@ -48,17 +53,26 @@ namespace Pacman {
         CollisionShape@ shape = pacmanNode.CreateComponent("CollisionShape");
         shape.SetBox(Vector3(2, 2, 2));
 
-        ParticleEmitter@ particleEmitter = pacmanNode.CreateComponent("ParticleEmitter");
-        particleEmitter.effect = cache.GetResource("ParticleEffect", "Particle/Dreaming.xml");
-        particleEmitter.emitting = false;
-        particleEmitter.viewMask = VIEW_MASK_STATIC_OBJECT;
+        Node@ sleepParticleNode = pacmanNode.CreateChild("SleepParticleNode");
+        ParticleEmitter@ sleepParticleEmitter = sleepParticleNode.CreateComponent("ParticleEmitter");
+        sleepParticleEmitter.effect = cache.GetResource("ParticleEffect", "Particle/Dreaming.xml");
+        sleepParticleEmitter.emitting = false;
+        sleepParticleEmitter.viewMask = VIEW_MASK_STATIC_OBJECT;
+
+        Node@ dullParticleNode = pacmanNode.CreateChild("DullParticleNode");
+        dullParticleNode.position = Vector3(0, 2, 0);
+        ParticleEmitter@ dullParticleEmitter = dullParticleNode.CreateComponent("ParticleEmitter");
+        dullParticleEmitter.effect = cache.GetResource("ParticleEffect", "Particle/Dull.xml");
+        dullParticleEmitter.emitting = false;
+        dullParticleEmitter.viewMask = VIEW_MASK_STATIC_OBJECT;
 
         GameSounds::AddLoopedSoundToNode(pacmanNode, GameSounds::PACMAN);
 
         SinglePacman pacman;
         pacman.node = pacmanNode;
-        pacman.particleEmitter = particleEmitter;
-        pacman.stage = 0;
+        pacman.sleepParticleEmitter = sleepParticleEmitter;
+        pacman.dullParticleEmitter = dullParticleEmitter;
+        pacman.stage = STAGE_MOVE;
         pacman.sleepTime = 0.0f;
         pacmans.Push(pacman);
         return pacmanNode;
@@ -101,13 +115,27 @@ namespace Pacman {
         Destroy();
     }
 
+    void ChangePacmanState(SinglePacman& pacman, uint stage)
+    {
+        pacman.stage = stage;
+        if (pacman.stage == STAGE_MOVE) {
+            pacman.sleepParticleEmitter.emitting = false;
+            pacman.dullParticleEmitter.emitting = false;
+        } else if (pacman.stage == STAGE_SLEEP) {
+            pacman.sleepParticleEmitter.emitting = true;
+            pacman.dullParticleEmitter.emitting = false;
+        } else if (pacman.stage == STAGE_DULL) {
+            pacman.sleepParticleEmitter.emitting = false;
+            pacman.dullParticleEmitter.emitting = true;
+        }
+    }
+
     void HitPacman(Node@ pacmanNode)
     {
         for (uint i = 0; i < pacmans.length; i++) {
             if (pacmans[i].node.id == pacmanNode.id) {
-                pacmans[i].stage = 1;
-                pacmans[i].particleEmitter.emitting = true;
-                pacmans[i].sleepTime = 5.0f;
+                ChangePacmanState(pacmans[i], STAGE_DULL);
+                pacmans[i].sleepTime = 20.0f;
             }
         }
     }
@@ -146,11 +174,10 @@ namespace Pacman {
         float timeStep = eventData["TimeStep"].GetFloat();
         for (uint i = 0; i < pacmans.length; i++) {
             pacmans[i].lifetime += timeStep;
-            if (pacmans[i].stage == 1) {
+            if (pacmans[i].stage == STAGE_SLEEP || pacmans[i].stage == STAGE_DULL) {
                 pacmans[i].sleepTime -= timeStep;
                 if (pacmans[i].sleepTime <= 0.0f) {
-                    pacmans[i].stage = 0;
-                    pacmans[i].particleEmitter.emitting = false;
+                    ChangePacmanState(pacmans[i], STAGE_MOVE);
                 }
                 continue;
             }

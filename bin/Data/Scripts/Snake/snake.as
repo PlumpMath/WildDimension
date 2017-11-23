@@ -6,9 +6,15 @@ namespace Snake {
         float lastTurn;
         uint stage;
         float sleepTime;
-        ParticleEmitter@ particleEmitter;
+        ParticleEmitter@ sleepParticleEmitter;
+        ParticleEmitter@ dullParticleEmitter;
         float lifetime;
     };
+
+    const uint STAGE_MOVE = 0;
+    const uint STAGE_SLEEP = 1;
+    const uint STAGE_DULL = 2;
+
     const float SNAKE_MOVE_SPEED = 0.05f;
     const float SNAKE_SCALE = 1.0f;
     const uint SNAKE_MAX_LENGTH = 10;
@@ -56,19 +62,28 @@ namespace Snake {
         //shape.SetConvexHull(pacmanObject.model);
         shape.SetBox(Vector3(1.0, 1.0, 1.2));
 
-        ParticleEmitter@ particleEmitter = snakeNode.CreateComponent("ParticleEmitter");
-        particleEmitter.effect = cache.GetResource("ParticleEffect", "Particle/Dreaming.xml");
-        particleEmitter.emitting = false;
-        particleEmitter.viewMask = VIEW_MASK_STATIC_OBJECT;
+        Node@ sleepParticleNode = snakeNode.CreateChild("SleepParticleNode");
+        ParticleEmitter@ sleeParticleEmitter = sleepParticleNode.CreateComponent("ParticleEmitter");
+        sleeParticleEmitter.effect = cache.GetResource("ParticleEffect", "Particle/Dreaming.xml");
+        sleeParticleEmitter.emitting = false;
+        sleeParticleEmitter.viewMask = VIEW_MASK_STATIC_OBJECT;
+
+        Node@ dullParticleNode = snakeNode.CreateChild("DullParticleNode");
+        dullParticleNode.position = Vector3(0, 1, 0);
+        ParticleEmitter@ dullParticleEmitter = dullParticleNode.CreateComponent("ParticleEmitter");
+        dullParticleEmitter.effect = cache.GetResource("ParticleEffect", "Particle/Dull.xml");
+        dullParticleEmitter.emitting = false;
+        dullParticleEmitter.viewMask = VIEW_MASK_STATIC_OBJECT;
 
         SnakeBody snakeBody;
         snakeBody.headNode = snakeNode;
         snakeBody.body.Push(snakeNode);
         snakeBody.targetNode = getNearestApple(snakeBody.body[0].worldPosition);
         snakeBody.lastTurn = 0.0f;
-        snakeBody.stage = 0;
+        snakeBody.stage = STAGE_MOVE;
         snakeBody.sleepTime = 0.0f;
-        snakeBody.particleEmitter = particleEmitter;
+        snakeBody.sleepParticleEmitter = sleeParticleEmitter;
+        snakeBody.dullParticleEmitter = dullParticleEmitter;
         for (uint i = 0; i < SNAKE_MIN_LENGTH; i++) {
             snakeBody.body.Push(createSnakeBodyPart(snakeBody));
         }
@@ -120,13 +135,27 @@ namespace Snake {
         Destroy();
     }
 
+    void ChangeSnakeState(SnakeBody& snake, uint stage)
+    {
+        snake.stage = stage;
+        if (snake.stage == STAGE_MOVE) {
+            snake.sleepParticleEmitter.emitting = false;
+            snake.dullParticleEmitter.emitting = false;
+        } else if (snake.stage == STAGE_SLEEP) {
+            snake.sleepParticleEmitter.emitting = true;
+            snake.dullParticleEmitter.emitting = false;
+        } else if (snake.stage == STAGE_DULL) {
+            snake.sleepParticleEmitter.emitting = false;
+            snake.dullParticleEmitter.emitting = true;
+        }
+    }
+
     void HitSnake(Node@ snakeNode)
     {
         for (uint i = 0; i < snakes.length; i++) {
             if (snakes[i].headNode.id == snakeNode.id) {
-                snakes[i].stage = 1;
-                snakes[i].sleepTime = -5.0f;
-                snakes[i].particleEmitter.emitting = true;
+                snakes[i].sleepTime = -20.0f;
+                ChangeSnakeState(snakes[i], STAGE_DULL);
             }
         }
     }
@@ -214,19 +243,18 @@ namespace Snake {
                 snakeBody.targetNode = getNearestApple(snakeBody.body[0].worldPosition);
             }
 
-            if (snakeBody.stage == 0) {
+            if (snakeBody.stage == STAGE_MOVE) {
                 if (snakeBody.targetNode !is null) {
                     MoveBodyPart(i, 0, snakeBody.body[0], snakeBody.targetNode, timeStep);
                 }
-            } else {
+            } else if (snakeBody.stage == STAGE_SLEEP || snakeBody.stage == STAGE_DULL){
                 snakeBody.sleepTime += timeStep;
                 if (snakeBody.sleepTime > 1.0f) {
                     snakeBody.body[snakeBody.body.length - 1].Remove();
                     snakeBody.body.Erase(snakeBody.body.length - 1);
                     snakeBody.sleepTime -= 1.0f;
                     if (snakeBody.body.length <= SNAKE_MIN_LENGTH) {
-                        snakeBody.stage = 0;
-                        snakeBody.particleEmitter.emitting = false;
+                        ChangeSnakeState(snakeBody, STAGE_MOVE);
                     }
                 }
             }
@@ -258,9 +286,8 @@ namespace Snake {
                     targetNode.SetDeepEnabled(false);
                     snakes[snakeIndex].body.Push(createSnakeBodyPart(snakes[snakeIndex]));
                     if (snakes[snakeIndex].body.length > SNAKE_MAX_LENGTH) {
-                        snakes[snakeIndex].stage = 1;
+                        ChangeSnakeState(snakes[snakeIndex], STAGE_SLEEP);
                         snakes[snakeIndex].sleepTime = 0.0f;
-                        snakes[snakeIndex].particleEmitter.emitting = true;
                     }
                 }
             }
