@@ -8,6 +8,7 @@ namespace ActiveTool {
     const uint TOOL_TENT = 5;
     const uint TOOL_CAMPFIRE = 6;
     const uint TOOL_LIGHTER = 7;
+    const uint TOOL_TORCH = 8;
 
     Node@ node;
     Node@ toolNode;
@@ -45,6 +46,7 @@ namespace ActiveTool {
         Tent::Create();
         Campfire::Create();
         Lighter::Create();
+        Torch::Create();
     }
 
     void AddTool(Node@ node, uint type)

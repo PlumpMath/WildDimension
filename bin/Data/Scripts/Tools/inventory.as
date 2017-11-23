@@ -24,6 +24,7 @@ namespace Inventory {
         registeredItemList["Backpack"] = true;
         registeredItemList["Campfire"] = true;
         registeredItemList["Lighter"] = true;
+        registeredItemList["Torch"] = true;
     }
 
 	void Subscribe()

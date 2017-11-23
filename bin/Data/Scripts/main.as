@@ -32,6 +32,7 @@
 #include "Tools/tent.as"
 #include "Tools/campfire.as"
 #include "Tools/lighter.as"
+#include "Tools/torch.as"
 
 #include "Sounds/sounds.as"
 #include "Camp/camp.as"
