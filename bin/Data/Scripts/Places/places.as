@@ -54,7 +54,7 @@ namespace Places {
 	{
 		places = scene_.GetChildrenWithTag("Visit", true);
 		for (uint i = 0; i < places.length; i++) {
-			log.Info("Found place " + places[i].name + "[" + places[i].id + "]");
+			//log.Info("Found place " + places[i].name + "[" + places[i].id + "]");
 			places[i].CreateScriptObject(scriptFile, "Visitor");
 		}
 	}

@@ -193,6 +193,10 @@ namespace NetworkHandler {
         CollisionShape@ shape = terrainNode.CreateComponent("CollisionShape");
         shape.SetTerrain();*/
 
+        Vector3 campfirePosition = Places::getPlacePosition("Campfire");
+        campfirePosition.x += 5.0f + Random(10.0f);
+        campfirePosition.z += 5.0f + Random(10.0f);
+        Pickable::Create(campfirePosition, "Stem", "Models/Models/Stem.mdl");
         ActiveTool::Create();
 
         for (int i = -20; i < 20; i+=3) {
@@ -356,7 +360,7 @@ namespace NetworkHandler {
         float timeStep = eventData["TimeStep"].GetFloat();
 
         //Handle light intensity change
-        if (sunlight.change && sunlight.light !is null) {
+        if (sunlight.change && sunlight.light !is null && sunlight.zone !is null) {
             float diff = sunlight.targetIntensity - sunlight.intensityBeforeChange;
             sunlight.transitionTime += timeStep * LIGHT_CHANGE_SPEED;
             if (sunlight.transitionTime > 1.0f) {
