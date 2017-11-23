@@ -104,8 +104,15 @@ namespace ActiveTool {
         SendEvent("GameFinished");
     }
 
-    void CreateTent(Vector3 position)
+    bool CreateTent(Vector3 position)
     {
+        if (!Missions::IsMissionCompletedByEventName("GetTrap")) {
+            VariantMap data;
+            data["Message"] = "Can't use this item yet!";
+            data["Type"] = Notifications::NOTIFICATION_TYPE_BAD;
+            SendEvent("AddNotification", data);
+            return false;
+        }
         node = scene_.CreateChild("Tent");
         node.AddTag("Tent");
         position.y = NetworkHandler::terrain.GetHeight(position);
@@ -122,6 +129,7 @@ namespace ActiveTool {
         Inventory::RemoveItem("Tent");
         RemoveActiveTool();
         SendEvent("NextTool");
+        return true;
     }
 
     void CreateCampfire(Vector3 position)
@@ -190,12 +198,10 @@ namespace ActiveTool {
             Lighter::StartAnimation();
         }
         if (Raycast(5.0f, hitPos, hitDrawable, direction)) {
-            VariantMap data;
-            data["Name"] = "Use" + activeTool.node.name;
-            SendEvent("UnlockAchievement", data);
 
             // Check if target scene node already has a DecalSet component. If not, create now
             Node@ targetNode = hitDrawable.node;
+            VariantMap data;
             data["Message"] = "You hit " + targetNode.name + "[" + targetNode.id + "]!";
             SendEvent("UpdateEventLogGUI", data);
 
@@ -215,19 +221,32 @@ namespace ActiveTool {
 
             if (activeTool.type == TOOL_FLAG) {
                 CreateFlag(hitPos);
+                VariantMap data;
+                data["Name"] = "Use" + activeTool.node.name;
+                SendEvent("UnlockAchievement", data);
                 return;
             }
             if (activeTool.type == TOOL_TENT) {
-                CreateTent(hitPos);
-                return;
+                VariantMap data;
+                data["Name"] = "Use" + activeTool.node.name;
+                if (CreateTent(hitPos)) {
+                    SendEvent("UnlockAchievement", data);
+                    return;
+                }
             }
             if (activeTool.type == TOOL_CAMPFIRE) {
                 CreateCampfire(hitPos);
+                VariantMap data;
+                data["Name"] = "Use" + activeTool.node.name;
+                SendEvent("UnlockAchievement", data);
                 return;
             }
             if (activeTool.type == TOOL_LIGHTER) {
                 if (targetNode.HasTag("Campfire")) {
                     Camp::ChangeState(targetNode.id);
+                    VariantMap data;
+                    data["Name"] = "Use" + activeTool.node.name;
+                    SendEvent("UnlockAchievement", data);
                     return;
                 }
             }
@@ -238,6 +257,9 @@ namespace ActiveTool {
                     if (activeTool.type == TOOL_AXE) {
                         RigidBody@ body = targetNode.GetParentComponent("RigidBody");
                         body.ApplyImpulse(direction * hitPower * body.mass);
+                        VariantMap data;
+                        data["Name"] = "Use" + activeTool.node.name;
+                        SendEvent("UnlockAchievement", data);
                     }
                 }
             } else {
@@ -245,6 +267,9 @@ namespace ActiveTool {
                     if (activeTool.type == TOOL_AXE) {
                         RigidBody@ body = targetNode.GetComponent("RigidBody");
                         body.ApplyImpulse(direction * hitPower * body.mass);
+                        VariantMap data;
+                        data["Name"] = "Use" + activeTool.node.name;
+                        SendEvent("UnlockAchievement", data);
                     }
                 }
             }

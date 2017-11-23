@@ -51,7 +51,7 @@ class PickableObject : ScriptObject
 namespace Pickable {
     Array<Node@> pickables;
 
-    Node@ Create(Vector3 position, String name, String model)
+    Node@ Create(Vector3 position, String name, String model, float scale = 1.0f)
     {
         Node@ node = scene_.CreateChild(name);
         node.temporary = true;
@@ -62,7 +62,7 @@ namespace Pickable {
         StaticModel@ object = node.CreateComponent("StaticModel");
         object.model = cache.GetResource("Model", model);
 
-        node.SetScale(1.0f);
+        node.SetScale(scale);
         object.castShadows = true;
         if (name == "Stem") {
             object.materials[0] = cache.GetResource("Material", "Materials/Wood.xml");

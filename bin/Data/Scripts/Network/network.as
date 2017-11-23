@@ -25,6 +25,7 @@ namespace NetworkHandler {
 
     class Stats {
         float gameTime;
+        bool finished;
     }
 
     Stats stats;
@@ -51,6 +52,7 @@ namespace NetworkHandler {
         Places::Init();
         Spawn::Init();
         stats.gameTime = 0.0f;
+        stats.finished = false;
         input.mouseVisible = false;
         //network.simulatedLatency = 500;
         //network.simulatedPacketLoss = 0.9;
@@ -197,60 +199,41 @@ namespace NetworkHandler {
         campfirePosition.x += 5.0f + Random(10.0f);
         campfirePosition.z += 5.0f + Random(10.0f);
         Pickable::Create(campfirePosition, "Stem", "Models/Models/Stem.mdl");
+
+        Vector3 airplanePosition = Places::getPlacePosition("Airplane");
+        airplanePosition.x += 10.0f;
+        Pickable::Create(airplanePosition, "Backpack", "Models/TeaPot.mdl", 2.0f);
+
         ActiveTool::Create();
 
-        for (int i = -20; i < 20; i+=3) {
-            for (int j = -20; j < 20; j+=3) {
+        for (int i = -15; i < 15; i+=3) {
+            for (int j = -15; j < 15; j+=3) {
                 Vector3 position = Vector3(i * 141 + Random(130.0f), 0.0, j * 133 + + Random(130.0f));
                 AppleTree::Create(position);
-
-                /*position.x += 12.0f + Random(12.0f);
-                position.z += 12.0f + Random(12.0f);
-                Pickable::Create(position, "Rock", "Models/Models/Small_rock.mdl");
-                position.x += 12.0f + Random(12.0f);
-                position.z += 12.0f + Random(12.0f);
-                Pickable::Create(position, "Rock", "Models/Models/Small_rock2.mdl");
-                position.x += 12.0f + Random(12.0f);
-                position.z += 12.0f + Random(12.0f);
-                Pickable::Create(position, "Rock", "Models/Models/Small_rock3.mdl");
-                position.x += 12.0f + Random(12.0f);
-                position.z += 12.0f + Random(12.0f);
-                Pickable::Create(position, "Rock", "Models/Models/Small_rock4.mdl");
-                */
             }
         }
 
-        for (int i = -20; i < 20; i+=5) {
-            for (int j = -20; j < 20; j+=5) {
+        for (int i = -15; i < 15; i+=5) {
+            for (int j = -15; j < 15; j+=5) {
                 Vector3 position = Vector3(i * 126 + Random(120.0f), 0.0, j * 126 + Random(120.0f));
                 RaspberryBush::Create(position);
             }
         }
 
-        for (int i = -10; i < 10; i+=5) {
-            for (int j = -10; j < 10; j+=5) {
-                Vector3 position = Vector3(i * 100 + Random(300.0f), 0.0, j * 100 + + Random(300.0f));
-                //Clouds::Create(position);
-            }
-        }
-
-        //AppleTree::DisableFurthestObjects();
-        //RaspberryBush::DisableFurthestObjects();
-
         Vector3 position = Vector3(37 + Random(20.0f), 0.0, 37 + Random(20.0f));
         Camp::Create(position);
 
-        for (int i = -40; i < 40; i+=10) {
-            for (int j = -40; j < 40; j+=10) {
+        for (int i = -25; i < 25; i+=6) {
+            for (int j = -25; j < 25; j+=6) {
                 Vector3 position = Vector3(i * 100 + Random(100.0f), 0.0, j * 100 + Random(100.0f));
                 EnvObjects::Create(position, "Models/Models/Large_rock.mdl", true, "Rock");
-                position = Vector3(i * 66 + Random(100.0f), 0.0, j * 55 + Random(100.0f));
+                position = Vector3(i * 66 + Random(100.0f), 0.0, j * 66 + Random(100.0f));
                 EnvObjects::Create(position, "Models/Models/Medium_rock.mdl", true, "Rock");
-                position = Vector3(i * 48 + Random(100.0f), 0.0, j * 37 + Random(100.0f));
+                position = Vector3(i * 48 + Random(100.0f), 0.0, j * 48 + Random(100.0f));
                 EnvObjects::Create(position, "Models/Models/Big_tree.mdl", true, "Tree");
-                position = Vector3(i * 98 + Random(100.0f), 0.0, j * 67 + Random(100.0f));
+                position = Vector3(i * 98 + Random(100.0f), 0.0, j * 98 + Random(100.0f));
                 EnvObjects::Create(position, "Models/Models/Big_tree2.mdl", true, "Tree");
-                position = Vector3(i * 88 + Random(100.0f), 0.0, j * 59 + Random(100.0f));
+                position = Vector3(i * 110 + Random(100.0f), 0.0, j * 110 + Random(100.0f));
                 EnvObjects::Create(position, "Models/Models/Big_tree3.mdl", true, "Tree");
 
                 /*position = Vector3(i * 78 + Random(200.0f), 0.0, j * 56 + Random(200.0f));
@@ -339,15 +322,19 @@ namespace NetworkHandler {
 
     void HandlePostUpdate(StringHash eventType, VariantMap& eventData)
     {
-        ActiveTool::HandleUpdate(eventType, eventData);
-        Pacman::HandleUpdate(eventType, eventData);
-        Snake::HandleUpdate(eventType, eventData);
-        AppleTree::HandleUpdate(eventType, eventData);
-        RaspberryBush::HandleUpdate(eventType, eventData);
-        Clouds::HandleUpdate(eventType, eventData);
-        EnvObjects::HandlePostUpdate(eventType, eventData);
-        Spawn::HandleUpdate(eventType, eventData);
-        Craft::HandleKeys();
+        if (stats.finished) {
+            return;
+        } else {
+            ActiveTool::HandleUpdate(eventType, eventData);
+            Pacman::HandleUpdate(eventType, eventData);
+            Snake::HandleUpdate(eventType, eventData);
+            AppleTree::HandleUpdate(eventType, eventData);
+            RaspberryBush::HandleUpdate(eventType, eventData);
+            Clouds::HandleUpdate(eventType, eventData);
+            EnvObjects::HandlePostUpdate(eventType, eventData);
+            Spawn::HandleUpdate(eventType, eventData);
+            Craft::HandleKeys();
+        }
 
         //Get client terrain if doesn't exist
         if (terrain is null && scene_ !is null) {
@@ -457,10 +444,16 @@ namespace NetworkHandler {
 
     void HandlePhysicsPreStep(StringHash eventType, VariantMap& eventData)
     {
+        if (stats.finished) {
+            return;
+        }
         Player::HandlePhysicsPreStep(eventType, eventData);
     }
 
     float GetHourLightIntensity(int hour) {
+        if (hour <= 1) {
+            return 0.01;
+        }
         if (hour <= 3) {
             return 0.1;
         }

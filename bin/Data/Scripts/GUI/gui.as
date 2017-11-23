@@ -374,7 +374,7 @@ namespace GUIHandler {
             notesLines[i].text = "";
         }
         Missions::MissionItem missionItem  = Missions::GetActiveMission();
-        if (missionItem.type == Missions::TYPE_PICKUP) {
+        if (missionItem.type == Missions::TYPE_PICKUP || missionItem.type == Missions::TYPE_USE_ITEM) {
             Craft::Recipe recipe = Craft::GetRecipe(missionItem.itemName);
             if (recipe.name.length > 0) {
                 notesLines[0].text = missionItem.itemName + ":";

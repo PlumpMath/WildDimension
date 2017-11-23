@@ -87,4 +87,46 @@ namespace Places {
         }
         return Vector3(0, 0, 0);
     }
+
+    bool IsInDistance(Vector3 position, float distance)
+{
+        int nearestDistSquared = 0;
+        int nearestPlaceIndex = 0;
+        for (uint i = 0; i < places.length; i++) {
+            int diff = Vector3(position - places[i].worldPosition).lengthSquared;
+            if (nearestDistSquared == 0) {
+                nearestDistSquared = diff;
+                nearestPlaceIndex = i;
+            }
+            if (diff < nearestDistSquared) {
+                nearestDistSquared = diff;
+                nearestPlaceIndex = i;
+            }
+        }
+
+        if (nearestDistSquared < distance * distance * distance) {
+            return true;
+        }
+
+        return false;
+    }
+
+    Vector3 getNearestPlace(Vector3 position)
+    {
+        int nearestDistSquared = 0;
+        int nearestPlaceIndex = 0;
+        for (uint i = 0; i < places.length; i++) {
+            int diff = Vector3(position - places[i].worldPosition).lengthSquared;
+            if (nearestDistSquared == 0) {
+                nearestDistSquared = diff;
+                nearestPlaceIndex = i;
+            }
+            if (diff < nearestDistSquared) {
+                nearestDistSquared = diff;
+                nearestPlaceIndex = i;
+            }
+        }
+
+        return places[nearestPlaceIndex].position;
+    }
 }

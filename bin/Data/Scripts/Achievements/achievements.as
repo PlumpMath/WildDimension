@@ -85,4 +85,20 @@ namespace Achievements {
         log.Info("Completed/Total: " + completed + "/" + achievementList.length + "(" + ratio * 100 + "%)");
         log.Info("-------------------------");
     }
+
+    uint GetTotalAchievementsCount()
+    {
+        return achievementList.length;
+    }
+
+    uint GetCompletedAchievementsCount()
+    {
+        int completed = 0;
+        for (uint i = 0; i < achievementList.length; i++) {
+            if (achievementList[i].completed) {
+                completed++;
+            }
+        }
+        return completed;
+    }
 }

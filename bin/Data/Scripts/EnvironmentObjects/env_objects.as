@@ -13,8 +13,14 @@
 namespace EnvObjects {
     Array<Node@> objects;
 
-    Node@ Create(Vector3 position, String model, bool temporary = true, String name = "Custom")
+    void Create(Vector3 position, String model, bool temporary = true, String name = "Custom")
     {
+        if (Places::IsInDistance(position, 50)) {
+            //Too close to place, not creating env model
+            log.Warning("Unable to create env object, because place is too near!");
+            return;
+        }
+
         Node@ node = scene_.CreateChild(name);
         node.temporary = temporary;
         position.y = NetworkHandler::terrain.GetHeight(position);
@@ -68,7 +74,6 @@ namespace EnvObjects {
         shape.SetTriangleMesh(object.model);
 
         objects.Push(node);
-        return node;
     }
 
     void Subscribe()
@@ -100,7 +105,7 @@ namespace EnvObjects {
     
         Vector3 position = cameraNode.position;
         position += cameraNode.direction * 10;
-        Node@ node = Create(position, commands[1], false, "Custom");
+        Create(position, commands[1], false, "Custom");
     }
 
     void HandleDestroySpawnedObject(StringHash eventType, VariantMap& eventData)

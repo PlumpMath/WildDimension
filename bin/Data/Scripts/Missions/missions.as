@@ -41,6 +41,18 @@ namespace Missions {
         return mission;
     }
 
+    bool IsMissionCompletedByEventName(String name)
+    {
+        for (uint i = 0; i < missionList.length; i++) {
+            if (missionList[i].eventName == name) {
+                if (missionList[i].completed == true) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     bool CheckIfCompleted(MissionItem item)
     {
         if (item.type == TYPE_PICKUP) {
@@ -222,7 +234,7 @@ namespace Missions {
         item.completed = false;
         item.type = TYPE_PICKUP;
         item.launchEvent = "HourChange";
-        item.eventData["Hour"] = 21;
+        item.eventData["Hour"] = 23;
         AddMission(item);
 
         item.name = "Ten";
@@ -230,13 +242,11 @@ namespace Missions {
         item.eventName = "UseLighter";
         item.itemName = "Lighter";
         item.current = 0;
-        item.target = 3;
+        item.target = 2;
         item.completed = false;
         item.type = TYPE_USE_ITEM;
-        item.launchEvent = "HourChange";
-        item.eventData["Hour"] = 23;
+        item.launchEvent = "GameFinished";
         AddMission(item);
-
 
         NextMission();
 
