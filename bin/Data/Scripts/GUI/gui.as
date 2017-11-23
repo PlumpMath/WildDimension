@@ -3,9 +3,9 @@
 namespace GUIHandler {
 
     const String GUI_FONT = "Fonts/PainttheSky-Regular.otf";
-    const int GUI_FONT_SIZE = 20;
-    const int GUI_NOTES_FONT_SIZE = 14;
-    const int GUI_TIPS_FONT_SIZE = 26;
+    const int GUI_FONT_SIZE = Helpers::getHeightByPercentage(0.03);
+    const int GUI_NOTES_FONT_SIZE = Helpers::getHeightByPercentage(0.03);
+    const int GUI_TIPS_FONT_SIZE = Helpers::getHeightByPercentage(0.03);
 
     Sprite@ logoSprite;
     Text@ bytesIn;
@@ -96,8 +96,8 @@ namespace GUIHandler {
         // Set logo sprite texture
         tip.sprite.texture = texture;
 
-        int textureWidth = texture.width;
-        int textureHeight = texture.height;
+        int textureWidth = Helpers::getWidthByPercentage(0.3);
+        int textureHeight = texture.height * Helpers::getRatio(texture.width, textureWidth);
 
         // Set logo sprite scale
         //logoSprite.SetScale(256.0f / textureWidth);
@@ -116,7 +116,7 @@ namespace GUIHandler {
 
         // Set a low priority for the logo so that other UI elements can be drawn on top
         tip.sprite.priority = -100;
-        tip.sprite.position = Vector2(-50, 50);
+        tip.sprite.position = Vector2(-Helpers::getHeightByPercentage(0.07), Helpers::getHeightByPercentage(0.07));
 
         tip.text = tip.sprite.CreateChild("Text");
         tip.text.text = "";//String(i) + "element";
@@ -127,7 +127,7 @@ namespace GUIHandler {
         // Position the text relative to the screen center
         tip.text.horizontalAlignment = HA_LEFT;
         tip.text.verticalAlignment = VA_TOP;
-        tip.text.SetPosition(60, 30);
+        tip.text.SetPosition(Helpers::getHeightByPercentage(0.16), Helpers::getHeightByPercentage(0.08));
     }
 
     void CreateNotes()
@@ -147,15 +147,16 @@ namespace GUIHandler {
         // Set logo sprite texture
         notesSprite.texture = notesTexture;
 
-        int textureWidth = notesTexture.width / 2;
-        int textureHeight = notesTexture.height / 2;
+        float w = graphics.width;
+        int textureWidth = Helpers::getWidthByPercentage(0.15);
+        int textureHeight = notesTexture.height * Helpers::getRatio(notesTexture.width, textureWidth);
 
         // Set logo sprite scale
         //notesSprite.SetScale(256.0f / textureWidth);
 
         // Set logo sprite size
         notesSprite.SetSize(textureWidth, textureHeight);
-        notesSprite.position = Vector2(-20, -20);
+        notesSprite.position = Vector2(-Helpers::getWidthByPercentage(0.02), -Helpers::getWidthByPercentage(0.02));
 
         // Set logo sprite hot spot
         notesSprite.SetHotSpot(textureWidth, textureHeight);
@@ -174,11 +175,11 @@ namespace GUIHandler {
         // Position the text relative to the screen center
         missions.horizontalAlignment = HA_LEFT;
         missions.verticalAlignment = VA_TOP;
-        missions.SetPosition(-10, 10);
+        missions.SetPosition(Helpers::getWidthByPercentage(0.01), Helpers::getWidthByPercentage(0.01));
 
         for (int i = 0; i < 10; i++) {
             Text@ oneLine = missions.CreateChild("Text");
-            oneLine.text = "";//String(i) + "element";
+            oneLine.text = "Item " + i;//String(i) + "element";
             oneLine.SetFont(cache.GetResource("Font", GUI_FONT), GUI_NOTES_FONT_SIZE);
             oneLine.textAlignment = HA_LEFT; // Center rows in relation to each other
             oneLine.color = Color(1, 0, 0);
@@ -186,7 +187,7 @@ namespace GUIHandler {
             // Position the text relative to the screen center
             oneLine.horizontalAlignment = HA_LEFT;
             oneLine.verticalAlignment = VA_TOP;
-            oneLine.SetPosition(25, i * GUI_NOTES_FONT_SIZE + 2);
+            oneLine.SetPosition(Helpers::getWidthByPercentage(0.015), i * GUI_NOTES_FONT_SIZE + 2);
             notesLines.Push(oneLine);
         }
     }
@@ -283,7 +284,7 @@ namespace GUIHandler {
         // Position the text relative to the screen center
         inventoryList.horizontalAlignment = HA_RIGHT;
         inventoryList.verticalAlignment = VA_BOTTOM;
-        inventoryList.SetPosition(-20, -200);
+        inventoryList.SetPosition(-Helpers::getWidthByPercentage(0.015), -Helpers::getHeightByPercentage(0.45));
     }
 
     void CreatePositionText()
@@ -328,14 +329,21 @@ namespace GUIHandler {
         for (uint i = 0; i < notesLines.length; i++) {
             notesLines[i].text = "";
         }
-        for (uint i = 0; i < Missions::missionList.length; i++) {
-            if (i < notesLines.length) {
-                if (Missions::missionList[i].completed) {
-                    notesLines[i].color = Color(0.1f, 0.9f, 0.1f);
-                } else {
-                    notesLines[i].color = Color(0.9f, 0.1f, 0.1f);
+        Missions::MissionItem missionItem  = Missions::GetActiveMission();
+        if (missionItem.type == Missions::TYPE_PICKUP) {
+            Craft::Recipe recipe = Craft::GetRecipe(missionItem.itemName);
+            log.Warning("Mission item " + recipe.name + " > " + missionItem.itemName);
+            if (recipe.name.length > 0) {
+                notesLines[0].text = missionItem.itemName + ":";
+                notesLines[0].color = Color(0.2, 0.2, 0.2);
+                for (uint i = 0; i < recipe.items.length; i++) {
+                    notesLines[i + 1].text = "  * " + Inventory::GetItemCount(recipe.items[i].name) + "/" + recipe.items[i].count + " " + recipe.items[i].name;
+                    notesLines[i + 1].color = Color(0.3, 0.3, 0.3);
                 }
-                notesLines[i].text = Missions::missionList[i].name;
+                notesLines[recipe.items.length + 2].text = "Press '" + recipe.shortcutKey + "'";
+                notesLines[recipe.items.length + 2].color = Color(0.6, 0.3, 0,3);
+                notesLines[recipe.items.length + 3].text = "to craft it!";
+                notesLines[recipe.items.length + 3].color = Color(0.6, 0.3, 0,3);
             }
         }
     }

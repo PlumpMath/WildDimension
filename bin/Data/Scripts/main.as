@@ -6,6 +6,7 @@
 //    - Handle Esc key down to hide Console or exit application;
 //    - Init touch input on mobile platform using screen joysticks (patched for each individual sample)
 
+#include "Helpers/gui_scale.as"
 #include "Console/console.as"
 #include "Network/network.as"
 
@@ -29,6 +30,8 @@
 #include "Tools/flag.as"
 #include "Tools/crafting.as"
 #include "Tools/tent.as"
+#include "Tools/campfire.as"
+#include "Tools/lighter.as"
 
 #include "Sounds/sounds.as"
 #include "Camp/camp.as"

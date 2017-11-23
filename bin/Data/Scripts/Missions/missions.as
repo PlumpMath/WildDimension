@@ -15,6 +15,7 @@ namespace Missions {
         float target;
         bool completed;
         uint type;
+        String launchEvent;
     };
 
     String activeMission;
@@ -26,6 +27,17 @@ namespace Missions {
         log.Info("Adding mission " + item.name);
         missionList.Push(item);
         SendEvent("UpdateMissionsGUI");
+    }
+
+    MissionItem GetActiveMission()
+    {
+        for (uint i = 0; i < missionList.length; i++) {
+            if (missionList[i].eventName == activeMission) {
+                return missionList[i];
+            }
+        }
+        MissionItem mission;
+        return mission;
     }
 
     bool CheckIfCompleted(MissionItem item)
@@ -53,6 +65,14 @@ namespace Missions {
         return false;
     }
 
+    void SetCompleted(MissionItem& item)
+    {
+        item.completed = true;
+        if (item.launchEvent.length > 0) {
+            SendEvent(item.launchEvent);
+        }
+    }
+
     void NextMission()
     {
         for (uint i = 0; i < missionList.length; i++) {
@@ -61,8 +81,9 @@ namespace Missions {
                 activeMission = item.eventName;
                 log.Info("Your next mission: " + activeMission);
                 log.Info("Description: " + item.description);
+                SendEvent("UpdateMissionsGUI");
                 if (CheckIfCompleted(item)) {
-                    item.completed = true;
+                    SetCompleted(item);
                     SendEvent("UpdateMissionsGUI");
                     NextMission();
                     return; 
@@ -142,6 +163,7 @@ namespace Missions {
         item.current = 0;
         item.target = 0;
         item.completed = false;
+        item.launchEvent = "ActivateSnakeSpawners";
         item.type = TYPE_REACH_POINT;
         AddMission(item);
 
@@ -224,7 +246,7 @@ namespace Missions {
             MissionItem@ item = missionList[i];
             if (activeMission == item.eventName) {
                 missionList[i].current = missionList[i].target;
-                missionList[i].completed = true;
+                SetCompleted(missionList[i]);
                 VariantMap data;
                 data["Message"] = "Mission [" + item.name +"] completed!";
                 SendEvent("UpdateEventLogGUI", data);
@@ -246,7 +268,7 @@ namespace Missions {
                 if (item.eventName == name && item.completed == false && activeMission == item.eventName) {
                     item.current++;
                     if (CheckIfCompleted(item)) {
-                        item.completed = true;
+                        SetCompleted(item);
                         VariantMap data;
                         data["Message"] = "Mission [" + item.name +"] completed!";
                         SendEvent("UpdateEventLogGUI", data);

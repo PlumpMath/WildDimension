@@ -11,8 +11,9 @@ namespace GameSounds {
     const String MISSION_COMPLETE = "Sounds/mission_complete.wav";
     const String SNAKE = "Sounds/snake.wav";
     const String PACMAN = "Sounds/pacman.wav";
+    const String STONE_HIT = "Sounds/stone_hit.wav";
 
-    void Play(String soundName)
+    void Play(String soundName, float gain = 0.3)
     {
         // Get the sound resource
         Sound@ sound = cache.GetResource("Sound", soundName);
@@ -25,7 +26,7 @@ namespace GameSounds {
             soundSource.autoRemoveMode = REMOVE_COMPONENT;
             soundSource.Play(sound);
             // In case we also play music, set the sound volume below maximum so that we don't clip the output
-            soundSource.gain = 0.3f;
+            soundSource.gain = gain;
         }
     }
 

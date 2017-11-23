@@ -4,7 +4,7 @@ namespace Notifications {
     const uint NOTIFICATION_TYPE_BAD = 1;
 
     const String NOTIFICATION_GUI_FONT = "Fonts/PainttheSky-Regular.otf";
-    const int NOTIFICATION_GUI_FONT_SIZE = 30;
+    const int NOTIFICATION_GUI_FONT_SIZE = Helpers::getHeightByPercentage(0.04);
     const float NOTIFICATION_SPEED = 50.0f;
 
     UIElement@ baseElement;

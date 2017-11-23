@@ -22,6 +22,8 @@ namespace Inventory {
         registeredItemList["Passport"] = true;
         registeredItemList["Tent"] = true;
         registeredItemList["Backpack"] = true;
+        registeredItemList["Campfire"] = true;
+        registeredItemList["Lighter"] = true;
     }
 
 	void Subscribe()
@@ -70,6 +72,7 @@ namespace Inventory {
     	}
     	log.Info("Adding item[" + name + "] to inventory");
     	SendEvent("UpdateInventoryGUI");
+        SendEvent("UpdateMissionsGUI");
 
         VariantMap data;
         data["Message"] = "+1 " + name;
@@ -89,8 +92,10 @@ namespace Inventory {
                 SendEvent("AddNotification", data);
                 if (item.count <= 0) {
                     items.Erase(i);
-                    return;
                 }
+                SendEvent("UpdateInventoryGUI");
+                SendEvent("UpdateMissionsGUI");
+                return;
             }
         }
     }

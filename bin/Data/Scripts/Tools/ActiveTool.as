@@ -6,6 +6,9 @@ namespace ActiveTool {
     const uint TOOL_BRANCH = 3;
     const uint TOOL_FLAG = 4;
     const uint TOOL_TENT = 5;
+    const uint TOOL_CAMPFIRE = 6;
+    const uint TOOL_LIGHTER = 7;
+
     Node@ node;
     Node@ toolNode;
     bool use = false;
@@ -40,6 +43,8 @@ namespace ActiveTool {
         Trap::Create();
         Flag::Create();
         Tent::Create();
+        Campfire::Create();
+        Lighter::Create();
     }
 
     void AddTool(Node@ node, uint type)
@@ -103,6 +108,7 @@ namespace ActiveTool {
         node.AddTag("Tent");
         position.y = NetworkHandler::terrain.GetHeight(position);
         node.position = position;
+        node.rotation = Quaternion(Vector3(0.0f, 1.0f, 0.0f), NetworkHandler::terrain.GetNormal(position));
 
         StaticModel@ object = node.CreateComponent("StaticModel");
         object.model = cache.GetResource("Model", "Models/Pyramid.mdl");
@@ -112,6 +118,15 @@ namespace ActiveTool {
         object.materials[0] = cache.GetResource("Material", "Materials/Wood.xml");
 
         Inventory::RemoveItem("Tent");
+        RemoveActiveTool();
+        SendEvent("NextTool");
+    }
+
+    void CreateCampfire(Vector3 position)
+    {
+        Camp::Create(position);
+
+        Inventory::RemoveItem("Campfire");
         RemoveActiveTool();
         SendEvent("NextTool");
     }
@@ -169,6 +184,9 @@ namespace ActiveTool {
         Drawable@ hitDrawable;
         Vector3 direction;
 
+        if (activeTool.type == TOOL_LIGHTER) {
+            Lighter::StartAnimation();
+        }
         if (Raycast(5.0f, hitPos, hitDrawable, direction)) {
             VariantMap data;
             data["Name"] = "Use" + activeTool.node.name;
@@ -200,6 +218,16 @@ namespace ActiveTool {
             if (activeTool.type == TOOL_TENT) {
                 CreateTent(hitPos);
                 return;
+            }
+            if (activeTool.type == TOOL_CAMPFIRE) {
+                CreateCampfire(hitPos);
+                return;
+            }
+            if (activeTool.type == TOOL_LIGHTER) {
+                if (targetNode.HasTag("Campfire")) {
+                    Camp::ChangeState(targetNode.id);
+                    return;
+                }
             }
             float hitPower = 20;
             if (targetNode.HasTag("Adj")) {

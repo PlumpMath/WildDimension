@@ -24,6 +24,7 @@ namespace NetworkHandler {
     void StartServer()
     {
         Places::Init();
+        Spawn::Init();
         stats.gameTime = 0.0f;
         input.mouseVisible = false;
         //network.simulatedLatency = 500;
@@ -312,6 +313,7 @@ namespace NetworkHandler {
         Clouds::HandleUpdate(eventType, eventData);
         EnvObjects::HandlePostUpdate(eventType, eventData);
         Spawn::HandleUpdate(eventType, eventData);
+        Craft::HandleKeys();
 
         //Get client terrain if doesn't exist
         if (terrain is null && scene_ !is null) {

@@ -40,6 +40,12 @@ namespace Spawn {
         spawner.node = scene_.CreateChild("Spawner");
         spawner.node.temporary = true;
         spawner.node.AddTag("Spawner");
+
+        //Disable enemy spawning by default
+        if (type == SPAWN_UNIT_SNAKE || type == SPAWN_UNIT_PACMAN) {
+            spawner.node.enabled = false;
+        }
+
         //position.y = NetworkHandler::terrain.GetHeight(position);
         spawner.node.position = position;
         spawner.maxUnits = maxUnits;
@@ -59,6 +65,73 @@ namespace Spawn {
         for (uint i = 0; i < spawnPoints.length; i++) {
 //            Create(spawnPoints.worldPosition, 10.0f, 500.0f, 5, 10.0f, Spawn::T
         }
+        Subscribe();
+        RegisterConsoleCommands();
+
+        Create(Places::getPlacePosition("Stonehenge"), 0, 10, 100.0, 1, 1.0f, SPAWN_UNIT_SNAKE);
+    }
+
+    void Subscribe()
+    {
+        SubscribeToEvent("ActivateSnakeSpawners", "Spawn::HandlActivateSnakeSpawners");
+        SubscribeToEvent("DectivateSnakeSpawners", "Spawn::HandlDeactivateSnakeSpawners");
+
+        SubscribeToEvent("ActivatePacmanSpawners", "Spawn::HandlActivatePacmanSpawners");
+        SubscribeToEvent("DectivatePacmanSpawners", "Spawn::HandlDeactivatePacmanSpawners");
+    }
+
+    void RegisterConsoleCommands()
+    {
+        VariantMap data;
+        data["CONSOLE_COMMAND_NAME"] = "spawners_snake_activate";
+        data["CONSOLE_COMMAND_EVENT"] = "ActivateSnakeSpawners";
+        SendEvent("ConsoleCommandAdd", data);
+
+        data["CONSOLE_COMMAND_NAME"] = "spawners_snake_deactivate";
+        data["CONSOLE_COMMAND_EVENT"] = "DectivateSnakeSpawners";
+        SendEvent("ConsoleCommandAdd", data);
+
+        data["CONSOLE_COMMAND_NAME"] = "spawners_pacman_activate";
+        data["CONSOLE_COMMAND_EVENT"] = "ActivatePacmanSpawners";
+        SendEvent("ConsoleCommandAdd", data);
+
+        data["CONSOLE_COMMAND_NAME"] = "spawners_pacman_deactivate";
+        data["CONSOLE_COMMAND_EVENT"] = "DectivatePacmanSpawners";
+        SendEvent("ConsoleCommandAdd", data);
+    }
+
+    void ChangeSpawnersStateByType(uint type, bool enabled)
+    {
+        for (uint i = 0; i < spawners.length; i++) {
+            if (spawners[i].type == type) {
+                log.Warning("Spawner[" + i + "] " + enabled);
+                spawners[i].node.enabled = enabled;
+            }
+        }
+    }
+
+    void HandlActivateSnakeSpawners(StringHash eventType, VariantMap& eventData)
+    {
+        log.Warning("Activating snake spawners...");
+        ChangeSpawnersStateByType(SPAWN_UNIT_SNAKE, true);
+    }
+
+    void HandlDeactivateSnakeSpawners(StringHash eventType, VariantMap& eventData)
+    {
+        log.Warning("Dectivating snake spawners...");
+        ChangeSpawnersStateByType(SPAWN_UNIT_SNAKE, false);
+    }
+
+    void HandlActivatePacmanSpawners(StringHash eventType, VariantMap& eventData)
+    {
+        log.Warning("Activating pacman spawners...");
+        ChangeSpawnersStateByType(SPAWN_UNIT_PACMAN, true);
+    }
+
+    void HandlDeactivatePacmanSpawners(StringHash eventType, VariantMap& eventData)
+    {
+        log.Warning("Deactivating pacman spawners...");
+        ChangeSpawnersStateByType(SPAWN_UNIT_PACMAN, false);
     }
 
     Vector3 GetRandomPositionInRange(Spawner& spawner)
@@ -177,6 +250,9 @@ namespace Spawn {
             spawners[i].lastCheckTime += timeStep;
             if (spawners[i].lastCheckTime > SPAWNED_OBJECT_CHECK_TIME) {
                 CheckSpawner(spawners[i]);
+            }
+            if (!spawners[i].node.enabled) {
+                continue;
             }
             if (spawners[i].lastSpawnTime >= spawners[i].spawnTime) {
                 if (IsFarFromPlayer(spawners[i].node)) {

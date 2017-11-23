@@ -77,4 +77,14 @@ namespace Places {
     {
     	SearchPlaces();
     }
+
+    Vector3 getPlacePosition(String name)
+    {
+        for (uint i = 0; i < places.length; i++) {
+            if (places[i].name == name) {
+                return places[i].worldPosition;
+            }
+        }
+        return Vector3(0, 0, 0);
+    }
 }

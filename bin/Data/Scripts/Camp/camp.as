@@ -1,26 +1,37 @@
 namespace Camp {
+    const uint STATE_INACTIVE = 0;
+    const uint STATE_SMOKING = 1;
+    const uint STATE_BURNING = 2;
+
     class Campfire {
         Node@ node;
-        ParticleEmitter@ particleEmitter;
+        ParticleEmitter@ smokeEmitter;
+        ParticleEmitter@ fireEmitter;
+        uint state;
     };
     Array<Campfire> campfires;
 
     void Create(Vector3 position) {
         Campfire campfire;
+
+        campfire.state = STATE_INACTIVE;
+
         campfire.node = scene_.CreateChild("Campfire");
+        campfire.node.AddTag("Campfire");
         position.y = NetworkHandler::terrain.GetHeight(position);
         campfire.node.position = position;
         campfire.node.temporary = true;
+        campfire.node.rotation = Quaternion(Vector3(0.0f, 1.0f, 0.0f), NetworkHandler::terrain.GetNormal(position));
 
         StaticModel@ object = campfire.node.CreateComponent("StaticModel");
         object.model = cache.GetResource("Model", "Models/Models/Small_campfire.mdl");
         campfire.node.rotation = Quaternion(Vector3(0.0f, 1.0f, 0.0f), NetworkHandler::terrain.GetNormal(position));
         object.materials[0] = cache.GetResource("Material", "Materials/Stone.xml");
-        for (int i = 1; i <= 9; i++) {
-            object.materials[i] = cache.GetResource("Material", "Materials/Wood.xml");
-        }
+        object.materials[1] = cache.GetResource("Material", "Materials/Wood.xml");
+        object.materials[2] = cache.GetResource("Material", "Materials/Wood.xml");
+        object.materials[3] = cache.GetResource("Material", "Materials/Wood.xml");
+
         object.castShadows = true;
-        object.materials[0] = cache.GetResource("Material", "Materials/Snake.xml");
         object.viewMask = VIEW_MASK_INTERACTABLE;
 
         // Create rigidbody, and set non-zero mass so that the body becomes dynamic
@@ -34,15 +45,41 @@ namespace Camp {
         //shape.SetConvexHull(pacmanObject.model);
         shape.SetBox(Vector3(1.0, 1.0, 1.0));
 
-        campfire.particleEmitter = campfire.node.CreateComponent("ParticleEmitter");
-        campfire.particleEmitter.effect = cache.GetResource("ParticleEffect", "Particle/Campfire.xml");
-        campfire.particleEmitter.emitting = true;
-        campfire.particleEmitter.viewMask = VIEW_MASK_STATIC_OBJECT;
+        Node@ smokeNode = campfire.node.CreateChild("SmokeEmitterNode");
+        smokeNode.position = Vector3(0, 0.8, 0);
+        campfire.smokeEmitter = smokeNode.CreateComponent("ParticleEmitter");
+        campfire.smokeEmitter.effect = cache.GetResource("ParticleEffect", "Particle/Campfire.xml");
+        campfire.smokeEmitter.emitting = false;
+        campfire.smokeEmitter.viewMask = VIEW_MASK_STATIC_OBJECT;
 
-        position.x += 5 + Random(10.0f);
-        position.z += 5 + Random(10.0f);
-        Pickable::Create(position, "Stem", "Models/Models/Stem.mdl");
+        Node@ childNode = campfire.node.CreateChild("FireEmitterNode");
+        campfire.fireEmitter = childNode.CreateComponent("ParticleEmitter");
+        campfire.fireEmitter.effect = cache.GetResource("ParticleEffect", "Particle/Fire.xml");
+        campfire.fireEmitter.emitting = false;
+        campfire.fireEmitter.viewMask = VIEW_MASK_STATIC_OBJECT;
 
         campfires.Push(campfire);
+    }
+
+    void ChangeState(uint id)
+    {
+        for (uint i = 0; i < campfires.length; i++) {
+            if (campfires[i].node.id == id) {
+                campfires[i].state++;
+                if (campfires[i].state > STATE_BURNING) {
+                    campfires[i].state = STATE_INACTIVE;
+                }
+                if (campfires[i].state == STATE_INACTIVE) {
+                    campfires[i].smokeEmitter.emitting = false;
+                    campfires[i].fireEmitter.emitting = false;
+                } else if (campfires[i].state == STATE_SMOKING) {
+                    campfires[i].smokeEmitter.emitting = true;
+                    campfires[i].fireEmitter.emitting = false;
+                } else if (campfires[i].state == STATE_BURNING) {
+                    campfires[i].smokeEmitter.emitting = true;
+                    campfires[i].fireEmitter.emitting = true;
+                }
+            }
+        }
     }
 }

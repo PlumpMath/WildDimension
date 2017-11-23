@@ -2,6 +2,7 @@ namespace Craft {
 	class Recipe {
 		String name;
 		Array<Inventory::Item> items;
+        String shortcutKey;
 	};
 
 	Array<Recipe> recipes;
@@ -45,6 +46,7 @@ namespace Craft {
         {
     		Recipe recipe;
     		recipe.name = "Flag";
+            recipe.shortcutKey = "F";
     		Inventory::Item item;
     		item.name = "Wood";
     		item.count = 1;
@@ -58,6 +60,7 @@ namespace Craft {
         {
             Recipe recipe;
             recipe.name = "Trap";
+            recipe.shortcutKey = "T";
             Inventory::Item item;
             item.name = "Wood";
             item.count = 10;
@@ -67,17 +70,40 @@ namespace Craft {
 
         {
             Recipe recipe;
-            recipe.name = "Axe";
+            recipe.name = "Lighter";
+            recipe.shortcutKey = "L";
             Inventory::Item item;
-            item.name = "Wood";
-            item.count = 1;
-            recipe.items.Push(item);
             item.name = "Rock";
-            item.count = 1;
+            item.count = 2;
+            recipe.items.Push(item);
+            recipes.Push(recipe);
+        }
+
+        {
+            Recipe recipe;
+            recipe.name = "Campfire";
+            recipe.shortcutKey = "C";
+            Inventory::Item item;
+            item.name = "Rock";
+            item.count = 10;
+            recipe.items.Push(item);
+            item.name = "Wood";
+            item.count = 3;
             recipe.items.Push(item);
             recipes.Push(recipe);
         }
 	}
+
+    Recipe GetRecipe(String name)
+    {
+        for (uint i = 0; i < recipes.length; i++) {
+            if (recipes[i].name == name) {
+                return recipes[i];
+            }
+        }
+        Recipe recipe;
+        return recipe;
+    }
 
 	void Subscribe()
     {
@@ -103,5 +129,18 @@ namespace Craft {
         }
 
         CraftItem(commands[1]);
+    }
+
+    void HandleKeys()
+    {
+        if (input.keyPress[KEY_T]) {
+            CraftItem("Trap");
+        }
+        if (input.keyPress[KEY_C]) {
+            CraftItem("Campfire");
+        }
+        if (input.keyPress[KEY_L]) {
+            CraftItem("Lighter");
+        }
     }
 }

@@ -1,6 +1,6 @@
 namespace FinishGUI {
 	const String FINISH_GUI_FONT = "Fonts/PainttheSky-Regular.otf";
-    const int FINISH_GUI_FONT_SIZE = 20;
+    const int FINISH_GUI_FONT_SIZE = Helpers::getHeightByPercentage(0.03);
 
     Sprite@ scoreboard;
     Array<Text@> scoreboardLines;
