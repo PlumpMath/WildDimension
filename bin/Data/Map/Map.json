@@ -8,8 +8,8 @@
 		"Elapsed Time": 219.7979736328125,
 		"Next Replicated Node ID": 1895,
 		"Next Replicated Component ID": 5516,
-		"Next Local Node ID": 16780182,
-		"Next Local Component ID": 16780352,
+		"Next Local Node ID": 16780408,
+		"Next Local Component ID": 16780589,
 		"Variables": {},
 		"Variable Names": ""
 	},
@@ -6963,8 +6963,11 @@
 						"Color": "0.8 0.8 0.8 1",
 						"Specular Intensity": 0.20000000298023225,
 						"Cast Shadows": true,
-						"CSM Splits": "10 50 200 0",
-						"Depth Constant Bias": 0.0002500000118743628
+						"CSM Splits": "10 50 400 0",
+						"CSM Fade Start": 0.30000001192092898,
+						"View Size Quantize": 0.10000000149011612,
+						"Depth Constant Bias": 0.0002500000118743628,
+						"Depth Slope Bias": 0.6000000238418579
 					}
 				}
 			],

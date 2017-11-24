@@ -37,7 +37,7 @@ namespace Spawn {
     float nextDebugUpdate;
     Array<Spawner> spawners;
 
-    void Create(Vector3 position, float minSpawnRadius, float maxSpawnRadius, float maxUnitRadius, uint maxUnits, float spawnTime, uint type)
+    Node@ Create(Vector3 position, float minSpawnRadius, float maxSpawnRadius, float maxUnitRadius, uint maxUnits, float spawnTime, uint type)
     {
         Spawner spawner;
         spawner.node = scene_.CreateChild("Spawner");
@@ -70,6 +70,8 @@ namespace Spawn {
         spawner.type = type;
         spawner.lastCheckTime = Random(10.0f);
         spawners.Push(spawner);
+
+        return spawner.node;
     }
 
     int GetSpawnersCount()
