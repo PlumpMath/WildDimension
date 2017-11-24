@@ -211,7 +211,7 @@ namespace Missions {
         AddMission(item);
 
         item.name = "Eight";
-        item.description = "I need to find\na place, where I\ncan build a tent.";
+        item.description = "It's getting dark,\nI need to find\na place, where I\ncan build a tent.";
         item.eventName = "UseTent";
         item.itemName = "Tent";
         item.current = 0;
@@ -289,7 +289,7 @@ namespace Missions {
                 SendEvent("UpdateEventLogGUI", data);
                 SendEvent("UpdateMissionsGUI");
 
-                GameSounds::Play(GameSounds::MISSION_COMPLETE, 0.05);
+                GameSounds::Play(GameSounds::MISSION_COMPLETE, 0.1);
                 NextMission();
                 return;
             }
@@ -311,7 +311,7 @@ namespace Missions {
                         SendEvent("UpdateEventLogGUI", data);
                         SendEvent("UpdateMissionsGUI");
 
-                        GameSounds::Play(GameSounds::MISSION_COMPLETE, 0.05);
+                        GameSounds::Play(GameSounds::MISSION_COMPLETE, 0.1);
                         NextMission();
                     }
                 }

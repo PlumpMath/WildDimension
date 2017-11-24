@@ -200,7 +200,7 @@ namespace Player {
 
         if (jump && onGround) {
             playerBody.ApplyImpulse(Vector3::UP * 8);
-            GameSounds::Play(GameSounds::JUMP);
+            GameSounds::Play(GameSounds::JUMP, 0.2);
         }
 
         if (playerNode.position.y < NetworkHandler::terrain.GetHeight(playerNode.position)) {

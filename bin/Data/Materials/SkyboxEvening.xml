@@ -1,0 +1,5 @@
+<material>
+    <technique name="Techniques/DiffSkydome.xml" />
+    <texture unit="diffuse" name="Textures/env_evening.jpg" />
+    <cull value="none" />s
+</material>

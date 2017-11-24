@@ -375,6 +375,8 @@ namespace NetworkHandler {
 
             if (sunlight.currentIntensity < 0.3) {
                 skybox.materials[0] = cache.GetResource("Material", "Materials/SkyboxNight.xml");
+            } else if (sunlight.currentIntensity < 0.6) {
+                skybox.materials[0] = cache.GetResource("Material", "Materials/SkyboxEvening.xml");
             } else {
                 skybox.materials[0] = cache.GetResource("Material", "Materials/SkyboxDay.xml");
             }
