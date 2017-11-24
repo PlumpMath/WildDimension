@@ -102,6 +102,7 @@ namespace FinishGUI {
 
     void HandleGameFinished(StringHash eventType, VariantMap& eventData)
     {
+        NetworkHandler::GameEnd();
     	CreateScore();
     	GUIHandler::Destroy();
     }

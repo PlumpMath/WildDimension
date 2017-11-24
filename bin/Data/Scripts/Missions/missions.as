@@ -68,9 +68,6 @@ namespace Missions {
                 return true;
             }
         } else if (item.type == TYPE_USE_ITEM) {
-            log.Warning("CheckIfCompleted item " + item.name);
-            log.Warning("CheckIfCompleted current " + item.current);
-            log.Warning("CheckIfCompleted target " + item.target);
             if (item.target <= item.current) {
                 return true;
             }
@@ -234,7 +231,7 @@ namespace Missions {
         item.completed = false;
         item.type = TYPE_PICKUP;
         item.launchEvent = "HourChange";
-        item.eventData["Hour"] = 23;
+        item.eventData["Hour"] = 21;
         AddMission(item);
 
         item.name = "Ten";
@@ -243,6 +240,18 @@ namespace Missions {
         item.itemName = "Lighter";
         item.current = 0;
         item.target = 2;
+        item.completed = false;
+        item.type = TYPE_USE_ITEM;
+        item.launchEvent = "HourChange";
+        item.eventData["Hour"] = 0;
+        AddMission(item);
+
+        item.name = "Eleven";
+        item.description = "I should place some\ntraps around the\ncamp";
+        item.eventName = "UseTrap";
+        item.itemName = "Trap";
+        item.current = 0;
+        item.target = 1;
         item.completed = false;
         item.type = TYPE_USE_ITEM;
         item.launchEvent = "GameFinished";

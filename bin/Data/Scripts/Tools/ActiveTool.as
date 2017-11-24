@@ -49,6 +49,11 @@ namespace ActiveTool {
         Torch::Create();
     }
 
+    void Hide()
+    {
+        node.SetDeepEnabled(false);
+    }
+
     void AddTool(Node@ node, uint type)
     {
         Tool tool;

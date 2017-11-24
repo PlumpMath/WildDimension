@@ -567,4 +567,11 @@ namespace NetworkHandler {
         sunlight.intensityBeforeChange = sunlight.currentIntensity;
         sunlight.transitionTime = 0.0f;
     }
+
+    void GameEnd()
+    {
+        stats.finished = true;
+        ActiveTool::Hide();
+        Player::End();
+    }
 }

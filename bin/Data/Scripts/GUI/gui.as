@@ -299,6 +299,8 @@ namespace GUIHandler {
             spawnerDebug.Remove();
         }
 
+        latestEvents.Clear();
+        notesLines.Clear();
         Notifications::Destroy();
     }
 
@@ -389,7 +391,9 @@ namespace GUIHandler {
 
     void HandleUpdateMissionsGUI(StringHash eventType, VariantMap& eventData)
     {
-        log.Info("HandleUpdateMissionsGUI");
+        if (notesLines.length == 0) {
+            return;
+        }
         for (uint i = 0; i < notesLines.length; i++) {
             notesLines[i].text = "";
         }
@@ -413,6 +417,9 @@ namespace GUIHandler {
 
     void HandleUpdateEventLog(StringHash eventType, VariantMap& eventData)
     {
+        if (latestEvents.length == 0) {
+            return;
+        }
         for (uint i = latestEvents.length - 1; i > 0; i--) {
             latestEvents[i].text = latestEvents[i-1].text;
         }

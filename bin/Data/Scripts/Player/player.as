@@ -246,4 +246,10 @@ namespace Player {
             }
         }
     }
+
+    void End()
+    {
+        playerBody.enabled = false;
+        shape.enabled = false;
+    }
 }

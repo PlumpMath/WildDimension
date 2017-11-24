@@ -382,7 +382,12 @@ void UpdateCamera(float timeStep)
         yaw += input.mouseMoveX * YAW_SENSITIVITY;
         pitch += input.mouseMoveY * YAW_SENSITIVITY;
     }*/
-    if (Player::playerNode !is null) {
+    if (NetworkHandler::stats.finished) {
+        Player::playerNode.AddChild(cameraNode);
+        cameraNode.position = Vector3::BACK * 20 + Vector3::UP * 20;
+        cameraNode.LookAt(Player::playerNode.position);
+        Player::playerNode.Yaw(timeStep * 10);
+    } else if (Player::playerNode !is null) {
         //cameraNode.rotation = Player::playerNode.rotation;
         cameraNode.rotation = Quaternion(pitch, yaw, 0.0f);
         Vector3 position = Player::playerNode.position;
