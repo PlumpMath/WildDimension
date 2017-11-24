@@ -12,6 +12,20 @@ namespace AchievementsTrap {
             item.completed = false;
             items.Push(item);
 
+            item.eventName = "TrapPacman";
+            item.name = "Trap pacman " + count;
+            item.current = 0.0f;
+            item.target = count;
+            item.completed = false;
+            items.Push(item);
+
+            item.eventName = "TrapSnake";
+            item.name = "Trap pacman " + count;
+            item.current = 0.0f;
+            item.target = count;
+            item.completed = false;
+            items.Push(item);
+
             count *= 10;
             
             if (count > 100) {

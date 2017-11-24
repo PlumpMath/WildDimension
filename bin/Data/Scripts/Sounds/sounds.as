@@ -8,11 +8,12 @@ namespace GameSounds {
     const String ACHIEVEMENT_UNLOCKED = "Sounds/achievement.wav";
     const String WALK = "Sounds/walk.wav";
     const String JUMP = "Sounds/jump.wav";
-    const String MISSION_COMPLETE = "Sounds/mission_complete.wav";
+    const String MISSION_COMPLETE = "Sounds/mission_completed.wav";
     const String SNAKE = "Sounds/snake.wav";
     const String PACMAN = "Sounds/pacman.wav";
     const String STONE_HIT = "Sounds/stone_hit.wav";
     const String PLAYER_HURT = "Sounds/hurt.wav";
+    const String TRAP_ENEMY = "Sounds/enemy_trap.wav";
 
     Array<SoundSource@> ambientSounds;
 

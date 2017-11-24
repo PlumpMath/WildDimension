@@ -226,6 +226,10 @@ namespace ActiveTool {
                 SendEvent("UnlockAchievement", data);
                 return;
             }
+            if (activeTool.type == TOOL_TRAP) {
+                Trap::Use(hitPos);
+                return;
+            }
             if (activeTool.type == TOOL_TENT) {
                 VariantMap data;
                 data["Name"] = "Use" + activeTool.node.name;
