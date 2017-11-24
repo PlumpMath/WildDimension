@@ -11,6 +11,7 @@ namespace Pacman {
         float sleepTime;
         Node@ targetNode;
         float lifetime;
+        float nextFoodCheck;
     };
     Array<SinglePacman> pacmans;
     const float PACMAN_MOVE_SPEED = 0.05f;
@@ -69,6 +70,7 @@ namespace Pacman {
         GameSounds::AddLoopedSoundToNode(pacmanNode, GameSounds::PACMAN);
 
         SinglePacman pacman;
+        pacman.nextFoodCheck = 0.0f;
         pacman.node = pacmanNode;
         pacman.sleepParticleEmitter = sleepParticleEmitter;
         pacman.dullParticleEmitter = dullParticleEmitter;
@@ -147,7 +149,7 @@ namespace Pacman {
         Node@ nearestApple;
         float nearestLength = 0;
         int nearestIndex = -1;
-        apples.Push(cameraNode);
+        apples.Push(Player::playerNode);
         
         for (uint i = 0; i < apples.length; i++) {
             Node@ apple = apples[i];
@@ -183,9 +185,10 @@ namespace Pacman {
             }
             Node@ pacmanNode = pacmans[i].node;
             RigidBody@ pacmanBody = pacmans[i].node.GetComponent("RigidBody");
-
-            if (pacmans[i].targetNode is null || pacmans[i].targetNode.enabled == false) {
+            pacmans[i].nextFoodCheck -= timeStep;
+            if (pacmans[i].targetNode is null || pacmans[i].targetNode.enabled == false || pacmans[i].nextFoodCheck < 0.0) {
                 pacmans[i].targetNode = getNearestRaspberry(pacmanNode.worldPosition);
+                pacmans[i].nextFoodCheck = Random(10.0f);
             }
             Vector3 targetPosition = pacmans[i].targetNode.worldPosition;
             targetPosition.y = pacmanNode.position.y;
@@ -196,11 +199,17 @@ namespace Pacman {
                 moveDir.Normalize();
             }
 
+            targetPosition = pacmans[i].targetNode.worldPosition;
             Vector3 diff = pacmanNode.worldPosition - targetPosition;
             if (diff.lengthSquared < 2.0f) {
                 moveDir = Vector3::ZERO;
                 if (pacmans[i].targetNode.HasTag("Raspberry")) {
                     pacmans[i].targetNode.SetDeepEnabled(false);
+                }
+                if (pacmans[i].targetNode.HasTag("Player")) {
+                    const float PACMAN_BIT_POWER = 10.0f;
+                    Player::playerBody.ApplyImpulse(pacmanNode.direction * PACMAN_BIT_POWER * Player::playerBody.mass);
+                    SendEvent("PlayerHit");
                 }
             }
 

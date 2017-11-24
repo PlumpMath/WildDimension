@@ -89,6 +89,8 @@ const int DISTANCE_FACTOR = 500;
 bool isMobilePlatform = false;
 Controls oldControls;
 
+Viewport@ viewport;
+
 void Start()
 {
     cache.autoReloadResources = true;
@@ -262,18 +264,36 @@ void SetupViewport()
     // Set up a viewport to the Renderer subsystem so that the 3D scene can be seen. We need to define the scene and the camera
     // at minimum. Additionally we could configure the viewport screen size and the rendering path (eg. forward / deferred) to
     // use, but now we just use full screen and default render path configured in the engine command line options
-    Viewport@ viewport = Viewport(scene_, cameraNode.GetComponent("Camera"));
+    viewport = Viewport(scene_, cameraNode.GetComponent("Camera"));
     renderer.viewports[0] = viewport;
 
     RenderPath@ effectRenderPath = viewport.renderPath.Clone();
     effectRenderPath.Append(cache.GetResource("XMLFile", "PostProcess/Bloom.xml"));
     effectRenderPath.Append(cache.GetResource("XMLFile", "PostProcess/FXAA2.xml"));
+    effectRenderPath.Append(cache.GetResource("XMLFile", "PostProcess/Blur.xml"));
     //effectRenderPath.Append(cache.GetResource("XMLFile", "PostProcess/AutoExposure.xml"));
     // Make the bloom mixing parameter more pronounced
     effectRenderPath.shaderParameters["BloomMix"] = Variant(Vector2(1.0f, 0.5f));
     effectRenderPath.SetEnabled("Bloom", true);
     effectRenderPath.SetEnabled("FXAA2", true);
+    effectRenderPath.SetEnabled("Blur", false);
     //effectRenderPath.SetEnabled("AutoExposure", true);
+    viewport.renderPath = effectRenderPath;
+}
+
+void AddBlur()
+{
+    RenderPath@ effectRenderPath = viewport.renderPath.Clone();
+    effectRenderPath.SetEnabled("Blur", true);
+    viewport.renderPath = effectRenderPath;
+
+    DelayedExecute(2.0, false, "void StopBlur()");
+}
+
+void StopBlur()
+{
+    RenderPath@ effectRenderPath = viewport.renderPath.Clone();
+    effectRenderPath.SetEnabled("Blur", false);
     viewport.renderPath = effectRenderPath;
 }
 

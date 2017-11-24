@@ -31,6 +31,7 @@ namespace Torch {
         light.color = Color(0.88, 0.34, 0.13);
         light.range = 100.0f;
         light.enabled = true;
+        light.castShadows = true;
 
         node.SetDeepEnabled(false);
 

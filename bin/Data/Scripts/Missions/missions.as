@@ -184,7 +184,7 @@ namespace Missions {
         item.current = 0;
         item.target = 0;
         item.completed = false;
-        item.launchEvent = "ActivateSnakeSpawners";
+        item.launchEvent = "ActivateSpawners";
         item.type = TYPE_REACH_POINT;
         AddMission(item);
 

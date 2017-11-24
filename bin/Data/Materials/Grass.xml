@@ -1,0 +1,4 @@
+<material>
+    <technique name="Techniques/DiffVColUnlitAlpha.xml" quality="0" />
+    <texture unit="diffuse" name="Textures/grass.png" />
+</material>

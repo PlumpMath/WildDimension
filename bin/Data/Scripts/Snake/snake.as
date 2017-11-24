@@ -9,6 +9,7 @@ namespace Snake {
         ParticleEmitter@ sleepParticleEmitter;
         ParticleEmitter@ dullParticleEmitter;
         float lifetime;
+        float nextFoodCheck;
     };
 
     const uint STAGE_MOVE = 0;
@@ -76,6 +77,7 @@ namespace Snake {
         dullParticleEmitter.viewMask = VIEW_MASK_STATIC_OBJECT;
 
         SnakeBody snakeBody;
+        snakeBody.nextFoodCheck = 0.0f;
         snakeBody.headNode = snakeNode;
         snakeBody.body.Push(snakeNode);
         snakeBody.targetNode = getNearestApple(snakeBody.body[0].worldPosition);
@@ -210,7 +212,7 @@ namespace Snake {
         Node@ nearestApple;
         float nearestLength = 0;
         int nearestIndex = -1;
-        apples.Push(cameraNode);
+        apples.Push(Player::playerNode);
         
         for (uint i = 0; i < apples.length; i++) {
             Node@ apple = apples[i];
@@ -238,9 +240,10 @@ namespace Snake {
         for (uint i = 0; i < snakes.length; i++) {
             SnakeBody@ snakeBody = snakes[i];
             snakeBody.lifetime += timeStep;
-            
-            if (snakeBody.targetNode is null || snakeBody.targetNode.enabled == false) {
+            snakeBody.nextFoodCheck -= timeStep;
+            if (snakeBody.targetNode is null || snakeBody.targetNode.enabled == false || snakeBody.nextFoodCheck <= 0.0f) {
                 snakeBody.targetNode = getNearestApple(snakeBody.body[0].worldPosition);
+                snakeBody.nextFoodCheck = Random(10.0f);
             }
 
             if (snakeBody.stage == STAGE_MOVE) {
@@ -278,6 +281,7 @@ namespace Snake {
             moveDir.Normalize();
         }
 
+        targetPosition = targetNode.worldPosition;
         Vector3 diff = node.position - targetPosition;
         if (diff.lengthSquared < 2.0f * SNAKE_SCALE) {
             moveDir = Vector3::ZERO;
@@ -289,6 +293,11 @@ namespace Snake {
                         ChangeSnakeState(snakes[snakeIndex], STAGE_SLEEP);
                         snakes[snakeIndex].sleepTime = 0.0f;
                     }
+                }
+                if (targetNode.HasTag("Player")) {
+                    const float SNAKE_BIT_POWER = 10.0f;
+                    Player::playerBody.ApplyImpulse(node.direction * SNAKE_BIT_POWER * Player::playerBody.mass);
+                    SendEvent("PlayerHit");
                 }
             }
         } else if (ind > 0 && diff.lengthSquared > 3 * SNAKE_SCALE) {

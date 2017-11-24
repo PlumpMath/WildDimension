@@ -210,6 +210,7 @@ namespace NetworkHandler {
             for (int j = -15; j < 15; j+=3) {
                 Vector3 position = Vector3(i * 141 + Random(130.0f), 0.0, j * 133 + + Random(130.0f));
                 AppleTree::Create(position);
+                Spawn::Create(position, 0, 200, 200.0, 50, 0.01f, Spawn::SPAWN_UNIT_GRASS);
             }
         }
 
@@ -217,6 +218,10 @@ namespace NetworkHandler {
             for (int j = -15; j < 15; j+=5) {
                 Vector3 position = Vector3(i * 126 + Random(120.0f), 0.0, j * 126 + Random(120.0f));
                 RaspberryBush::Create(position);
+
+                position.y = NetworkHandler::terrain.GetHeight(position);
+                Spawn::Create(position, 0, 200, 500.0, 2, 1.0f, Spawn::SPAWN_UNIT_PACMAN);
+                Spawn::Create(position, 0, 200, 500.0, 2, 1.0f, Spawn::SPAWN_UNIT_SNAKE);
             }
         }
 
@@ -451,54 +456,78 @@ namespace NetworkHandler {
     }
 
     float GetHourLightIntensity(int hour) {
-        if (hour <= 1) {
-            return 0.01;
+        if (hour == 0) {
+            return 0.08;
         }
-        if (hour <= 3) {
-            return 0.1;
+        if (hour == 1) {
+            return 0.07;
         }
-        if (hour <= 4) {
+        if (hour == 2) {
+            return 0.06;
+        }
+        if (hour == 3) {
+            return 0.08;
+        }
+        if (hour == 4) {
             return 0.15;
         }
-        if (hour <= 5) {
-            return 0.3;
+        if (hour == 5) {
+            return 0.25;
         }
-        if (hour <= 6) {
-            return 0.4;
+        if (hour == 6) {
+            return 0.35;
         }
-        if (hour <= 7) {
-            return 0.6;
+        if (hour == 7) {
+            return 0.45;
         }
-        if (hour <= 8) {
-            return 0.8;
+        if (hour == 8) {
+            return 0.55;
         }
-        if (hour <= 9) {
+        if (hour == 9) {
+            return 0.65;
+        }
+        if (hour == 10) {
+            return 0.75;
+        }
+        if (hour == 11) {
             return 0.85;
         }
-        if (hour <= 10) {
-            return 0.9;
-        }
-        if (hour <= 12) {
+        if (hour == 12) {
             return 0.95;
         }
-        if (hour <= 18) {
+        if (hour == 13) {
+            return 0.96;
+        }
+        if (hour == 14) {
+            return 0.97;
+        }
+        if (hour == 15) {
             return 1.0;
         }
-        if (hour <= 19) {
-            return 0.9;
+        if (hour == 16) {
+            return 0.95;
         }
-        if (hour <= 20) {
-            return 0.8;
+        if (hour == 17) {
+            return 0.85;
         }
-        if (hour <= 21) {
-            return 0.6;
+        if (hour == 18) {
+            return 0.75;
         }
-        if (hour <= 22) {
-            return 0.4;
+        if (hour == 19) {
+            return 0.65;
         }
-        if (hour <= 23) {
+        if (hour == 20) {
+            return 0.5;
+        }
+        if (hour == 21) {
+            return 0.3;
+        }
+        if (hour == 22) {
             return 0.2;
         }
+        if (hour == 23) {
+            return 0.1;
+        }        
 
         return 0.1f;
     }
@@ -513,10 +542,10 @@ namespace NetworkHandler {
         } else {
             sunlight.hour++;
         }
-        log.Warning("New hour: " + sunlight.hour + ", intensity = " + GetHourLightIntensity(sunlight.hour));
         if (sunlight.hour > 23) {
             sunlight.hour = 0;
         }
+        log.Warning("New hour: " + sunlight.hour + ", intensity = " + GetHourLightIntensity(sunlight.hour));
         if (sunlight.node is null) {
             sunlight.node = scene_.GetChild("DirectionalLight");
         }

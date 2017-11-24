@@ -220,9 +220,9 @@ namespace ActiveTool {
             Node@ baseNode = targetNode;
 
             if (activeTool.type == TOOL_FLAG) {
-                CreateFlag(hitPos);
                 VariantMap data;
                 data["Name"] = "Use" + activeTool.node.name;
+                CreateFlag(hitPos);
                 SendEvent("UnlockAchievement", data);
                 return;
             }
@@ -235,9 +235,9 @@ namespace ActiveTool {
                 }
             }
             if (activeTool.type == TOOL_CAMPFIRE) {
-                CreateCampfire(hitPos);
                 VariantMap data;
                 data["Name"] = "Use" + activeTool.node.name;
+                CreateCampfire(hitPos);
                 SendEvent("UnlockAchievement", data);
                 return;
             }

@@ -13,12 +13,12 @@
 namespace EnvObjects {
     Array<Node@> objects;
 
-    void Create(Vector3 position, String model, bool temporary = true, String name = "Custom")
+    Node@ Create(Vector3 position, String model, bool temporary = true, String name = "Custom")
     {
         if (Places::IsInDistance(position, 50)) {
             //Too close to place, not creating env model
             log.Warning("Unable to create env object, because place is too near!");
-            return;
+            return null;
         }
 
         Node@ node = scene_.CreateChild(name);
@@ -74,6 +74,48 @@ namespace EnvObjects {
         shape.SetTriangleMesh(object.model);
 
         objects.Push(node);
+
+        return node;
+    }
+
+    Node@ CreateBillboard(Vector3 position, String material, bool temporary = true, String name = "Custom")
+    {
+        Node@ node = scene_.CreateChild(name);
+        node.temporary = temporary;
+        position.y = NetworkHandler::terrain.GetHeight(position);
+        node.rotation = Quaternion(Vector3(0.0f, 1.0f, 0.0f), NetworkHandler::terrain.GetNormal(position));
+        node.position = position;
+
+        const int NUM_BILLBOARDS = 3;
+        BillboardSet@ billboardObject = node.CreateComponent("BillboardSet");
+        billboardObject.numBillboards = NUM_BILLBOARDS;
+        billboardObject.material = cache.GetResource("Material", material);
+        billboardObject.sorted = true;
+
+        for (uint j = 0; j < NUM_BILLBOARDS; ++j)
+        {
+            Vector3 subPosition = Vector3(Random(5.0f), 0, Random(5.0f));
+            Billboard@ bb = billboardObject.billboards[j];
+            //subPosition.y = NetworkHandler::terrain.GetHeight(position);
+            bb.position = subPosition;
+            bb.size = Vector2(0.5f + Random(0.7f), 0.5f + Random(0.7f));
+            //bb.rotation = Random() * 360.0f;
+            bb.enabled = true;
+        }
+
+        objects.Push(node);
+        return node;
+    }
+
+    void DestroyById(uint id)
+    {
+        for (uint i = 0; i < objects.length; i++) {
+            if (objects[i].id == id) {
+                objects[i].Remove();
+                objects.Erase(i);
+                return;
+            }
+        }
     }
 
     void Subscribe()
@@ -196,18 +238,5 @@ namespace EnvObjects {
         }
     }
 
-    void DisableFurthestObjects()
-    {
-        log.Warning("EnvObjects::DisableFurthestObjects");
-        for (uint i = 0; i < objects.length; i++) {
-            Node@ obj = objects[i];
-            int distanceSquared = Vector3(cameraNode.position - obj.position).lengthSquared;
-            if (distanceSquared > DISTANCE_FACTOR * DISTANCE_FACTOR * DISTANCE_FACTOR) {
-                obj.enabled = false;
-            } else {
-                obj.enabled = true;
-            }
-        }
-        //DelayedExecute(5.0, false, "void EnvObjects::DisableFurthestObjects()");
-    }
+
 }

@@ -3,21 +3,22 @@ namespace Spawn {
     const uint SPAWN_UNIT_PACMAN = 2;
     const uint SPAWN_UNIT_ROCK = 3;
     const uint SPAWN_UNIT_CLOUD = 4;
+    const uint SPAWN_UNIT_GRASS = 5;
 
     //Instead of checking units each frame, spawner will
     //check distances for spawner units and decide their fate
-    const float SPAWNED_OBJECT_CHECK_TIME = 20.0f;
+    const float SPAWNED_OBJECT_CHECK_TIME = 10.0f;
 
     //Whats the safe distance from the player
     //All units further than this distance from the camera can be safely removed
     //if spawner configuration supports it
-    const float SPAWNED_OBJECT_SAFE_DISTANCE = 200.0f;
-    const float SPAWNED_OBJECT_SAFE_DISTANCE_SQUARED = SPAWNED_OBJECT_SAFE_DISTANCE * SPAWNED_OBJECT_SAFE_DISTANCE * SPAWNED_OBJECT_SAFE_DISTANCE;
+    const float SPAWNED_OBJECT_SAFE_DISTANCE = 800.0f;
 
     //If camera is closer than this distance
     //disable spawner
-    const float SPAWN_NEAR_DISTANCE = 10.0f;
-    const float SPAWN_NEAR_DISTANCE_SQUARED = SPAWN_NEAR_DISTANCE * SPAWN_NEAR_DISTANCE * SPAWN_NEAR_DISTANCE;
+    const float SPAWN_NEAR_DISTANCE = 20.0f;
+
+    bool debug = false;
 
     class Spawner {
         Node@ node;
@@ -30,14 +31,26 @@ namespace Spawn {
         uint type;
         Array<Node@> units;
         float lastCheckTime;
+        StaticModel@ model;
     };
 
+    float nextDebugUpdate;
     Array<Spawner> spawners;
 
     void Create(Vector3 position, float minSpawnRadius, float maxSpawnRadius, float maxUnitRadius, uint maxUnits, float spawnTime, uint type)
     {
         Spawner spawner;
         spawner.node = scene_.CreateChild("Spawner");
+        spawner.model = spawner.node.CreateComponent("StaticModel");
+        spawner.model.model = cache.GetResource("Model", "Models/Box.mdl");
+        spawner.model.materials[0] = cache.GetResource("Material", "Materials/TreeGreen.xml");
+
+        spawner.node.SetScale(20.0f);
+        if (debug) {
+            spawner.model.enabled = true;
+        } else {
+            spawner.model.enabled = false;
+        }
         spawner.node.temporary = true;
         spawner.node.AddTag("Spawner");
 
@@ -59,6 +72,31 @@ namespace Spawn {
         spawners.Push(spawner);
     }
 
+    int GetSpawnersCount()
+    {
+        return spawners.length; 
+    }
+
+    int GetSpawnedUnitsCount()
+    {
+        int count = 0;
+        for (uint i = 0; i < spawners.length; i++) {
+            count += spawners[i].units.length;
+        }
+        return count;
+    }
+
+    int GetSpawnedUnitsCountByType(uint type)
+    {
+        int count = 0;
+        for (uint i = 0; i < spawners.length; i++) {
+            if (spawners[i].type == type) {
+                count += spawners[i].units.length;
+            }
+        }
+        return count;
+    }
+
     void Init()
     {
         Array<Node@> spawnPoints = scene_.GetNodesWithTag("Spawner");
@@ -69,26 +107,40 @@ namespace Spawn {
         RegisterConsoleCommands();
 
         Create(Places::getPlacePosition("Stonehenge"), 0, 10, 100.0, 1, 1.0f, SPAWN_UNIT_SNAKE);
+        Create(Places::getPlacePosition("Stonehenge"), 0, 10, 100.0, 1, 1.0f, SPAWN_UNIT_PACMAN);
+        Create(Places::getPlacePosition("Stonehenge"), 0, 200, 200.0, 50, 0.1f, SPAWN_UNIT_ROCK);
     }
 
     void Subscribe()
     {
+        SubscribeToEvent("ActivateSpawners", "Spawn::HandlActivateSpawners");
+        SubscribeToEvent("DeactivateSpawners", "Spawn::HandlDeactivateSpawners");
+
         SubscribeToEvent("ActivateSnakeSpawners", "Spawn::HandlActivateSnakeSpawners");
-        SubscribeToEvent("DectivateSnakeSpawners", "Spawn::HandlDeactivateSnakeSpawners");
+        SubscribeToEvent("DeactivateSnakeSpawners", "Spawn::HandlDeactivateSnakeSpawners");
 
         SubscribeToEvent("ActivatePacmanSpawners", "Spawn::HandlActivatePacmanSpawners");
-        SubscribeToEvent("DectivatePacmanSpawners", "Spawn::HandlDeactivatePacmanSpawners");
+        SubscribeToEvent("DeactivatePacmanSpawners", "Spawn::HandlDeactivatePacmanSpawners");
     }
 
     void RegisterConsoleCommands()
     {
         VariantMap data;
+
+        data["CONSOLE_COMMAND_NAME"] = "spawners_activate";
+        data["CONSOLE_COMMAND_EVENT"] = "ActivateSpawners";
+        SendEvent("ConsoleCommandAdd", data);
+
+        data["CONSOLE_COMMAND_NAME"] = "spawners_deactivate";
+        data["CONSOLE_COMMAND_EVENT"] = "DectivateSpawners";
+        SendEvent("ConsoleCommandAdd", data);
+
         data["CONSOLE_COMMAND_NAME"] = "spawners_snake_activate";
         data["CONSOLE_COMMAND_EVENT"] = "ActivateSnakeSpawners";
         SendEvent("ConsoleCommandAdd", data);
 
         data["CONSOLE_COMMAND_NAME"] = "spawners_snake_deactivate";
-        data["CONSOLE_COMMAND_EVENT"] = "DectivateSnakeSpawners";
+        data["CONSOLE_COMMAND_EVENT"] = "DeactivateSnakeSpawners";
         SendEvent("ConsoleCommandAdd", data);
 
         data["CONSOLE_COMMAND_NAME"] = "spawners_pacman_activate";
@@ -96,7 +148,7 @@ namespace Spawn {
         SendEvent("ConsoleCommandAdd", data);
 
         data["CONSOLE_COMMAND_NAME"] = "spawners_pacman_deactivate";
-        data["CONSOLE_COMMAND_EVENT"] = "DectivatePacmanSpawners";
+        data["CONSOLE_COMMAND_EVENT"] = "DeactivatePacmanSpawners";
         SendEvent("ConsoleCommandAdd", data);
     }
 
@@ -108,6 +160,24 @@ namespace Spawn {
                 spawners[i].node.enabled = enabled;
             }
         }
+    }
+
+    void HandlActivateSpawners(StringHash eventType, VariantMap& eventData)
+    {
+        log.Warning("Activating all spawners...");
+        ChangeSpawnersStateByType(SPAWN_UNIT_SNAKE, true);
+        ChangeSpawnersStateByType(SPAWN_UNIT_PACMAN, true);
+        ChangeSpawnersStateByType(SPAWN_UNIT_ROCK, true);
+        ChangeSpawnersStateByType(SPAWN_UNIT_CLOUD, true);
+    }
+
+    void HandlDeactivateSpawners(StringHash eventType, VariantMap& eventData)
+    {
+        log.Warning("Deactivating all spawners...");
+        ChangeSpawnersStateByType(SPAWN_UNIT_SNAKE, false);
+        ChangeSpawnersStateByType(SPAWN_UNIT_PACMAN, false);
+        ChangeSpawnersStateByType(SPAWN_UNIT_ROCK, false);
+        ChangeSpawnersStateByType(SPAWN_UNIT_CLOUD, false);
     }
 
     void HandlActivateSnakeSpawners(StringHash eventType, VariantMap& eventData)
@@ -193,10 +263,17 @@ namespace Spawn {
         spawner.lastSpawnTime = 0.0f;
     }
 
+    void CreateGrass(Spawner& spawner)
+    {
+        Node@ node = EnvObjects::CreateBillboard(GetRandomPositionInRange(spawner), "Materials/Grass.xml");
+        spawner.units.Push(node);
+        spawner.lastSpawnTime = 0.0f;
+    }
+
     bool isNearToPlayer(Node@ node)
     {
         Vector3 diff = node.worldPosition - cameraNode.worldPosition;
-        if (diff.lengthSquared < SPAWN_NEAR_DISTANCE_SQUARED) {
+        if (diff.length < SPAWN_NEAR_DISTANCE) {
             return true;
         }
         return false;   
@@ -205,7 +282,7 @@ namespace Spawn {
     bool IsFarFromPlayer(Node@ node)
     {
         Vector3 diff = node.worldPosition - cameraNode.worldPosition;
-        if (diff.lengthSquared > SPAWNED_OBJECT_SAFE_DISTANCE_SQUARED) {
+        if (diff.length > SPAWNED_OBJECT_SAFE_DISTANCE) {
             return true;
         }
         return false;
@@ -216,12 +293,12 @@ namespace Spawn {
         //log.Warning("Checking spawner[" + spawner.node.id + "]");
         for (uint i = 0; i < spawner.units.length; i++) {
             Vector3 diff = spawner.units[i].worldPosition - spawner.node.worldPosition;
-            if (diff.lengthSquared > spawner.maxUnitRadius * spawner.maxUnitRadius * spawner.maxUnitRadius) {
+            if (diff.length > spawner.maxUnitRadius || IsFarFromPlayer(spawner.units[i])) {
                 if (!IsFarFromPlayer(spawner.units[i])) {
-                    //log.Warning("Unit[" + spawner.units[i].id + "] reached max radius[" + spawner.maxUnitRadius + "] of spawner, but too close to player, disabling delete!");
+                    //log.Warning("Unit " + spawner.units[i].name + "[" + spawner.units[i].id + "] reached max radius[" + spawner.maxUnitRadius + "] of spawner, but too close to player, disabling delete!");
                     continue;
                 }
-                //log.Warning("Unit[" + spawner.units[i].id + "] reached max radius[" + spawner.maxUnitRadius + "] of spawner, deleting it!");
+                //log.Warning("Unit " + spawner.units[i].name + "[" + spawner.units[i].id + "] reached max radius[" + spawner.maxUnitRadius + "] of spawner, deleting it!");
                 if (spawner.type == SPAWN_UNIT_SNAKE) {
                     Snake::DestroyById(spawner.units[i].id);
                 } else if (spawner.type == SPAWN_UNIT_PACMAN) {
@@ -230,6 +307,8 @@ namespace Spawn {
                     Pickable::DestroyById(spawner.units[i].id);
                 } else if (spawner.type == SPAWN_UNIT_CLOUD) {
                     Clouds::DestroyById(spawner.units[i].id);
+                } else if (spawner.type == SPAWN_UNIT_GRASS) {
+                    EnvObjects::DestroyById(spawner.units[i].id);
                 }
                 spawner.units.Erase(i);
             } else {
@@ -245,6 +324,11 @@ namespace Spawn {
     void HandleUpdate(StringHash eventType, VariantMap& eventData)
     {
         float timeStep = eventData["TimeStep"].GetFloat();
+        nextDebugUpdate -= timeStep;
+        if (nextDebugUpdate < 0.0f) {
+            nextDebugUpdate = 0.1f;
+            SendEvent("UpdateSpawnerDebug");
+        }
         for (uint i = 0; i < spawners.length; i++) {
             spawners[i].lastSpawnTime += timeStep;
             spawners[i].lastCheckTime += timeStep;
@@ -259,15 +343,16 @@ namespace Spawn {
                     //Spawner is too far from player, don't spawn any units
                     //log.Warning("Spawner is too far from player, not spawning any units");
                     spawners[i].lastSpawnTime = 0.0f;
+                    spawners[i].model.materials[0] = cache.GetResource("Material", "Materials/TreeYellow.xml");
                     continue;
-                }
-                if (isNearToPlayer(spawners[i].node)) {
+                } else if (isNearToPlayer(spawners[i].node)) {
                     //Spawner is too far from player, don't spawn any units
                     //log.Warning("Spawner is close to player, not spawning any units " + "[" + spawners[i].node.position.x + "," + spawners[i].node.position.y + "," + spawners[i].node.position.z + "] VS [" + cameraNode.position.x + "," + cameraNode.position.y + "," + cameraNode.position.z + "]");
                     spawners[i].lastSpawnTime = 0.0f;
+                    spawners[i].model.materials[0] = cache.GetResource("Material", "Materials/TreeYellow.xml");
                     continue;
-                }
-                if (spawners[i].units.length < spawners[i].maxUnits) {
+                } else if (spawners[i].units.length < spawners[i].maxUnits) {
+                    spawners[i].model.materials[0] = cache.GetResource("Material", "Materials/TreeGreen.xml");
                     if (spawners[i].type == SPAWN_UNIT_SNAKE) {
                         CreateSnake(spawners[i]);
                     } else if (spawners[i].type == SPAWN_UNIT_PACMAN) {
@@ -276,6 +361,8 @@ namespace Spawn {
                         CreateRock(spawners[i]);
                     } else if (spawners[i].type == SPAWN_UNIT_CLOUD) {
                         CreateCloud(spawners[i]);
+                    } else if (spawners[i].type == SPAWN_UNIT_GRASS) {
+                        CreateGrass(spawners[i]);
                     }
                 }
             }

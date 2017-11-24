@@ -66,6 +66,7 @@ namespace Camp {
         campfire.light.color = Color(0.88, 0.34, 0.13);
         campfire.light.range = 100.0f;
         campfire.light.enabled = false;
+        campfire.light.castShadows = true;
 
         campfires.Push(campfire);
     }

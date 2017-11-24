@@ -12,6 +12,7 @@ namespace GameSounds {
     const String SNAKE = "Sounds/snake.wav";
     const String PACMAN = "Sounds/pacman.wav";
     const String STONE_HIT = "Sounds/stone_hit.wav";
+    const String PLAYER_HURT = "Sounds/hurt.wav";
 
     void Play(String soundName, float gain = 0.3)
     {

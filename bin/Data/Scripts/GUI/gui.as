@@ -11,6 +11,7 @@ namespace GUIHandler {
     Text@ bytesIn;
     Text@ bytesOut;
     Text@ inventoryList;
+    Text@ spawnerDebug;
     UIElement@ eventLog;
     Array<Text@> latestEvents;
 
@@ -43,6 +44,8 @@ namespace GUIHandler {
         Subscribe();
         RegisterConsoleCommands();
         CreateCrosshair();
+
+        CreateSpawnerDebug();
     }
 
     void CreateLogo()
@@ -247,6 +250,7 @@ namespace GUIHandler {
         SubscribeToEvent("UpdateInventoryGUI", "GUIHandler::HandleUpdateInventoryGUI");
         SubscribeToEvent("UpdateEventLogGUI", "GUIHandler::HandleUpdateEventLog");
         SubscribeToEvent("UpdateMissionsGUI", "GUIHandler::HandleUpdateMissionsGUI");
+        SubscribeToEvent("UpdateSpawnerDebug", "GUIHandler::HandleUpdateSpawnerDebug");
 
         SubscribeToEvent("ShowTip", "GUIHandler::HandleShowTip");
     }
@@ -291,6 +295,9 @@ namespace GUIHandler {
         if (crosshair !is null) {
             crosshair.Remove();
         }
+        if (spawnerDebug !is null) {
+            spawnerDebug.Remove();
+        }
 
         Notifications::Destroy();
     }
@@ -329,6 +336,19 @@ namespace GUIHandler {
         inventoryList.horizontalAlignment = HA_RIGHT;
         inventoryList.verticalAlignment = VA_BOTTOM;
         inventoryList.SetPosition(-Helpers::getWidthByPercentage(0.015), -Helpers::getHeightByPercentage(0.45));
+    }
+
+    void CreateSpawnerDebug()
+    {
+        spawnerDebug = ui.root.CreateChild("Text");
+        spawnerDebug.text = "";
+        spawnerDebug.SetFont(cache.GetResource("Font", GUI_FONT), GUI_FONT_SIZE);
+        spawnerDebug.textAlignment = HA_CENTER; // Center rows in relation to each other
+
+        // Position the text relative to the screen center
+        spawnerDebug.horizontalAlignment = HA_RIGHT;
+        spawnerDebug.verticalAlignment = VA_TOP;
+        spawnerDebug.SetPosition(-Helpers::getWidthByPercentage(0.015), Helpers::getWidthByPercentage(0.015));
     }
 
     void CreatePositionText()
@@ -426,6 +446,20 @@ namespace GUIHandler {
         tip.lifetime = 10.0f;
         tip.text.text = message;
         log.Info("Showing tip: " + message);
+    }
+
+    void HandleUpdateSpawnerDebug(StringHash eventType, VariantMap& eventData)
+    {
+        if (spawnerDebug is null) {
+            return;
+        }
+        spawnerDebug.text = "Spawners: " + Spawn::GetSpawnersCount();
+        spawnerDebug.text += "\nUnits spawned: " + Spawn::GetSpawnedUnitsCount();
+        spawnerDebug.text += "\nCloud units: " + Spawn::GetSpawnedUnitsCountByType(Spawn::SPAWN_UNIT_CLOUD);
+        spawnerDebug.text += "\nRock units: " + Spawn::GetSpawnedUnitsCountByType(Spawn::SPAWN_UNIT_ROCK);
+        spawnerDebug.text += "\nSnake units: " + Spawn::GetSpawnedUnitsCountByType(Spawn::SPAWN_UNIT_SNAKE);
+        spawnerDebug.text += "\nPacman units: " + Spawn::GetSpawnedUnitsCountByType(Spawn::SPAWN_UNIT_PACMAN);
+        spawnerDebug.text += "\gGrass units: " + Spawn::GetSpawnedUnitsCountByType(Spawn::SPAWN_UNIT_GRASS);
     }
 
     void HandleUpdate(StringHash eventType, VariantMap& eventData)

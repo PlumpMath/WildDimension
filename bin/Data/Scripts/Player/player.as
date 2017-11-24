@@ -7,6 +7,8 @@ namespace Player {
     const int CTRL_SPRINT = 32;
     const int CTRL_DUCK = 64;
 
+    const float NOCLIP_SPEED = 5.0f;
+
     Node@ playerNode;
     Controls playerControls;
     RigidBody@ playerBody;
@@ -23,6 +25,7 @@ namespace Player {
         position.x += 10.0f;
         position.z += 10.0f;
         playerNode = scene_.CreateChild("PlayerNode");
+        playerNode.AddTag("Player");
         playerNode.position = position;
         playerNode.temporary = true;
         playerNode.AddTag("Player");
@@ -62,13 +65,7 @@ namespace Player {
         SubscribeToEvent(playerNode, "NodeCollision", "Player::HandleNodeCollision");
         Subscribe();
         RegisterConsoleCommands();
-
-        //Spawn::Create(position, 10.0f, 5, 2.0f, 10.0f, Spawn::SPAWN_UNIT_SNAKE);
-        //Spawn::Create(position, 10.0f, 5, 2.0f, 5.0f, Spawn::SPAWN_UNIT_PACMAN);
-        //Spawn::Create(position, 100.0f, 100.0f, 10, 1.0f, Spawn::SPAWN_UNIT_ROCK);
-        Spawn::Create(position, 10.0f, 200.0f, 200, 5, 1.0f, Spawn::SPAWN_UNIT_SNAKE);
-        Spawn::Create(position, 10.0f, 200.0f, 200, 5, 1.0f, Spawn::SPAWN_UNIT_PACMAN);
-        Spawn::Create(position, 10.0f, 200.0f, 200, 5, 1.0f, Spawn::SPAWN_UNIT_ROCK);
+        
         position.y += 200;
         //position, minSpawnRadius, maxSpawnRadius, maxUnitRadius, maxUnits, spawnTime, type
         Spawn::Create(position, 1000.0f, 2000.0f, 200, 5, 1.0f, Spawn::SPAWN_UNIT_CLOUD);
@@ -78,6 +75,7 @@ namespace Player {
     void Subscribe()
     {
         SubscribeToEvent("NoclipToggle", "Player::HandleNoclip");
+        SubscribeToEvent("PlayerHit", "Player::HandlePlayerHit");
     }
 
     void RegisterConsoleCommands()
@@ -86,6 +84,12 @@ namespace Player {
         data["CONSOLE_COMMAND_NAME"] = "noclip";
         data["CONSOLE_COMMAND_EVENT"] = "NoclipToggle";
         SendEvent("ConsoleCommandAdd", data);
+    }
+
+    void HandlePlayerHit(StringHash eventType, VariantMap& eventData)
+    {
+        GameSounds::Play(GameSounds::PLAYER_HURT);
+        AddBlur();
     }
 
     void HandleNoclip(StringHash eventType, VariantMap& eventData)
@@ -185,7 +189,7 @@ namespace Player {
             moveDir *= 2;
         }
         if (noclip) {
-            playerNode.Translate(lookAt * moveDir, TS_WORLD);
+            playerNode.Translate(lookAt * moveDir * NOCLIP_SPEED, TS_WORLD);
         } else {
             playerBody.ApplyImpulse(lookAt2 * moveDir);
         }
