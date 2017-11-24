@@ -11,6 +11,7 @@ namespace Notifications {
     class Notification {
         Text@ element;
         float lifetime;
+        int offset;
     };
     Array<Notification> notifications;
 
@@ -21,21 +22,23 @@ namespace Notifications {
         // Position the text relative to the screen center
         baseElement.horizontalAlignment = HA_CENTER;
         baseElement.verticalAlignment = VA_BOTTOM;
-        baseElement.SetPosition(0, -20);
+        baseElement.SetPosition(0, -NOTIFICATION_GUI_FONT_SIZE * 2);
         Subscribe();
         RegisterConsoleCommands();
     }
 
     void CreateNotification(String message, uint type)
     {
+
         Notification notification;
+        notification.offset = NOTIFICATION_GUI_FONT_SIZE * notifications.length;
         notification.element = baseElement.CreateChild("Text");
         notification.element.text = message;
         notification.element.SetFont(cache.GetResource("Font", NOTIFICATION_GUI_FONT), NOTIFICATION_GUI_FONT_SIZE);
         notification.element.textAlignment = HA_CENTER; // Center rows in relation to each other
         notification.element.horizontalAlignment = HA_CENTER;
         notification.element.verticalAlignment = VA_BOTTOM;
-        notification.element.SetPosition(0, 0);
+        notification.element.SetPosition(0, notification.offset);
         notification.element.opacity = 0.0f;
         if (type == NOTIFICATION_TYPE_GOOD) {
             notification.element.color = Color(0.2, 0.8, 0.2);
@@ -102,7 +105,7 @@ namespace Notifications {
                 notifications[i].element.opacity = opacity;
             }
             IntVector2 position = notifications[i].element.position;
-            position.y = -(notifications[i].lifetime * NOTIFICATION_SPEED);
+            position.y = -(notifications[i].lifetime * NOTIFICATION_SPEED) + notifications[i].offset;
             notifications[i].element.position = position;
         }
     }
