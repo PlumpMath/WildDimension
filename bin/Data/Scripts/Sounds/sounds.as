@@ -17,7 +17,7 @@ namespace GameSounds {
 
     Array<SoundSource@> ambientSounds;
 
-    SoundSource@ Play(String soundName, float gain = 0.3)
+    SoundSource@ Play(String soundName, float gain = 0.5)
     {
         // Get the sound resource
         Sound@ sound = cache.GetResource("Sound", soundName);

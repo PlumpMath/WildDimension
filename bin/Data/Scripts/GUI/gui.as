@@ -450,7 +450,7 @@ namespace GUIHandler {
     void HandleShowTip(StringHash eventType, VariantMap& eventData)
     {
         String message = eventData["MESSAGE"].GetString();
-        tip.lifetime = 10.0f;
+        tip.lifetime = 30.0f;
         tip.text.text = message;
         log.Info("Showing tip: " + message);
     }
@@ -473,10 +473,10 @@ namespace GUIHandler {
     {
         float timeStep = eventData["TimeStep"].GetFloat();
         if (tip.lifetime > 1) {
-            if (tip.sprite.opacity < 1.0f) {
+            if (tip.sprite.opacity < 0.9f) {
                 tip.sprite.opacity += timeStep;
-                if (tip.sprite.opacity > 1.0) {
-                    tip.sprite.opacity = 1.0;
+                if (tip.sprite.opacity > 0.9) {
+                    tip.sprite.opacity = 0.9;
                 }
                 tip.text.opacity = tip.sprite.opacity;
             }

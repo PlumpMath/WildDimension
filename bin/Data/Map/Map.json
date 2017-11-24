@@ -8,8 +8,8 @@
 		"Elapsed Time": 219.7979736328125,
 		"Next Replicated Node ID": 1895,
 		"Next Replicated Component ID": 5516,
-		"Next Local Node ID": 16780408,
-		"Next Local Component ID": 16780589,
+		"Next Local Node ID": 16780634,
+		"Next Local Component ID": 16780826,
 		"Variables": {},
 		"Variable Names": ""
 	},
@@ -59,7 +59,6 @@
 					"type": "RigidBody",
 					"id": 2,
 					"attributes": {
-						"Physics Rotation": "1 0 0 0",
 						"Restitution": 0.5
 					}
 				},
@@ -169,7 +168,7 @@
 									"type": "RigidBody",
 									"id": 16777956,
 									"attributes": {
-										"Physics Rotation": "0.196032 0 0.980598 0",
+										"Physics Rotation": "0.196032 0 0.980597 0",
 										"Physics Position": "791.277 198.4 -1458.65"
 									}
 								}
@@ -599,7 +598,6 @@
 							"type": "RigidBody",
 							"id": 16777961,
 							"attributes": {
-								"Physics Rotation": "1 0 0 0",
 								"Physics Position": "-1784.22 107.463 4.5"
 							}
 						}
@@ -631,7 +629,6 @@
 									"type": "RigidBody",
 									"id": 16777963,
 									"attributes": {
-										"Physics Rotation": "1 0 0 0",
 										"Physics Position": "-1784.22 107.463 4.5",
 										"Is Trigger": true
 									}
@@ -674,7 +671,6 @@
 							"type": "RigidBody",
 							"id": 16777926,
 							"attributes": {
-								"Physics Rotation": "1 0 0 0",
 								"Physics Position": "1332.56 138.053 -121.14"
 							}
 						}
@@ -706,7 +702,6 @@
 									"type": "RigidBody",
 									"id": 16777965,
 									"attributes": {
-										"Physics Rotation": "1 0 0 0",
 										"Physics Position": "1332.56 138.053 -121.14",
 										"Is Trigger": true
 									}
@@ -789,7 +784,6 @@
 							"type": "RigidBody",
 							"id": 16778684,
 							"attributes": {
-								"Physics Rotation": "1 0 0 0",
 								"Physics Position": "-427.349 536.829 502.527"
 							}
 						}
@@ -820,7 +814,6 @@
 									"type": "RigidBody",
 									"id": 16778686,
 									"attributes": {
-										"Physics Rotation": "1 0 0 0",
 										"Physics Position": "-427.349 536.829 502.527",
 										"Is Trigger": true
 									}
@@ -909,7 +902,7 @@
 								"Tags": [],
 								"Position": "0 0 0",
 								"Rotation": "1 0 0 0",
-								"Scale": "20 20 2",
+								"Scale": "2 2 2",
 								"Variables": {}
 							},
 							"components": [

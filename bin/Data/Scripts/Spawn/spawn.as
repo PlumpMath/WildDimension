@@ -110,7 +110,7 @@ namespace Spawn {
 
         Create(Places::getPlacePosition("Stonehenge"), 0, 10, 100.0, 1, 1.0f, SPAWN_UNIT_SNAKE);
         Create(Places::getPlacePosition("Stonehenge"), 0, 10, 100.0, 1, 1.0f, SPAWN_UNIT_PACMAN);
-        Create(Places::getPlacePosition("Stonehenge"), 0, 200, 200.0, 50, 0.1f, SPAWN_UNIT_ROCK);
+        Create(Places::getPlacePosition("Stonehenge"), 0, 200, 200.0, 100, 0.1f, SPAWN_UNIT_ROCK);
     }
 
     void Subscribe()
@@ -251,7 +251,7 @@ namespace Spawn {
     void CreateRock(Spawner& spawner)
     {
         int rockModelNum = 1 + RandomInt(4);   
-        Node@ node = Pickable::Create(GetRandomPositionInRange(spawner), "Rock", "Models/Models/Small_rock" + rockModelNum + ".mdl");
+        Node@ node = Pickable::Create(GetRandomPositionInRange(spawner), "Rock", "Models/Models/Small_rock" + rockModelNum + ".mdl", 2.0);
         //log.Warning("Spawner creating rock[" + node.id + "]");
         spawner.units.Push(node);
         spawner.lastSpawnTime = 0.0f;

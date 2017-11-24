@@ -54,7 +54,7 @@ namespace Achievements {
                     data["Message"] = "Achievement [" + item.name +"] unlocked!";
                     SendEvent("UpdateEventLogGUI", data);
 
-                    GameSounds::Play(GameSounds::ACHIEVEMENT_UNLOCKED);
+                    GameSounds::Play(GameSounds::ACHIEVEMENT_UNLOCKED, 0.1);
                 }
             }
         }

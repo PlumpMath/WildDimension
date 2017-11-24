@@ -42,7 +42,7 @@ class PickableObject : ScriptObject
                 SendEvent("UnlockAchievement", data);
             }
 
-            GameSounds::Play(GameSounds::PICKUP_TOOL);
+            GameSounds::Play(GameSounds::PICKUP_TOOL, 0.1);
             node.Remove();
         }
     }

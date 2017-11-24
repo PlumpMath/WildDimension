@@ -68,6 +68,7 @@ const float TOUCH_SENSITIVITY = 2;
 MouseMode useMouseMode_ = MM_ABSOLUTE;
 Camera@ camera;
 const float YAW_SENSITIVITY = 0.1f;
+int currentBlur = 0;
 
 const uint COLLISION_TERRAIN_LEVEL = 1;
 const uint COLLISION_PACMAN_LEVEL = 2;
@@ -283,15 +284,21 @@ void SetupViewport()
 
 void AddBlur()
 {
+    currentBlur++;
     RenderPath@ effectRenderPath = viewport.renderPath.Clone();
     effectRenderPath.SetEnabled("Blur", true);
     viewport.renderPath = effectRenderPath;
 
-    DelayedExecute(2.0, false, "void StopBlur()");
+    Array<Variant> parameters;
+    parameters.Push(Variant(currentBlur));
+    DelayedExecute(5.0, false, "void StopBlur(int)", parameters);
 }
 
-void StopBlur()
+void StopBlur(int blurNum)
 {
+    if (blurNum != currentBlur) {
+        return;
+    }
     RenderPath@ effectRenderPath = viewport.renderPath.Clone();
     effectRenderPath.SetEnabled("Blur", false);
     viewport.renderPath = effectRenderPath;

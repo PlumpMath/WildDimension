@@ -55,6 +55,13 @@ namespace Trap {
 
     void Use(Vector3 position)
     {
+        if (!Missions::IsMissionCompletedByEventName("UseLighter")) {
+            VariantMap data;
+            data["Message"] = "Can't use this item yet!";
+            data["Type"] = Notifications::NOTIFICATION_TYPE_BAD;
+            SendEvent("AddNotification", data);
+            return;
+        }
         if (PlaceTrap(position)) {
             VariantMap data;
             data["Name"] = "UseTrap";

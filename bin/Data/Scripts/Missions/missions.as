@@ -224,12 +224,12 @@ namespace Missions {
 
         item.name = "Nine";
         item.description = "I should make small\ncampfire that can\nceep me warm";
-        item.eventName = "GetCampfire";
+        item.eventName = "UseCampfire";
         item.itemName = "Campfire";
         item.current = 0;
         item.target = 1;
         item.completed = false;
-        item.type = TYPE_PICKUP;
+        item.type = TYPE_USE_ITEM;
         item.launchEvent = "HourChange";
         item.eventData["Hour"] = 21;
         AddMission(item);
@@ -289,7 +289,7 @@ namespace Missions {
                 SendEvent("UpdateEventLogGUI", data);
                 SendEvent("UpdateMissionsGUI");
 
-                GameSounds::Play(GameSounds::MISSION_COMPLETE);
+                GameSounds::Play(GameSounds::MISSION_COMPLETE, 0.05);
                 NextMission();
                 return;
             }
@@ -311,7 +311,7 @@ namespace Missions {
                         SendEvent("UpdateEventLogGUI", data);
                         SendEvent("UpdateMissionsGUI");
 
-                        GameSounds::Play(GameSounds::MISSION_COMPLETE);
+                        GameSounds::Play(GameSounds::MISSION_COMPLETE, 0.05);
                         NextMission();
                     }
                 }

@@ -199,8 +199,8 @@ namespace NetworkHandler {
 
         ActiveTool::Create();
 
-        for (int i = -15; i < 15; i+=3) {
-            for (int j = -15; j < 15; j+=3) {
+        for (int i = -15; i < 15; i+=1) {
+            for (int j = -15; j < 15; j+=1) {
                 Vector3 position = Vector3(i * 141 + Random(130.0f), 0.0, j * 133 + + Random(130.0f));
                 AppleTree::Create(position);
             }
@@ -211,34 +211,40 @@ namespace NetworkHandler {
                 int radius = 150;
                 Vector3 position = Vector3(i * radius, 0, j * radius);
                 Spawn::Create(position, 0, radius + radius, radius + radius, 30, 0.01f, Spawn::SPAWN_UNIT_GRASS);
+                Spawn::Create(position, 0, radius + radius, radius + radius, 30, 0.1f, Spawn::SPAWN_UNIT_ROCK);
             }
         }
 
-        for (int i = -15; i < 15; i+=5) {
-            for (int j = -15; j < 15; j+=5) {
-                Vector3 position = Vector3(i * 126 + Random(120.0f), 0.0, j * 126 + Random(120.0f));
-                RaspberryBush::Create(position);
+        for (int i = -15; i < 15; i+=3) {
+            for (int j = -15; j < 15; j+=3) {
+                int radius = 150;
+                Vector3 position = Vector3(i * radius, 0, j * radius);
+                Spawn::Create(position, 0, radius + radius, radius + radius, 1, 0.1f, Spawn::SPAWN_UNIT_PACMAN);
+                Spawn::Create(position, 0, radius + radius, radius + radius, 1, 0.1f, Spawn::SPAWN_UNIT_SNAKE);
+            }
+        }
 
-                position.y = NetworkHandler::terrain.GetHeight(position);
-                Spawn::Create(position, 0, 200, 500.0, 2, 1.0f, Spawn::SPAWN_UNIT_PACMAN);
-                Spawn::Create(position, 0, 200, 500.0, 2, 1.0f, Spawn::SPAWN_UNIT_SNAKE);
+        for (int i = -15; i < 15; i+=1) {
+            for (int j = -15; j < 15; j+=1) {
+                Vector3 position = Vector3(i * 126 + Random(120.0f), 0.0, j * 126 + Random(120.0f));
+                RaspberryBush::Create(position);            
             }
         }
 
         Vector3 position = Vector3(37 + Random(20.0f), 0.0, 37 + Random(20.0f));
         Camp::Create(position);
 
-        for (int i = -25; i < 25; i+=6) {
-            for (int j = -25; j < 25; j+=6) {
+        for (int i = -25; i < 25; i+=7) {
+            for (int j = -25; j < 25; j+=7) {
                 Vector3 position = Vector3(i * 100 + Random(100.0f), 0.0, j * 100 + Random(100.0f));
                 EnvObjects::Create(position, "Models/Models/Large_rock.mdl", true, "Rock");
-                position = Vector3(i * 66 + Random(100.0f), 0.0, j * 66 + Random(100.0f));
+                position = Vector3(i * 13 + Random(100.0f), 0.0, j * 66 + Random(100.0f));
                 EnvObjects::Create(position, "Models/Models/Medium_rock.mdl", true, "Rock");
-                position = Vector3(i * 48 + Random(100.0f), 0.0, j * 48 + Random(100.0f));
+                position = Vector3(i * 45 + Random(100.0f), 0.0, j * 48 + Random(100.0f));
                 EnvObjects::Create(position, "Models/Models/Big_tree.mdl", true, "Tree");
-                position = Vector3(i * 98 + Random(100.0f), 0.0, j * 98 + Random(100.0f));
+                position = Vector3(i * 78 + Random(100.0f), 0.0, j * 98 + Random(100.0f));
                 EnvObjects::Create(position, "Models/Models/Big_tree2.mdl", true, "Tree");
-                position = Vector3(i * 110 + Random(100.0f), 0.0, j * 110 + Random(100.0f));
+                position = Vector3(i * 130 + Random(100.0f), 0.0, j * 110 + Random(100.0f));
                 EnvObjects::Create(position, "Models/Models/Big_tree3.mdl", true, "Tree");
 
                 /*position = Vector3(i * 78 + Random(200.0f), 0.0, j * 56 + Random(200.0f));
@@ -361,9 +367,11 @@ namespace NetworkHandler {
             }
             sunlight.currentIntensity = sunlight.intensityBeforeChange + diff * sunlight.transitionTime;
             sunlight.light.color = Color(sunlight.color.r * sunlight.currentIntensity, sunlight.color.g * sunlight.currentIntensity, sunlight.color.b * sunlight.currentIntensity);
-            sunlight.zone.ambientColor = Color(sunlight.ambientColor.r * sunlight.currentIntensity, sunlight.ambientColor.g * sunlight.currentIntensity, sunlight.ambientColor.b * sunlight.currentIntensity);
+            sunlight.zone.ambientColor = Color(sunlight.ambientColor.r * sunlight.currentIntensity + 0.1, sunlight.ambientColor.g * sunlight.currentIntensity + 0.1, sunlight.ambientColor.b * sunlight.currentIntensity + 0.1);
             sunlight.zone.fogColor = Color(sunlight.fogColor.r * sunlight.currentIntensity, sunlight.fogColor.g * sunlight.currentIntensity, sunlight.fogColor.b * sunlight.currentIntensity);
-            ambientSound.gain = sunlight.currentIntensity - 0.2;
+            if (ambientSound !is null) {
+                ambientSound.gain = sunlight.currentIntensity - 0.2;
+            }
 
             if (sunlight.currentIntensity < 0.3) {
                 skybox.materials[0] = cache.GetResource("Material", "Materials/SkyboxNight.xml");

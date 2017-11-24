@@ -154,7 +154,7 @@ namespace Player {
             if (moveDir.lengthSquared == 0) {
                 walkSoundSource.gain = 0.0f;
             } else {
-                walkSoundSource.gain = 0.7f;
+                walkSoundSource.gain = 0.3f;
             }
         }
 
