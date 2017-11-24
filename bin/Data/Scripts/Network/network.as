@@ -3,6 +3,9 @@ namespace NetworkHandler {
     const uint SERVER_PORT = 11223;
     Node@ terrainNode;
     Terrain@ terrain;
+    SoundSource@ ambientSound;
+    Node@ skyNode;
+    Skybox@ skybox;
 
     const float LIGHT_CHANGE_SPEED = 0.5f;
     class Sunlight {
@@ -108,8 +111,13 @@ namespace NetworkHandler {
                 shape.SetTerrain();
             }
         }*/
+
         terrainNode = scene_.GetChild("Terrain");
         terrain = terrainNode.GetComponent("Terrain");
+
+        skyNode = scene_.GetChild("Sky");
+        skybox = skyNode.GetComponent("Skybox");
+
         /*for (int x = 0; x < 4; x++) {
             for (int y = 0; y < 4; y++) {
                 int num = x * 4 + y;
@@ -147,21 +155,6 @@ namespace NetworkHandler {
         light1.castShadows = true;
         light1.shadowBias = BiasParameters(0.00025f, 0.5f);
         light1.shadowCascade = CascadeParameters(10.0f, 50.0f, 200.0f, 0.0f, 0.8f);*/
-        
-        
-        // Create a "floor" consisting of several tiles
-        /*for (int y = -50; y <= 50; ++y)
-        {
-            for (int x = -50; x <= 50; ++x)
-            {
-                Node@ floorNode = scene_.CreateChild("FloorTile");
-                floorNode.position = Vector3(x * 20.5f, -0.5f, y * 20.5f);
-                floorNode.scale = Vector3(20.0f, 1.0f, 20.f);
-                StaticModel@ floorObject = floorNode.CreateComponent("StaticModel");
-                floorObject.model = cache.GetResource("Model", "Models/Box.mdl");
-                floorObject.material = cache.GetResource("Material", "Materials/Stone.xml");
-            }
-        }*/
 
         // Create skybox. The Skybox component is used like StaticModel, but it will be always located at the camera, giving the
         // illusion of the box planes being far away. Use just the ordinary Box model and a suitable material, whose shader will
@@ -210,7 +203,14 @@ namespace NetworkHandler {
             for (int j = -15; j < 15; j+=3) {
                 Vector3 position = Vector3(i * 141 + Random(130.0f), 0.0, j * 133 + + Random(130.0f));
                 AppleTree::Create(position);
-                Spawn::Create(position, 0, 200, 200.0, 50, 0.01f, Spawn::SPAWN_UNIT_GRASS);
+            }
+        }
+
+        for (int i = -15; i < 15; i+=3) {
+            for (int j = -15; j < 15; j+=3) {
+                int radius = 150;
+                Vector3 position = Vector3(i * radius, 0, j * radius);
+                Spawn::Create(position, 0, radius + radius, radius + radius, 30, 0.01f, Spawn::SPAWN_UNIT_GRASS);
             }
         }
 
@@ -250,7 +250,7 @@ namespace NetworkHandler {
             }
         }
 
-        GameSounds::PlayAmbient(GameSounds::AMBIENT_SOUND);
+        ambientSound = GameSounds::PlayAmbient(GameSounds::AMBIENT_SOUND);
 
         /*File file("Map.xml", FILE_WRITE);
         scene_.SaveXML(file);
@@ -363,6 +363,13 @@ namespace NetworkHandler {
             sunlight.light.color = Color(sunlight.color.r * sunlight.currentIntensity, sunlight.color.g * sunlight.currentIntensity, sunlight.color.b * sunlight.currentIntensity);
             sunlight.zone.ambientColor = Color(sunlight.ambientColor.r * sunlight.currentIntensity, sunlight.ambientColor.g * sunlight.currentIntensity, sunlight.ambientColor.b * sunlight.currentIntensity);
             sunlight.zone.fogColor = Color(sunlight.fogColor.r * sunlight.currentIntensity, sunlight.fogColor.g * sunlight.currentIntensity, sunlight.fogColor.b * sunlight.currentIntensity);
+            ambientSound.gain = sunlight.currentIntensity - 0.2;
+
+            if (sunlight.currentIntensity < 0.3) {
+                skybox.materials[0] = cache.GetResource("Material", "Materials/SkyboxNight.xml");
+            } else {
+                skybox.materials[0] = cache.GetResource("Material", "Materials/SkyboxDay.xml");
+            }
         }
 
         stats.gameTime += timeStep;

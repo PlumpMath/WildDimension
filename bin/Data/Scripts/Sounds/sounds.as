@@ -14,7 +14,9 @@ namespace GameSounds {
     const String STONE_HIT = "Sounds/stone_hit.wav";
     const String PLAYER_HURT = "Sounds/hurt.wav";
 
-    void Play(String soundName, float gain = 0.3)
+    Array<SoundSource@> ambientSounds;
+
+    SoundSource@ Play(String soundName, float gain = 0.3)
     {
         // Get the sound resource
         Sound@ sound = cache.GetResource("Sound", soundName);
@@ -28,10 +30,13 @@ namespace GameSounds {
             soundSource.Play(sound);
             // In case we also play music, set the sound volume below maximum so that we don't clip the output
             soundSource.gain = gain;
+            return soundSource;
         }
+
+        return null;
     }
 
-    void PlayAmbient(String soundName)
+    SoundSource@ PlayAmbient(String soundName)
     {
         Sound@ sound = cache.GetResource("Sound", soundName);
 
@@ -46,7 +51,12 @@ namespace GameSounds {
             soundSource.soundType = SOUND_MUSIC;
             // In case we also play music, set the sound volume below maximum so that we don't clip the output
             soundSource.gain = 0.7f;
+
+            ambientSounds.Push(soundSource);
+            return soundSource;
         }
+
+        return null;
     }
 
     void AddLoopedSoundToNode(Node@ node, String soundName)

@@ -82,24 +82,28 @@ namespace EnvObjects {
     {
         Node@ node = scene_.CreateChild(name);
         node.temporary = temporary;
-        position.y = NetworkHandler::terrain.GetHeight(position);
+        position.y = NetworkHandler::terrain.GetHeight(position) + 0.5f;
         node.rotation = Quaternion(Vector3(0.0f, 1.0f, 0.0f), NetworkHandler::terrain.GetNormal(position));
         node.position = position;
+        node.SetScale(1.0f);
 
-        const int NUM_BILLBOARDS = 3;
+        const int NUM_BILLBOARDS = 5;
         BillboardSet@ billboardObject = node.CreateComponent("BillboardSet");
         billboardObject.numBillboards = NUM_BILLBOARDS;
         billboardObject.material = cache.GetResource("Material", material);
         billboardObject.sorted = true;
+        billboardObject.faceCameraMode = FC_ROTATE_Y;
+
 
         for (uint j = 0; j < NUM_BILLBOARDS; ++j)
         {
             Vector3 subPosition = Vector3(Random(5.0f), 0, Random(5.0f));
             Billboard@ bb = billboardObject.billboards[j];
-            //subPosition.y = NetworkHandler::terrain.GetHeight(position);
-            bb.position = subPosition;
-            bb.size = Vector2(0.5f + Random(0.7f), 0.5f + Random(0.7f));
-            //bb.rotation = Random() * 360.0f;
+            subPosition.y = NetworkHandler::terrain.GetHeight(position);
+            //bb.position = subPosition;
+            bb.size = Vector2(1.0f + Random(1.0f), 1.0f + Random(1.0f));
+            //bb.rotation = 120 * j;
+            //bb.direction = Vector3(j, 0, j);
             bb.enabled = true;
         }
 

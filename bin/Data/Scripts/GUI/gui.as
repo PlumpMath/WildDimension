@@ -343,7 +343,7 @@ namespace GUIHandler {
         spawnerDebug = ui.root.CreateChild("Text");
         spawnerDebug.text = "";
         spawnerDebug.SetFont(cache.GetResource("Font", GUI_FONT), GUI_FONT_SIZE);
-        spawnerDebug.textAlignment = HA_CENTER; // Center rows in relation to each other
+        spawnerDebug.textAlignment = HA_LEFT; // Center rows in relation to each other
 
         // Position the text relative to the screen center
         spawnerDebug.horizontalAlignment = HA_RIGHT;

@@ -8,8 +8,8 @@
 		"Elapsed Time": 219.7979736328125,
 		"Next Replicated Node ID": 1895,
 		"Next Replicated Component ID": 5516,
-		"Next Local Node ID": 16779956,
-		"Next Local Component ID": 16780115,
+		"Next Local Node ID": 16780182,
+		"Next Local Component ID": 16780352,
 		"Variables": {},
 		"Variable Names": ""
 	},
@@ -6976,7 +6976,7 @@
 				"Is Enabled": true,
 				"Name": "Sky",
 				"Tags": [],
-				"Position": "0 0 0",
+				"Position": "0 200 0",
 				"Rotation": "1 0 0 0",
 				"Scale": "500 500 500",
 				"Variables": {}
@@ -6986,8 +6986,8 @@
 					"type": "Skybox",
 					"id": 6,
 					"attributes": {
-						"Model": "Model;Models/SkyDome.mdl",
-						"Material": "Material;Materials/Skybox.xml"
+						"Model": "Model;Models/Sphere.mdl",
+						"Material": "Material;Materials/SkyboxDay.xml"
 					}
 				}
 			],
