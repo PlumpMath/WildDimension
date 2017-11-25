@@ -44,6 +44,8 @@ class PickableObject : ScriptObject
 
             GameSounds::Play(GameSounds::PICKUP_TOOL, 0.1);
             node.Remove();
+        } else if (otherNode.HasTag("Snake")) {
+            Snake::SnakeAdd(otherNode);
         }
     }
 }
@@ -51,7 +53,7 @@ class PickableObject : ScriptObject
 namespace Pickable {
     Array<Node@> pickables;
 
-    Node@ Create(Vector3 position, String name, String model, float scale = 1.0f)
+    Node@ Create(Vector3 position, String name, String model, float scale = 1.0f, bool playerOnly = true)
     {
         Node@ node = scene_.CreateChild(name);
         node.temporary = true;
@@ -72,14 +74,25 @@ namespace Pickable {
         } else if (name == "Axe") {
             object.materials[0] = cache.GetResource("Material", "Materials/Stone.xml");
             object.materials[1] = cache.GetResource("Material", "Materials/Wood.xml");
-        }
-        else {
+        } else if (name == "Apple") {
+            object.materials[0] = cache.GetResource("Material", "Materials/Apple.xml");
+            object.materials[1] = cache.GetResource("Material", "Materials/TreeGreen.xml");
+            object.materials[2] = cache.GetResource("Material", "Materials/Wood.xml");
+        } else if (name == "Raspberry") {
+            object.materials[0] = cache.GetResource("Material", "Materials/Raspberry.xml");
+            object.materials[1] = cache.GetResource("Material", "Materials/TreeGreen.xml");
+            object.materials[2] = cache.GetResource("Material", "Materials/TreeGreen.xml");
+        } else {
             object.materials[0] = cache.GetResource("Material", "Materials/Stone.xml");
         }
 
         RigidBody@ body = node.CreateComponent("RigidBody");
         body.collisionLayer = COLLISION_PICKABLE_LEVEL;
-        body.collisionMask = COLLISION_PLAYER_LEVEL;
+        if (playerOnly) {
+            body.collisionMask = COLLISION_PLAYER_LEVEL;
+        } else {
+            body.collisionMask = COLLISION_PLAYER_LEVEL | COLLISION_SNAKE_HEAD_LEVEL | COLLISION_PACMAN_LEVEL;
+        }
         // The trigger mode makes the rigid body only detect collisions, but impart no forces on the
         // colliding objects
         body.trigger = true;
@@ -108,7 +121,6 @@ namespace Pickable {
     void Subscribe()
     {
         SubscribeToEvent("GetItem", "Pickable::HandlePickup");
-        //DelayedExecute(5.0, false, "void Pickable::DisableFurthestObjects()");
     }
 
     void RegisterConsoleCommands()
@@ -158,21 +170,5 @@ namespace Pickable {
 
         data["Name"] = "Get" + name;
         SendEvent("UnlockAchievement", data);
-    }
-
-    void DisableFurthestObjects()
-    {
-        log.Warning("Pickable::DisableFurthestObjects");
-        for (uint i = 0; i < pickables.length; i++) {
-            Node@ obj = pickables[i];
-            int distanceSquared = Vector3(cameraNode.position - obj.position).lengthSquared;
-            int distFactor = 20;
-            if (distanceSquared > distFactor * distFactor * distFactor) {
-                obj.enabled = false;
-            } else {
-                obj.enabled = true;
-            }
-        }
-        //DelayedExecute(5.0, false, "void Pickable::DisableFurthestObjects()");
     }
 }

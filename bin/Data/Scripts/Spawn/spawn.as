@@ -4,6 +4,9 @@ namespace Spawn {
     const uint SPAWN_UNIT_ROCK = 3;
     const uint SPAWN_UNIT_CLOUD = 4;
     const uint SPAWN_UNIT_GRASS = 5;
+    const uint SPAWN_UNIT_APPLE = 6;
+    const uint SPAWN_UNIT_RASPBERRY = 7;
+    const uint SPAWN_UNIT_TETRIS = 8;
 
     //Instead of checking units each frame, spawner will
     //check distances for spawner units and decide their fate
@@ -36,7 +39,6 @@ namespace Spawn {
 
     float nextDebugUpdate;
     Array<Spawner> spawners;
-
     Node@ Create(Vector3 position, float minSpawnRadius, float maxSpawnRadius, float maxUnitRadius, uint maxUnits, float spawnTime, uint type)
     {
         Spawner spawner;
@@ -208,7 +210,7 @@ namespace Spawn {
 
     Vector3 GetRandomPositionInRange(Spawner& spawner)
     {
-        Vector3 position = spawner.node.position;
+        Vector3 position = spawner.node.worldPosition;
         float randX = Random(spawner.maxSpawnRadius - spawner.minSpawnRadius) + spawner.minSpawnRadius;
         if (RandomInt(2) == 0) {
             position.x -= randX;
@@ -272,6 +274,27 @@ namespace Spawn {
         spawner.lastSpawnTime = 0.0f;
     }
 
+    void CreateApple(Spawner& spawner)
+    {
+        Node@ node = Pickable::Create(GetRandomPositionInRange(spawner), "Apple", "Models/Models/Apple.mdl", Random(0.8) + 0.5);
+        spawner.units.Push(node);
+        spawner.lastSpawnTime = 0.0f;
+    }
+
+    void CreateRaspberry(Spawner& spawner)
+    {
+        Node@ node = Pickable::Create(GetRandomPositionInRange(spawner), "Raspberry", "Models/Models/Raspberry.mdl", Random(0.8) + 0.5);
+        spawner.units.Push(node);
+        spawner.lastSpawnTime = 0.0f;
+    }
+
+    void CreateTetris(Spawner& spawner)
+    {
+        int number = RandomInt(10) + 1;
+        Node@ node = EnvObjects::CreateTimed(GetRandomPositionInRange(spawner), "Models/Models/" + number + ".mdl", true, 15.0f, "Tetris");
+        spawner.lastSpawnTime = 0.0f;
+    }
+
     bool isNearToPlayer(Node@ node)
     {
         Vector3 diff = node.worldPosition - cameraNode.worldPosition;
@@ -311,6 +334,10 @@ namespace Spawn {
                     Clouds::DestroyById(spawner.units[i].id);
                 } else if (spawner.type == SPAWN_UNIT_GRASS) {
                     EnvObjects::DestroyById(spawner.units[i].id);
+                } else if (spawner.type == SPAWN_UNIT_APPLE) {
+                    Pickable::DestroyById(spawner.units[i].id);
+                } else if (spawner.type == SPAWN_UNIT_RASPBERRY) {
+                    Pickable::DestroyById(spawner.units[i].id);
                 }
                 spawner.units.Erase(i);
             } else {
@@ -328,7 +355,7 @@ namespace Spawn {
         float timeStep = eventData["TimeStep"].GetFloat();
         nextDebugUpdate -= timeStep;
         if (nextDebugUpdate < 0.0f) {
-            nextDebugUpdate = 0.1f;
+            nextDebugUpdate = 0.5f;
             SendEvent("UpdateSpawnerDebug");
         }
         for (uint i = 0; i < spawners.length; i++) {
@@ -365,7 +392,13 @@ namespace Spawn {
                         CreateCloud(spawners[i]);
                     } else if (spawners[i].type == SPAWN_UNIT_GRASS) {
                         CreateGrass(spawners[i]);
-                    }
+                    } else if (spawners[i].type == SPAWN_UNIT_APPLE) {
+                        CreateApple(spawners[i]);
+                    } else if (spawners[i].type == SPAWN_UNIT_RASPBERRY) {
+                        CreateRaspberry(spawners[i]);
+                    } else if (spawners[i].type == SPAWN_UNIT_TETRIS) {
+                        CreateTetris(spawners[i]);
+                    } 
                 }
             }
         }

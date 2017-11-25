@@ -199,8 +199,8 @@ namespace NetworkHandler {
 
         ActiveTool::Create();
 
-        for (int i = -15; i < 15; i+=1) {
-            for (int j = -15; j < 15; j+=1) {
+        for (int i = -15; i < 15; i+=2) {
+            for (int j = -15; j < 15; j+=2) {
                 Vector3 position = Vector3(i * 141 + Random(130.0f), 0.0, j * 133 + + Random(130.0f));
                 AppleTree::Create(position);
             }
@@ -211,12 +211,19 @@ namespace NetworkHandler {
                 int radius = 150;
                 Vector3 position = Vector3(i * radius, 0, j * radius);
                 Spawn::Create(position, 0, radius + radius, radius + radius, 30, 0.01f, Spawn::SPAWN_UNIT_GRASS);
-                Spawn::Create(position, 0, radius + radius, radius + radius, 30, 0.1f, Spawn::SPAWN_UNIT_ROCK);
             }
         }
 
-        for (int i = -15; i < 15; i+=3) {
-            for (int j = -15; j < 15; j+=3) {
+        for (int i = -15; i < 15; i+=4) {
+            for (int j = -15; j < 15; j+=4) {
+                int radius = 200;
+                Vector3 position = Vector3(i * radius, 0, j * radius);
+                Spawn::Create(position, 0, radius + radius, radius + radius, 20, 0.1f, Spawn::SPAWN_UNIT_ROCK);
+            }
+        }
+
+        for (int i = -15; i < 15; i+=4) {
+            for (int j = -15; j < 15; j+=4) {
                 int radius = 150;
                 Vector3 position = Vector3(i * radius, 0, j * radius);
                 Spawn::Create(position, 0, radius + radius, radius + radius, 1, 0.1f, Spawn::SPAWN_UNIT_PACMAN);
@@ -224,8 +231,8 @@ namespace NetworkHandler {
             }
         }
 
-        for (int i = -15; i < 15; i+=1) {
-            for (int j = -15; j < 15; j+=1) {
+        for (int i = -15; i < 15; i+=2) {
+            for (int j = -15; j < 15; j+=2) {
                 Vector3 position = Vector3(i * 126 + Random(120.0f), 0.0, j * 126 + Random(120.0f));
                 RaspberryBush::Create(position);            
             }
@@ -246,13 +253,6 @@ namespace NetworkHandler {
                 EnvObjects::Create(position, "Models/Models/Big_tree2.mdl", true, "Tree");
                 position = Vector3(i * 130 + Random(100.0f), 0.0, j * 110 + Random(100.0f));
                 EnvObjects::Create(position, "Models/Models/Big_tree3.mdl", true, "Tree");
-
-                /*position = Vector3(i * 78 + Random(200.0f), 0.0, j * 56 + Random(200.0f));
-                EnvObjects::Create(position, "Models/Models/House1.mdl", true, "House1");
-                position = Vector3(i * 68 + Random(200.0f), 0.0, j * 134 + Random(200.0f));
-                EnvObjects::Create(position, "Models/Models/House2.mdl", true, "House2");
-                position = Vector3(i * 215 + Random(200.0f), 0.0, j * 156 + Random(200.0f));
-                EnvObjects::Create(position, "Models/Models/House3.mdl", true, "House3");*/
             }
         }
 

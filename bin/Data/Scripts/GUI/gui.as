@@ -411,6 +411,9 @@ namespace GUIHandler {
         spawnerDebug.text += "\nSnake units: " + Spawn::GetSpawnedUnitsCountByType(Spawn::SPAWN_UNIT_SNAKE);
         spawnerDebug.text += "\nPacman units: " + Spawn::GetSpawnedUnitsCountByType(Spawn::SPAWN_UNIT_PACMAN);
         spawnerDebug.text += "\nGrass units: " + Spawn::GetSpawnedUnitsCountByType(Spawn::SPAWN_UNIT_GRASS);
+        spawnerDebug.text += "\nApple units: " + Spawn::GetSpawnedUnitsCountByType(Spawn::SPAWN_UNIT_APPLE);
+        spawnerDebug.text += "\nRaspberry units: " + Spawn::GetSpawnedUnitsCountByType(Spawn::SPAWN_UNIT_RASPBERRY);
+        spawnerDebug.text += "\nTetris units: " + EnvObjects::timedObjects.length;
     }
 
     void HandleUpdate(StringHash eventType, VariantMap& eventData)

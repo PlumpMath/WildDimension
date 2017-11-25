@@ -68,8 +68,8 @@ namespace Player {
         
         position.y += 200;
         //position, minSpawnRadius, maxSpawnRadius, maxUnitRadius, maxUnits, spawnTime, type
-        //Node@ cloudSpawner = Spawn::Create(position, 800.0f, 1200.0f, 1200, 5, 1.0f, Spawn::SPAWN_UNIT_CLOUD);
-        //playerNode.AddChild(cloudSpawner);
+        Node@ cloudSpawner = Spawn::Create(position, 0.0f, 200.0f, 100.0, 30, 1.0f, Spawn::SPAWN_UNIT_TETRIS);
+        playerNode.AddChild(cloudSpawner);
         return playerNode;
     }
 

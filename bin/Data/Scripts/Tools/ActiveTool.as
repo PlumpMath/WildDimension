@@ -118,18 +118,36 @@ namespace ActiveTool {
             SendEvent("AddNotification", data);
             return false;
         }
-        node = scene_.CreateChild("Tent");
-        node.AddTag("Tent");
-        position.y = NetworkHandler::terrain.GetHeight(position);
-        node.position = position;
-        node.rotation = Quaternion(Vector3(0.0f, 1.0f, 0.0f), NetworkHandler::terrain.GetNormal(position));
+        Node@ tentNode = scene_.CreateChild("Tent");
+        tentNode.AddTag("Tent");
+        position.y = NetworkHandler::terrain.GetHeight(position) - 0.1f;
+        tentNode.position = position;
+        tentNode.rotation = Quaternion(Vector3(0.0f, 1.0f, 0.0f), NetworkHandler::terrain.GetNormal(position));
 
-        StaticModel@ object = node.CreateComponent("StaticModel");
-        object.model = cache.GetResource("Model", "Models/Pyramid.mdl");
+        StaticModel@ object = tentNode.CreateComponent("StaticModel");
+        object.model = cache.GetResource("Model", "Models/Models/Tent.mdl");
 
-        node.SetScale(1.0f);
+        tentNode.SetScale(1.0f);
         object.castShadows = true;
         object.materials[0] = cache.GetResource("Material", "Materials/Wood.xml");
+
+        // Create rigidbody, and set non-zero mass so that the body becomes dynamic
+        RigidBody@ body = tentNode.CreateComponent("RigidBody");
+        body.collisionLayer = COLLISION_STATIC_OBJECTS;
+        body.collisionMask = COLLISION_PACMAN_LEVEL | COLLISION_SNAKE_BODY_LEVEL | COLLISION_SNAKE_HEAD_LEVEL | COLLISION_PLAYER_LEVEL | COLLISION_FOOD_LEVEL;
+        body.mass = 0.0f;
+
+        // Set zero angular factor so that physics doesn't turn the character on its own.
+        // Instead we will control the character yaw manually
+        body.angularFactor = Vector3::ZERO;
+
+        // Set the rigidbody to signal collision also when in rest, so that we get ground collisions properly
+        //body.collisionEventMode = COLLISION_ALWAYS;
+
+
+        // Set a capsule shape for collision
+        CollisionShape@ shape = tentNode.CreateComponent("CollisionShape");
+        shape.SetTriangleMesh(object.model);
 
         Inventory::RemoveItem("Tent");
         RemoveActiveTool();
