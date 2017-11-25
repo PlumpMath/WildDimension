@@ -8,6 +8,7 @@ namespace Missions {
     class MissionItem {
         String name;
         String description;
+        String longDescription;
         String eventName;
         String itemName;
         String placeName;
@@ -124,6 +125,7 @@ namespace Missions {
 
         item.name = "First";
         item.description = "Hmm... how did get\nhere? I should find\nmy plane...";
+        item.longDescription = "Go to plane";
         item.eventName = "VisitAirplane";
         item.itemName = "";
         item.placeName = "Airplane";
@@ -137,6 +139,7 @@ namespace Missions {
 
         item.name = "Second";
         item.description = "I should find\nmy stuff!";
+        item.longDescription = "Near plane is bag\nwith your stuff";
         item.eventName = "GetPassport";
         item.itemName = "Passport";
         item.placeName = "";
@@ -150,6 +153,7 @@ namespace Missions {
 
         item.name = "Third";
         item.description = "I should find someone...\nThere's a smoke, maybe\nit's worth checking out.";
+        item.longDescription = "Look around, there is\nsmoke, go there";
         item.eventName = "VisitCampfire";
         item.itemName = "";
         item.placeName = "Campfire";
