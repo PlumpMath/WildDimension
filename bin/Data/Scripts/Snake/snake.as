@@ -162,6 +162,15 @@ namespace Snake {
         }
     }
 
+    void SnakeAdd(Node@ node)
+    {
+        for (uint i = 0; i < snakes.length; i++) {
+            if (snakes[i].headNode.id == node.id) {
+                createSnakeBodyPart(snakes[i]);
+            }
+        }
+    }
+
     Node@ createSnakeBodyPart(SnakeBody@ parent)
     {
         Node@ lastNode = parent.body[parent.body.length - 1];

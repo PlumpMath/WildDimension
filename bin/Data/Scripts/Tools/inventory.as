@@ -25,6 +25,8 @@ namespace Inventory {
         registeredItemList["Campfire"] = true;
         registeredItemList["Lighter"] = true;
         registeredItemList["Torch"] = true;
+        registeredItemList["Apple"] = true;
+        registeredItemList["Raspberry"] = true;
     }
 
 	void Subscribe()
