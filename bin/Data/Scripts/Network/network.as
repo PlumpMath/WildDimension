@@ -194,8 +194,8 @@ namespace NetworkHandler {
         Pickable::Create(campfirePosition, "Stem", "Models/Models/Stem.mdl");
 
         Vector3 airplanePosition = Places::getPlacePosition("Airplane");
-        airplanePosition.x += 10.0f;
-        Pickable::Create(airplanePosition, "Backpack", "Models/TeaPot.mdl", 2.0f);
+        airplanePosition.x += 15.0f;
+        Pickable::Create(airplanePosition, "Backpack", "Models/Models/Backpack.mdl", 0.5f);
 
         ActiveTool::Create();
 
@@ -237,9 +237,6 @@ namespace NetworkHandler {
                 RaspberryBush::Create(position);            
             }
         }
-
-        Vector3 position = Vector3(37 + Random(20.0f), 0.0, 37 + Random(20.0f));
-        Camp::Create(position);
 
         for (int i = -25; i < 25; i+=7) {
             for (int j = -25; j < 25; j+=7) {

@@ -103,7 +103,8 @@ namespace EnvObjects {
         body.collisionLayer = COLLISION_FOOD_LEVEL;
         body.collisionMask = COLLISION_PACMAN_LEVEL | COLLISION_SNAKE_BODY_LEVEL | COLLISION_SNAKE_HEAD_LEVEL | COLLISION_PLAYER_LEVEL | COLLISION_FOOD_LEVEL | COLLISION_TERRAIN_LEVEL;
         body.mass = 10.0f;
-        body.linearVelocity = Vector3(0, -100, 0);
+        body.restitution = 0.0f;
+        body.linearVelocity = Vector3(0, -50, 0);
 
         // Set a capsule shape for collision
         CollisionShape@ shape = node.CreateComponent("CollisionShape");

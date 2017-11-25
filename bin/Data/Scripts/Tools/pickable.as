@@ -82,6 +82,9 @@ namespace Pickable {
             object.materials[0] = cache.GetResource("Material", "Materials/Raspberry.xml");
             object.materials[1] = cache.GetResource("Material", "Materials/TreeGreen.xml");
             object.materials[2] = cache.GetResource("Material", "Materials/TreeGreen.xml");
+        } else if (name == "Backpack") {
+            object.materials[0] = cache.GetResource("Material", "Materials/TreeYellow.xml");
+            object.materials[1] = cache.GetResource("Material", "Materials/TreeGreen.xml");
         } else {
             object.materials[0] = cache.GetResource("Material", "Materials/Stone.xml");
         }

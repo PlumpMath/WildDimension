@@ -9,6 +9,7 @@ namespace GUIHandler {
     const int GUI_TIPS_FONT_SIZE = Helpers::getHeightByPercentage(0.03);
 
     const float MAX_OPACITY = 0.99f;
+    const float CLOUD_SIZE_SPEED = 0.05f;
 
     Text@ bytesIn;
     Text@ bytesOut;
@@ -26,6 +27,8 @@ namespace GUIHandler {
         Sprite@ sprite;
         Text@ text;
         float lifetime;
+        float size;
+        bool grow;
     };
     Tip tip;
 
@@ -98,6 +101,9 @@ namespace GUIHandler {
         Texture2D@ texture = cache.GetResource("Texture2D", "Textures/dream_cloud.png");
         if (texture is null)
             return;
+
+        tip.grow = true;
+        tip.size = 1.0f;
 
         // Create logo sprite and add to the UI layout
         tip.sprite = ui.root.CreateChild("Sprite");
@@ -439,6 +445,20 @@ namespace GUIHandler {
             }
             tip.text.opacity = tip.sprite.opacity;
         }
+        if (tip.grow) {
+            tip.size += timeStep * CLOUD_SIZE_SPEED;
+            if (tip.size > 1.02f) {
+                tip.size = 1.02f;
+                tip.grow = false;
+            }
+        } else {
+            tip.size -= timeStep * CLOUD_SIZE_SPEED;
+            if (tip.size < 0.98f) {
+                tip.size = 0.98f;
+                tip.grow = true;
+            }
+        }
+        tip.sprite.SetScale(tip.size);
 
         Connection@ serverConnection = network.serverConnection;
         if (serverConnection !is null) {

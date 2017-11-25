@@ -115,14 +115,14 @@ namespace MenuScreen {
 
         storyText = storySprite.CreateChild("Text");
         storyText.position = IntVector2(10, 10);
-        storyText.text = "Adventure seeker pilot decides to cross Pacific ocean with his private jet.";
-        storyText.text += "\nWhile flying over the ocean he comes across a hurricane which was not";
+        storyText.text = "\n    Adventure seeker pilot decides to cross Pacific ocean with his private";
+        storyText.text += "\njet. While flying over the ocean he comes across a hurricane which was not";
         storyText.text += "\nmentioned in the weather forecast. Hurricane becomes more powerful each";
         storyText.text += "\nsecond and the plane get's sucked in. Pilot is struggling to control";
         storyText.text += "\nhis plane and after some time losses consciousness when he hits his";
         storyText.text += "\nhead against one of the panels inside plane... He falls with his";
         storyText.text += "\nplane for a while when finally he's thrown back to the ground with";
-        storyText.text += "\nhis plane.\nHe wakes up the next day on a mysterious island. He's unable";
+        storyText.text += "\nhis plane.\n\n    He wakes up the next day on a mysterious island. He's unable";
         storyText.text += "\nto locate the island on the map, and everything about the island seems";
         storyText.text += "\na bit strange...  Will he survive the wilderness and reveal the secrets";
         storyText.text += "\nof the island? Will he be able to get back to civilization?";
@@ -243,7 +243,7 @@ namespace MenuScreen {
         // Create the button and center the text onto it
         startButton = ui.root.CreateChild("Button");
         startButton.SetStyleAuto(uiStyle);
-        startButton.SetPosition(-20, -140);
+        startButton.SetPosition(-20, -80);
         startButton.SetSize(100, 40);
         startButton.SetAlignment(HA_RIGHT, VA_BOTTOM);
 
@@ -273,9 +273,9 @@ namespace MenuScreen {
         // Create the button and center the text onto it
         storyButton = ui.root.CreateChild("Button");
         storyButton.SetStyleAuto(uiStyle);
-        storyButton.SetPosition(-20, -80);
+        storyButton.SetPosition(20, -20);
         storyButton.SetSize(100, 40);
-        storyButton.SetAlignment(HA_RIGHT, VA_BOTTOM);
+        storyButton.SetAlignment(HA_LEFT, VA_BOTTOM);
 
         Text@ storyButtonText = storyButton.CreateChild("Text");
         storyButtonText.SetAlignment(HA_CENTER, VA_TOP);
