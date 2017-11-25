@@ -42,11 +42,14 @@ namespace Trap {
         node.AddTag("Trap");
 
         StaticModel@ object = node.CreateComponent("StaticModel");
-        object.model = cache.GetResource("Model", "Models/Box.mdl");
+        object.model = cache.GetResource("Model", "Models/Models/Cage.mdl");
 
-        node.SetScale(0.2f);
+        node.SetScale(0.1f);
         object.castShadows = true;
-        object.materials[0] = cache.GetResource("Material", "Materials/StoneFps.xml");
+        object.materials[0] = cache.GetResource("Material", "Materials/WoodFps.xml");
+        object.materials[1] = cache.GetResource("Material", "Materials/WoodFps.xml");
+        object.materials[2] = cache.GetResource("Material", "Materials/WoodFps.xml");
+        object.materials[3] = cache.GetResource("Material", "Materials/WoodFps.xml");
 
         node.SetDeepEnabled(false);
         //ActiveTool::tools.Push(node);
@@ -73,16 +76,19 @@ namespace Trap {
     {
         Node@ newTrap = scene_.CreateChild("Trap");
         newTrap.AddTag("Trap");
-        position.y = NetworkHandler::terrain.GetHeight(position) + 0.5f;
+        position.y = NetworkHandler::terrain.GetHeight(position);
         newTrap.position = position;
         newTrap.rotation = Quaternion(Vector3(0.0f, 1.0f, 0.0f), NetworkHandler::terrain.GetNormal(position));
 
         StaticModel@ object = newTrap.CreateComponent("StaticModel");
-        object.model = cache.GetResource("Model", "Models/Box.mdl");
+        object.model = cache.GetResource("Model", "Models/Models/Cage.mdl");
 
         newTrap.SetScale(1.0f);
         object.castShadows = true;
         object.materials[0] = cache.GetResource("Material", "Materials/Wood.xml");
+        object.materials[1] = cache.GetResource("Material", "Materials/Wood.xml");
+        object.materials[2] = cache.GetResource("Material", "Materials/Wood.xml");
+        object.materials[3] = cache.GetResource("Material", "Materials/Wood.xml");
 
         RigidBody@ body = newTrap.CreateComponent("RigidBody");
         body.collisionLayer = COLLISION_STATIC_OBJECTS;

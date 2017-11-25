@@ -8,8 +8,8 @@
 		"Elapsed Time": 219.7979736328125,
 		"Next Replicated Node ID": 1916,
 		"Next Replicated Component ID": 5605,
-		"Next Local Node ID": 16785282,
-		"Next Local Component ID": 16785519,
+		"Next Local Node ID": 16789252,
+		"Next Local Component ID": 16789500,
 		"Variables": {},
 		"Variable Names": ""
 	},
@@ -839,7 +839,7 @@
 							"type": "StaticModel",
 							"id": 16779398,
 							"attributes": {
-								"Model": "Model;Models/Models/Small_campfire .mdl",
+								"Model": "Model;Models/Models/Small_campfire.mdl",
 								"Material": "Material;Materials/Wood.xml;Materials/Wood.xml;Materials/Stone.xml;Materials/Wood.xml;Materials/Wood.xml;Materials/Wood.xml;Materials/Wood.xml;Materials/Wood.xml;Materials/Wood.xml;Materials/Wood.xml"
 							}
 						},
