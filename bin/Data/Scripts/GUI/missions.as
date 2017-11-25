@@ -78,7 +78,7 @@ namespace MissionsGUI {
     	if (missionsSprite.opacity == 0.0f) {
     		missionsSprite.opacity = MAX_OPACITY;
     		missionText.opacity = MAX_OPACITY;
-    		missionText.text = Missions::GetActiveMission().description;
+    		missionText.text = Missions::GetActiveMission().longDescription;
     	} else {
     		missionsSprite.opacity = 0.0f;
     		missionText.opacity = 0.0f;
