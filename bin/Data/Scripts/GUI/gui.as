@@ -1,4 +1,5 @@
 #include "GUI/notifications.as"
+#include "GUI/missions.as"
 
 namespace GUIHandler {
 
@@ -9,7 +10,6 @@ namespace GUIHandler {
 
     const float MAX_OPACITY = 0.99f;
 
-    Sprite@ logoSprite;
     Text@ bytesIn;
     Text@ bytesOut;
     Text@ inventoryList;
@@ -33,7 +33,8 @@ namespace GUIHandler {
 
     void CreateGUI()
     {
-        //CreateLogo();
+        MissionsGUI::Init();
+
         CreateNetworkTrafficDebug();
         CreateInventory();
         CreateEventLog();
@@ -48,44 +49,6 @@ namespace GUIHandler {
         CreateCrosshair();
 
         CreateSpawnerDebug();
-    }
-
-    void CreateLogo()
-    {
-        if (engine.headless) {
-            return;
-        }
-        // Get logo texture
-        Texture2D@ logoTexture = cache.GetResource("Texture2D", "Textures/FishBoneLogo.png");
-        if (logoTexture is null)
-            return;
-
-        // Create logo sprite and add to the UI layout
-        logoSprite = ui.root.CreateChild("Sprite");
-
-        // Set logo sprite texture
-        logoSprite.texture = logoTexture;
-
-        int textureWidth = logoTexture.width;
-        int textureHeight = logoTexture.height;
-
-        // Set logo sprite scale
-        logoSprite.SetScale(256.0f / textureWidth);
-
-        // Set logo sprite size
-        logoSprite.SetSize(textureWidth, textureHeight);
-
-        // Set logo sprite hot spot
-        logoSprite.SetHotSpot(textureWidth, textureHeight);
-
-        // Set logo sprite alignment
-        logoSprite.SetAlignment(HA_RIGHT, VA_BOTTOM);
-
-        // Make logo not fully opaque to show the scene underneath
-        logoSprite.opacity = MAX_OPACITY;
-
-        // Set a low priority for the logo so that other UI elements can be drawn on top
-        logoSprite.priority = -100;
     }
 
     void CreateCrosshair()
@@ -144,9 +107,6 @@ namespace GUIHandler {
 
         int textureWidth = Helpers::getWidthByPercentage(0.3);
         int textureHeight = texture.height * Helpers::getRatio(texture.width, textureWidth);
-
-        // Set logo sprite scale
-        //logoSprite.SetScale(256.0f / textureWidth);
 
         // Set logo sprite size
         tip.sprite.SetSize(textureWidth, textureHeight);
@@ -238,17 +198,8 @@ namespace GUIHandler {
         }
     }
 
-    void RemoveLogo()
-    {
-        if (logoSprite !is null) {
-            logoSprite.Remove();
-            logoSprite = null;
-        }
-    }
-
     void Subscribe()
     {
-        SubscribeToEvent("ToggleLogo", "GUIHandler::ToggleLogo");
         SubscribeToEvent("UpdateInventoryGUI", "GUIHandler::HandleUpdateInventoryGUI");
         SubscribeToEvent("UpdateEventLogGUI", "GUIHandler::HandleUpdateEventLog");
         SubscribeToEvent("UpdateMissionsGUI", "GUIHandler::HandleUpdateMissionsGUI");
@@ -267,7 +218,7 @@ namespace GUIHandler {
 
     void Destroy()
     {
-        RemoveLogo();
+        MissionsGUI::Destroy();
         if (bytesIn !is null) {
             bytesIn.Remove();
         }
@@ -440,15 +391,6 @@ namespace GUIHandler {
         inventoryList.text = itemList;
     }
 
-    void ToggleLogo()
-    {
-        if (logoSprite !is null) {
-            RemoveLogo();
-        } else {
-            CreateLogo();
-        }
-    }
-
     void HandleShowTip(StringHash eventType, VariantMap& eventData)
     {
         String message = eventData["MESSAGE"].GetString();
@@ -526,5 +468,9 @@ namespace GUIHandler {
         }
 
         Notifications::HandleUpdate(eventType, eventData);
+
+        if (input.keyPress[KEY_TAB]) {
+            SendEvent("ToggleQuestLog");
+        }
     }
 }

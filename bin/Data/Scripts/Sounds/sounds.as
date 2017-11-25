@@ -74,7 +74,7 @@ namespace GameSounds {
             soundSource.Play(sound);
             soundSource.soundType = SOUND_VOICE;
             //soundSource.SetDistanceAttenuation(1, 100, 0.1);
-            soundSource.SetDistanceAttenuation(0.0f, 50.0f, 2.0f);
+            soundSource.SetDistanceAttenuation(0.0f, 200.0f, 2.0f);
             //soundSource.soundType = SOUND_MUSIC;
             // In case we also play music, set the sound volume below maximum so that we don't clip the output
             soundSource.gain = 0.7f;
