@@ -21,9 +21,10 @@ namespace Player {
 
     Node@ CreatePlayer()
     {
-        Vector3 position = scene_.GetChild("Airplane", true).position;
-        position.x += 10.0f;
-        position.z += 10.0f;
+        Vector3 position = scene_.GetChild("PlayerStartPosition", true).worldPosition;
+        position.x += -50.0f;
+        position.z += -50.0f;
+        position.y = NetworkHandler::terrain.GetHeight(position);
         playerNode = scene_.CreateChild("PlayerNode");
         playerNode.AddTag("Player");
         playerNode.position = position;
