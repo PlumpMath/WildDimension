@@ -7,6 +7,8 @@ namespace GUIHandler {
     const int GUI_NOTES_FONT_SIZE = Helpers::getHeightByPercentage(0.03);
     const int GUI_TIPS_FONT_SIZE = Helpers::getHeightByPercentage(0.03);
 
+    const float MAX_OPACITY = 0.99f;
+
     Sprite@ logoSprite;
     Text@ bytesIn;
     Text@ bytesOut;
@@ -80,7 +82,7 @@ namespace GUIHandler {
         logoSprite.SetAlignment(HA_RIGHT, VA_BOTTOM);
 
         // Make logo not fully opaque to show the scene underneath
-        logoSprite.opacity = 0.9f;
+        logoSprite.opacity = MAX_OPACITY;
 
         // Set a low priority for the logo so that other UI elements can be drawn on top
         logoSprite.priority = -100;
@@ -209,7 +211,7 @@ namespace GUIHandler {
         notesSprite.SetAlignment(HA_RIGHT, VA_BOTTOM);
 
         // Make logo not fully opaque to show the scene underneath
-        notesSprite.opacity = 1.0f;
+        notesSprite.opacity = MAX_OPACITY;
 
         // Set a low priority for the logo so that other UI elements can be drawn on top
         notesSprite.priority = -100;
@@ -473,10 +475,10 @@ namespace GUIHandler {
     {
         float timeStep = eventData["TimeStep"].GetFloat();
         if (tip.lifetime > 1) {
-            if (tip.sprite.opacity < 0.9f) {
+            if (tip.sprite.opacity < MAX_OPACITY) {
                 tip.sprite.opacity += timeStep;
-                if (tip.sprite.opacity > 0.9) {
-                    tip.sprite.opacity = 0.9;
+                if (tip.sprite.opacity > MAX_OPACITY) {
+                    tip.sprite.opacity = MAX_OPACITY;
                 }
                 tip.text.opacity = tip.sprite.opacity;
             }

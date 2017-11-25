@@ -1,5 +1,6 @@
 namespace MenuScreen {
 
+    const float MAX_OPACITY = 0.99f;
     Sprite@ fromSprite;
     Sprite@ toSprite;
     Sprite@ mapSprite;
@@ -57,7 +58,7 @@ namespace MenuScreen {
         //mapSprite.position = Vector2(-textureWidth/2, -textureHeight/2);
 
         // Make logo not fully opaque to show the scene underneath
-        sprite.opacity = 1.0;
+        sprite.opacity = MAX_OPACITY;
         sprite.position = position;
         sprite.blendMode = BLEND_REPLACE;
 
@@ -102,7 +103,7 @@ namespace MenuScreen {
         //mapSprite.position = Vector2(-textureWidth/2, -textureHeight/2);
 
         // Make logo not fully opaque to show the scene underneath
-        boardSprite.opacity = 1.0;
+        boardSprite.opacity = MAX_OPACITY;
 
         // Set a low priority for the logo so that other UI elements can be drawn on top
         boardSprite.priority = -110;
@@ -149,7 +150,7 @@ namespace MenuScreen {
         //mapSprite.position = Vector2(-textureWidth/2, -textureHeight/2);
 
         // Make logo not fully opaque to show the scene underneath
-        mapSprite.opacity = 1.0;
+        mapSprite.opacity = MAX_OPACITY;
 
         // Set a low priority for the logo so that other UI elements can be drawn on top
         mapSprite.priority = -100;
@@ -264,7 +265,7 @@ namespace MenuScreen {
         //fromSprite.position = Vector2(-textureWidth/2, -textureHeight/2);
 
         // Make logo not fully opaque to show the scene underneath
-        fromSprite.opacity = 1.0;
+        fromSprite.opacity = MAX_OPACITY;
 
         // Set a low priority for the logo so that other UI elements can be drawn on top
         fromSprite.priority = -80;
@@ -300,7 +301,7 @@ namespace MenuScreen {
         //toSprite.position = Vector2(-textureWidth/2, -textureHeight/2);
 
         // Make logo not fully opaque to show the scene underneath
-        toSprite.opacity = 1.0;
+        toSprite.opacity = MAX_OPACITY;
 
         // Set a low priority for the logo so that other UI elements can be drawn on top
         toSprite.priority = -80;
@@ -433,8 +434,8 @@ namespace MenuScreen {
         boardSprite.SetScale(scale);
         for (uint i = 0; i < path.length; i++) {
             if (i == 0) {
-                if (path[i].opacity > 1.0f) {
-                    path[i].opacity = 1.0f;
+                if (path[i].opacity > MAX_OPACITY) {
+                    path[i].opacity = MAX_OPACITY;
                 }
                 path[i].opacity += timeStep * PATH_FILL_SPEED;
             }
