@@ -210,7 +210,6 @@ namespace EnvObjects {
                 timedObjects[i].node.Remove();
                 timedObjects.Erase(i);
                 i--;
-                log.Warning("Deleting timed env object");
             }
         }
 
