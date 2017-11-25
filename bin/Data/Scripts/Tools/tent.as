@@ -11,9 +11,9 @@ namespace Tent {
         node.AddTag("Tent");
 
         StaticModel@ object = node.CreateComponent("StaticModel");
-        object.model = cache.GetResource("Model", "Models/Pyramid.mdl");
+        object.model = cache.GetResource("Model", "Models/Models/Tent.mdl");
 
-        node.SetScale(0.2f);
+        node.SetScale(0.05f);
         object.castShadows = true;
         object.materials[0] = cache.GetResource("Material", "Materials/WoodFps.xml");
 

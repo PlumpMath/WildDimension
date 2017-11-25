@@ -12,6 +12,11 @@
 
 namespace EnvObjects {
     Array<Node@> objects;
+    class TimedObject {
+        Node@ node;
+        float lifetime;
+    };
+    Array<TimedObject> timedObjects;
 
     Node@ Create(Vector3 position, String model, bool temporary = true, String name = "Custom")
     {
@@ -74,6 +79,40 @@ namespace EnvObjects {
         shape.SetTriangleMesh(object.model);
 
         objects.Push(node);
+
+        return node;
+    }
+
+    Node@ CreateTimed(Vector3 position, String model, bool temporary = true, float lifetime = 10.0f, String name = "Custom")
+    {
+
+        Node@ node = scene_.CreateChild(name);
+        node.temporary = temporary;
+        node.position = position;
+
+        StaticModel@ object = node.CreateComponent("StaticModel");
+        object.model = cache.GetResource("Model", model);
+        node.SetScale(2.0f);
+        object.castShadows = true;
+        object.materials[0] = cache.GetResource("Material", "Materials/Stone.xml");
+        
+        object.viewMask = VIEW_MASK_INTERACTABLE;
+
+        // Create rigidbody, and set non-zero mass so that the body becomes dynamic
+        RigidBody@ body = node.CreateComponent("RigidBody");
+        body.collisionLayer = COLLISION_FOOD_LEVEL;
+        body.collisionMask = COLLISION_PACMAN_LEVEL | COLLISION_SNAKE_BODY_LEVEL | COLLISION_SNAKE_HEAD_LEVEL | COLLISION_PLAYER_LEVEL | COLLISION_FOOD_LEVEL | COLLISION_TERRAIN_LEVEL;
+        body.mass = 10.0f;
+        body.linearVelocity = Vector3(0, -100, 0);
+
+        // Set a capsule shape for collision
+        CollisionShape@ shape = node.CreateComponent("CollisionShape");
+        shape.SetConvexHull(object.model);
+
+        TimedObject timedObject;
+        timedObject.lifetime = lifetime;
+        timedObject.node = node;
+        timedObjects.Push(timedObject);
 
         return node;
     }
@@ -165,6 +204,15 @@ namespace EnvObjects {
     void HandlePostUpdate(StringHash eventType, VariantMap& eventData)
     {
         float timeStep = eventData["TimeStep"].GetFloat();
+        for (uint i = 0; i < timedObjects.length; i++) {
+            timedObjects[i].lifetime -= timeStep;
+            if (timedObjects[i].lifetime < 0) {
+                timedObjects[i].node.Remove();
+                timedObjects.Erase(i);
+                i--;
+            }
+        }
+
         if (objects.length > 0) {
             //Move front
             if (input.keyDown[KEY_KP_8]) {
