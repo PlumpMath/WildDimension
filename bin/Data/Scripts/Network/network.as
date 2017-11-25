@@ -333,6 +333,9 @@ namespace NetworkHandler {
 
     void HandlePostUpdate(StringHash eventType, VariantMap& eventData)
     {
+        if (gameState == GAME_STATE_PAUSE) {
+            return;
+        }
         if (stats.finished) {
             return;
         } else {
@@ -466,6 +469,9 @@ namespace NetworkHandler {
 
     void HandlePhysicsPreStep(StringHash eventType, VariantMap& eventData)
     {
+        if (gameState == GAME_STATE_PAUSE) {
+            return;
+        }
         if (stats.finished) {
             return;
         }

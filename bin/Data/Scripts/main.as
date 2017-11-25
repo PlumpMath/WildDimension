@@ -55,6 +55,8 @@
 
 #include "Spawn/spawn.as"
 
+#include "GUI/pause.as"
+
 Scene@ scene_;
 uint screenJoystickIndex = M_MAX_UNSIGNED; // Screen joystick index for navigational controls (mobile platforms only)
 uint screenJoystickSettingsIndex = M_MAX_UNSIGNED; // Screen joystick index for settings (mobile platforms only)
@@ -91,6 +93,11 @@ bool isMobilePlatform = false;
 Controls oldControls;
 
 Viewport@ viewport;
+const uint GAME_STATE_MENU = 0;
+const uint GAME_STATE_GAME = 1;
+const uint GAME_STATE_PAUSE = 2;
+
+uint gameState = GAME_STATE_MENU;
 
 void Start()
 {
@@ -109,8 +116,12 @@ void Start()
     ConsoleHandler::CreateConsole();
     ConsoleHandler::Subscribe();
 
+    PauseMenuGUI::Init();
+
     // Subscribe key down event
     SubscribeToEvent("KeyDown", "HandleKeyDown");
+
+    SubscribeToEvent("ResumeGame", "HandleResumeGame");
 
     // Subscribe key up event
     SubscribeToEvent("KeyUp", "HandleKeyUp");
@@ -212,6 +223,7 @@ void Stop()
     SplashScreen::Destroy();
     MenuScreen::Destroy();
     FinishGUI::Destroy();
+    PauseMenuGUI::Destroy();
     scene_.Remove();
 }
 
@@ -254,6 +266,8 @@ void CreateScene()
     audio.listener = listener;
 
     NetworkHandler::StartServer();
+
+    gameState = GAME_STATE_GAME;
 
 }
 
@@ -374,6 +388,9 @@ void HandlePostUpdate(StringHash eventType, VariantMap& eventData)
 
 void UpdateCamera(float timeStep)
 {
+    if (gameState == GAME_STATE_PAUSE) {
+        return;
+    }
     /*if (camera !is null) {
         //yaw += TOUCH_SENSITIVITY * camera.fov / graphics.height * state.delta.x;
         //yaw += timeStep * 10;s
@@ -447,8 +464,17 @@ void HandleKeyUp(StringHash eventType, VariantMap& eventData)
                 if (useMouseMode_ != MM_ABSOLUTE)
                     input.mouseMode = MM_FREE;
             }
-            else
-                engine.Exit();
+            else {
+                if (gameState == GAME_STATE_GAME) {
+                    SendEvent("TogglePause");
+                    gameState = GAME_STATE_PAUSE;
+                    scene_.timeScale = 0;
+                } else if (gameState == GAME_STATE_PAUSE) {
+                    SendEvent("TogglePause");
+                    gameState = GAME_STATE_GAME;
+                    scene_.timeScale = 1.0;
+                }
+            }
         }
     }
 }
@@ -554,6 +580,10 @@ void HandleKeyDown(StringHash eventType, VariantMap& eventData)
 
 void HandleSceneUpdate(StringHash eventType, VariantMap& eventData)
 {
+    if (gameState == GAME_STATE_PAUSE) {
+        return;
+    }
+
     // Move the camera by touch, if the camera node is initialized by descendant sample class
     if (touchEnabled && cameraNode !is null)
     {
@@ -590,6 +620,12 @@ void HandleTouchBegin(StringHash eventType, VariantMap& eventData)
 {
     // On some platforms like Windows the presence of touch input can only be detected dynamically
     UnsubscribeFromEvent("TouchBegin");
+}
+
+void HandleResumeGame(StringHash eventType, VariantMap& eventData)
+{
+    gameState = GAME_STATE_GAME;
+    scene_.timeScale = 1.0;
 }
 
 void HandlePostRenderUpdate(StringHash eventType, VariantMap& eventData)

@@ -1,6 +1,9 @@
 namespace MenuScreen {
 
     const float MAX_OPACITY = 0.99f;
+    const String GUI_FONT = "Fonts/PainttheSky-Regular.otf";
+    const int GUI_FONT_SIZE = Helpers::getHeightByPercentage(0.04);
+
     Sprite@ fromSprite;
     Sprite@ toSprite;
     Sprite@ mapSprite;
@@ -17,6 +20,12 @@ namespace MenuScreen {
 
     Button@ startButton;
     Button@ exitButton;
+    Button@ storyButton;
+    Button@ storyCloseButton;
+
+    Sprite@ storySprite;
+    Text@ storyText;
+
     Text@ loadingText;
     bool started = false;
 
@@ -65,6 +74,65 @@ namespace MenuScreen {
         // Set a low priority for the logo so that other UI elements can be drawn on top
         sprite.priority = priority;
         sprite.rotation = rotation;
+    }
+
+    void CreateStory()
+    {
+        // Get logo texture
+        Texture2D@ notesTexture = cache.GetResource("Texture2D", "Textures/paper.jpg");
+        if (notesTexture is null) {
+            return;
+        }
+
+        // Create logo sprite and add to the UI layout
+        storySprite = ui.root.CreateChild("Sprite");
+
+        // Set logo sprite texture
+        storySprite.texture = notesTexture;
+
+        float w = graphics.width;
+        int textureWidth = Helpers::getWidthByPercentage(0.5);
+        int textureHeight = notesTexture.height * Helpers::getRatio(notesTexture.width, textureWidth);
+
+        // Set logo sprite scale
+        //notesSprite.SetScale(256.0f / textureWidth);
+
+        // Set logo sprite size
+        storySprite.SetSize(textureWidth, textureHeight);
+        storySprite.position = Vector2(-Helpers::getWidthByPercentage(0.02), -Helpers::getWidthByPercentage(0.02));
+
+        // Set logo sprite hot spot
+        storySprite.SetHotSpot(textureWidth/2, textureHeight/2);
+
+        // Set logo sprite alignment
+        storySprite.SetAlignment(HA_CENTER, VA_CENTER);
+
+        // Make logo not fully opaque to show the scene underneath
+        storySprite.opacity = MAX_OPACITY;
+
+        // Set a low priority for the logo so that other UI elements can be drawn on top
+        storySprite.priority = 100;
+
+        storyText = storySprite.CreateChild("Text");
+        storyText.position = IntVector2(10, 10);
+        storyText.text = "Adventure seeker pilot decides to cross Pacific ocean with his private jet.";
+        storyText.text += "\nWhile flying over the ocean he comes across a hurricane which was not";
+        storyText.text += "\nmentioned in the weather forecast. Hurricane becomes more powerful each";
+        storyText.text += "\nsecond and the plane get's sucked in. Pilot is struggling to control";
+        storyText.text += "\nhis plane and after some time losses consciousness when he hits his";
+        storyText.text += "\nhead against one of the panels inside plane... He falls with his";
+        storyText.text += "\nplane for a while when finally he's thrown back to the ground with";
+        storyText.text += "\nhis plane.\nHe wakes up the next day on a mysterious island. He's unable";
+        storyText.text += "\nto locate the island on the map, and everything about the island seems";
+        storyText.text += "\na bit strange...  Will he survive the wilderness and reveal the secrets";
+        storyText.text += "\nof the island? Will he be able to get back to civilization?";
+        storyText.opacity = MAX_OPACITY;
+        storyText.color = Color(0, 0, 0);
+        storyText.SetFont(cache.GetResource("Font", GUI_FONT), GUI_FONT_SIZE / 1.5);
+        //storyText.SetAlignment(HA_CENTER, VA_CENTER);
+        //storyText.textAlignment = HA_LEFT; // Center rows in relation to each other
+
+        storySprite.visible = false;
     }
 
     void FillTable()
@@ -161,6 +229,8 @@ namespace MenuScreen {
         CreateToSprite();
         CreatePath();
 
+        CreateStory();
+
         CreateButtons();
     }
 
@@ -173,7 +243,7 @@ namespace MenuScreen {
         // Create the button and center the text onto it
         startButton = ui.root.CreateChild("Button");
         startButton.SetStyleAuto(uiStyle);
-        startButton.SetPosition(-20, -80);
+        startButton.SetPosition(-20, -140);
         startButton.SetSize(100, 40);
         startButton.SetAlignment(HA_RIGHT, VA_BOTTOM);
 
@@ -199,6 +269,37 @@ namespace MenuScreen {
         exitButtonText.text = "Exit";
         exitButtonText.position = IntVector2(0, -10);
         SubscribeToEvent(exitButton, "Released", "MenuScreen::HandleExitGame");
+
+        // Create the button and center the text onto it
+        storyButton = ui.root.CreateChild("Button");
+        storyButton.SetStyleAuto(uiStyle);
+        storyButton.SetPosition(-20, -80);
+        storyButton.SetSize(100, 40);
+        storyButton.SetAlignment(HA_RIGHT, VA_BOTTOM);
+
+        Text@ storyButtonText = storyButton.CreateChild("Text");
+        storyButtonText.SetAlignment(HA_CENTER, VA_TOP);
+        storyButtonText.SetFont(font, 30);
+        storyButtonText.textAlignment = HA_CENTER;
+        storyButtonText.text = "Story";
+        storyButtonText.position = IntVector2(0, -10);
+        SubscribeToEvent(storyButton, "Released", "MenuScreen::HandleStory");
+
+
+        // Create the button and center the text onto it
+        storyCloseButton = storySprite.CreateChild("Button");
+        storyCloseButton.SetStyleAuto(uiStyle);
+        storyCloseButton.SetPosition(0, 0);
+        storyCloseButton.SetSize(100, 40);
+        storyCloseButton.SetAlignment(HA_RIGHT, VA_BOTTOM);
+
+        Text@ storyCloseButtonText = storyCloseButton.CreateChild("Text");
+        storyCloseButtonText.SetAlignment(HA_CENTER, VA_TOP);
+        storyCloseButtonText.SetFont(font, 30);
+        storyCloseButtonText.textAlignment = HA_CENTER;
+        storyCloseButtonText.text = "Close";
+        storyCloseButtonText.position = IntVector2(0, -10);
+        SubscribeToEvent(storyCloseButton, "Released", "MenuScreen::HandleStoryClose");
     }
 
     void HandleNewGame(StringHash eventType, VariantMap& eventData)
@@ -207,6 +308,16 @@ namespace MenuScreen {
         Destroy();
         SetLoadingText();
         DelayedExecute(1.0, false, "void MenuScreen::StartGame()");
+    }
+
+    void HandleStory(StringHash eventType, VariantMap& eventData)
+    {
+        storySprite.visible = true;
+    }
+
+    void HandleStoryClose(StringHash eventType, VariantMap& eventData)
+    {
+        storySprite.visible = false;
     }
 
     void StartGame()
@@ -388,6 +499,12 @@ namespace MenuScreen {
         if (boardSprite !is null) {
             boardSprite.Remove();
         }
+        if (storySprite !is null) {
+            storySprite.Remove();
+        }
+        if (storyButton !is null) {
+            storyButton.Remove();
+        }
     }
 
     void HandleUpdate(StringHash eventType, VariantMap& eventData)
@@ -395,12 +512,12 @@ namespace MenuScreen {
         float timeStep = eventData["TimeStep"].GetFloat();
         if (zoomIn) {
             scale += timeStep / 50.0f;
-            if (scale > 2.0f) {
+            if (scale > 1.5f) {
                 zoomIn = false;
             }
         } else {
             scale -= timeStep / 50.0f;
-            if (scale < 0.8f) {
+            if (scale < 0.9f) {
                 zoomIn = true;
             }
         }
