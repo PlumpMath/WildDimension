@@ -9,6 +9,8 @@ namespace Options {
         int width;
         int height;
         bool fullscreen;
+        bool vsync;
+        bool tripleBuffer;
     };
 
     SettingsValues settingsValues;
@@ -18,6 +20,8 @@ namespace Options {
         settingsValues.width = graphics.width;
         settingsValues.height = graphics.height;
         settingsValues.fullscreen = graphics.fullscreen;
+        settingsValues.vsync = graphics.vsync;
+        settingsValues.tripleBuffer  = graphics.tripleBuffer;
 
         // Get logo texture
         Texture2D@ notesTexture = cache.GetResource("Texture2D", "Textures/paper.png");
@@ -66,6 +70,8 @@ namespace Options {
         CreateButton("Apply", "Options::HandleApplySettings", IntVector2(-140, -20));
 
         CreateCheckbox("Fullscreen", "Options::HandleToggleFullscreen", IntVector2(20, 60));
+        CreateCheckbox("VSync", "Options::HandleToggleVSync", IntVector2(20, 100));
+        CreateCheckbox("Tripple buffer", "Options::HandleTrippleBuffer", IntVector2(20, 140));
     }
 
     void CreateResolutionMenu(String label, Array<String> items, String handler, IntVector2 position)
@@ -74,7 +80,7 @@ namespace Options {
 
         UIElement@ container = UIElement();
         container.SetAlignment(HA_LEFT, VA_TOP);
-        container.SetLayout(LM_HORIZONTAL, 80);
+        container.SetLayout(LM_HORIZONTAL, 100);
         container.SetPosition(position.x, position.y);
         optionsSprite.AddChild(container);
 
@@ -86,6 +92,7 @@ namespace Options {
         text.SetStyleAuto();
         text.color = Color(0, 0, 0);
         text.SetFont(font, 20);
+        text.SetFixedWidth(Helpers::getWidthByPercentage(0.1));
 
         DropDownList@ list = DropDownList();
         container.AddChild(list);
@@ -116,7 +123,7 @@ namespace Options {
 
         UIElement@ container = UIElement();
         container.SetAlignment(HA_LEFT, VA_TOP);
-        container.SetLayout(LM_HORIZONTAL, 80);
+        container.SetLayout(LM_HORIZONTAL, 100);
         container.SetPosition(position.x, position.y);
         optionsSprite.AddChild(container);
 
@@ -125,15 +132,14 @@ namespace Options {
         //text.SetStyleAuto();
         text.color = Color(0, 0, 0);
         text.SetFont(font, 20);
+        text.SetFixedWidth(Helpers::getWidthByPercentage(0.1));
         container.AddChild(text);
-
-        UIElement@ checkboxContainer = UIElement();
-        checkboxContainer.SetAlignment(HA_LEFT, VA_TOP);
 
         CheckBox@ checkbox = CheckBox();
         checkbox.SetStyleAuto();
         checkbox.SetAlignment(HA_LEFT, VA_BOTTOM);
         checkbox.checked = graphics.fullscreen;
+        checkbox.SetPosition(100, 0);
 
         container.AddChild(checkbox);
 
@@ -164,12 +170,10 @@ namespace Options {
     void HandleResolutionItemSelected(StringHash eventType, VariantMap& eventData)
     {
         DropDownList@ list = eventData["Element"].GetPtr();
-        log.Warning("Selection " + list.selection);
         int i = list.selection;
         Text@ text =  cast<Text>(list.selectedItem);
         settingsValues.width = text.text.Split('x')[0].ToInt();
         settingsValues.height = text.text.Split('x')[1].ToInt();
-        log.Warning("Value " + settingsValues.width + "x" + settingsValues.height);
     }
 
     void HandleToggleFullscreen(StringHash eventType, VariantMap& eventData)
@@ -178,10 +182,22 @@ namespace Options {
         settingsValues.fullscreen = checkbox.checked;
     }
 
+    void HandleToggleVSync(StringHash eventType, VariantMap& eventData)
+    {
+        CheckBox@ checkbox = eventData["Element"].GetPtr();
+        settingsValues.vsync = checkbox.checked;
+    }
+
+    void HandleTrippleBuffer(StringHash eventType, VariantMap& eventData)
+    {
+        CheckBox@ checkbox = eventData["Element"].GetPtr();
+        settingsValues.tripleBuffer = checkbox.checked;
+    }
+
     void HandleApplySettings(StringHash eventType, VariantMap& eventData)
     {
         //SetMode(width_, height_, !fullscreen_, borderless_, resizable_, highDPI_, vsync_, tripleBuffer_, multiSample_, monitor_, refreshRate_);
-        graphics.SetMode(settingsValues.width, settingsValues.height, settingsValues.fullscreen, graphics.borderless , graphics.resizable , false, true, graphics.tripleBuffer , graphics.multiSample, 0, 60);
+        graphics.SetMode(settingsValues.width, settingsValues.height, settingsValues.fullscreen, graphics.borderless , graphics.resizable , false, settingsValues.vsync, settingsValues.tripleBuffer , graphics.multiSample, 0, 60);
     }
 
     void HandleCloseSettings(StringHash eventType, VariantMap& eventData)
