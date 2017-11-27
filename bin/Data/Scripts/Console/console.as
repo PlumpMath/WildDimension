@@ -1,5 +1,6 @@
 namespace ConsoleHandler {
 
+    Console@ console;
     class ConsoleCommand {
         String command;
         String eventToCall;
@@ -20,7 +21,7 @@ namespace ConsoleHandler {
             return;
 
         // Create console
-        Console@ console = engine.CreateConsole();
+        console = engine.CreateConsole();
         console.defaultStyle = xmlFile;
         console.background.opacity = 0.8f;
         console.visible = false;

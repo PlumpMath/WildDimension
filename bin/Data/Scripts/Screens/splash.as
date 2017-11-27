@@ -4,7 +4,7 @@ namespace SplashScreen {
     Sprite@ backgroundSprite;
     float opacity; //current opacity
     bool show;
-    const float FADE_SPEED = 0.5f; //How fast the logo should fade in and fade out
+    const float FADE_SPEED = 10.5f; //How fast the logo should fade in and fade out
     bool ended = false;
     Array<String> textures;
     uint currentIndex = 0;

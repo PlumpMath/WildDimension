@@ -14,6 +14,8 @@ namespace MenuScreen {
     Vector2 toLocation(410, 380);
     const float DRAW_PATH_TIMEOUT = 0.1f;
     Vector2 direction = Vector2(1, 0);
+
+    Sprite@ instructionsScreen;
     
     const float DOT_MARGIN = 20.0f;
     const float PATH_FILL_SPEED = 1.0f;
@@ -133,6 +135,97 @@ namespace MenuScreen {
         //storyText.textAlignment = HA_LEFT; // Center rows in relation to each other
 
         storySprite.visible = false;
+    }
+
+    void CreateInstructions()
+    {
+        Texture2D@ notesTexture = cache.GetResource("Texture2D", "Textures/Screens/Instruction.png");
+        if (notesTexture is null) {
+            return;
+        }
+
+        // Create logo sprite and add to the UI layout
+        instructionsScreen = ui.root.CreateChild("Sprite");
+
+        // Set logo sprite texture
+        instructionsScreen.texture = notesTexture;
+
+        float w = graphics.width;
+        int textureHeight = Helpers::getHeightByPercentage(0.8);
+        int textureWidth = notesTexture.width * Helpers::getRatio(notesTexture.height, textureHeight);
+
+        // Set logo sprite scale
+        //notesSprite.SetScale(256.0f / textureWidth);
+
+        // Set logo sprite size
+        instructionsScreen.SetSize(textureWidth, textureHeight);
+        instructionsScreen.position = Vector2(0, 0);
+
+        // Set logo sprite hot spot
+        instructionsScreen.SetHotSpot(textureWidth/2, textureHeight/2);
+
+        // Set logo sprite alignment
+        instructionsScreen.SetAlignment(HA_CENTER, VA_CENTER);
+
+        // Make logo not fully opaque to show the scene underneath
+        instructionsScreen.opacity = MAX_OPACITY;
+
+        // Set a low priority for the logo so that other UI elements can be drawn on top
+        instructionsScreen.priority = 100;
+
+        Text@ instructionsText = instructionsScreen.CreateChild("Text");
+        instructionsText.text = "Show controls";
+        instructionsText.SetFont(cache.GetResource("Font", "Fonts/PainttheSky-Regular.otf"), 40);
+        instructionsText.textAlignment = HA_CENTER; // Center rows in relation to each other
+        // Position the text relative to the screen center
+        instructionsText.horizontalAlignment = HA_LEFT;
+        instructionsText.verticalAlignment = VA_TOP;
+        instructionsText.SetPosition(textureWidth * 0.2, textureHeight * 0.01);
+
+        Text@ objectiveText = instructionsScreen.CreateChild("Text");
+        objectiveText.text = "Show current objective";
+        objectiveText.SetFont(cache.GetResource("Font", "Fonts/PainttheSky-Regular.otf"), 40);
+        objectiveText.textAlignment = HA_CENTER; // Center rows in relation to each other
+        // Position the text relative to the screen center
+        objectiveText.horizontalAlignment = HA_LEFT;
+        objectiveText.verticalAlignment = VA_TOP;
+        objectiveText.SetPosition(textureWidth * 0.2, textureHeight * 0.15);
+
+        Text@ toolText = instructionsScreen.CreateChild("Text");
+        toolText.text = "Change active tool";
+        toolText.SetFont(cache.GetResource("Font", "Fonts/PainttheSky-Regular.otf"), 40);
+        toolText.textAlignment = HA_CENTER; // Center rows in relation to each other
+        // Position the text relative to the screen center
+        toolText.horizontalAlignment = HA_LEFT;
+        toolText.verticalAlignment = VA_TOP;
+        toolText.SetPosition(textureWidth * 0.2, textureHeight * 0.30);
+
+        Text@ movementText = instructionsScreen.CreateChild("Text");
+        movementText.text = "Move";
+        movementText.SetFont(cache.GetResource("Font", "Fonts/PainttheSky-Regular.otf"), 40);
+        movementText.textAlignment = HA_CENTER; // Center rows in relation to each other
+        // Position the text relative to the screen center
+        movementText.horizontalAlignment = HA_LEFT;
+        movementText.verticalAlignment = VA_TOP;
+        movementText.SetPosition(textureWidth * 0.4, textureHeight * 0.5);
+
+        Text@ sprintText = instructionsScreen.CreateChild("Text");
+        sprintText.text = "Sprint";
+        sprintText.SetFont(cache.GetResource("Font", "Fonts/PainttheSky-Regular.otf"), 40);
+        sprintText.textAlignment = HA_CENTER; // Center rows in relation to each other
+        // Position the text relative to the screen center
+        sprintText.horizontalAlignment = HA_LEFT;
+        sprintText.verticalAlignment = VA_TOP;
+        sprintText.SetPosition(textureWidth * 0.4, textureHeight * 0.72);
+
+        Text@ jumpText = instructionsScreen.CreateChild("Text");
+        jumpText.text = "Jump";
+        jumpText.SetFont(cache.GetResource("Font", "Fonts/PainttheSky-Regular.otf"), 40);
+        jumpText.textAlignment = HA_CENTER; // Center rows in relation to each other
+        // Position the text relative to the screen center
+        jumpText.horizontalAlignment = HA_LEFT;
+        jumpText.verticalAlignment = VA_TOP;
+        jumpText.SetPosition(textureWidth * 0.55, textureHeight * 0.86);
     }
 
     void FillTable()
@@ -306,8 +399,9 @@ namespace MenuScreen {
     {
         UnsubscribeFromEvents(startButton);
         Destroy();
+        CreateInstructions();
         SetLoadingText();
-        DelayedExecute(1.0, false, "void MenuScreen::StartGame()");
+        DelayedExecute(5.0, false, "void MenuScreen::StartGame()");
     }
 
     void HandleStory(StringHash eventType, VariantMap& eventData)
@@ -504,6 +598,9 @@ namespace MenuScreen {
         }
         if (storyButton !is null) {
             storyButton.Remove();
+        }
+        if (instructionsScreen !is null) {
+            instructionsScreen.Remove();
         }
     }
 

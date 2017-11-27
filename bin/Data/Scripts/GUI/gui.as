@@ -458,7 +458,8 @@ namespace GUIHandler {
                 tip.grow = true;
             }
         }
-        tip.sprite.SetScale(tip.size);
+        //tip.sprite.SetScale(tip.size);
+        //tip.text.fontSize = tip.size * GUI_TIPS_FONT_SIZE;
 
         Connection@ serverConnection = network.serverConnection;
         if (serverConnection !is null) {
@@ -492,8 +493,14 @@ namespace GUIHandler {
 
         Notifications::HandleUpdate(eventType, eventData);
 
-        if (input.keyPress[KEY_TAB]) {
-            SendEvent("ToggleQuestLog");
+        if (!ConsoleHandler::console.visible) {
+            if (input.keyPress[KEY_TAB]) {
+                SendEvent("ToggleQuestLog");
+            }
+
+            if (input.keyPress[KEY_I]) {
+                SendEvent("ToggleInstructions");
+            }
         }
     }
 }

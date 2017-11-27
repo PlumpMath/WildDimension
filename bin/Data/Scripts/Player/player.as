@@ -118,14 +118,16 @@ namespace Player {
         if (isMobilePlatform) {
             //playerControls.Set(CTRL_FORWARD, input.keyDown[BUTTON_A]);
         } else {
-            playerControls.Set(CTRL_FORWARD, input.keyDown[KEY_W]);
-            playerControls.Set(CTRL_BACK, input.keyDown[KEY_S]);
-            playerControls.Set(CTRL_LEFT, input.keyDown[KEY_A]);
-            playerControls.Set(CTRL_RIGHT, input.keyDown[KEY_D]);
-            playerControls.Set(CTRL_SPRINT, input.keyDown[KEY_LSHIFT]);
-            playerControls.Set(CTRL_DUCK, input.keyDown[KEY_LCTRL]);
+            if (!ConsoleHandler::console.visible) {
+                playerControls.Set(CTRL_FORWARD, input.keyDown[KEY_W]);
+                playerControls.Set(CTRL_BACK, input.keyDown[KEY_S]);
+                playerControls.Set(CTRL_LEFT, input.keyDown[KEY_A]);
+                playerControls.Set(CTRL_RIGHT, input.keyDown[KEY_D]);
+                playerControls.Set(CTRL_SPRINT, input.keyDown[KEY_LSHIFT]);
+                playerControls.Set(CTRL_DUCK, input.keyDown[KEY_LCTRL]);
+                playerControls.Set(CTRL_JUMP, input.keyDown[KEY_SPACE]);
+            }
         }
-        playerControls.Set(CTRL_JUMP, input.keyDown[KEY_SPACE]);
 
         Vector3 moveDir(0.0f, 0.0f, 0.0f);
 

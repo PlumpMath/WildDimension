@@ -27,10 +27,16 @@ namespace Camp {
         StaticModel@ object = campfire.node.CreateComponent("StaticModel");
         object.model = cache.GetResource("Model", "Models/Models/Small_campfire.mdl");
         campfire.node.rotation = Quaternion(Vector3(0.0f, 1.0f, 0.0f), NetworkHandler::terrain.GetNormal(position));
-        object.materials[0] = cache.GetResource("Material", "Materials/Stone.xml");
+        object.materials[0] = cache.GetResource("Material", "Materials/Wood.xml");
         object.materials[1] = cache.GetResource("Material", "Materials/Wood.xml");
-        object.materials[2] = cache.GetResource("Material", "Materials/Wood.xml");
+        object.materials[2] = cache.GetResource("Material", "Materials/Stone.xml");
         object.materials[3] = cache.GetResource("Material", "Materials/Wood.xml");
+        object.materials[4] = cache.GetResource("Material", "Materials/Wood.xml");
+        object.materials[5] = cache.GetResource("Material", "Materials/Wood.xml");
+        object.materials[6] = cache.GetResource("Material", "Materials/Wood.xml");
+        object.materials[7] = cache.GetResource("Material", "Materials/Wood.xml");
+        object.materials[8] = cache.GetResource("Material", "Materials/Wood.xml");
+        object.materials[9] = cache.GetResource("Material", "Materials/Wood.xml");
 
         object.castShadows = true;
         object.viewMask = VIEW_MASK_INTERACTABLE;

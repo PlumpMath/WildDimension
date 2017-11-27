@@ -82,6 +82,7 @@ namespace Missions {
         if (item.launchEvent.length > 0) {
             SendEvent(item.launchEvent, item.eventData);
         }
+        SendEvent("HideQuestLog");
     }
 
     void NextMission()
@@ -306,8 +307,10 @@ namespace Missions {
             String name = eventData["Name"].GetString();
             for (uint i = 0; i < missionList.length; i++) {
                 MissionItem@ item = missionList[i];
-                if (item.eventName == name && item.completed == false && activeMission == item.eventName) {
+                if (item.eventName == name && (item.type == TYPE_USE_ITEM || item.type == TYPE_PICKUP)) {
                     item.current++;
+                }
+                if (item.eventName == name && item.completed == false && activeMission == item.eventName) {
                     if (CheckIfCompleted(item)) {
                         SetCompleted(item);
                         VariantMap data;
