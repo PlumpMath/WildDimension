@@ -5,6 +5,7 @@ namespace MenuScreen {
     const float MAX_OPACITY = 0.99f;
     const String GUI_FONT = "Fonts/PainttheSky-Regular.otf";
     const int GUI_FONT_SIZE = Helpers::getHeightByPercentage(0.04);
+    const int GUI_FONT_SIZE_STORY = Helpers::getHeightByPercentage(0.026);
 
     Sprite@ fromSprite;
     Sprite@ toSprite;
@@ -83,7 +84,7 @@ namespace MenuScreen {
     void CreateStory()
     {
         // Get logo texture
-        Texture2D@ notesTexture = cache.GetResource("Texture2D", "Textures/paper.jpg");
+        Texture2D@ notesTexture = cache.GetResource("Texture2D", "Textures/paper.png");
         if (notesTexture is null) {
             return;
         }
@@ -132,7 +133,7 @@ namespace MenuScreen {
         storyText.text += "\nof the island? Will he be able to get back to civilization?";
         storyText.opacity = MAX_OPACITY;
         storyText.color = Color(0, 0, 0);
-        storyText.SetFont(cache.GetResource("Font", GUI_FONT), GUI_FONT_SIZE / 1.5);
+        storyText.SetFont(cache.GetResource("Font", GUI_FONT), GUI_FONT_SIZE_STORY);
         //storyText.SetAlignment(HA_CENTER, VA_CENTER);
         //storyText.textAlignment = HA_LEFT; // Center rows in relation to each other
 
@@ -240,7 +241,7 @@ namespace MenuScreen {
     void CreateBoard()
     {
         boardSprite = ui.root.CreateChild("Sprite");
-        Texture2D@ logoTexture = cache.GetResource("Texture2D", "Textures/board.jpg");
+        Texture2D@ logoTexture = cache.GetResource("Texture2D", "Textures/board.png");
         //if (logoTexture is null)
           //  return;
 
@@ -284,7 +285,7 @@ namespace MenuScreen {
         CreateBoard();
 
         mapSprite = boardSprite.CreateChild("Sprite");
-        Texture2D@ logoTexture = cache.GetResource("Texture2D", "Textures/world_map.jpg");
+        Texture2D@ logoTexture = cache.GetResource("Texture2D", "Textures/world_map.png");
         //if (logoTexture is null)
           //  return;
 

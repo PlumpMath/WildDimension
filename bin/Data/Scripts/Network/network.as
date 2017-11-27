@@ -35,7 +35,7 @@ namespace NetworkHandler {
 
     void LoadScene()
     {
-        File file("Data/Map/Map.json", FILE_READ);
+        File@ file = cache.GetFile("Map/Map.json");
         scene_.LoadJSON(file);
     }
 
@@ -62,7 +62,7 @@ namespace NetworkHandler {
         NetworkHandler::StopServer();
         //network.StartServer(SERVER_PORT);
 
-        network.updateFps = 10;
+        //network.updateFps = 10;
 
         Node@ zoneNode = scene_.CreateChild("Zone");
         sunlight.zone = zoneNode.CreateComponent("Zone");
@@ -387,14 +387,14 @@ namespace NetworkHandler {
 
     void DisconnectClients()
     {
-        for (uint i = 0; i < network.clientConnections.length; i++) {
-            network.clientConnections[i].Disconnect();
-        }
+        //for (uint i = 0; i < network.clientConnections.length; i++) {
+        //    network.clientConnections[i].Disconnect();
+       // }
     }
 
     void StopServer()
     {
-        Connection@ serverConnection = network.serverConnection;
+        /*Connection@ serverConnection = network.serverConnection;
         // If we were connected to server, disconnect. Or if we were running a server, stop it. In both cases clear the
         // scene of all replicated content, but let the local nodes & components (the static world + camera) stay
         if (serverConnection !is null)
@@ -408,7 +408,7 @@ namespace NetworkHandler {
             NetworkHandler::DisconnectClients();
             network.StopServer();
              scene_.Clear(true, false);
-        }
+        }*/
     }
 
     void Connect()
@@ -418,28 +418,28 @@ namespace NetworkHandler {
         String address = "127.0.0.1";
         VariantMap map;
         map["USER_NAME"] = "123";
-        network.Connect(address, SERVER_PORT, scene_, map);
+        //network.Connect(address, SERVER_PORT, scene_, map);
     }
 
     void HandleClientConnected(StringHash eventType, VariantMap& eventData)
     {
         // When a client connects, assign to scene to begin scene replication
-        Connection@ newConnection = eventData["Connection"].GetPtr();
-        newConnection.scene = scene_;
+        //Connection@ newConnection = eventData["Connection"].GetPtr();
+        //newConnection.scene = scene_;
     }
 
     void HandleClientDisconnected(StringHash eventType, VariantMap& eventData)
     {
         // When a client connects, assign to scene to begin scene replication
-        Connection@ newConnection = eventData["Connection"].GetPtr();
-        log.Info("Client " + newConnection.identity["USER_NAME"].GetString() + " disconnected");
+        //Connection@ newConnection = eventData["Connection"].GetPtr();
+        //log.Info("Client " + newConnection.identity["USER_NAME"].GetString() + " disconnected");
     }
 
     void HandleClientIdentity(StringHash eventType, VariantMap& eventData)
     {
         String name = eventData["USER_NAME"].GetString();
-        Connection@ newConnection = eventData["Connection"].GetPtr();
-        log.Info(newConnection.ToString() + " identified himself as '" + name + "'");
+        //Connection@ newConnection = eventData["Connection"].GetPtr();
+        //log.Info(newConnection.ToString() + " identified himself as '" + name + "'");
     }
 
     void Destroy()
@@ -451,9 +451,9 @@ namespace NetworkHandler {
     {
         log.Info("");
         log.Info("#### CLIENT LIST ####");
-        for (uint i = 0; i < network.clientConnections.length; i++) {
-            log.Info("# Client: " + network.clientConnections[i].identity["USER_NAME"].GetString() + ", Ping: " + String(network.clientConnections[i].roundTripTime) + ", IP: " + network.clientConnections[i].ToString());
-        }
+        //for (uint i = 0; i < network.clientConnections.length; i++) {
+            //log.Info("# Client: " + network.clientConnections[i].identity["USER_NAME"].GetString() + ", Ping: " + String(network.clientConnections[i].roundTripTime) + ", IP: " + network.clientConnections[i].ToString());
+        //}
         log.Info("#####################");
         log.Info("");
     }
@@ -568,11 +568,12 @@ namespace NetworkHandler {
         log.Warning("New hour: " + sunlight.hour + ", intensity = " + GetHourLightIntensity(sunlight.hour));
         if (sunlight.node is null) {
             sunlight.node = scene_.GetChild("DirectionalLight");
-        }
-        if (sunlight.light is null) {
-            sunlight.light = sunlight.node.GetComponent("Light");
-            sunlight.currentIntensity = GetHourLightIntensity(sunlight.hour);
-            sunlight.color = Color(0.8, 0.8, 0.8, 1);
+        } else {
+            if (sunlight.light is null) {
+                sunlight.light = sunlight.node.GetComponent("Light");
+                sunlight.currentIntensity = GetHourLightIntensity(sunlight.hour);
+                sunlight.color = Color(0.8, 0.8, 0.8, 1);
+            }
         }
 
         sunlight.change = true;

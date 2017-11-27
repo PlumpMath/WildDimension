@@ -27,7 +27,7 @@ namespace SplashScreen {
     void SetBackground()
     {
         backgroundSprite = ui.root.CreateChild("Sprite");
-        Texture2D@ logoTexture = cache.GetResource("Texture2D", "Textures/Logo/Game_logo_background.jpg");
+        Texture2D@ logoTexture = cache.GetResource("Texture2D", "Textures/Logo/Game_logo_background.png");
         //if (logoTexture is null)
           //  return;
 

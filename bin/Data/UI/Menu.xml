@@ -5,6 +5,6 @@
         <attribute name="Pressed Image Offset" value="16 0" />
         <attribute name="Hover Image Offset" value="0 16" />
         <attribute name="Pressed Child Offset" value="-1 1" />
-        <attribute name="Texture" value="Texture2D;Textures/metal_red.jpg" />
+        <attribute name="Texture" value="Texture2D;Textures/metal_red.png" />
     </element>
 </elements>

@@ -212,6 +212,7 @@ namespace GUIHandler {
         SubscribeToEvent("UpdateSpawnerDebug", "GUIHandler::HandleUpdateSpawnerDebug");
 
         SubscribeToEvent("ShowTip", "GUIHandler::HandleShowTip");
+        SubscribeToEvent("ToggleMouse", "GUIHandler::HandleToggleMouse");
     }
 
     void RegisterConsoleCommands()
@@ -220,6 +221,15 @@ namespace GUIHandler {
         data["CONSOLE_COMMAND_NAME"] = "logo";
         data["CONSOLE_COMMAND_EVENT"] = "ToggleLogo";
         SendEvent("ConsoleCommandAdd", data);
+
+        data["CONSOLE_COMMAND_NAME"] = "mouse_toggle";
+        data["CONSOLE_COMMAND_EVENT"] = "ToggleMouse";
+        SendEvent("ConsoleCommandAdd", data);
+    }
+
+    void HandleToggleMouse(StringHash eventType, VariantMap& eventData)
+    {
+        input.mouseVisible = !input.mouseVisible;
     }
 
     void Destroy()
@@ -461,7 +471,7 @@ namespace GUIHandler {
         //tip.sprite.SetScale(tip.size);
         //tip.text.fontSize = tip.size * GUI_TIPS_FONT_SIZE;
 
-        Connection@ serverConnection = network.serverConnection;
+        /*Connection@ serverConnection = network.serverConnection;
         if (serverConnection !is null) {
             if (bytesIn !is null) {
                 bytesIn.text = "Bytes In: " + String(serverConnection.bytesInPerSec);
@@ -486,7 +496,7 @@ namespace GUIHandler {
             if (bytesOut !is null) {
                 bytesOut.text = "Bytes Out: " + String(bOut);
             }
-        }
+        }*/
         if (positionText !is null) {
             positionText.text = "X: " + String(cameraNode.worldPosition.x) + "\n" + "Y: " + String(cameraNode.worldPosition.y) + "\n" + "Z: " + String(cameraNode.worldPosition.z);
         }

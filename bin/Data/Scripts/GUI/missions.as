@@ -16,7 +16,7 @@ namespace MissionsGUI {
 	void Create()
     {
         // Get logo texture
-        Texture2D@ notesTexture = cache.GetResource("Texture2D", "Textures/paper.jpg");
+        Texture2D@ notesTexture = cache.GetResource("Texture2D", "Textures/paper.png");
         if (notesTexture is null) {
             return;
         }
