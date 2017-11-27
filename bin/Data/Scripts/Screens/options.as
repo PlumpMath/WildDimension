@@ -11,6 +11,9 @@ namespace Options {
         bool fullscreen;
         bool vsync;
         bool tripleBuffer;
+        bool drawShadows;
+        bool hdrRendering;
+        bool reuseShadowMaps;
     };
 
     SettingsValues settingsValues;
@@ -22,6 +25,9 @@ namespace Options {
         settingsValues.fullscreen = graphics.fullscreen;
         settingsValues.vsync = graphics.vsync;
         settingsValues.tripleBuffer  = graphics.tripleBuffer;
+        settingsValues.drawShadows = renderer.drawShadows;
+        settingsValues.hdrRendering = renderer.hdrRendering;
+        settingsValues.reuseShadowMaps = renderer.reuseShadowMaps;
 
         // Get logo texture
         Texture2D@ notesTexture = cache.GetResource("Texture2D", "Textures/paper.png");
@@ -60,8 +66,8 @@ namespace Options {
         optionsSprite.priority = 100;
 
         Array<String> items;
-        items.Push("1920 x 1080");
         items.Push("1280 x 720");
+        items.Push("1920 x 1080");
         items.Push("1024 x 768");
         items.Push("1600 x 1200");
         CreateResolutionMenu("Resolution", items, "Options::HandleResolutionItemSelected", IntVector2(20, 20));
@@ -72,6 +78,9 @@ namespace Options {
         CreateCheckbox("Fullscreen", "Options::HandleToggleFullscreen", IntVector2(20, 60));
         CreateCheckbox("VSync", "Options::HandleToggleVSync", IntVector2(20, 100));
         CreateCheckbox("Tripple buffer", "Options::HandleTrippleBuffer", IntVector2(20, 140));
+        CreateCheckbox("Draw shadows", "Options::HandleDrawShadows", IntVector2(20, 180));
+        CreateCheckbox("HDR rendering", "Options::HandleHDRRendering", IntVector2(20, 220));
+        CreateCheckbox("Reuse shadow maps", "Options::HandleToggleReuseShadowMaps", IntVector2(20, 260));
     }
 
     void CreateResolutionMenu(String label, Array<String> items, String handler, IntVector2 position)
@@ -110,7 +119,7 @@ namespace Options {
         }
         
         text.maxWidth = text.rowWidths[0];
-        list.SetFixedSize(Helpers::getWidthByPercentage(0.2), Helpers::getHeightByPercentage(0.05));
+        list.SetFixedSize(Helpers::getWidthByPercentage(0.2), 40);
 
         dropdowns.Push(container);
         
@@ -194,10 +203,31 @@ namespace Options {
         settingsValues.tripleBuffer = checkbox.checked;
     }
 
+    void HandleDrawShadows(StringHash eventType, VariantMap& eventData)
+    {
+        CheckBox@ checkbox = eventData["Element"].GetPtr();
+        settingsValues.drawShadows = checkbox.checked;
+    }
+
+    void HandleHDRRendering(StringHash eventType, VariantMap& eventData)
+    {
+        CheckBox@ checkbox = eventData["Element"].GetPtr();
+        settingsValues.hdrRendering = checkbox.checked;
+    }
+
+    void HandleToggleReuseShadowMaps(StringHash eventType, VariantMap& eventData)
+    {
+        CheckBox@ checkbox = eventData["Element"].GetPtr();
+        settingsValues.reuseShadowMaps = checkbox.checked;
+    }
+
     void HandleApplySettings(StringHash eventType, VariantMap& eventData)
     {
         //SetMode(width_, height_, !fullscreen_, borderless_, resizable_, highDPI_, vsync_, tripleBuffer_, multiSample_, monitor_, refreshRate_);
         graphics.SetMode(settingsValues.width, settingsValues.height, settingsValues.fullscreen, graphics.borderless , graphics.resizable , false, settingsValues.vsync, settingsValues.tripleBuffer , graphics.multiSample, 0, 60);
+        renderer.drawShadows = settingsValues.drawShadows;
+        renderer.hdrRendering = settingsValues.hdrRendering;
+        renderer.reuseShadowMaps = settingsValues.reuseShadowMaps;
     }
 
     void HandleCloseSettings(StringHash eventType, VariantMap& eventData)

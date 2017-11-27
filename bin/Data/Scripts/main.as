@@ -508,14 +508,14 @@ void HandleKeyDown(StringHash eventType, VariantMap& eventData)
         }
 
         // Texture quality
-        else if (key == '1')
+        /*else if (key == '1')
         {
             int quality = renderer.textureQuality;
             ++quality;
             if (quality > QUALITY_HIGH)
                 quality = QUALITY_LOW;
             renderer.textureQuality = quality;
-        }
+        }*/
 
         // Material quality
         else if (key == '2')

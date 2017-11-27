@@ -69,10 +69,15 @@ namespace ConsoleHandler {
         SubscribeToEvent("ConsoleCommand", "ConsoleHandler::HandleConsoleCommand");
         SubscribeToEvent("ConsoleCommandAdd", "ConsoleHandler::HandleConsoleCommandAdd");
         SubscribeToEvent("ConsoleHelp", "ConsoleHandler::HandleConsoleHelp");
+        SubscribeToEvent("ChangeFOV", "ConsoleHandler::HandleFOV");
 
         VariantMap data;
         data["CONSOLE_COMMAND_NAME"] = "help";
         data["CONSOLE_COMMAND_EVENT"] = "ConsoleHelp";
+        SendEvent("ConsoleCommandAdd", data);
+
+        data["CONSOLE_COMMAND_NAME"] = "fov";
+        data["CONSOLE_COMMAND_EVENT"] = "ChangeFOV";
         SendEvent("ConsoleCommandAdd", data);
     }
 
@@ -113,6 +118,18 @@ namespace ConsoleHandler {
             String inputValue = eventData["Command"].GetString();
             ConsoleHandler::ParseCommand(inputValue);
         }
+    }
+
+    void HandleFOV(StringHash eventType, VariantMap& eventData)
+    {
+        Array<String> commands = eventData["PARAMETERS"].GetStringVector();
+        if (commands.length < 2) {
+            log.Error("'fov' command expects second argument!");
+            return;
+        }
+        
+        float fov = commands[1].ToFloat();
+        camera.fov = fov;
     }
 
     void ParseCommand(String line)
