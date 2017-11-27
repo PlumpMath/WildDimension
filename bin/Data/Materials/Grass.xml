@@ -1,4 +1,4 @@
 <material>
     <technique name="Techniques/DiffNormalAlpha.xml" quality="0" />
-    <texture unit="diffuse" name="Textures/grass.png" />
+    <texture unit="diffuse" name="Textures/grass_patch.png" />
 </material>
