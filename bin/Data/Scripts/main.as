@@ -257,7 +257,7 @@ void CreateScene()
 
     camera = cameraNode.CreateComponent("Camera", LOCAL);
     camera.orthographic = false;
-    camera.fov = 50;
+    camera.fov = 60;
     camera.nearClip = 0.1f;
     camera.farClip = 1000;
     camera.orthoSize = graphics.height * PIXEL_SIZE;

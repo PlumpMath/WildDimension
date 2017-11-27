@@ -8,9 +8,29 @@
 //+ House3 -> durvju aile, arejas sienas, ieksejas sienas, jumts, trepes
 //stem -> celma malas, celma virsotne, cirvja kats, cirvja metals
 //torch -> kats, augsha
+class DroppedObject : ScriptObject
+{
+    void Start()
+    {
+        // Subscribe physics collisions that concern this scene node
+        SubscribeToEvent(node, "NodeCollision", "HandleNodeCollision");
+    }
 
+    void HandleNodeCollision(StringHash eventType, VariantMap& eventData)
+    {
+        Node@ otherNode = eventData["OtherNode"].GetPtr();
+        Vector3 dir = otherNode.worldPosition - node.worldPosition;
+
+        if (otherNode.HasTag("Player")) {
+            Player::playerBody.ApplyImpulse(dir.Normalized() * EnvObjects::PLAYER_HURT_FORCE);;
+            GameSounds::Play(GameSounds::PLAYER_HURT);
+            AddBlur();
+        }
+    }
+}
 
 namespace EnvObjects {
+    const float PLAYER_HURT_FORCE = 10.0f;
     Array<Node@> objects;
     class TimedObject {
         Node@ node;
@@ -114,6 +134,8 @@ namespace EnvObjects {
         timedObject.lifetime = lifetime;
         timedObject.node = node;
         timedObjects.Push(timedObject);
+
+        node.CreateScriptObject(scriptFile, "DroppedObject");
 
         return node;
     }

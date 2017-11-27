@@ -291,7 +291,7 @@ namespace Spawn {
     void CreateTetris(Spawner& spawner)
     {
         int number = RandomInt(10) + 1;
-        Node@ node = EnvObjects::CreateTimed(GetRandomPositionInRange(spawner), "Models/Models/" + number + ".mdl", true, 15.0f, "Tetris");
+        Node@ node = EnvObjects::CreateTimed(GetRandomPositionInRange(spawner), "Models/Models/" + number + ".mdl", true, 20.0f, "Tetris");
         spawner.lastSpawnTime = 0.0f;
     }
 
