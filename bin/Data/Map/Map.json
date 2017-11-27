@@ -6,10 +6,10 @@
 		"Smoothing Constant": 50.0,
 		"Snap Threshold": 5.0,
 		"Elapsed Time": 219.7979736328125,
-		"Next Replicated Node ID": 1916,
-		"Next Replicated Component ID": 5605,
-		"Next Local Node ID": 16789253,
-		"Next Local Component ID": 16789500,
+		"Next Replicated Node ID": 1924,
+		"Next Replicated Component ID": 5623,
+		"Next Local Node ID": 16793223,
+		"Next Local Component ID": 16793481,
 		"Variables": {},
 		"Variable Names": ""
 	},
@@ -7739,6 +7739,254 @@
 					},
 					"components": [],
 					"children": []
+				},
+				{
+					"id": 1916,
+					"attributes": {
+						"Is Enabled": true,
+						"Name": "Rocks",
+						"Tags": [],
+						"Position": "-28.0777 71.2729 43.8253",
+						"Rotation": "1 0 0 0",
+						"Scale": "1 1 1",
+						"Variables": {}
+					},
+					"components": [],
+					"children": [
+						{
+							"id": 1917,
+							"attributes": {
+								"Is Enabled": true,
+								"Name": "Rock1",
+								"Tags": [],
+								"Position": "0 -3.77818 6.26213",
+								"Rotation": "0.932695 -0.25141 0.0687832 -0.249278",
+								"Scale": "1 1 1",
+								"Variables": {}
+							},
+							"components": [
+								{
+									"type": "StaticModel",
+									"id": 5605,
+									"attributes": {
+										"Model": "Model;Models/Models/Large_rock.mdl",
+										"Material": "Material;Materials/Stone.xml"
+									}
+								},
+								{
+									"type": "CollisionShape",
+									"id": 5606,
+									"attributes": {
+										"Shape Type": "TriangleMesh",
+										"Model": "Model;Models/Models/Large_rock.mdl"
+									}
+								},
+								{
+									"type": "RigidBody",
+									"id": 5607,
+									"attributes": {
+										"Physics Rotation": "0.932696 -0.25141 0.0687833 -0.249278",
+										"Physics Position": "-140.389 337.474 250.437"
+									}
+								}
+							],
+							"children": []
+						},
+						{
+							"id": 1919,
+							"attributes": {
+								"Is Enabled": true,
+								"Name": "Rock1",
+								"Tags": [],
+								"Position": "200.467 -36.2462 -81.0978",
+								"Rotation": "0.325306 -0.383457 -0.849742 -0.158346",
+								"Scale": "2 1.4 1.2",
+								"Variables": {}
+							},
+							"components": [
+								{
+									"type": "StaticModel",
+									"id": 5608,
+									"attributes": {
+										"Model": "Model;Models/Models/Large_rock.mdl",
+										"Material": "Material;Materials/Stone.xml"
+									}
+								},
+								{
+									"type": "CollisionShape",
+									"id": 5609,
+									"attributes": {
+										"Shape Type": "TriangleMesh",
+										"Model": "Model;Models/Models/Large_rock.mdl"
+									}
+								},
+								{
+									"type": "RigidBody",
+									"id": 5610,
+									"attributes": {
+										"Physics Rotation": "-0.325306 0.383458 0.849743 0.158346",
+										"Physics Position": "861.945 175.134 -186.363"
+									}
+								}
+							],
+							"children": []
+						},
+						{
+							"id": 1920,
+							"attributes": {
+								"Is Enabled": true,
+								"Name": "Rock1",
+								"Tags": [],
+								"Position": "210.777 -17.0312 27.5759",
+								"Rotation": "0.946242 -0.255769 -0.0502041 0.191532",
+								"Scale": "1.2 1.4 0.8",
+								"Variables": {}
+							},
+							"components": [
+								{
+									"type": "StaticModel",
+									"id": 5611,
+									"attributes": {
+										"Model": "Model;Models/Models/Large_rock.mdl",
+										"Material": "Material;Materials/Stone.xml"
+									}
+								},
+								{
+									"type": "CollisionShape",
+									"id": 5612,
+									"attributes": {
+										"Shape Type": "TriangleMesh",
+										"Model": "Model;Models/Models/Large_rock.mdl"
+									}
+								},
+								{
+									"type": "RigidBody",
+									"id": 5613,
+									"attributes": {
+										"Physics Rotation": "0.946244 -0.255769 -0.0502042 0.191533",
+										"Physics Position": "913.499 271.208 357.006"
+									}
+								}
+							],
+							"children": []
+						},
+						{
+							"id": 1921,
+							"attributes": {
+								"Is Enabled": true,
+								"Name": "",
+								"Tags": [],
+								"Position": "309.761 -31.5744 13.2582",
+								"Rotation": "1 0 0 0",
+								"Scale": "1 1 1",
+								"Variables": {}
+							},
+							"components": [
+								{
+									"type": "StaticModel",
+									"id": 5614,
+									"attributes": {
+										"Model": "Model;Models/Models/Large_rock.mdl",
+										"Material": "Material;Materials/Stone.xml"
+									}
+								},
+								{
+									"type": "RigidBody",
+									"id": 5615,
+									"attributes": {
+										"Physics Position": "1408.42 198.492 285.417"
+									}
+								},
+								{
+									"type": "CollisionShape",
+									"id": 5616,
+									"attributes": {
+										"Shape Type": "TriangleMesh",
+										"Model": "Model;Models/Models/Large_rock.mdl"
+									}
+								}
+							],
+							"children": []
+						},
+						{
+							"id": 1922,
+							"attributes": {
+								"Is Enabled": true,
+								"Name": "",
+								"Tags": [],
+								"Position": "375.761 -41.8166 31.5449",
+								"Rotation": "0.388307 0 0 -0.921529",
+								"Scale": "1.1 1 1",
+								"Variables": {}
+							},
+							"components": [
+								{
+									"type": "StaticModel",
+									"id": 5617,
+									"attributes": {
+										"Model": "Model;Models/Models/Large_rock.mdl",
+										"Material": "Material;Materials/Stone.xml"
+									}
+								},
+								{
+									"type": "RigidBody",
+									"id": 5618,
+									"attributes": {
+										"Physics Rotation": "-0.388307 0 0 0.92153",
+										"Physics Position": "1738.42 147.282 376.851"
+									}
+								},
+								{
+									"type": "CollisionShape",
+									"id": 5619,
+									"attributes": {
+										"Shape Type": "TriangleMesh",
+										"Model": "Model;Models/Models/Large_rock.mdl"
+									}
+								}
+							],
+							"children": []
+						},
+						{
+							"id": 1923,
+							"attributes": {
+								"Is Enabled": true,
+								"Name": "Rock1",
+								"Tags": [],
+								"Position": "138.339 -48.0165 -3.22923",
+								"Rotation": "0.819781 -0.538336 0.0827285 -0.176935",
+								"Scale": "1 1 1",
+								"Variables": {}
+							},
+							"components": [
+								{
+									"type": "StaticModel",
+									"id": 5620,
+									"attributes": {
+										"Model": "Model;Models/Models/Large_rock.mdl",
+										"Material": "Material;Materials/Stone.xml"
+									}
+								},
+								{
+									"type": "CollisionShape",
+									"id": 5621,
+									"attributes": {
+										"Shape Type": "TriangleMesh",
+										"Model": "Model;Models/Models/Large_rock.mdl"
+									}
+								},
+								{
+									"type": "RigidBody",
+									"id": 5622,
+									"attributes": {
+										"Physics Rotation": "0.819782 -0.538337 0.0827286 -0.176935",
+										"Physics Position": "551.306 116.282 202.98"
+									}
+								}
+							],
+							"children": []
+						}
+					]
 				}
 			]
 		},
