@@ -1,3 +1,5 @@
+#include "Screens/options.as"
+
 namespace MenuScreen {
 
     const float MAX_OPACITY = 0.99f;
@@ -325,6 +327,8 @@ namespace MenuScreen {
         CreateStory();
 
         CreateButtons();
+
+        Options::Create();
     }
 
     void CreateButtons()
@@ -602,6 +606,8 @@ namespace MenuScreen {
         if (instructionsScreen !is null) {
             instructionsScreen.Remove();
         }
+
+        Options::Destroy();
     }
 
     void HandleUpdate(StringHash eventType, VariantMap& eventData)

@@ -65,6 +65,12 @@ namespace Craft {
             item.name = "Wood";
             item.count = 10;
             recipe.items.Push(item);
+            item.name = "Raspberry";
+            item.count = 1;
+            recipe.items.Push(item);
+            item.name = "Apple";
+            item.count = 1;
+            recipe.items.Push(item);
             recipes.Push(recipe);
         }
 
