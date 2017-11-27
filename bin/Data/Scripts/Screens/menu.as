@@ -6,6 +6,7 @@ namespace MenuScreen {
     const String GUI_FONT = "Fonts/PainttheSky-Regular.otf";
     const int GUI_FONT_SIZE = Helpers::getHeightByPercentage(0.04);
     const int GUI_FONT_SIZE_STORY = Helpers::getHeightByPercentage(0.026);
+    const float INSTRUCTION_TIME = 0.0f;
 
     Sprite@ fromSprite;
     Sprite@ toSprite;
@@ -18,14 +19,13 @@ namespace MenuScreen {
     const float DRAW_PATH_TIMEOUT = 0.1f;
     Vector2 direction = Vector2(1, 0);
 
+    Array<Button@> buttons;
+
     Sprite@ instructionsScreen;
     
     const float DOT_MARGIN = 20.0f;
     const float PATH_FILL_SPEED = 1.0f;
 
-    Button@ startButton;
-    Button@ exitButton;
-    Button@ storyButton;
     Button@ storyCloseButton;
 
     Sprite@ storySprite;
@@ -248,8 +248,8 @@ namespace MenuScreen {
         // Set logo sprite texture
         boardSprite.texture = logoTexture;
 
-        int textureWidth = logoTexture.width;
-        int textureHeight = logoTexture.height;
+        int textureWidth = Helpers::getWidthByPercentage(1.5);
+        int textureHeight = logoTexture.height * Helpers::getRatio(logoTexture.width, textureWidth);
 
         // Set logo sprite scale
         boardSprite.SetScale(1);
@@ -338,51 +338,10 @@ namespace MenuScreen {
 
         XMLFile@ uiStyle = cache.GetResource("XMLFile", "UI/Menu.xml");
 
-        // Create the button and center the text onto it
-        startButton = ui.root.CreateChild("Button");
-        startButton.SetStyleAuto(uiStyle);
-        startButton.SetPosition(-20, -80);
-        startButton.SetSize(100, 40);
-        startButton.SetAlignment(HA_RIGHT, VA_BOTTOM);
-
-        Text@ startButtonText = startButton.CreateChild("Text");
-        startButtonText.SetAlignment(HA_CENTER, VA_TOP);
-        startButtonText.SetFont(font, 30);
-        startButtonText.textAlignment = HA_CENTER;
-        startButtonText.text = "Start";
-        startButtonText.position = IntVector2(0, -10);
-        SubscribeToEvent(startButton, "Released", "MenuScreen::HandleNewGame");
-
-        // Create the button and center the text onto it
-        exitButton = ui.root.CreateChild("Button");
-        exitButton.SetStyleAuto(uiStyle);
-        exitButton.SetPosition(-20, -20);
-        exitButton.SetSize(100, 40);
-        exitButton.SetAlignment(HA_RIGHT, VA_BOTTOM);
-
-        Text@ exitButtonText = exitButton.CreateChild("Text");
-        exitButtonText.SetAlignment(HA_CENTER, VA_TOP);
-        exitButtonText.SetFont(font, 30);
-        exitButtonText.textAlignment = HA_CENTER;
-        exitButtonText.text = "Exit";
-        exitButtonText.position = IntVector2(0, -10);
-        SubscribeToEvent(exitButton, "Released", "MenuScreen::HandleExitGame");
-
-        // Create the button and center the text onto it
-        storyButton = ui.root.CreateChild("Button");
-        storyButton.SetStyleAuto(uiStyle);
-        storyButton.SetPosition(20, -20);
-        storyButton.SetSize(100, 40);
-        storyButton.SetAlignment(HA_LEFT, VA_BOTTOM);
-
-        Text@ storyButtonText = storyButton.CreateChild("Text");
-        storyButtonText.SetAlignment(HA_CENTER, VA_TOP);
-        storyButtonText.SetFont(font, 30);
-        storyButtonText.textAlignment = HA_CENTER;
-        storyButtonText.text = "Story";
-        storyButtonText.position = IntVector2(0, -10);
-        SubscribeToEvent(storyButton, "Released", "MenuScreen::HandleStory");
-
+        CreateButton("Exit", "MenuScreen::HandleExitGame", IntVector2(-20, -20));
+        CreateButton("Settings", "MenuScreen::HandleSettingsButton", IntVector2(-20, -80));
+        CreateButton("Start", "MenuScreen::HandleNewGame", IntVector2(-20, -140));
+        CreateButton("Story", "MenuScreen::HandleStory", IntVector2(20, -20), false);
 
         // Create the button and center the text onto it
         storyCloseButton = storySprite.CreateChild("Button");
@@ -400,13 +359,43 @@ namespace MenuScreen {
         SubscribeToEvent(storyCloseButton, "Released", "MenuScreen::HandleStoryClose");
     }
 
+    void CreateButton(String name, String handler, IntVector2 position, bool right = true)
+    {
+        Font@ font = cache.GetResource("Font", GUIHandler::GUI_FONT);
+
+        XMLFile@ uiStyle = cache.GetResource("XMLFile", "UI/Menu.xml");
+
+        Button@ button = ui.root.CreateChild("Button");
+        button.SetStyleAuto(uiStyle);
+        button.SetPosition(position.x, position.y);
+        button.SetSize(100, 40);
+        if (right) {
+            button.SetAlignment(HA_RIGHT, VA_BOTTOM);
+        } else {
+            button.SetAlignment(HA_LEFT, VA_BOTTOM);
+        }
+
+        Text@ buttonText = button.CreateChild("Text");
+        buttonText.SetAlignment(HA_CENTER, VA_TOP);
+        buttonText.SetFont(font, 30);
+        buttonText.textAlignment = HA_CENTER;
+        buttonText.text = name;
+        buttonText.position = IntVector2(0, -10);
+        SubscribeToEvent(button, "Released", handler);
+        buttons.Push(button);
+    }
+
+    void HandleSettingsButton(StringHash eventType, VariantMap& eventData)
+    {
+        Options::Show();
+    }
+
     void HandleNewGame(StringHash eventType, VariantMap& eventData)
     {
-        UnsubscribeFromEvents(startButton);
         Destroy();
         CreateInstructions();
         SetLoadingText();
-        DelayedExecute(5.0, false, "void MenuScreen::StartGame()");
+        DelayedExecute(INSTRUCTION_TIME, false, "void MenuScreen::StartGame()");
     }
 
     void HandleStory(StringHash eventType, VariantMap& eventData)
@@ -586,12 +575,6 @@ namespace MenuScreen {
         if (fromSprite !is null) {
             fromSprite.Remove();
         }
-        if (startButton !is null) {
-            startButton.Remove();
-        }
-        if (exitButton !is null) {
-            exitButton.Remove();
-        }
         if (loadingText !is null) {
             loadingText.Remove();
         }
@@ -601,12 +584,14 @@ namespace MenuScreen {
         if (storySprite !is null) {
             storySprite.Remove();
         }
-        if (storyButton !is null) {
-            storyButton.Remove();
-        }
+
         if (instructionsScreen !is null) {
             instructionsScreen.Remove();
         }
+        for (uint i = 0; i < buttons.length; i++) {
+            buttons[i].Remove();
+        }
+        buttons.Clear();
 
         Options::Destroy();
     }
