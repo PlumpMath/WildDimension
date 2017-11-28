@@ -185,6 +185,8 @@ namespace Missions {
             launchEvent.name = "HourChange";
             launchEvent.data["Hour"] = 15;
             item.launchEvents.Push(launchEvent);
+            launchEvent.name = "DeactivateTetrisSpawners";
+            item.launchEvents.Push(launchEvent);
 
             AddMission(item);
         }
