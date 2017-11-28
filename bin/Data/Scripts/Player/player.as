@@ -13,7 +13,7 @@ namespace Player {
     Controls playerControls;
     RigidBody@ playerBody;
     const float PLAYER_BRAKE_FORCE = 1.0f;
-    const float PLAYER_MOVE_FORCE = 7.0f;
+    const float PLAYER_MOVE_FORCE = 5.0f;
     SoundSource@ walkSoundSource;
     CollisionShape@ shape;
     String destination;
@@ -35,7 +35,7 @@ namespace Player {
         playerBody = playerNode.CreateComponent("RigidBody");
         playerBody.collisionLayer = COLLISION_PLAYER_LEVEL;
         playerBody.collisionMask = COLLISION_TERRAIN_LEVEL | COLLISION_PACMAN_LEVEL | COLLISION_SNAKE_BODY_LEVEL | COLLISION_SNAKE_HEAD_LEVEL | COLLISION_PICKABLE_LEVEL | COLLISION_FOOD_LEVEL | COLLISION_TREE_LEVEL | COLLISION_STATIC_OBJECTS;
-        playerBody.mass = 1.0f;
+        playerBody.mass = 80.0f;
 
         // Set zero angular factor so that physics doesn't turn the character on its own.
         // Instead we will control the character yaw manually
@@ -194,7 +194,7 @@ namespace Player {
         if (moveDir.lengthSquared > 0.0f) {
             moveDir.Normalize();
         }
-        moveDir *= PLAYER_MOVE_FORCE;
+        moveDir *= PLAYER_MOVE_FORCE * playerBody.mass;
 
         if (playerControls.IsDown(CTRL_SPRINT)) {
             moveDir *= 2;
@@ -205,11 +205,11 @@ namespace Player {
             playerBody.ApplyImpulse(lookAt2 * moveDir);
         }
 
-        Vector3 brakeForce = -planeVelocity * PLAYER_BRAKE_FORCE;
+        Vector3 brakeForce = -planeVelocity * PLAYER_BRAKE_FORCE *  playerBody.mass;
         playerBody.ApplyImpulse(brakeForce);
 
         if (jump && onGround) {
-            playerBody.ApplyImpulse(Vector3::UP * 8);
+            playerBody.ApplyImpulse(Vector3::UP * 8 * playerBody.mass);
             GameSounds::Play(GameSounds::JUMP, 0.2);
         }
 
