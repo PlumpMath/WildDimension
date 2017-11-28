@@ -6,6 +6,10 @@ namespace NetworkHandler {
     SoundSource@ ambientSound;
     Node@ skyNode;
     Skybox@ skybox;
+    Node@ reflectionCameraNode;
+    Node@ waterNode;
+    Plane waterPlane;
+    Plane waterClipPlane;
 
     const float LIGHT_CHANGE_SPEED = 0.2f;
     class Sunlight {
@@ -274,12 +278,44 @@ namespace NetworkHandler {
             }
         }
 
-        /*VariantMap oceanData;
-        oceanData["Scene"] = scene_;
-        oceanData["Scale"] = Vector3(100, 1, 100);
-        oceanData["Position"] = Vector3(0, 80, 0);
-        SendEvent("InitOcean", oceanData);*/
+        waterNode = scene_.GetChild("Ocean", true);
+        StaticModel@ water = waterNode.GetComponent("StaticModel");
+        water.viewMask = 0x80000000;
 
+        // Create a mathematical plane to represent the water in calculations
+        waterPlane = Plane(waterNode.worldRotation * Vector3(0.0f, 1.0f, 0.0f), waterNode.worldPosition);
+        // Create a downward biased plane for reflection view clipping. Biasing is necessary to avoid too aggressive clipping
+        waterClipPlane = Plane(waterNode.worldRotation * Vector3(0.0f, 1.0f, 0.0f), waterNode.worldPosition -
+            Vector3(0.0f, 0.1f, 0.0f));
+
+        // Create camera for water reflection
+        // It will have the same farclip and position as the main viewport camera, but uses a reflection plane to modify
+        // its position when rendering
+        reflectionCameraNode = cameraNode.CreateChild();
+        Camera@ reflectionCamera = reflectionCameraNode.CreateComponent("Camera");
+        reflectionCamera.farClip = 750.0;
+        reflectionCamera.viewMask = 0x7fffffff; // Hide objects with only bit 31 in the viewmask (the water plane)
+        reflectionCamera.autoAspectRatio = false;
+        reflectionCamera.useReflection = true;
+        reflectionCamera.reflectionPlane = waterPlane;
+        reflectionCamera.useClipping = true; // Enable clipping of geometry behind water plane
+        reflectionCamera.clipPlane = waterClipPlane;
+        // The water reflection texture is rectangular. Set reflection camera aspect ratio to match
+        reflectionCamera.aspectRatio = float(graphics.width) / float(graphics.height);
+        // View override flags could be used to optimize reflection rendering. For example disable shadows
+        //reflectionCamera.viewOverrideFlags = VO_DISABLE_SHADOWS;
+
+        // Create a texture and setup viewport for water reflection. Assign the reflection texture to the diffuse
+        // texture unit of the water material
+        int texSize = 1024;
+        Texture2D@ renderTexture = Texture2D();
+        renderTexture.SetSize(texSize, texSize, GetRGBFormat(), TEXTURE_RENDERTARGET);
+        renderTexture.filterMode = FILTER_BILINEAR;
+        RenderSurface@ surface = renderTexture.renderSurface;
+        Viewport@ rttViewport = Viewport(scene_, reflectionCamera);
+        surface.viewports[0] = rttViewport;
+        Material@ waterMat = cache.GetResource("Material", "Materials/Water.xml");
+        waterMat.textures[TU_DIFFUSE] = renderTexture;
     }
 
     
@@ -402,6 +438,9 @@ namespace NetworkHandler {
         }
 
         stats.gameTime += timeStep;
+
+        Camera@ reflectionCamera = reflectionCameraNode.GetComponent("Camera");
+        reflectionCamera.aspectRatio = float(graphics.width) / float(graphics.height);
     }
 
     void DisconnectClients()
