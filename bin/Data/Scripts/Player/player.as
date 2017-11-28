@@ -195,7 +195,7 @@ namespace Player {
 
         Vector3 velocity = playerBody.linearVelocity;
         // Velocity on the XZ plane
-        Vector3 planeVelocity(velocity.x, 0.0f, velocity.z);
+        Vector3 planeVelocity(velocity.x, 0.2f, velocity.z);
 
         //position = lookAt * moveDir * timeStep * 30 + position;
         //playerNode.position = position;
