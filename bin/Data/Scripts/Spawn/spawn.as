@@ -57,7 +57,7 @@ namespace Spawn {
         spawner.node.AddTag("Spawner");
 
         //Disable enemy spawning by default
-        if (type == SPAWN_UNIT_SNAKE || type == SPAWN_UNIT_PACMAN) {
+        if (type == SPAWN_UNIT_SNAKE || type == SPAWN_UNIT_PACMAN || type == SPAWN_UNIT_TETRIS) {
             spawner.node.enabled = false;
         }
 
@@ -125,6 +125,9 @@ namespace Spawn {
 
         SubscribeToEvent("ActivatePacmanSpawners", "Spawn::HandlActivatePacmanSpawners");
         SubscribeToEvent("DeactivatePacmanSpawners", "Spawn::HandlDeactivatePacmanSpawners");
+
+        SubscribeToEvent("ActivateTetrisSpawners", "Spawn::HandlActivateTetrisSpawners");
+        SubscribeToEvent("DeactivateTetrisSpawners", "Spawn::HandlDeactivateTetrisSpawners");
     }
 
     void RegisterConsoleCommands()
@@ -153,6 +156,14 @@ namespace Spawn {
 
         data["CONSOLE_COMMAND_NAME"] = "spawners_pacman_deactivate";
         data["CONSOLE_COMMAND_EVENT"] = "DeactivatePacmanSpawners";
+        SendEvent("ConsoleCommandAdd", data);
+
+        data["CONSOLE_COMMAND_NAME"] = "spawners_tetris_activate";
+        data["CONSOLE_COMMAND_EVENT"] = "ActivateTetrisSpawners";
+        SendEvent("ConsoleCommandAdd", data);
+
+        data["CONSOLE_COMMAND_NAME"] = "spawners_tetris_deactivate";
+        data["CONSOLE_COMMAND_EVENT"] = "DeactivateTetrisSpawners";
         SendEvent("ConsoleCommandAdd", data);
     }
 
@@ -194,6 +205,18 @@ namespace Spawn {
     {
         log.Warning("Dectivating snake spawners...");
         ChangeSpawnersStateByType(SPAWN_UNIT_SNAKE, false);
+    }
+
+    void HandlActivateTetrisSpawners(StringHash eventType, VariantMap& eventData)
+    {
+        log.Warning("Activating tetris spawners...");
+        ChangeSpawnersStateByType(SPAWN_UNIT_TETRIS, true);
+    }
+
+    void HandlDeactivateTetrisSpawners(StringHash eventType, VariantMap& eventData)
+    {
+        log.Warning("Dectivating tetris spawners...");
+        ChangeSpawnersStateByType(SPAWN_UNIT_TETRIS, false);
     }
 
     void HandlActivatePacmanSpawners(StringHash eventType, VariantMap& eventData)

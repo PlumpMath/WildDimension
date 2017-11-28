@@ -152,8 +152,7 @@ namespace Missions {
         item.target = 1;
         item.completed = false;
         item.type = TYPE_PICKUP;
-        item.launchEvent = "HourChange";
-        item.eventData["Hour"] = 13;
+        item.launchEvent = "ActivateTetrisSpawners";
         AddMission(item);
 
         item.name = "Third";
