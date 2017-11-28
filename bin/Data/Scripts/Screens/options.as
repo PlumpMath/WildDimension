@@ -75,12 +75,12 @@ namespace Options {
         CreateButton("Close", "Options::HandleCloseSettings", IntVector2(-20, -20));
         CreateButton("Apply", "Options::HandleApplySettings", IntVector2(-140, -20));
 
-        CreateCheckbox("Fullscreen", "Options::HandleToggleFullscreen", IntVector2(20, 60));
-        CreateCheckbox("VSync", "Options::HandleToggleVSync", IntVector2(20, 100));
-        CreateCheckbox("Tripple buffer", "Options::HandleTrippleBuffer", IntVector2(20, 140));
-        CreateCheckbox("Draw shadows", "Options::HandleDrawShadows", IntVector2(20, 180));
-        CreateCheckbox("HDR rendering", "Options::HandleHDRRendering", IntVector2(20, 220));
-        CreateCheckbox("Reuse shadow maps", "Options::HandleToggleReuseShadowMaps", IntVector2(20, 260));
+        CreateCheckbox("Fullscreen", "Options::HandleToggleFullscreen", IntVector2(20, 60), settingsValues.fullscreen);
+        CreateCheckbox("VSync", "Options::HandleToggleVSync", IntVector2(20, 100), settingsValues.vsync);
+        CreateCheckbox("Tripple buffer", "Options::HandleTrippleBuffer", IntVector2(20, 140), settingsValues.tripleBuffer);
+        CreateCheckbox("Draw shadows", "Options::HandleDrawShadows", IntVector2(20, 180), settingsValues.drawShadows);
+        CreateCheckbox("HDR rendering", "Options::HandleHDRRendering", IntVector2(20, 220), settingsValues.hdrRendering);
+        CreateCheckbox("Reuse shadow maps", "Options::HandleToggleReuseShadowMaps", IntVector2(20, 260), settingsValues.reuseShadowMaps);
     }
 
     void CreateResolutionMenu(String label, Array<String> items, String handler, IntVector2 position)
@@ -126,7 +126,7 @@ namespace Options {
         SubscribeToEvent(list, "ItemSelected", handler);
     }
 
-    void CreateCheckbox(String label, String handler, IntVector2 position)
+    void CreateCheckbox(String label, String handler, IntVector2 position, bool checked)
     {
         Font@ font = cache.GetResource("Font", GUIHandler::GUI_FONT);
 
@@ -147,7 +147,7 @@ namespace Options {
         CheckBox@ checkbox = CheckBox();
         checkbox.SetStyleAuto();
         checkbox.SetAlignment(HA_LEFT, VA_BOTTOM);
-        checkbox.checked = graphics.fullscreen;
+        checkbox.checked = checked;
         checkbox.SetPosition(100, 0);
 
         container.AddChild(checkbox);
@@ -228,6 +228,7 @@ namespace Options {
         renderer.drawShadows = settingsValues.drawShadows;
         renderer.hdrRendering = settingsValues.hdrRendering;
         renderer.reuseShadowMaps = settingsValues.reuseShadowMaps;
+        Hide();
     }
 
     void HandleCloseSettings(StringHash eventType, VariantMap& eventData)
