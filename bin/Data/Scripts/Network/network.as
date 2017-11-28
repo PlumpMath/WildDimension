@@ -76,7 +76,7 @@ namespace NetworkHandler {
         sunlight.zone.ambientColor = sunlight.ambientColor;
         sunlight.zone.fogColor = sunlight.fogColor;
         sunlight.zone.fogStart = 500.0f;
-        sunlight.zone.fogEnd = 1000.0f;
+        sunlight.zone.fogEnd = 800.0f;
         /*Array<Terrain@> terrains;
         for (int x = 0; x < 1; x++) {
             for (int y = 0; y < 1; y++) {

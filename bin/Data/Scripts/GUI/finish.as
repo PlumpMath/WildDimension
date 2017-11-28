@@ -55,7 +55,7 @@ namespace FinishGUI {
         lines.verticalAlignment = VA_TOP;
         lines.SetPosition(Helpers::getWidthByPercentage(0.07), Helpers::getWidthByPercentage(0.01));
 
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 7; i++) {
             Text@ oneLine = lines.CreateChild("Text");
             oneLine.text = "";//String(i) + "element";
             oneLine.SetFont(cache.GetResource("Font", FINISH_GUI_FONT), FINISH_GUI_FONT_SIZE);
@@ -85,6 +85,8 @@ namespace FinishGUI {
         scoreboardLines[2].text = "Game time: " + minutesString + ":" + secondsString;
         scoreboardLines[3].text = "Achievements total: " + Achievements::GetTotalAchievementsCount();
         scoreboardLines[4].text = "Achievements unlocked: " + Achievements::GetCompletedAchievementsCount();
+        scoreboardLines[6].text = "Press \"Resume\" to continue exploration!";
+
     }
 
     void Subscribe()
@@ -102,15 +104,25 @@ namespace FinishGUI {
 
     void HandleGameFinished(StringHash eventType, VariantMap& eventData)
     {
-        NetworkHandler::GameEnd();
+        //NetworkHandler::GameEnd();
     	CreateScore();
-    	GUIHandler::Destroy();
+    	//GUIHandler::Destroy();
+        DelayedExecute(10.0, false, "void FinishGUI::Destroy()");
+        SendEvent("ShowPause");
+        SendEvent("HideMissionGUI");
+        IncreaseHour();
     }
 
     void Destroy()
     {
  		if (scoreboard !is null) {
  			scoreboard.Remove();
- 		}   	
+ 		}
+    }
+
+    void IncreaseHour()
+    {
+        SendEvent("HourChange");
+        DelayedExecute(5.0, false, "void FinishGUI::IncreaseHour()");
     }
 }

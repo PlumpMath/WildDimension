@@ -280,7 +280,7 @@ void CreateScene()
     camera.farClip = 1000;
     camera.orthoSize = graphics.height * PIXEL_SIZE;
     camera.zoom = 1.0f * Min(graphics.width / 1280.0f, graphics.height / 800.0f); // Set zoom according to user's resolution to ensure full visibility (initial zoom (1.5) is set for full visibility at 1280x800 resolution)
-    camera.lodBias = 100.0f;
+    camera.lodBias = 1.0f;
 
     SoundListener@ listener = cameraNode.CreateComponent("SoundListener");
     audio.listener = listener;

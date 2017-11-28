@@ -213,6 +213,8 @@ namespace GUIHandler {
 
         SubscribeToEvent("ShowTip", "GUIHandler::HandleShowTip");
         SubscribeToEvent("ToggleMouse", "GUIHandler::HandleToggleMouse");
+
+        SubscribeToEvent("HideMissionGUI", "GUIHandler::HandleHideMissionGUI");
     }
 
     void RegisterConsoleCommands()
@@ -225,6 +227,13 @@ namespace GUIHandler {
         data["CONSOLE_COMMAND_NAME"] = "mouse_toggle";
         data["CONSOLE_COMMAND_EVENT"] = "ToggleMouse";
         SendEvent("ConsoleCommandAdd", data);
+    }
+
+    void HandleHideMissionGUI(StringHash eventType, VariantMap& eventData)
+    {
+        tip.sprite.visible = false;
+        tip.text.visible = false;
+        notesSprite.visible = false;
     }
 
     void HandleToggleMouse(StringHash eventType, VariantMap& eventData)

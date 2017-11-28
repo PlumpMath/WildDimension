@@ -31,7 +31,7 @@ namespace PauseMenuGUI {
         // Create the button and center the text onto it
         resumeButton = baseElement.CreateChild("Button");
         resumeButton.SetStyleAuto(uiStyle);
-        resumeButton.SetPosition(0, -60);
+        resumeButton.SetPosition(0, 0);
         resumeButton.SetSize(100, 40);
         resumeButton.SetAlignment(HA_CENTER, VA_CENTER);
 
@@ -75,7 +75,7 @@ namespace PauseMenuGUI {
         // Create the button and center the text onto it
         exitButton = baseElement.CreateChild("Button");
         exitButton.SetStyleAuto(uiStyle);
-        exitButton.SetPosition(0, 0);
+        exitButton.SetPosition(0, 60);
         exitButton.SetSize(100, 40);
         exitButton.SetAlignment(HA_CENTER, VA_CENTER);
 
@@ -98,6 +98,14 @@ namespace PauseMenuGUI {
     void Subscribe()
     {
         SubscribeToEvent("TogglePause", "PauseMenuGUI::HandleTogglePause");
+        SubscribeToEvent("ShowPause", "PauseMenuGUI::HandleShowPause");
+    }
+
+    void HandleShowPause(StringHash eventType, VariantMap& eventData)
+    {
+        baseElement.visible = true;
+        input.mouseVisible = true;
+        gameState = GAME_STATE_PAUSE;
     }
 
     void HandleTogglePause(StringHash eventType, VariantMap& eventData)
@@ -116,6 +124,7 @@ namespace PauseMenuGUI {
         SendEvent("ResumeGame");
         baseElement.visible = false;
         input.mouseVisible = false;
+        FinishGUI::Destroy();
     }
 
     void HandleMenuButton(StringHash eventType, VariantMap& eventData)
