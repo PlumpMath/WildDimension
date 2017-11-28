@@ -19,6 +19,7 @@ namespace Player {
     String destination;
     bool onGround;
     bool noclip = false;
+    float lastHurt = 0.0f;
 
     Node@ CreatePlayer()
     {
@@ -68,9 +69,11 @@ namespace Player {
         Subscribe();
         RegisterConsoleCommands();
         
-        position.y += 50;
+        position.y = 50;
+        position.x = 0;
+        position.z = 0;
         //position, minSpawnRadius, maxSpawnRadius, maxUnitRadius, maxUnits, spawnTime, type
-        Node@ cloudSpawner = Spawn::Create(position, 0.0f, 30.0f, 100.0, 30, 1.0f, Spawn::SPAWN_UNIT_TETRIS);
+        Node@ cloudSpawner = Spawn::Create(position, 0.0f, 50.0f, 100.0, 30, 1.0f, Spawn::SPAWN_UNIT_TETRIS);
         playerNode.AddChild(cloudSpawner);
         return playerNode;
     }
@@ -91,12 +94,17 @@ namespace Player {
 
     void HandlePlayerHit(StringHash eventType, VariantMap& eventData)
     {
+        if (lastHurt < 1.0f) {
+            return;
+        }
         VariantMap data;
         data["Message"] = "You're hurt!";
         data["Type"] = Notifications::NOTIFICATION_TYPE_BAD;
         SendEvent("AddNotification", data);
         GameSounds::Play(GameSounds::PLAYER_HURT);
         AddBlur();
+        playerBody.ApplyImpulse(Vector3::UP * 8 * playerBody.mass);
+        lastHurt = 0.0f;
     }
 
     void HandleNoclip(StringHash eventType, VariantMap& eventData)
@@ -120,6 +128,7 @@ namespace Player {
 
         Controls oldControls = playerControls;
         float timeStep = eventData["TimeStep"].GetFloat();
+        lastHurt += timeStep;
         if (isMobilePlatform) {
             //playerControls.Set(CTRL_FORWARD, input.keyDown[BUTTON_A]);
         } else {
@@ -200,6 +209,7 @@ namespace Player {
             moveDir *= 2;
         }
         if (noclip) {
+            moveDir /= playerBody.mass;
             playerNode.Translate(lookAt * moveDir * NOCLIP_SPEED, TS_WORLD);
         } else {
             playerBody.ApplyImpulse(lookAt2 * moveDir);
@@ -262,4 +272,5 @@ namespace Player {
         playerBody.enabled = false;
         shape.enabled = false;
     }
+
 }

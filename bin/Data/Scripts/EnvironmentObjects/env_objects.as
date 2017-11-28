@@ -22,15 +22,12 @@ class DroppedObject : ScriptObject
         Vector3 dir = otherNode.worldPosition - node.worldPosition;
 
         if (otherNode.HasTag("Player")) {
-            Player::playerBody.ApplyImpulse(dir.Normalized() * EnvObjects::PLAYER_HURT_FORCE * Player::playerBody.mass);;
-            GameSounds::Play(GameSounds::PLAYER_HURT);
-            AddBlur();
+            SendEvent("PlayerHit");
         }
     }
 }
 
 namespace EnvObjects {
-    const float PLAYER_HURT_FORCE = 10.0f;
     Array<Node@> objects;
     class TimedObject {
         Node@ node;
@@ -112,7 +109,7 @@ namespace EnvObjects {
 
         StaticModel@ object = node.CreateComponent("StaticModel");
         object.model = cache.GetResource("Model", model);
-        node.SetScale(2.0f);
+        node.SetScale(1.0f);
         object.castShadows = true;
         object.materials[0] = cache.GetResource("Material", "Materials/Stone.xml");
         
@@ -121,7 +118,7 @@ namespace EnvObjects {
         // Create rigidbody, and set non-zero mass so that the body becomes dynamic
         RigidBody@ body = node.CreateComponent("RigidBody");
         body.collisionLayer = COLLISION_FOOD_LEVEL;
-        body.collisionMask = COLLISION_PACMAN_LEVEL | COLLISION_SNAKE_BODY_LEVEL | COLLISION_SNAKE_HEAD_LEVEL | COLLISION_PLAYER_LEVEL | COLLISION_FOOD_LEVEL | COLLISION_TERRAIN_LEVEL;
+        body.collisionMask = COLLISION_PACMAN_LEVEL | COLLISION_SNAKE_BODY_LEVEL | COLLISION_SNAKE_HEAD_LEVEL | COLLISION_PLAYER_LEVEL | COLLISION_FOOD_LEVEL | COLLISION_TERRAIN_LEVEL | COLLISION_STATIC_OBJECTS;
         body.mass = 10.0f;
         body.restitution = 0.0f;
         body.linearVelocity = Vector3(0, -50, 0);

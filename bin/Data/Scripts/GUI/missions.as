@@ -1,5 +1,5 @@
 namespace MissionsGUI {
-	const float MAX_OPACITY = 0.5;
+	const float MAX_OPACITY = 0.6;
 	const String GUI_FONT = "Fonts/PainttheSky-Regular.otf";
     const int GUI_FONT_SIZE = Helpers::getHeightByPercentage(0.04);
 
