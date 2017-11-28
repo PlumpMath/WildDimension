@@ -22,7 +22,7 @@ class DroppedObject : ScriptObject
         Vector3 dir = otherNode.worldPosition - node.worldPosition;
 
         if (otherNode.HasTag("Player")) {
-            Player::playerBody.ApplyImpulse(dir.Normalized() * EnvObjects::PLAYER_HURT_FORCE);;
+            Player::playerBody.ApplyImpulse(dir.Normalized() * EnvObjects::PLAYER_HURT_FORCE * Player::playerBody.mass);;
             GameSounds::Play(GameSounds::PLAYER_HURT);
             AddBlur();
         }
