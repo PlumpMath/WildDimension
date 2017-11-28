@@ -83,6 +83,10 @@ namespace Missions {
             SendEvent(item.launchEvent, item.eventData);
         }
         SendEvent("HideQuestLog");
+        VariantMap data;
+        data["Message"] = "Mission '" + item.name + "' completed!";
+        data["Type"] = Notifications::NOTIFICATION_TYPE_GOOD;
+        SendEvent("AddNotification", data);
     }
 
     void NextMission()

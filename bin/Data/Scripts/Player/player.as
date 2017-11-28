@@ -7,12 +7,13 @@ namespace Player {
     const int CTRL_SPRINT = 32;
     const int CTRL_DUCK = 64;
 
-    const float NOCLIP_SPEED = 5.0f;
+    const float NOCLIP_SPEED = 1.0f;
 
     Node@ playerNode;
     Controls playerControls;
     RigidBody@ playerBody;
-    const float PLAYER_BRAKE_FORCE = 0.15f;
+    const float PLAYER_BRAKE_FORCE = 1.0f;
+    const float PLAYER_MOVE_FORCE = 7.0f;
     SoundSource@ walkSoundSource;
     CollisionShape@ shape;
     String destination;
@@ -90,6 +91,10 @@ namespace Player {
 
     void HandlePlayerHit(StringHash eventType, VariantMap& eventData)
     {
+        VariantMap data;
+        data["Message"] = "You're hurt!";
+        data["Type"] = Notifications::NOTIFICATION_TYPE_BAD;
+        SendEvent("AddNotification", data);
         GameSounds::Play(GameSounds::PLAYER_HURT);
         AddBlur();
     }
@@ -186,8 +191,10 @@ namespace Player {
         //position = lookAt * moveDir * timeStep * 30 + position;
         //playerNode.position = position;
          // Normalize move vector so that diagonal strafing is not faster
-        if (moveDir.lengthSquared > 0.0f)
+        if (moveDir.lengthSquared > 0.0f) {
             moveDir.Normalize();
+        }
+        moveDir *= PLAYER_MOVE_FORCE;
 
         if (playerControls.IsDown(CTRL_SPRINT)) {
             moveDir *= 2;

@@ -42,7 +42,7 @@ namespace EnvObjects {
     {
         if (Places::IsInDistance(position, 50)) {
             //Too close to place, not creating env model
-            log.Warning("Unable to create env object, because place is too near!");
+            //log.Warning("Unable to create env object, because place is too near!");
             return null;
         }
 

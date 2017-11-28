@@ -101,7 +101,7 @@ uint gameState = GAME_STATE_MENU;
 
 void Start()
 {
-    graphics.SetMode(graphics.desktopResolution[0].x, graphics.desktopResolution[0].y, true, false, false, false, false, false, graphics.multiSample, 0, 60);
+    //graphics.SetMode(graphics.desktopResolution[0].x, graphics.desktopResolution[0].y, true, false, false, false, false, false, graphics.multiSample, 0, 60);
     
     cache.autoReloadResources = true;
 

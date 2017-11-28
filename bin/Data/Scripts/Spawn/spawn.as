@@ -15,7 +15,7 @@ namespace Spawn {
     //Whats the safe distance from the player
     //All units further than this distance from the camera can be safely removed
     //if spawner configuration supports it
-    const float SPAWNED_OBJECT_SAFE_DISTANCE = 800.0f;
+    const float SPAWNED_OBJECT_SAFE_DISTANCE = 700.0f;
 
     //If camera is closer than this distance
     //disable spawner
