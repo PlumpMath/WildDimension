@@ -37,6 +37,10 @@ namespace EnvObjects {
 
     Node@ Create(Vector3 position, String model, bool temporary = true, String name = "Custom")
     {
+        position.y = NetworkHandler::terrain.GetHeight(position);
+        if (position.y < 100) {
+            return null;
+        }
         if (Places::IsInDistance(position, 50)) {
             //Too close to place, not creating env model
             //log.Warning("Unable to create env object, because place is too near!");
@@ -45,7 +49,6 @@ namespace EnvObjects {
 
         Node@ node = scene_.CreateChild(name);
         node.temporary = temporary;
-        position.y = NetworkHandler::terrain.GetHeight(position);
         node.position = position;
 
         StaticModel@ object = node.CreateComponent("StaticModel");

@@ -8,8 +8,8 @@
 		"Elapsed Time": 219.7979736328125,
 		"Next Replicated Node ID": 1924,
 		"Next Replicated Component ID": 5623,
-		"Next Local Node ID": 16793223,
-		"Next Local Component ID": 16793481,
+		"Next Local Node ID": 16797194,
+		"Next Local Component ID": 16797463,
 		"Variables": {},
 		"Variable Names": ""
 	},
@@ -8038,6 +8038,29 @@
 					"attributes": {
 						"Model": "Model;Models/Sphere.mdl",
 						"Material": "Material;Materials/SkyboxDay.xml"
+					}
+				}
+			],
+			"children": []
+		},
+		{
+			"id": 16797193,
+			"attributes": {
+				"Is Enabled": true,
+				"Name": "Ocean",
+				"Tags": [],
+				"Position": "0 100 0",
+				"Rotation": "1 0 0 0",
+				"Scale": "10000 1 10000",
+				"Variables": {}
+			},
+			"components": [
+				{
+					"type": "StaticModel",
+					"id": 16797462,
+					"attributes": {
+						"Model": "Model;Models/Plane.mdl",
+						"Material": "Material;Materials/Water.xml"
 					}
 				}
 			],

@@ -13,10 +13,13 @@ namespace RaspberryBush {
 
     Node@ Create(Vector3 position)
     {
+        position.y = NetworkHandler::terrain.GetHeight(position);
+        if (position.y < 100) {
+            return null;
+        }
         Node@ treeNode = scene_.CreateChild("Bush");
         treeNode.temporary = true;
         treeNode.AddTag("Bush");
-        position.y = NetworkHandler::terrain.GetHeight(position);
         treeNode.position = position;
 
         StaticModel@ object = treeNode.CreateComponent("StaticModel");

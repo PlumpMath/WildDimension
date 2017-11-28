@@ -6,7 +6,7 @@ namespace MenuScreen {
     const String GUI_FONT = "Fonts/PainttheSky-Regular.otf";
     const int GUI_FONT_SIZE = Helpers::getHeightByPercentage(0.04);
     const int GUI_FONT_SIZE_STORY = Helpers::getHeightByPercentage(0.026);
-    const float INSTRUCTION_TIME = 5.0f;
+    const float INSTRUCTION_TIME = 0.0f;
 
     Sprite@ fromSprite;
     Sprite@ toSprite;

@@ -223,6 +223,22 @@ namespace Player {
             GameSounds::Play(GameSounds::JUMP, 0.2);
         }
 
+        if (playerNode.worldPosition.y < 99.5) {
+            if (playerNode.worldPosition.y < 99) {
+                RenderPath@ effectRenderPath = viewport.renderPath.Clone();
+                effectRenderPath.SetEnabled("Blur", true);
+                viewport.renderPath = effectRenderPath;
+            }
+            Vector3 planeVelocity(velocity.x, velocity.y, velocity.z);
+            Vector3 brakeForce = -planeVelocity * PLAYER_BRAKE_FORCE *  playerBody.mass * 0.05;
+            playerBody.ApplyImpulse(brakeForce);
+            playerBody.ApplyImpulse(Vector3::UP * 0.3 * playerBody.mass);
+        } else {
+            RenderPath@ effectRenderPath = viewport.renderPath.Clone();
+            effectRenderPath.SetEnabled("Blur", false);
+            viewport.renderPath = effectRenderPath;
+        }
+
         if (playerNode.position.y < NetworkHandler::terrain.GetHeight(playerNode.position)) {
             Vector3 playerPosition = playerNode.position;
             playerPosition.y = NetworkHandler::terrain.GetHeight(playerPosition);

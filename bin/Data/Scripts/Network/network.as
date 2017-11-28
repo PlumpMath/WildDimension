@@ -274,6 +274,12 @@ namespace NetworkHandler {
             }
         }
 
+        /*VariantMap oceanData;
+        oceanData["Scene"] = scene_;
+        oceanData["Scale"] = Vector3(100, 1, 100);
+        oceanData["Position"] = Vector3(0, 80, 0);
+        SendEvent("InitOcean", oceanData);*/
+
     }
 
     
@@ -457,7 +463,7 @@ namespace NetworkHandler {
 
     void Destroy()
     {
-        
+        //SendEvent("DestroyOcean");
     }
 
     void HandleClientsList(StringHash eventType, VariantMap& eventData)

@@ -14,10 +14,13 @@ namespace AppleTree {
 
     Node@ Create(Vector3 position)
     {
+        position.y = NetworkHandler::terrain.GetHeight(position);
+        if (position.y < 100) {
+            return null;
+        }
         Node@ treeNode = scene_.CreateChild("Tree");
         treeNode.AddTag("Tree");
         treeNode.temporary = true;
-        position.y = NetworkHandler::terrain.GetHeight(position);
         treeNode.position = position;
 
         StaticModel@ object = treeNode.CreateComponent("StaticModel");
