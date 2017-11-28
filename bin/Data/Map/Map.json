@@ -8,8 +8,8 @@
 		"Elapsed Time": 867.99755859375,
 		"Next Replicated Node ID": 1924,
 		"Next Replicated Component ID": 5623,
-		"Next Local Node ID": 16797195,
-		"Next Local Component ID": 16797466,
+		"Next Local Node ID": 16801166,
+		"Next Local Component ID": 16801447,
 		"Variables": {},
 		"Variable Names": ""
 	},
@@ -583,6 +583,7 @@
 										"Animation LOD Bias": 0.0,
 										"Period Timer": 648.1973876953125,
 										"Emission Timer": -0.14062419533729554,
+										"View Mask": 1,
 										"Particles": [
 											{
 												"type": "Int",
@@ -6620,6 +6621,7 @@
 										"Animation LOD Bias": 0.0,
 										"Period Timer": 648.1973876953125,
 										"Emission Timer": -0.025971021503210069,
+										"View Mask": 1,
 										"Particles": [
 											{
 												"type": "Int",
@@ -20117,7 +20119,7 @@
 			"children": []
 		},
 		{
-			"id": 16797193,
+			"id": 16797195,
 			"attributes": {
 				"Is Enabled": true,
 				"Name": "Ocean",
