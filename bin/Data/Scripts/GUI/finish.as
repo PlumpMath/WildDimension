@@ -24,7 +24,7 @@ namespace FinishGUI {
         scoreboard = ui.root.CreateChild("Sprite");
 
         // Set logo sprite texture
-        scoreboard.texture = notesTexture;
+        //scoreboard.texture = notesTexture;
 
         int textureWidth = Helpers::getWidthByPercentage(0.3);
         int textureHeight = notesTexture.height * Helpers::getRatio(notesTexture.width, textureWidth);
@@ -33,7 +33,7 @@ namespace FinishGUI {
         //scoreboard.SetScale(256.0f / textureWidth);
 
         // Set logo sprite size
-        scoreboard.SetSize(textureWidth, textureHeight);
+        //scoreboard.SetSize(textureWidth, textureHeight);
         scoreboard.position = Vector2(-Helpers::getWidthByPercentage(0.015), -Helpers::getWidthByPercentage(0.015));
 
         // Set logo sprite hot spot
