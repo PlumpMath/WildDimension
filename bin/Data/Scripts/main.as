@@ -57,6 +57,9 @@
 
 #include "GUI/pause.as"
 
+const String VERSION_NUMBER = "0.1.0";
+Text@ versionText;
+
 Scene@ scene_;
 uint screenJoystickIndex = M_MAX_UNSIGNED; // Screen joystick index for navigational controls (mobile platforms only)
 uint screenJoystickSettingsIndex = M_MAX_UNSIGNED; // Screen joystick index for settings (mobile platforms only)
@@ -101,6 +104,18 @@ uint gameState = GAME_STATE_MENU;
 
 void Start()
 {
+    versionText = ui.root.CreateChild("Text");
+    versionText = ui.root.CreateChild("Text");
+    versionText.text = "v" + VERSION_NUMBER;
+    versionText.color = Color(0.2, 0.9, 0.2);
+    versionText.SetFont(cache.GetResource("Font", "Fonts/BlueHighway.ttf"), 10);
+    versionText.textAlignment = HA_CENTER; // Center rows in relation to each other
+
+    // Position the text relative to the screen center
+    versionText.horizontalAlignment = HA_LEFT;
+    versionText.verticalAlignment = VA_TOP;
+    versionText.SetPosition(10, 0);
+
     //graphics.SetMode(graphics.desktopResolution[0].x, graphics.desktopResolution[0].y, true, false, false, false, false, false, graphics.multiSample, 0, 60);
     
     cache.autoReloadResources = true;
@@ -217,6 +232,9 @@ void HandleToggleDebugDraw(StringHash eventType, VariantMap& eventData)
 
 void Stop()
 {
+    if (versionText !is null) {
+        versionText.Remove();
+    }
     cache.ReleaseAllResources();
     NetworkHandler::StopServer();
     NetworkHandler::Destroy();
