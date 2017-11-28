@@ -171,7 +171,7 @@ namespace Spawn {
     {
         for (uint i = 0; i < spawners.length; i++) {
             if (spawners[i].type == type) {
-                log.Warning("Spawner[" + i + "] " + enabled);
+                //log.Warning("Spawner[" + i + "] " + enabled);
                 spawners[i].node.enabled = enabled;
             }
         }

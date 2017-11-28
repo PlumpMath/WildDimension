@@ -134,7 +134,7 @@ namespace Missions {
         {
             item.name = "First";
             item.description = "Hmm... how did get\nhere? I should find\nmy plane...";
-            item.longDescription = "Go to plane";
+            item.longDescription = "Find your airplane!";
             item.eventName = "VisitAirplane";
             item.itemName = "";
             item.placeName = "Airplane";
@@ -153,7 +153,7 @@ namespace Missions {
             {
             item.name = "Second";
             item.description = "I should find\nmy stuff!";
-            item.longDescription = "Near plane is bag\nwith your stuff";
+            item.longDescription = "Find a bag of your stuff\nnear the plane!";
             item.eventName = "GetPassport";
             item.itemName = "Passport";
             item.placeName = "";
@@ -172,7 +172,7 @@ namespace Missions {
         {
             item.name = "Third";
             item.description = "I should find someone...\nThere's a smoke, maybe\nit's worth checking out.";
-            item.longDescription = "Look around, there is\nsmoke, go there";
+            item.longDescription = "Look for the smoke somewhere and go there!";
             item.eventName = "VisitCampfire";
             item.itemName = "";
             item.placeName = "Campfire";
@@ -192,6 +192,7 @@ namespace Missions {
         {
             item.name = "Fourth";
             item.description = "Sh*t!!! There's nobody\nhere, maybe i can find\nsome tools?!";
+            item.longDescription = "Search campsite for axe!";
             item.eventName = "GetAxe";
             item.itemName = "Axe";
             item.current = 0;
@@ -210,6 +211,7 @@ namespace Missions {
         {
             item.name = "Fifth";
             item.description = "What is this place?\nI should look around";
+            item.longDescription = "Go to Stonehenge!";
             item.eventName = "VisitStonehenge";
             item.itemName = "";
             item.placeName = "Stonehenge";
@@ -229,6 +231,7 @@ namespace Missions {
         {
             item.name = "Sixt";
             item.description = "Good that I have an axe...\nI should get away from here!";
+            item.longDescription = "Leave Stonehenge!";
             item.eventName = "LeaveStonehenge";
             item.itemName = "";
             item.placeName = "Stonehenge";
@@ -248,6 +251,7 @@ namespace Missions {
         {
             item.name = "Seventh";
             item.description = "I should figure out\nhow to capture them...\nIt's not safe out here";
+            item.longDescription = "Create a trap!";
             item.eventName = "GetTrap";
             item.itemName = "Trap";
             item.current = 0;
@@ -266,6 +270,7 @@ namespace Missions {
         {
             item.name = "Eight";
             item.description = "It's getting dark,\nI need to find\na place, where I\ncan build a tent.";
+            item.longDescription = "Place a tent somewhere!";
             item.eventName = "UseTent";
             item.itemName = "Tent";
             item.current = 0;
@@ -284,6 +289,7 @@ namespace Missions {
         {
             item.name = "Nine";
             item.description = "I should make small\ncampfire that can\nceep me warm";
+            item.longDescription = "Create a campfire!";
             item.eventName = "UseCampfire";
             item.itemName = "Campfire";
             item.current = 0;
@@ -302,6 +308,7 @@ namespace Missions {
         {
             item.name = "Ten";
             item.description = "Now i should\nlight it up";
+            item.longDescription = "Create a lighter and light up the campfire!";
             item.eventName = "UseLighter";
             item.itemName = "Lighter";
             item.current = 0;
@@ -320,6 +327,7 @@ namespace Missions {
         {
             item.name = "Eleven";
             item.description = "I should place some\ntraps around the\ncamp";
+            item.longDescription = "Place a trap near the campfire and tent!";
             item.eventName = "UseTrap";
             item.itemName = "Trap";
             item.current = 0;
