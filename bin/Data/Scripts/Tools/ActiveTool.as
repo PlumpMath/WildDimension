@@ -342,7 +342,7 @@ namespace ActiveTool {
         sleepTime -= timeStep;
         if (tools.length > 0) {
             if ((isMobilePlatform == false && input.mouseButtonDown[MOUSEB_LEFT]) || input.keyDown[KEY_E]) {
-                if (activeTool.node !is null) {
+                if (activeTool.node !is null && !ConsoleHandler::console.visible) {
                     if (use == false && sleepTime <= 0) {
                         use = true;
                         toolNode.Roll(-60.0f);

@@ -17,6 +17,10 @@ namespace Craft {
 					if (item.count > Inventory::GetItemCount(item.name)) {
 						haveAllNeededItems = false;
 						log.Warning("You don't have all the neccessary items to craft this!");
+                        VariantMap data;
+                        data["Message"] = "Unable to craft " + name + ", not enough materials!";
+                        data["Type"] = Notifications::NOTIFICATION_TYPE_BAD;
+                        SendEvent("AddNotification", data);
 						return;
 					}
 				}
@@ -64,6 +68,12 @@ namespace Craft {
             Inventory::Item item;
             item.name = "Wood";
             item.count = 10;
+            recipe.items.Push(item);
+            item.name = "Raspberry";
+            item.count = 1;
+            recipe.items.Push(item);
+            item.name = "Apple";
+            item.count = 1;
             recipe.items.Push(item);
             recipes.Push(recipe);
         }
@@ -133,14 +143,16 @@ namespace Craft {
 
     void HandleKeys()
     {
-        if (input.keyPress[KEY_T]) {
-            CraftItem("Trap");
-        }
-        if (input.keyPress[KEY_C]) {
-            CraftItem("Campfire");
-        }
-        if (input.keyPress[KEY_L]) {
-            CraftItem("Lighter");
+        if (!ConsoleHandler::console.visible) {
+            if (input.keyPress[KEY_T]) {
+                CraftItem("Trap");
+            }
+            if (input.keyPress[KEY_C]) {
+                CraftItem("Campfire");
+            }
+            if (input.keyPress[KEY_L]) {
+                CraftItem("Lighter");
+            }
         }
     }
 }

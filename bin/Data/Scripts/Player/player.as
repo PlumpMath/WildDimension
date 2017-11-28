@@ -7,17 +7,19 @@ namespace Player {
     const int CTRL_SPRINT = 32;
     const int CTRL_DUCK = 64;
 
-    const float NOCLIP_SPEED = 5.0f;
+    const float NOCLIP_SPEED = 1.0f;
 
     Node@ playerNode;
     Controls playerControls;
     RigidBody@ playerBody;
-    const float PLAYER_BRAKE_FORCE = 0.15f;
+    const float PLAYER_BRAKE_FORCE = 1.0f;
+    const float PLAYER_MOVE_FORCE = 5.0f;
     SoundSource@ walkSoundSource;
     CollisionShape@ shape;
     String destination;
     bool onGround;
     bool noclip = false;
+    float lastHurt = 0.0f;
 
     Node@ CreatePlayer()
     {
@@ -34,7 +36,7 @@ namespace Player {
         playerBody = playerNode.CreateComponent("RigidBody");
         playerBody.collisionLayer = COLLISION_PLAYER_LEVEL;
         playerBody.collisionMask = COLLISION_TERRAIN_LEVEL | COLLISION_PACMAN_LEVEL | COLLISION_SNAKE_BODY_LEVEL | COLLISION_SNAKE_HEAD_LEVEL | COLLISION_PICKABLE_LEVEL | COLLISION_FOOD_LEVEL | COLLISION_TREE_LEVEL | COLLISION_STATIC_OBJECTS;
-        playerBody.mass = 1.0f;
+        playerBody.mass = 80.0f;
 
         // Set zero angular factor so that physics doesn't turn the character on its own.
         // Instead we will control the character yaw manually
@@ -67,9 +69,11 @@ namespace Player {
         Subscribe();
         RegisterConsoleCommands();
         
-        position.y += 200;
+        position.y = 50;
+        position.x = 0;
+        position.z = 0;
         //position, minSpawnRadius, maxSpawnRadius, maxUnitRadius, maxUnits, spawnTime, type
-        Node@ cloudSpawner = Spawn::Create(position, 0.0f, 200.0f, 100.0, 30, 1.0f, Spawn::SPAWN_UNIT_TETRIS);
+        Node@ cloudSpawner = Spawn::Create(position, 0.0f, 50.0f, 100.0, 30, 1.0f, Spawn::SPAWN_UNIT_TETRIS);
         playerNode.AddChild(cloudSpawner);
         return playerNode;
     }
@@ -90,8 +94,17 @@ namespace Player {
 
     void HandlePlayerHit(StringHash eventType, VariantMap& eventData)
     {
+        if (lastHurt < 1.0f) {
+            return;
+        }
+        VariantMap data;
+        data["Message"] = "You're hurt!";
+        data["Type"] = Notifications::NOTIFICATION_TYPE_BAD;
+        SendEvent("AddNotification", data);
         GameSounds::Play(GameSounds::PLAYER_HURT);
         AddBlur();
+        playerBody.ApplyImpulse(Vector3::UP * 8 * playerBody.mass);
+        lastHurt = 0.0f;
     }
 
     void HandleNoclip(StringHash eventType, VariantMap& eventData)
@@ -115,17 +128,20 @@ namespace Player {
 
         Controls oldControls = playerControls;
         float timeStep = eventData["TimeStep"].GetFloat();
+        lastHurt += timeStep;
         if (isMobilePlatform) {
             //playerControls.Set(CTRL_FORWARD, input.keyDown[BUTTON_A]);
         } else {
-            playerControls.Set(CTRL_FORWARD, input.keyDown[KEY_W]);
-            playerControls.Set(CTRL_BACK, input.keyDown[KEY_S]);
-            playerControls.Set(CTRL_LEFT, input.keyDown[KEY_A]);
-            playerControls.Set(CTRL_RIGHT, input.keyDown[KEY_D]);
-            playerControls.Set(CTRL_SPRINT, input.keyDown[KEY_LSHIFT]);
-            playerControls.Set(CTRL_DUCK, input.keyDown[KEY_LCTRL]);
+            if (!ConsoleHandler::console.visible) {
+                playerControls.Set(CTRL_FORWARD, input.keyDown[KEY_W]);
+                playerControls.Set(CTRL_BACK, input.keyDown[KEY_S]);
+                playerControls.Set(CTRL_LEFT, input.keyDown[KEY_A]);
+                playerControls.Set(CTRL_RIGHT, input.keyDown[KEY_D]);
+                playerControls.Set(CTRL_SPRINT, input.keyDown[KEY_LSHIFT]);
+                playerControls.Set(CTRL_DUCK, input.keyDown[KEY_LCTRL]);
+                playerControls.Set(CTRL_JUMP, input.keyDown[KEY_SPACE]);
+            }
         }
-        playerControls.Set(CTRL_JUMP, input.keyDown[KEY_SPACE]);
 
         Vector3 moveDir(0.0f, 0.0f, 0.0f);
 
@@ -184,23 +200,26 @@ namespace Player {
         //position = lookAt * moveDir * timeStep * 30 + position;
         //playerNode.position = position;
          // Normalize move vector so that diagonal strafing is not faster
-        if (moveDir.lengthSquared > 0.0f)
+        if (moveDir.lengthSquared > 0.0f) {
             moveDir.Normalize();
+        }
+        moveDir *= PLAYER_MOVE_FORCE * playerBody.mass;
 
         if (playerControls.IsDown(CTRL_SPRINT)) {
             moveDir *= 2;
         }
         if (noclip) {
+            moveDir /= playerBody.mass;
             playerNode.Translate(lookAt * moveDir * NOCLIP_SPEED, TS_WORLD);
         } else {
             playerBody.ApplyImpulse(lookAt2 * moveDir);
         }
 
-        Vector3 brakeForce = -planeVelocity * PLAYER_BRAKE_FORCE;
+        Vector3 brakeForce = -planeVelocity * PLAYER_BRAKE_FORCE *  playerBody.mass;
         playerBody.ApplyImpulse(brakeForce);
 
         if (jump && onGround) {
-            playerBody.ApplyImpulse(Vector3::UP * 8);
+            playerBody.ApplyImpulse(Vector3::UP * 8 * playerBody.mass);
             GameSounds::Play(GameSounds::JUMP, 0.2);
         }
 
@@ -253,4 +272,5 @@ namespace Player {
         playerBody.enabled = false;
         shape.enabled = false;
     }
+
 }

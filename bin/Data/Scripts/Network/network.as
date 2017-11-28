@@ -7,7 +7,7 @@ namespace NetworkHandler {
     Node@ skyNode;
     Skybox@ skybox;
 
-    const float LIGHT_CHANGE_SPEED = 0.5f;
+    const float LIGHT_CHANGE_SPEED = 0.2f;
     class Sunlight {
         Node@ node;
         Light@ light;
@@ -35,7 +35,7 @@ namespace NetworkHandler {
 
     void LoadScene()
     {
-        File file("Data/Map/Map.json", FILE_READ);
+        File@ file = cache.GetFile("Map/Map.json");
         scene_.LoadJSON(file);
     }
 
@@ -47,10 +47,11 @@ namespace NetworkHandler {
     void StartServer()
     {
         sunlight.change = false;
-        sunlight.hour = 9;
         sunlight.ambientColor = Color(0.1, 0.1, 0.1);
         sunlight.fogColor = Color(0.8f, 0.8f, 0.7f);
-        SendEvent("HourChange");
+        sunlight.hour = 11;
+        sunlight.change = true;
+        sunlight.currentIntensity = GetHourLightIntensity(sunlight.hour);
 
         Places::Init();
         Spawn::Init();
@@ -62,7 +63,7 @@ namespace NetworkHandler {
         NetworkHandler::StopServer();
         //network.StartServer(SERVER_PORT);
 
-        network.updateFps = 10;
+        //network.updateFps = 10;
 
         Node@ zoneNode = scene_.CreateChild("Zone");
         sunlight.zone = zoneNode.CreateComponent("Zone");
@@ -261,6 +262,18 @@ namespace NetworkHandler {
         File file2("Map.json", FILE_WRITE);
         scene_.SaveJSON(file2);*/
 
+        VariantMap data;
+        data["Hour"] = 11;
+        SendEvent("HourChange", data);
+
+        if (sunlight.node is null) {
+            sunlight.node = scene_.GetChild("DirectionalLight");
+        } else {
+            if (sunlight.light is null) {
+                sunlight.light = sunlight.node.GetComponent("Light");
+            }
+        }
+
     }
 
     
@@ -387,14 +400,14 @@ namespace NetworkHandler {
 
     void DisconnectClients()
     {
-        for (uint i = 0; i < network.clientConnections.length; i++) {
-            network.clientConnections[i].Disconnect();
-        }
+        //for (uint i = 0; i < network.clientConnections.length; i++) {
+        //    network.clientConnections[i].Disconnect();
+       // }
     }
 
     void StopServer()
     {
-        Connection@ serverConnection = network.serverConnection;
+        /*Connection@ serverConnection = network.serverConnection;
         // If we were connected to server, disconnect. Or if we were running a server, stop it. In both cases clear the
         // scene of all replicated content, but let the local nodes & components (the static world + camera) stay
         if (serverConnection !is null)
@@ -408,7 +421,7 @@ namespace NetworkHandler {
             NetworkHandler::DisconnectClients();
             network.StopServer();
              scene_.Clear(true, false);
-        }
+        }*/
     }
 
     void Connect()
@@ -418,28 +431,28 @@ namespace NetworkHandler {
         String address = "127.0.0.1";
         VariantMap map;
         map["USER_NAME"] = "123";
-        network.Connect(address, SERVER_PORT, scene_, map);
+        //network.Connect(address, SERVER_PORT, scene_, map);
     }
 
     void HandleClientConnected(StringHash eventType, VariantMap& eventData)
     {
         // When a client connects, assign to scene to begin scene replication
-        Connection@ newConnection = eventData["Connection"].GetPtr();
-        newConnection.scene = scene_;
+        //Connection@ newConnection = eventData["Connection"].GetPtr();
+        //newConnection.scene = scene_;
     }
 
     void HandleClientDisconnected(StringHash eventType, VariantMap& eventData)
     {
         // When a client connects, assign to scene to begin scene replication
-        Connection@ newConnection = eventData["Connection"].GetPtr();
-        log.Info("Client " + newConnection.identity["USER_NAME"].GetString() + " disconnected");
+        //Connection@ newConnection = eventData["Connection"].GetPtr();
+        //log.Info("Client " + newConnection.identity["USER_NAME"].GetString() + " disconnected");
     }
 
     void HandleClientIdentity(StringHash eventType, VariantMap& eventData)
     {
         String name = eventData["USER_NAME"].GetString();
-        Connection@ newConnection = eventData["Connection"].GetPtr();
-        log.Info(newConnection.ToString() + " identified himself as '" + name + "'");
+        //Connection@ newConnection = eventData["Connection"].GetPtr();
+        //log.Info(newConnection.ToString() + " identified himself as '" + name + "'");
     }
 
     void Destroy()
@@ -451,9 +464,9 @@ namespace NetworkHandler {
     {
         log.Info("");
         log.Info("#### CLIENT LIST ####");
-        for (uint i = 0; i < network.clientConnections.length; i++) {
-            log.Info("# Client: " + network.clientConnections[i].identity["USER_NAME"].GetString() + ", Ping: " + String(network.clientConnections[i].roundTripTime) + ", IP: " + network.clientConnections[i].ToString());
-        }
+        //for (uint i = 0; i < network.clientConnections.length; i++) {
+            //log.Info("# Client: " + network.clientConnections[i].identity["USER_NAME"].GetString() + ", Ping: " + String(network.clientConnections[i].roundTripTime) + ", IP: " + network.clientConnections[i].ToString());
+        //}
         log.Info("#####################");
         log.Info("");
     }
@@ -477,40 +490,40 @@ namespace NetworkHandler {
 
     float GetHourLightIntensity(int hour) {
         if (hour == 0) {
-            return 0.08;
+            return 0.01;
         }
         if (hour == 1) {
-            return 0.07;
+            return 0.03;
         }
         if (hour == 2) {
-            return 0.06;
+            return 0.05;
         }
         if (hour == 3) {
-            return 0.08;
+            return 0.10;
         }
         if (hour == 4) {
-            return 0.15;
+            return 0.20;
         }
         if (hour == 5) {
-            return 0.25;
+            return 0.30;
         }
         if (hour == 6) {
-            return 0.35;
+            return 0.40;
         }
         if (hour == 7) {
-            return 0.45;
+            return 0.50;
         }
         if (hour == 8) {
-            return 0.55;
+            return 0.60;
         }
         if (hour == 9) {
-            return 0.65;
+            return 0.70;
         }
         if (hour == 10) {
-            return 0.75;
+            return 0.80;
         }
         if (hour == 11) {
-            return 0.85;
+            return 0.90;
         }
         if (hour == 12) {
             return 0.95;
@@ -519,31 +532,31 @@ namespace NetworkHandler {
             return 0.96;
         }
         if (hour == 14) {
-            return 0.97;
-        }
-        if (hour == 15) {
             return 1.0;
         }
-        if (hour == 16) {
-            return 0.95;
+        if (hour == 15) {
+            return 0.90;
         }
-        if (hour == 17) {
+        if (hour == 16) {
             return 0.85;
         }
+        if (hour == 17) {
+            return 0.70;
+        }
         if (hour == 18) {
-            return 0.75;
+            return 0.60;
         }
         if (hour == 19) {
-            return 0.65;
+            return 0.50;
         }
         if (hour == 20) {
-            return 0.5;
+            return 0.35;
         }
         if (hour == 21) {
-            return 0.3;
+            return 0.25;
         }
         if (hour == 22) {
-            return 0.2;
+            return 0.15;
         }
         if (hour == 23) {
             return 0.1;
@@ -556,6 +569,7 @@ namespace NetworkHandler {
     {
 
         log.Warning("Current hour: " + sunlight.hour + ", intensity = " + GetHourLightIntensity(sunlight.hour));
+        sunlight.currentIntensity = GetHourLightIntensity(sunlight.hour);
         if (eventData.Contains("Hour")) {
             uint hour = eventData["Hour"].GetUInt();
             sunlight.hour = hour;
@@ -568,11 +582,11 @@ namespace NetworkHandler {
         log.Warning("New hour: " + sunlight.hour + ", intensity = " + GetHourLightIntensity(sunlight.hour));
         if (sunlight.node is null) {
             sunlight.node = scene_.GetChild("DirectionalLight");
-        }
-        if (sunlight.light is null) {
-            sunlight.light = sunlight.node.GetComponent("Light");
-            sunlight.currentIntensity = GetHourLightIntensity(sunlight.hour);
-            sunlight.color = Color(0.8, 0.8, 0.8, 1);
+        } else {
+            if (sunlight.light is null) {
+                sunlight.light = sunlight.node.GetComponent("Light");
+                sunlight.color = Color(0.8, 0.8, 0.8, 1);
+            }
         }
 
         sunlight.change = true;

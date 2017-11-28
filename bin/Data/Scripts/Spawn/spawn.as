@@ -15,7 +15,7 @@ namespace Spawn {
     //Whats the safe distance from the player
     //All units further than this distance from the camera can be safely removed
     //if spawner configuration supports it
-    const float SPAWNED_OBJECT_SAFE_DISTANCE = 800.0f;
+    const float SPAWNED_OBJECT_SAFE_DISTANCE = 700.0f;
 
     //If camera is closer than this distance
     //disable spawner
@@ -57,7 +57,7 @@ namespace Spawn {
         spawner.node.AddTag("Spawner");
 
         //Disable enemy spawning by default
-        if (type == SPAWN_UNIT_SNAKE || type == SPAWN_UNIT_PACMAN) {
+        if (type == SPAWN_UNIT_SNAKE || type == SPAWN_UNIT_PACMAN || type == SPAWN_UNIT_TETRIS) {
             spawner.node.enabled = false;
         }
 
@@ -125,6 +125,9 @@ namespace Spawn {
 
         SubscribeToEvent("ActivatePacmanSpawners", "Spawn::HandlActivatePacmanSpawners");
         SubscribeToEvent("DeactivatePacmanSpawners", "Spawn::HandlDeactivatePacmanSpawners");
+
+        SubscribeToEvent("ActivateTetrisSpawners", "Spawn::HandlActivateTetrisSpawners");
+        SubscribeToEvent("DeactivateTetrisSpawners", "Spawn::HandlDeactivateTetrisSpawners");
     }
 
     void RegisterConsoleCommands()
@@ -154,13 +157,21 @@ namespace Spawn {
         data["CONSOLE_COMMAND_NAME"] = "spawners_pacman_deactivate";
         data["CONSOLE_COMMAND_EVENT"] = "DeactivatePacmanSpawners";
         SendEvent("ConsoleCommandAdd", data);
+
+        data["CONSOLE_COMMAND_NAME"] = "spawners_tetris_activate";
+        data["CONSOLE_COMMAND_EVENT"] = "ActivateTetrisSpawners";
+        SendEvent("ConsoleCommandAdd", data);
+
+        data["CONSOLE_COMMAND_NAME"] = "spawners_tetris_deactivate";
+        data["CONSOLE_COMMAND_EVENT"] = "DeactivateTetrisSpawners";
+        SendEvent("ConsoleCommandAdd", data);
     }
 
     void ChangeSpawnersStateByType(uint type, bool enabled)
     {
         for (uint i = 0; i < spawners.length; i++) {
             if (spawners[i].type == type) {
-                log.Warning("Spawner[" + i + "] " + enabled);
+                //log.Warning("Spawner[" + i + "] " + enabled);
                 spawners[i].node.enabled = enabled;
             }
         }
@@ -194,6 +205,18 @@ namespace Spawn {
     {
         log.Warning("Dectivating snake spawners...");
         ChangeSpawnersStateByType(SPAWN_UNIT_SNAKE, false);
+    }
+
+    void HandlActivateTetrisSpawners(StringHash eventType, VariantMap& eventData)
+    {
+        log.Warning("Activating tetris spawners...");
+        ChangeSpawnersStateByType(SPAWN_UNIT_TETRIS, true);
+    }
+
+    void HandlDeactivateTetrisSpawners(StringHash eventType, VariantMap& eventData)
+    {
+        log.Warning("Dectivating tetris spawners...");
+        ChangeSpawnersStateByType(SPAWN_UNIT_TETRIS, false);
     }
 
     void HandlActivatePacmanSpawners(StringHash eventType, VariantMap& eventData)
@@ -291,7 +314,7 @@ namespace Spawn {
     void CreateTetris(Spawner& spawner)
     {
         int number = RandomInt(10) + 1;
-        Node@ node = EnvObjects::CreateTimed(GetRandomPositionInRange(spawner), "Models/Models/" + number + ".mdl", true, 15.0f, "Tetris");
+        Node@ node = EnvObjects::CreateTimed(GetRandomPositionInRange(spawner), "Models/Models/" + number + ".mdl", true, 20.0f, "Tetris");
         spawner.lastSpawnTime = 0.0f;
     }
 

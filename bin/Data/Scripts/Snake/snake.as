@@ -304,8 +304,6 @@ namespace Snake {
                     }
                 }
                 if (targetNode.HasTag("Player")) {
-                    const float SNAKE_BIT_POWER = 10.0f;
-                    Player::playerBody.ApplyImpulse(node.direction * SNAKE_BIT_POWER * Player::playerBody.mass);
                     SendEvent("PlayerHit");
                 }
             }

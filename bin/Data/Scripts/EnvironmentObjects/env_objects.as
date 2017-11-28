@@ -8,7 +8,24 @@
 //+ House3 -> durvju aile, arejas sienas, ieksejas sienas, jumts, trepes
 //stem -> celma malas, celma virsotne, cirvja kats, cirvja metals
 //torch -> kats, augsha
+class DroppedObject : ScriptObject
+{
+    void Start()
+    {
+        // Subscribe physics collisions that concern this scene node
+        SubscribeToEvent(node, "NodeCollision", "HandleNodeCollision");
+    }
 
+    void HandleNodeCollision(StringHash eventType, VariantMap& eventData)
+    {
+        Node@ otherNode = eventData["OtherNode"].GetPtr();
+        Vector3 dir = otherNode.worldPosition - node.worldPosition;
+
+        if (otherNode.HasTag("Player")) {
+            SendEvent("PlayerHit");
+        }
+    }
+}
 
 namespace EnvObjects {
     Array<Node@> objects;
@@ -22,7 +39,7 @@ namespace EnvObjects {
     {
         if (Places::IsInDistance(position, 50)) {
             //Too close to place, not creating env model
-            log.Warning("Unable to create env object, because place is too near!");
+            //log.Warning("Unable to create env object, because place is too near!");
             return null;
         }
 
@@ -92,7 +109,7 @@ namespace EnvObjects {
 
         StaticModel@ object = node.CreateComponent("StaticModel");
         object.model = cache.GetResource("Model", model);
-        node.SetScale(2.0f);
+        node.SetScale(1.0f);
         object.castShadows = true;
         object.materials[0] = cache.GetResource("Material", "Materials/Stone.xml");
         
@@ -101,7 +118,7 @@ namespace EnvObjects {
         // Create rigidbody, and set non-zero mass so that the body becomes dynamic
         RigidBody@ body = node.CreateComponent("RigidBody");
         body.collisionLayer = COLLISION_FOOD_LEVEL;
-        body.collisionMask = COLLISION_PACMAN_LEVEL | COLLISION_SNAKE_BODY_LEVEL | COLLISION_SNAKE_HEAD_LEVEL | COLLISION_PLAYER_LEVEL | COLLISION_FOOD_LEVEL | COLLISION_TERRAIN_LEVEL;
+        body.collisionMask = COLLISION_PACMAN_LEVEL | COLLISION_SNAKE_BODY_LEVEL | COLLISION_SNAKE_HEAD_LEVEL | COLLISION_PLAYER_LEVEL | COLLISION_FOOD_LEVEL | COLLISION_TERRAIN_LEVEL | COLLISION_STATIC_OBJECTS;
         body.mass = 10.0f;
         body.restitution = 0.0f;
         body.linearVelocity = Vector3(0, -50, 0);
@@ -114,6 +131,8 @@ namespace EnvObjects {
         timedObject.lifetime = lifetime;
         timedObject.node = node;
         timedObjects.Push(timedObject);
+
+        node.CreateScriptObject(scriptFile, "DroppedObject");
 
         return node;
     }

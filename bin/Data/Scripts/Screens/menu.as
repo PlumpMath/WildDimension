@@ -1,8 +1,12 @@
+#include "Screens/options.as"
+
 namespace MenuScreen {
 
     const float MAX_OPACITY = 0.99f;
     const String GUI_FONT = "Fonts/PainttheSky-Regular.otf";
     const int GUI_FONT_SIZE = Helpers::getHeightByPercentage(0.04);
+    const int GUI_FONT_SIZE_STORY = Helpers::getHeightByPercentage(0.026);
+    const float INSTRUCTION_TIME = 5.0f;
 
     Sprite@ fromSprite;
     Sprite@ toSprite;
@@ -14,13 +18,14 @@ namespace MenuScreen {
     Vector2 toLocation(410, 380);
     const float DRAW_PATH_TIMEOUT = 0.1f;
     Vector2 direction = Vector2(1, 0);
+
+    Array<Button@> buttons;
+
+    Sprite@ instructionsScreen;
     
     const float DOT_MARGIN = 20.0f;
     const float PATH_FILL_SPEED = 1.0f;
 
-    Button@ startButton;
-    Button@ exitButton;
-    Button@ storyButton;
     Button@ storyCloseButton;
 
     Sprite@ storySprite;
@@ -79,7 +84,7 @@ namespace MenuScreen {
     void CreateStory()
     {
         // Get logo texture
-        Texture2D@ notesTexture = cache.GetResource("Texture2D", "Textures/paper.jpg");
+        Texture2D@ notesTexture = cache.GetResource("Texture2D", "Textures/paper.png");
         if (notesTexture is null) {
             return;
         }
@@ -128,11 +133,102 @@ namespace MenuScreen {
         storyText.text += "\nof the island? Will he be able to get back to civilization?";
         storyText.opacity = MAX_OPACITY;
         storyText.color = Color(0, 0, 0);
-        storyText.SetFont(cache.GetResource("Font", GUI_FONT), GUI_FONT_SIZE / 1.5);
+        storyText.SetFont(cache.GetResource("Font", GUI_FONT), GUI_FONT_SIZE_STORY);
         //storyText.SetAlignment(HA_CENTER, VA_CENTER);
         //storyText.textAlignment = HA_LEFT; // Center rows in relation to each other
 
         storySprite.visible = false;
+    }
+
+    void CreateInstructions()
+    {
+        Texture2D@ notesTexture = cache.GetResource("Texture2D", "Textures/Screens/Instruction.png");
+        if (notesTexture is null) {
+            return;
+        }
+
+        // Create logo sprite and add to the UI layout
+        instructionsScreen = ui.root.CreateChild("Sprite");
+
+        // Set logo sprite texture
+        instructionsScreen.texture = notesTexture;
+
+        float w = graphics.width;
+        int textureHeight = Helpers::getHeightByPercentage(0.8);
+        int textureWidth = notesTexture.width * Helpers::getRatio(notesTexture.height, textureHeight);
+
+        // Set logo sprite scale
+        //notesSprite.SetScale(256.0f / textureWidth);
+
+        // Set logo sprite size
+        instructionsScreen.SetSize(textureWidth, textureHeight);
+        instructionsScreen.position = Vector2(0, 0);
+
+        // Set logo sprite hot spot
+        instructionsScreen.SetHotSpot(textureWidth/2, textureHeight/2);
+
+        // Set logo sprite alignment
+        instructionsScreen.SetAlignment(HA_CENTER, VA_CENTER);
+
+        // Make logo not fully opaque to show the scene underneath
+        instructionsScreen.opacity = MAX_OPACITY;
+
+        // Set a low priority for the logo so that other UI elements can be drawn on top
+        instructionsScreen.priority = 100;
+
+        Text@ instructionsText = instructionsScreen.CreateChild("Text");
+        instructionsText.text = "Show controls";
+        instructionsText.SetFont(cache.GetResource("Font", "Fonts/PainttheSky-Regular.otf"), 40);
+        instructionsText.textAlignment = HA_CENTER; // Center rows in relation to each other
+        // Position the text relative to the screen center
+        instructionsText.horizontalAlignment = HA_LEFT;
+        instructionsText.verticalAlignment = VA_TOP;
+        instructionsText.SetPosition(textureWidth * 0.2, textureHeight * 0.01);
+
+        Text@ objectiveText = instructionsScreen.CreateChild("Text");
+        objectiveText.text = "Show current objective";
+        objectiveText.SetFont(cache.GetResource("Font", "Fonts/PainttheSky-Regular.otf"), 40);
+        objectiveText.textAlignment = HA_CENTER; // Center rows in relation to each other
+        // Position the text relative to the screen center
+        objectiveText.horizontalAlignment = HA_LEFT;
+        objectiveText.verticalAlignment = VA_TOP;
+        objectiveText.SetPosition(textureWidth * 0.2, textureHeight * 0.15);
+
+        Text@ toolText = instructionsScreen.CreateChild("Text");
+        toolText.text = "Change active tool";
+        toolText.SetFont(cache.GetResource("Font", "Fonts/PainttheSky-Regular.otf"), 40);
+        toolText.textAlignment = HA_CENTER; // Center rows in relation to each other
+        // Position the text relative to the screen center
+        toolText.horizontalAlignment = HA_LEFT;
+        toolText.verticalAlignment = VA_TOP;
+        toolText.SetPosition(textureWidth * 0.2, textureHeight * 0.30);
+
+        Text@ movementText = instructionsScreen.CreateChild("Text");
+        movementText.text = "Move";
+        movementText.SetFont(cache.GetResource("Font", "Fonts/PainttheSky-Regular.otf"), 40);
+        movementText.textAlignment = HA_CENTER; // Center rows in relation to each other
+        // Position the text relative to the screen center
+        movementText.horizontalAlignment = HA_LEFT;
+        movementText.verticalAlignment = VA_TOP;
+        movementText.SetPosition(textureWidth * 0.4, textureHeight * 0.5);
+
+        Text@ sprintText = instructionsScreen.CreateChild("Text");
+        sprintText.text = "Sprint";
+        sprintText.SetFont(cache.GetResource("Font", "Fonts/PainttheSky-Regular.otf"), 40);
+        sprintText.textAlignment = HA_CENTER; // Center rows in relation to each other
+        // Position the text relative to the screen center
+        sprintText.horizontalAlignment = HA_LEFT;
+        sprintText.verticalAlignment = VA_TOP;
+        sprintText.SetPosition(textureWidth * 0.4, textureHeight * 0.72);
+
+        Text@ jumpText = instructionsScreen.CreateChild("Text");
+        jumpText.text = "Jump";
+        jumpText.SetFont(cache.GetResource("Font", "Fonts/PainttheSky-Regular.otf"), 40);
+        jumpText.textAlignment = HA_CENTER; // Center rows in relation to each other
+        // Position the text relative to the screen center
+        jumpText.horizontalAlignment = HA_LEFT;
+        jumpText.verticalAlignment = VA_TOP;
+        jumpText.SetPosition(textureWidth * 0.55, textureHeight * 0.86);
     }
 
     void FillTable()
@@ -145,15 +241,15 @@ namespace MenuScreen {
     void CreateBoard()
     {
         boardSprite = ui.root.CreateChild("Sprite");
-        Texture2D@ logoTexture = cache.GetResource("Texture2D", "Textures/board.jpg");
+        Texture2D@ logoTexture = cache.GetResource("Texture2D", "Textures/board.png");
         //if (logoTexture is null)
           //  return;
 
         // Set logo sprite texture
         boardSprite.texture = logoTexture;
 
-        int textureWidth = logoTexture.width;
-        int textureHeight = logoTexture.height;
+        int textureWidth = Helpers::getWidthByPercentage(1.5);
+        int textureHeight = logoTexture.height * Helpers::getRatio(logoTexture.width, textureWidth);
 
         // Set logo sprite scale
         boardSprite.SetScale(1);
@@ -189,7 +285,7 @@ namespace MenuScreen {
         CreateBoard();
 
         mapSprite = boardSprite.CreateChild("Sprite");
-        Texture2D@ logoTexture = cache.GetResource("Texture2D", "Textures/world_map.jpg");
+        Texture2D@ logoTexture = cache.GetResource("Texture2D", "Textures/world_map.png");
         //if (logoTexture is null)
           //  return;
 
@@ -232,6 +328,8 @@ namespace MenuScreen {
         CreateStory();
 
         CreateButtons();
+
+        Options::Create();
     }
 
     void CreateButtons()
@@ -240,51 +338,10 @@ namespace MenuScreen {
 
         XMLFile@ uiStyle = cache.GetResource("XMLFile", "UI/Menu.xml");
 
-        // Create the button and center the text onto it
-        startButton = ui.root.CreateChild("Button");
-        startButton.SetStyleAuto(uiStyle);
-        startButton.SetPosition(-20, -80);
-        startButton.SetSize(100, 40);
-        startButton.SetAlignment(HA_RIGHT, VA_BOTTOM);
-
-        Text@ startButtonText = startButton.CreateChild("Text");
-        startButtonText.SetAlignment(HA_CENTER, VA_TOP);
-        startButtonText.SetFont(font, 30);
-        startButtonText.textAlignment = HA_CENTER;
-        startButtonText.text = "Start";
-        startButtonText.position = IntVector2(0, -10);
-        SubscribeToEvent(startButton, "Released", "MenuScreen::HandleNewGame");
-
-        // Create the button and center the text onto it
-        exitButton = ui.root.CreateChild("Button");
-        exitButton.SetStyleAuto(uiStyle);
-        exitButton.SetPosition(-20, -20);
-        exitButton.SetSize(100, 40);
-        exitButton.SetAlignment(HA_RIGHT, VA_BOTTOM);
-
-        Text@ exitButtonText = exitButton.CreateChild("Text");
-        exitButtonText.SetAlignment(HA_CENTER, VA_TOP);
-        exitButtonText.SetFont(font, 30);
-        exitButtonText.textAlignment = HA_CENTER;
-        exitButtonText.text = "Exit";
-        exitButtonText.position = IntVector2(0, -10);
-        SubscribeToEvent(exitButton, "Released", "MenuScreen::HandleExitGame");
-
-        // Create the button and center the text onto it
-        storyButton = ui.root.CreateChild("Button");
-        storyButton.SetStyleAuto(uiStyle);
-        storyButton.SetPosition(20, -20);
-        storyButton.SetSize(100, 40);
-        storyButton.SetAlignment(HA_LEFT, VA_BOTTOM);
-
-        Text@ storyButtonText = storyButton.CreateChild("Text");
-        storyButtonText.SetAlignment(HA_CENTER, VA_TOP);
-        storyButtonText.SetFont(font, 30);
-        storyButtonText.textAlignment = HA_CENTER;
-        storyButtonText.text = "Story";
-        storyButtonText.position = IntVector2(0, -10);
-        SubscribeToEvent(storyButton, "Released", "MenuScreen::HandleStory");
-
+        CreateButton("Exit", "MenuScreen::HandleExitGame", IntVector2(-20, -20));
+        CreateButton("Settings", "MenuScreen::HandleSettingsButton", IntVector2(-20, -80));
+        CreateButton("Start", "MenuScreen::HandleNewGame", IntVector2(-20, -140));
+        CreateButton("Story", "MenuScreen::HandleStory", IntVector2(20, -20), false);
 
         // Create the button and center the text onto it
         storyCloseButton = storySprite.CreateChild("Button");
@@ -302,12 +359,43 @@ namespace MenuScreen {
         SubscribeToEvent(storyCloseButton, "Released", "MenuScreen::HandleStoryClose");
     }
 
+    void CreateButton(String name, String handler, IntVector2 position, bool right = true)
+    {
+        Font@ font = cache.GetResource("Font", GUIHandler::GUI_FONT);
+
+        XMLFile@ uiStyle = cache.GetResource("XMLFile", "UI/Menu.xml");
+
+        Button@ button = ui.root.CreateChild("Button");
+        button.SetStyleAuto(uiStyle);
+        button.SetPosition(position.x, position.y);
+        button.SetSize(100, 40);
+        if (right) {
+            button.SetAlignment(HA_RIGHT, VA_BOTTOM);
+        } else {
+            button.SetAlignment(HA_LEFT, VA_BOTTOM);
+        }
+
+        Text@ buttonText = button.CreateChild("Text");
+        buttonText.SetAlignment(HA_CENTER, VA_TOP);
+        buttonText.SetFont(font, 30);
+        buttonText.textAlignment = HA_CENTER;
+        buttonText.text = name;
+        buttonText.position = IntVector2(0, -10);
+        SubscribeToEvent(button, "Released", handler);
+        buttons.Push(button);
+    }
+
+    void HandleSettingsButton(StringHash eventType, VariantMap& eventData)
+    {
+        Options::Show();
+    }
+
     void HandleNewGame(StringHash eventType, VariantMap& eventData)
     {
-        UnsubscribeFromEvents(startButton);
         Destroy();
+        CreateInstructions();
         SetLoadingText();
-        DelayedExecute(1.0, false, "void MenuScreen::StartGame()");
+        DelayedExecute(INSTRUCTION_TIME, false, "void MenuScreen::StartGame()");
     }
 
     void HandleStory(StringHash eventType, VariantMap& eventData)
@@ -487,12 +575,6 @@ namespace MenuScreen {
         if (fromSprite !is null) {
             fromSprite.Remove();
         }
-        if (startButton !is null) {
-            startButton.Remove();
-        }
-        if (exitButton !is null) {
-            exitButton.Remove();
-        }
         if (loadingText !is null) {
             loadingText.Remove();
         }
@@ -502,9 +584,16 @@ namespace MenuScreen {
         if (storySprite !is null) {
             storySprite.Remove();
         }
-        if (storyButton !is null) {
-            storyButton.Remove();
+
+        if (instructionsScreen !is null) {
+            instructionsScreen.Remove();
         }
+        for (uint i = 0; i < buttons.length; i++) {
+            buttons[i].Remove();
+        }
+        buttons.Clear();
+
+        Options::Destroy();
     }
 
     void HandleUpdate(StringHash eventType, VariantMap& eventData)

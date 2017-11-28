@@ -207,8 +207,6 @@ namespace Pacman {
                     pacmans[i].targetNode.SetDeepEnabled(false);
                 }
                 if (pacmans[i].targetNode.HasTag("Player")) {
-                    const float PACMAN_BIT_POWER = 10.0f;
-                    Player::playerBody.ApplyImpulse(pacmanNode.direction * PACMAN_BIT_POWER * Player::playerBody.mass);
                     SendEvent("PlayerHit");
                 }
             }
