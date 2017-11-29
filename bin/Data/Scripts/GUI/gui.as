@@ -374,11 +374,13 @@ namespace GUIHandler {
         }
         for (uint i = 0; i < notesLines.length; i++) {
             notesLines[i].text = "";
+            notesSprite.visible = false;
         }
         Missions::MissionItem missionItem  = Missions::GetActiveMission();
         if (missionItem.type == Missions::TYPE_PICKUP || missionItem.type == Missions::TYPE_USE_ITEM) {
             Craft::Recipe recipe = Craft::GetRecipe(missionItem.itemName);
             if (recipe.name.length > 0) {
+                notesSprite.visible = true;
                 notesLines[0].text = missionItem.itemName + ":";
                 notesLines[0].color = Color(0.2, 0.2, 0.2);
                 for (uint i = 0; i < recipe.items.length; i++) {

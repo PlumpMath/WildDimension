@@ -40,7 +40,7 @@ namespace Pacman {
         // Create rigidbody, and set non-zero mass so that the body becomes dynamic
         RigidBody@ pacmanBody = pacmanNode.CreateComponent("RigidBody");
         pacmanBody.collisionLayer = COLLISION_PACMAN_LEVEL;
-        pacmanBody.collisionMask = COLLISION_TERRAIN_LEVEL | COLLISION_SNAKE_HEAD_LEVEL | COLLISION_SNAKE_BODY_LEVEL | COLLISION_PLAYER_LEVEL | COLLISION_FOOD_LEVEL | COLLISION_TREE_LEVEL | COLLISION_STATIC_OBJECTS;
+        pacmanBody.collisionMask = COLLISION_TERRAIN_LEVEL | COLLISION_SNAKE_HEAD_LEVEL | COLLISION_SNAKE_BODY_LEVEL | COLLISION_PLAYER_LEVEL | COLLISION_FOOD_LEVEL | COLLISION_TREE_LEVEL | COLLISION_STATIC_OBJECTS | COLLISION_PACMAN_LEVEL;
         pacmanBody.mass = 1.0f;
 
         // Set zero angular factor so that physics doesn't turn the character on its own.

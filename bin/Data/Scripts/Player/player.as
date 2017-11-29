@@ -13,13 +13,14 @@ namespace Player {
     Controls playerControls;
     RigidBody@ playerBody;
     const float PLAYER_BRAKE_FORCE = 1.0f;
-    const float PLAYER_MOVE_FORCE = 5.0f;
+    const float PLAYER_MOVE_FORCE = 6.0f;
     SoundSource@ walkSoundSource;
     CollisionShape@ shape;
     String destination;
     bool onGround;
     bool noclip = false;
     float lastHurt = 0.0f;
+    bool underWater = false;
 
     Node@ CreatePlayer()
     {
@@ -225,18 +226,14 @@ namespace Player {
 
         if (playerNode.worldPosition.y < 99.5) {
             if (playerNode.worldPosition.y < 99) {
-                RenderPath@ effectRenderPath = viewport.renderPath.Clone();
-                effectRenderPath.SetEnabled("Blur", true);
-                viewport.renderPath = effectRenderPath;
+                SetUnderWater(true);
             }
             Vector3 planeVelocity(velocity.x, velocity.y, velocity.z);
             Vector3 brakeForce = -planeVelocity * PLAYER_BRAKE_FORCE *  playerBody.mass * 0.05;
             playerBody.ApplyImpulse(brakeForce);
-            playerBody.ApplyImpulse(Vector3::UP * 0.3 * playerBody.mass);
+            playerBody.ApplyImpulse(Vector3::UP * 0.4 * playerBody.mass);
         } else {
-            RenderPath@ effectRenderPath = viewport.renderPath.Clone();
-            effectRenderPath.SetEnabled("Blur", false);
-            viewport.renderPath = effectRenderPath;
+            SetUnderWater(false);
         }
 
         if (playerNode.position.y < NetworkHandler::terrain.GetHeight(playerNode.position)) {
@@ -248,6 +245,21 @@ namespace Player {
         onGround = false;
     }
 
+    void SetUnderWater(bool value)
+    {
+        if (underWater != value) {
+            if (value) {
+                RenderPath@ effectRenderPath = viewport.renderPath.Clone();
+                effectRenderPath.SetEnabled("Blur", true);
+                viewport.renderPath = effectRenderPath;
+            } else {
+                RenderPath@ effectRenderPath = viewport.renderPath.Clone();
+                effectRenderPath.SetEnabled("Blur", false);
+                viewport.renderPath = effectRenderPath;
+            }
+        }
+        underWater = value;
+    }
     void HandleKeyDown(StringHash eventType, VariantMap& eventData)
     {
         int key = eventData["Key"].GetInt();

@@ -57,7 +57,7 @@ namespace AppleTree {
         tree.lifetime = TREE_MIN_SEASON_TIME + Random(TREE_MIN_SEASON_TIME);
         tree.stage = STAGE_SUMMER;
         tree.model = object;
-        Spawn::Create(treeNode.worldPosition, 5, 100, 100, 1 + RandomInt(1), 10, Spawn::SPAWN_UNIT_APPLE);
+        Spawn::Create(treeNode.worldPosition, 5, 100, 100, 2 + RandomInt(2), 5, Spawn::SPAWN_UNIT_APPLE);
         trees.Push(tree);
         return treeNode;
     }

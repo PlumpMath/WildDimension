@@ -38,7 +38,7 @@ namespace Missions {
     MissionItem GetActiveMission()
     {
         for (uint i = 0; i < missionList.length; i++) {
-            if (missionList[i].eventName == activeMission) {
+            if (missionList[i].eventName == activeMission && missionList[i].completed == false) {
                 return missionList[i];
             }
         }
@@ -91,6 +91,7 @@ namespace Missions {
         data["Message"] = "Mission '" + item.name + "' completed!";
         data["Type"] = Notifications::NOTIFICATION_TYPE_GOOD;
         SendEvent("AddNotification", data);
+        SendEvent("UpdateMissionsGUI");
     }
 
     void NextMission()

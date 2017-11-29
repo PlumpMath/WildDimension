@@ -10,7 +10,10 @@ namespace Tent {
         node = ActiveTool::toolNode.CreateChild("Tent");
         node.AddTag("Tent");
 
-        StaticModel@ object = node.CreateComponent("StaticModel");
+        Node@ adjTentNode = node.CreateChild("AdjNode");
+        adjTentNode.rotation = Quaternion(-120.0f, Vector3::UP);
+
+        StaticModel@ object = adjTentNode.CreateComponent("StaticModel");
         object.model = cache.GetResource("Model", "Models/Models/Tent.mdl");
 
         node.SetScale(0.05f);

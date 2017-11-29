@@ -120,6 +120,7 @@ namespace ActiveTool {
         }
         Node@ tentNode = scene_.CreateChild("Tent");
         tentNode.AddTag("Tent");
+
         position.y = NetworkHandler::terrain.GetHeight(position) - 0.1f;
         tentNode.position = position;
         tentNode.rotation = Quaternion(Vector3(0.0f, 1.0f, 0.0f), NetworkHandler::terrain.GetNormal(position));
@@ -358,7 +359,7 @@ namespace ActiveTool {
                 use = false;
                 sleepTime = 0.2f;   
             }
-            if (input.keyPress[KEY_Q]) {
+            if (input.keyPress[KEY_Q] || input.mouseMoveWheel != 0) {
                 SendEvent("NextTool");
             }
         }

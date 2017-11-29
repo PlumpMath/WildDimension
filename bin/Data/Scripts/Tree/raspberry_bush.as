@@ -49,7 +49,7 @@ namespace RaspberryBush {
         tree.lifetime = 20.0f + Random(20.0f);
         tree.stage = STAGE_SUMMER;
         tree.model = object;
-        Spawn::Create(treeNode.worldPosition, 5, 100, 100, 1 + RandomInt(1), 10, Spawn::SPAWN_UNIT_RASPBERRY);
+        Spawn::Create(treeNode.worldPosition, 5, 100, 100, 2 + RandomInt(2), 5, Spawn::SPAWN_UNIT_RASPBERRY);
         trees.Push(tree);
         return treeNode;
     }

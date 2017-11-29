@@ -149,7 +149,7 @@ add_subdirectory (Tools)
 #    add_subdirectory (Samples)
 #endif ()
 
-add_subdirectory (Game)
+add_subdirectory (WildDimension)
 
 # Urho3D extras
 if (URHO3D_EXTRAS)

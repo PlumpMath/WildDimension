@@ -77,6 +77,7 @@ namespace NetworkHandler {
         sunlight.zone.fogColor = sunlight.fogColor;
         sunlight.zone.fogStart = 500.0f;
         sunlight.zone.fogEnd = 800.0f;
+        sunlight.zone.viewMask = 0x80000000;
         /*Array<Terrain@> terrains;
         for (int x = 0; x < 1; x++) {
             for (int y = 0; y < 1; y++) {
@@ -293,12 +294,12 @@ namespace NetworkHandler {
         // its position when rendering
         reflectionCameraNode = cameraNode.CreateChild();
         Camera@ reflectionCamera = reflectionCameraNode.CreateComponent("Camera");
-        reflectionCamera.farClip = 750.0;
+        reflectionCamera.farClip = 1000.0;
         reflectionCamera.viewMask = 0x7fffffff; // Hide objects with only bit 31 in the viewmask (the water plane)
         reflectionCamera.autoAspectRatio = false;
         reflectionCamera.useReflection = true;
         reflectionCamera.reflectionPlane = waterPlane;
-        reflectionCamera.useClipping = true; // Enable clipping of geometry behind water plane
+        reflectionCamera.useClipping = false; // Enable clipping of geometry behind water plane
         reflectionCamera.clipPlane = waterClipPlane;
         // The water reflection texture is rectangular. Set reflection camera aspect ratio to match
         reflectionCamera.aspectRatio = float(graphics.width) / float(graphics.height);
