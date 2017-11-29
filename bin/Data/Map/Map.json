@@ -6,10 +6,10 @@
 		"Smoothing Constant": 50.0,
 		"Snap Threshold": 5.0,
 		"Elapsed Time": 867.99755859375,
-		"Next Replicated Node ID": 1924,
-		"Next Replicated Component ID": 5623,
-		"Next Local Node ID": 16805136,
-		"Next Local Component ID": 16805428,
+		"Next Replicated Node ID": 1925,
+		"Next Replicated Component ID": 5626,
+		"Next Local Node ID": 16809106,
+		"Next Local Component ID": 16809409,
 		"Variables": {},
 		"Variable Names": ""
 	},
@@ -38,7 +38,7 @@
 				"Name": "Terrain",
 				"Tags": [],
 				"Position": "0 0 0",
-				"Rotation": "1 0 0 0",
+				"Rotation": "0.999962 0 0.00872654 0",
 				"Scale": "5 5 5",
 				"Variables": {}
 			},
@@ -59,6 +59,7 @@
 					"type": "RigidBody",
 					"id": 2,
 					"attributes": {
+						"Physics Rotation": "0.999962 0 0.00872654 0",
 						"Restitution": 0.5
 					}
 				},
@@ -128,8 +129,8 @@
 									"type": "RigidBody",
 									"id": 16777959,
 									"attributes": {
-										"Physics Rotation": "-0.206784 0.0309872 0.977874 -0.00655262",
-										"Physics Position": "679.245 198.519 -1332.57"
+										"Physics Rotation": "-0.215308 0.0309288 0.976032 -0.00682273",
+										"Physics Position": "655.886 198.519 -1344.22"
 									}
 								}
 							],
@@ -168,8 +169,8 @@
 									"type": "RigidBody",
 									"id": 16777956,
 									"attributes": {
-										"Physics Rotation": "0.196032 0 0.980597 0",
-										"Physics Position": "684.161 198.401 -1320.33"
+										"Physics Rotation": "0.187468 0 0.982271 0",
+										"Physics Position": "661.015 198.401 -1332.07"
 									}
 								}
 							],
@@ -208,8 +209,8 @@
 									"type": "RigidBody",
 									"id": 16777953,
 									"attributes": {
-										"Physics Rotation": "0.522945 0 0.852366 0",
-										"Physics Position": "675.577 198.396 -1307.73"
+										"Physics Rotation": "0.515488 0 0.856897 0",
+										"Physics Position": "652.652 198.396 -1319.32"
 									}
 								}
 							],
@@ -248,8 +249,8 @@
 									"type": "RigidBody",
 									"id": 16777951,
 									"attributes": {
-										"Physics Rotation": "0.883112 0 0.469163 0",
-										"Physics Position": "661.476 198.394 -1302.97"
+										"Physics Rotation": "0.878984 0 0.476851 0",
+										"Physics Position": "638.637 198.394 -1314.32"
 									}
 								}
 							],
@@ -288,8 +289,8 @@
 									"type": "RigidBody",
 									"id": 16777949,
 									"attributes": {
-										"Physics Rotation": "0.881423 6.47995e-10 -0.472328 3.47241e-10",
-										"Physics Position": "654.552 198.415 -1337.02"
+										"Physics Rotation": "0.885511 6.51001e-10 -0.464618 3.41573e-10",
+										"Physics Position": "631.119 198.415 -1348.24"
 									}
 								}
 							],
@@ -327,8 +328,8 @@
 									"type": "RigidBody",
 									"id": 16777947,
 									"attributes": {
-										"Physics Rotation": "1 0 -5.96046e-08 0",
-										"Physics Position": "647.987 198.158 -1324.94"
+										"Physics Rotation": "0.999962 0 0.00872657 0",
+										"Physics Position": "624.767 198.158 -1336.05"
 									}
 								}
 							],
@@ -367,8 +368,8 @@
 									"type": "RigidBody",
 									"id": 16777945,
 									"attributes": {
-										"Physics Rotation": "0.990073 0 0.140556 0",
-										"Physics Position": "650.949 198.283 -1312.38"
+										"Physics Rotation": "0.988809 0 0.14919 0",
+										"Physics Position": "627.946 198.283 -1323.54"
 									}
 								}
 							],
@@ -407,8 +408,8 @@
 									"type": "RigidBody",
 									"id": 16777943,
 									"attributes": {
-										"Physics Rotation": "-0.207229 0 0.978292 0",
-										"Physics Position": "637.872 200.347 -1313.69"
+										"Physics Rotation": "-0.215757 0 0.976447 0",
+										"Physics Position": "614.849 200.347 -1324.62"
 									}
 								}
 							],
@@ -447,8 +448,8 @@
 									"type": "RigidBody",
 									"id": 16777941,
 									"attributes": {
-										"Physics Rotation": "0.677261 0 -0.735743 0",
-										"Physics Position": "667.596 198.236 -1340.46"
+										"Physics Rotation": "0.683656 0 -0.729805 0",
+										"Physics Position": "644.101 198.236 -1351.9"
 									}
 								}
 							],
@@ -480,8 +481,8 @@
 									"type": "RigidBody",
 									"id": 16777968,
 									"attributes": {
-										"Physics Rotation": "0.677261 0 -0.735743 0",
-										"Physics Position": "671.01 203.648 -1323.7",
+										"Physics Rotation": "0.683656 0 -0.729805 0",
+										"Physics Position": "647.807 203.648 -1335.2",
 										"Is Trigger": true
 									}
 								}
@@ -523,8 +524,8 @@
 							"type": "RigidBody",
 							"id": 16777922,
 							"attributes": {
-								"Physics Rotation": "-0.114557 0.107237 0.987069 -0.0327433",
-								"Physics Position": "41.612 201.447 70.6853"
+								"Physics Rotation": "-0.123166 0.106947 0.986032 -0.0336779",
+								"Physics Position": "42.8393 201.448 69.9485"
 							}
 						}
 					],
@@ -555,8 +556,8 @@
 									"type": "RigidBody",
 									"id": 16778444,
 									"attributes": {
-										"Physics Rotation": "-0.114557 0.107237 0.987069 -0.0327433",
-										"Physics Position": "41.612 201.447 70.6853",
+										"Physics Rotation": "-0.123166 0.106947 0.986032 -0.0336779",
+										"Physics Position": "42.8393 201.448 69.9485",
 										"Is Trigger": true
 									}
 								}
@@ -12647,7 +12648,7 @@
 						"Is Enabled": true,
 						"Name": "Pyramid",
 						"Tags": [],
-						"Position": "-392.969 17.1101 0.9",
+						"Position": "-257.248 44.3981 -60.8755",
 						"Rotation": "1 0 0 0",
 						"Scale": "0.75 0.75 0.75",
 						"Variables": {}
@@ -12666,7 +12667,8 @@
 							"type": "RigidBody",
 							"id": 16777961,
 							"attributes": {
-								"Physics Position": "-1964.84 85.5505 4.5"
+								"Physics Rotation": "0.999962 0 0.00872654 0",
+								"Physics Position": "-1291.36 221.991 -281.883"
 							}
 						},
 						{
@@ -12705,7 +12707,8 @@
 									"type": "RigidBody",
 									"id": 16777963,
 									"attributes": {
-										"Physics Position": "-1964.84 85.5505 4.5",
+										"Physics Rotation": "0.999962 0 0.00872654 0",
+										"Physics Position": "-1291.36 221.991 -281.883",
 										"Is Trigger": true
 									}
 								}
@@ -12747,7 +12750,8 @@
 							"type": "RigidBody",
 							"id": 16777926,
 							"attributes": {
-								"Physics Position": "1229.84 138.053 -13.1167"
+								"Physics Rotation": "0.999962 0 0.00872654 0",
+								"Physics Position": "1229.42 138.053 -34.5783"
 							}
 						}
 					],
@@ -12778,7 +12782,8 @@
 									"type": "RigidBody",
 									"id": 16777965,
 									"attributes": {
-										"Physics Position": "1229.84 138.053 -13.1167",
+										"Physics Rotation": "0.999962 0 0.00872654 0",
+										"Physics Position": "1229.42 138.053 -34.5783",
 										"Is Trigger": true
 									}
 								}
@@ -12820,8 +12825,8 @@
 							"type": "RigidBody",
 							"id": 16777929,
 							"attributes": {
-								"Physics Rotation": "0.705818 0.0426741 0.705818 -0.0426741",
-								"Physics Position": "1379.32 124.794 -712.53"
+								"Physics Rotation": "0.699632 0.0423001 0.71195 -0.0430449",
+								"Physics Position": "1366.67 124.794 -736.494"
 							}
 						}
 					],
@@ -12860,7 +12865,8 @@
 							"type": "RigidBody",
 							"id": 16778684,
 							"attributes": {
-								"Physics Position": "-543.386 536.83 623.933"
+								"Physics Rotation": "0.999962 0 0.00872654 0",
+								"Physics Position": "-532.413 536.83 633.323"
 							}
 						}
 					],
@@ -12890,7 +12896,8 @@
 									"type": "RigidBody",
 									"id": 16778686,
 									"attributes": {
-										"Physics Position": "-543.386 536.83 623.933",
+										"Physics Rotation": "0.999962 0 0.00872654 0",
+										"Physics Position": "-532.413 536.83 633.323",
 										"Is Trigger": true
 									}
 								}
@@ -12930,7 +12937,8 @@
 							"type": "RigidBody",
 							"id": 16779400,
 							"attributes": {
-								"Physics Position": "816.366 169.309 122.334"
+								"Physics Rotation": "0.999962 0 0.00872654 0",
+								"Physics Position": "818.376 169.309 108.068"
 							}
 						}
 					],
@@ -12960,7 +12968,8 @@
 									"type": "RigidBody",
 									"id": 16779402,
 									"attributes": {
-										"Physics Position": "816.366 169.309 122.334",
+										"Physics Rotation": "0.999962 0 0.00872654 0",
+										"Physics Position": "818.376 169.309 108.068",
 										"Is Trigger": true
 									}
 								}
@@ -19052,8 +19061,8 @@
 									"type": "RigidBody",
 									"id": 5559,
 									"attributes": {
-										"Physics Rotation": "0.92947 0.168546 -0.132766 -0.300086",
-										"Physics Position": "-132.36 199.246 -1467.1"
+										"Physics Rotation": "0.930593 0.165921 -0.12465 -0.301546",
+										"Physics Position": "-157.944 199.246 -1464.57"
 									}
 								}
 							],
@@ -19091,8 +19100,8 @@
 									"type": "RigidBody",
 									"id": 5561,
 									"attributes": {
-										"Physics Rotation": "0.657185 0.749111 0.0626235 -0.0549388",
-										"Physics Position": "-151.337 180.666 -1511.09"
+										"Physics Rotation": "0.656614 0.748603 0.0683561 -0.0614739",
+										"Physics Position": "-177.686 180.667 -1508.22"
 									}
 								}
 							],
@@ -19130,8 +19139,8 @@
 									"type": "RigidBody",
 									"id": 5563,
 									"attributes": {
-										"Physics Rotation": "0.858471 -0.511716 0.0175441 0.0294325",
-										"Physics Position": "-133.007 189.705 -1506.67"
+										"Physics Rotation": "0.858285 -0.51144 0.0250349 0.0338969",
+										"Physics Position": "-159.281 189.705 -1504.12"
 									}
 								}
 							],
@@ -19169,8 +19178,8 @@
 									"type": "RigidBody",
 									"id": 5565,
 									"attributes": {
-										"Physics Rotation": "0.990628 -0.136588 0 0",
-										"Physics Position": "-144.951 204.924 -1489.89"
+										"Physics Rotation": "0.99059 -0.136583 0.00864475 0.00119194",
+										"Physics Position": "-170.931 204.924 -1487.13"
 									}
 								}
 							],
@@ -19208,8 +19217,8 @@
 									"type": "RigidBody",
 									"id": 5567,
 									"attributes": {
-										"Physics Rotation": "0.864576 -0.461875 -0.0137172 0.197463",
-										"Physics Position": "-202.94 193.192 -1486.63"
+										"Physics Rotation": "0.864663 -0.460134 -0.00617194 0.201485",
+										"Physics Position": "-228.855 193.192 -1482.86"
 									}
 								}
 							],
@@ -19247,8 +19256,8 @@
 									"type": "RigidBody",
 									"id": 5569,
 									"attributes": {
-										"Physics Rotation": "0.775811 -0.0495684 -0.627735 -0.0401075",
-										"Physics Position": "-182.862 210.564 -1469.81"
+										"Physics Rotation": "0.781259 -0.0499166 -0.620942 -0.0396735",
+										"Physics Position": "-208.486 210.564 -1466.39"
 									}
 								}
 							],
@@ -19286,8 +19295,8 @@
 									"type": "RigidBody",
 									"id": 5571,
 									"attributes": {
-										"Physics Rotation": "0.699795 0.666905 -0.176597 -0.185306",
-										"Physics Position": "-174.188 178.08 -1506.82"
+										"Physics Rotation": "0.70131 0.665263 -0.170483 -0.191119",
+										"Physics Position": "-200.459 178.08 -1503.56"
 									}
 								}
 							],
@@ -19325,8 +19334,8 @@
 									"type": "RigidBody",
 									"id": 5573,
 									"attributes": {
-										"Physics Rotation": "0.948045 0.318135 0 0",
-										"Physics Position": "-166.403 199.246 -1447"
+										"Physics Rotation": "0.948009 0.318123 0.00827315 -0.00277622",
+										"Physics Position": "-191.632 199.246 -1443.88"
 									}
 								}
 							],
@@ -19364,8 +19373,8 @@
 									"type": "RigidBody",
 									"id": 5575,
 									"attributes": {
-										"Physics Rotation": "0.939213 0.310167 0.0185419 -0.146052",
-										"Physics Position": "-226.565 157.773 -1473.63"
+										"Physics Rotation": "0.939016 0.308881 0.0267373 -0.148753",
+										"Physics Position": "-252.249 157.773 -1469.45"
 									}
 								}
 							],
@@ -19403,8 +19412,8 @@
 									"type": "RigidBody",
 									"id": 5577,
 									"attributes": {
-										"Physics Rotation": "0.801263 -0.0880156 -0.579139 -0.121773",
-										"Physics Position": "-221.978 207.947 -1446.29"
+										"Physics Rotation": "0.806286 -0.0890749 -0.572125 -0.121",
+										"Physics Position": "-247.185 207.947 -1442.2"
 									}
 								}
 							],
@@ -19442,8 +19451,8 @@
 									"type": "RigidBody",
 									"id": 5579,
 									"attributes": {
-										"Physics Rotation": "0.948115 0.317929 0 0",
-										"Physics Position": "-191.293 190.122 -1431.79"
+										"Physics Rotation": "0.948078 0.317917 0.00827376 -0.00277442",
+										"Physics Position": "-216.252 190.122 -1428.24"
 									}
 								}
 							],
@@ -19481,7 +19490,8 @@
 									"type": "RigidBody",
 									"id": 5581,
 									"attributes": {
-										"Physics Position": "-196.446 209.072 -1456.72"
+										"Physics Rotation": "0.999962 0 0.00872654 0",
+										"Physics Position": "-221.84 209.072 -1453.07"
 									}
 								}
 							],
@@ -19519,8 +19529,8 @@
 									"type": "RigidBody",
 									"id": 5583,
 									"attributes": {
-										"Physics Rotation": "0.969704 0.244282 0 0",
-										"Physics Position": "-151.337 199.246 -1456.72"
+										"Physics Rotation": "0.969667 0.244273 0.00846216 -0.00213174",
+										"Physics Position": "-176.738 199.246 -1453.86"
 									}
 								}
 							],
@@ -19558,8 +19568,8 @@
 									"type": "RigidBody",
 									"id": 5586,
 									"attributes": {
-										"Physics Rotation": "0.880444 -0.342256 -0.270063 -0.186398",
-										"Physics Position": "-132.36 193.098 -1488.82"
+										"Physics Rotation": "0.882768 -0.34387 -0.26237 -0.183404",
+										"Physics Position": "-158.324 193.099 -1486.29"
 									}
 								}
 							],
@@ -19597,8 +19607,8 @@
 									"type": "RigidBody",
 									"id": 5589,
 									"attributes": {
-										"Physics Rotation": "0.893281 0.307197 -0.0858472 -0.316715",
-										"Physics Position": "-170.752 183.284 -1435.86"
+										"Physics Rotation": "0.893997 0.304422 -0.0780487 -0.319384",
+										"Physics Position": "-195.785 183.284 -1432.66"
 									}
 								}
 							],
@@ -19636,8 +19646,8 @@
 									"type": "RigidBody",
 									"id": 5592,
 									"attributes": {
-										"Physics Rotation": "-0.367571 -0.25225 0.785717 0.428847",
-										"Physics Position": "-214.946 188.039 -1433.47"
+										"Physics Rotation": "-0.374414 -0.248498 0.78248 0.431032",
+										"Physics Position": "-239.931 188.039 -1429.5"
 									}
 								}
 							],
@@ -19675,8 +19685,8 @@
 									"type": "RigidBody",
 									"id": 5595,
 									"attributes": {
-										"Physics Rotation": "0.800972 0.201369 0.0360245 0.56267",
-										"Physics Position": "-230.522 196.071 -1450.32"
+										"Physics Rotation": "0.800626 0.206272 0.0430128 0.560892",
+										"Physics Position": "-255.798 196.072 -1446.07"
 									}
 								}
 							],
@@ -19714,8 +19724,8 @@
 									"type": "RigidBody",
 									"id": 5598,
 									"attributes": {
-										"Physics Rotation": "-0.298965 -0.473077 0.814005 0.155608",
-										"Physics Position": "-242.936 168.64 -1451.65"
+										"Physics Rotation": "-0.306057 -0.471701 0.811365 0.159731",
+										"Physics Position": "-268.234 168.64 -1447.19"
 									}
 								}
 							],
@@ -19753,8 +19763,8 @@
 									"type": "RigidBody",
 									"id": 5601,
 									"attributes": {
-										"Physics Rotation": "0.87529 0.401286 -0.0809633 0.257452",
-										"Physics Position": "-229.73 187.648 -1437.07"
+										"Physics Rotation": "0.875963 0.403517 -0.073322 0.25394",
+										"Physics Position": "-254.775 187.648 -1432.84"
 									}
 								}
 							],
@@ -19794,8 +19804,8 @@
 							"type": "RigidBody",
 							"id": 5604,
 							"attributes": {
-								"Physics Rotation": "0.999929 0 0 -0.0118882",
-								"Physics Position": "-1177.43 454.431 -594.628"
+								"Physics Rotation": "0.999891 -0.000103743 0.00872592 -0.0118878",
+								"Physics Position": "-1187.62 454.431 -573.991"
 							}
 						}
 					],
@@ -19860,8 +19870,8 @@
 									"type": "RigidBody",
 									"id": 5607,
 									"attributes": {
-										"Physics Rotation": "0.932696 -0.25141 0.0687833 -0.249278",
-										"Physics Position": "-140.389 337.474 250.437"
+										"Physics Rotation": "0.93206 -0.253576 0.0769199 -0.247075",
+										"Physics Position": "-135.996 337.474 252.849"
 									}
 								}
 							],
@@ -19899,8 +19909,8 @@
 									"type": "RigidBody",
 									"id": 5610,
 									"attributes": {
-										"Physics Rotation": "-0.325306 0.383458 0.849743 0.158346",
-										"Physics Position": "861.945 175.134 -186.363"
+										"Physics Rotation": "-0.332709 0.384825 0.846872 0.154994",
+										"Physics Position": "858.563 175.133 -201.377"
 									}
 								}
 							],
@@ -19938,8 +19948,8 @@
 									"type": "RigidBody",
 									"id": 5613,
 									"attributes": {
-										"Physics Rotation": "0.946244 -0.255769 -0.0502042 0.191533",
-										"Physics Position": "913.499 271.208 357.006"
+										"Physics Rotation": "0.946646 -0.254088 -0.0419449 0.193757",
+										"Physics Position": "919.588 271.208 341.009"
 									}
 								}
 							],
@@ -19969,7 +19979,8 @@
 									"type": "RigidBody",
 									"id": 5615,
 									"attributes": {
-										"Physics Position": "1408.42 198.492 285.417"
+										"Physics Rotation": "0.999962 0 0.00872654 0",
+										"Physics Position": "1413.18 198.493 260.794"
 									}
 								},
 								{
@@ -20007,8 +20018,8 @@
 									"type": "RigidBody",
 									"id": 5618,
 									"attributes": {
-										"Physics Rotation": "-0.388307 0 0 0.92153",
-										"Physics Position": "1738.42 147.282 376.851"
+										"Physics Rotation": "-0.388293 0.00804176 -0.00338858 0.921495",
+										"Physics Position": "1744.73 147.281 346.454"
 									}
 								},
 								{
@@ -20054,14 +20065,53 @@
 									"type": "RigidBody",
 									"id": 5622,
 									"attributes": {
-										"Physics Rotation": "0.819782 -0.538337 0.0827286 -0.176935",
-										"Physics Position": "551.306 116.282 202.98"
+										"Physics Rotation": "0.819029 -0.53986 0.0898793 -0.172231",
+										"Physics Position": "554.765 116.282 193.328"
 									}
 								}
 							],
 							"children": []
 						}
 					]
+				},
+				{
+					"id": 1924,
+					"attributes": {
+						"Is Enabled": true,
+						"Name": "",
+						"Tags": [],
+						"Position": "390.955 28.5316 156.834",
+						"Rotation": "-0.283617 -0.647732 0.647732 0.283617",
+						"Scale": "1 1 1",
+						"Variables": {}
+					},
+					"components": [
+						{
+							"type": "StaticModel",
+							"id": 5623,
+							"attributes": {
+								"Model": "Model;Models/Models/Church.mdl",
+								"Material": "Material;Materials/Stone.xml;Materials/Stone.xml;;;Materials/Roof.xml;Materials/Roof.xml"
+							}
+						},
+						{
+							"type": "CollisionShape",
+							"id": 5624,
+							"attributes": {
+								"Shape Type": "TriangleMesh",
+								"Model": "Model;Models/Models/Church.mdl"
+							}
+						},
+						{
+							"type": "RigidBody",
+							"id": 5625,
+							"attributes": {
+								"Physics Rotation": "-0.28926 -0.645235 0.645236 0.28926",
+								"Physics Position": "1968.16 142.658 749.933"
+							}
+						}
+					],
+					"children": []
 				}
 			]
 		},
