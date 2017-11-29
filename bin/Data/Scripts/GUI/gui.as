@@ -329,6 +329,7 @@ namespace GUIHandler {
         spawnerDebug.horizontalAlignment = HA_RIGHT;
         spawnerDebug.verticalAlignment = VA_TOP;
         spawnerDebug.SetPosition(-Helpers::getWidthByPercentage(0.015), Helpers::getWidthByPercentage(0.015));
+        spawnerDebug.visible = Spawn::debug;
     }
 
     void CreatePositionText()
