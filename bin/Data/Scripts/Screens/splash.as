@@ -1,5 +1,6 @@
 namespace SplashScreen {
 
+    const float MAX_OPACITY = 0.95f;
     Sprite@ logoSprite;
     Sprite@ backgroundSprite;
     float opacity; //current opacity
@@ -86,6 +87,7 @@ namespace SplashScreen {
         int newWidth = width;
         int newHeight = textureHeight * ratio;
         logoSprite.SetSize(newWidth, newHeight);
+        logoSprite.blendMode = BLEND_REPLACE;
 
         //logoSprite.position = Vector2(-textureWidth/2, -textureHeight/2);
 
@@ -137,8 +139,8 @@ namespace SplashScreen {
         float timeStep = eventData["TimeStep"].GetFloat();
         if (show) {
             opacity += timeStep * FADE_SPEED;
-            if (opacity > 0.99f) {
-                opacity = 0.99f;
+            if (opacity > MAX_OPACITY) {
+                opacity = MAX_OPACITY;
                 show = false;
             }
         } else if (!ended) {
@@ -156,8 +158,8 @@ namespace SplashScreen {
             }
         }
         if (backgroundSprite !is null) {
-            if (opacity > 0.99f) {
-                opacity = 0.99f;
+            if (opacity > MAX_OPACITY) {
+                opacity = MAX_OPACITY;
             }
             backgroundSprite.opacity = opacity;
             logoSprite.opacity = 1.0f;
@@ -167,8 +169,8 @@ namespace SplashScreen {
             backgroundSprite.SetScale(scaleBack);
             logoSprite.SetScale(scaleFront);
         } else {
-            if (opacity > 0.99f) {
-                opacity = 0.99f;
+            if (opacity > MAX_OPACITY) {
+                opacity = MAX_OPACITY;
             }
             logoSprite.opacity = opacity;
         }

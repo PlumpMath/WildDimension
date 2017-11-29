@@ -79,6 +79,9 @@ namespace EnvObjects {
         }
         
         object.viewMask = VIEW_MASK_INTERACTABLE;
+        object.occludee = true;
+        object.occluder = true;
+
 
         // Create rigidbody, and set non-zero mass so that the body becomes dynamic
         RigidBody@ body = node.CreateComponent("RigidBody");

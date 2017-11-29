@@ -8,8 +8,8 @@
 		"Elapsed Time": 867.99755859375,
 		"Next Replicated Node ID": 1925,
 		"Next Replicated Component ID": 5626,
-		"Next Local Node ID": 16809106,
-		"Next Local Component ID": 16809409,
+		"Next Local Node ID": 16813076,
+		"Next Local Component ID": 16813390,
 		"Variables": {},
 		"Variable Names": ""
 	},
@@ -19202,7 +19202,8 @@
 									"id": 5523,
 									"attributes": {
 										"Model": "Model;Models/Models/Large_rock.mdl",
-										"Material": "Material;Materials/Stone.xml"
+										"Material": "Material;Materials/Stone.xml",
+										"Cast Shadows": true
 									}
 								},
 								{
@@ -19241,7 +19242,8 @@
 									"id": 5524,
 									"attributes": {
 										"Model": "Model;Models/Models/Large_rock.mdl",
-										"Material": "Material;Materials/Stone.xml"
+										"Material": "Material;Materials/Stone.xml",
+										"Cast Shadows": true
 									}
 								},
 								{
@@ -19295,7 +19297,7 @@
 									"type": "RigidBody",
 									"id": 5571,
 									"attributes": {
-										"Physics Rotation": "0.70131 0.665263 -0.170483 -0.191119",
+										"Physics Rotation": "0.701309 0.665263 -0.170483 -0.191119",
 										"Physics Position": "-200.459 178.08 -1503.56"
 									}
 								}
@@ -19319,7 +19321,8 @@
 									"id": 5526,
 									"attributes": {
 										"Model": "Model;Models/Models/Large_rock.mdl",
-										"Material": "Material;Materials/Stone.xml"
+										"Material": "Material;Materials/Stone.xml",
+										"Cast Shadows": true
 									}
 								},
 								{
@@ -19397,7 +19400,8 @@
 									"id": 5528,
 									"attributes": {
 										"Model": "Model;Models/Models/Large_rock.mdl",
-										"Material": "Material;Materials/Stone.xml"
+										"Material": "Material;Materials/Stone.xml",
+										"Cast Shadows": true
 									}
 								},
 								{
@@ -19436,7 +19440,8 @@
 									"id": 5529,
 									"attributes": {
 										"Model": "Model;Models/Models/Large_rock.mdl",
-										"Material": "Material;Materials/Stone.xml"
+										"Material": "Material;Materials/Stone.xml",
+										"Cast Shadows": true
 									}
 								},
 								{
@@ -19475,7 +19480,8 @@
 									"id": 5530,
 									"attributes": {
 										"Model": "Model;Models/Models/Large_rock.mdl",
-										"Material": "Material;Materials/Stone.xml"
+										"Material": "Material;Materials/Stone.xml",
+										"Cast Shadows": true
 									}
 								},
 								{
@@ -19607,7 +19613,7 @@
 									"type": "RigidBody",
 									"id": 5589,
 									"attributes": {
-										"Physics Rotation": "0.893997 0.304422 -0.0780487 -0.319384",
+										"Physics Rotation": "0.893996 0.304422 -0.0780487 -0.319384",
 										"Physics Position": "-195.785 183.284 -1432.66"
 									}
 								}
@@ -19670,7 +19676,8 @@
 									"id": 5593,
 									"attributes": {
 										"Model": "Model;Models/Models/Large_rock.mdl",
-										"Material": "Material;Materials/Stone.xml"
+										"Material": "Material;Materials/Stone.xml",
+										"Cast Shadows": true
 									}
 								},
 								{
@@ -19709,7 +19716,8 @@
 									"id": 5596,
 									"attributes": {
 										"Model": "Model;Models/Models/Large_rock.mdl",
-										"Material": "Material;Materials/Stone.xml"
+										"Material": "Material;Materials/Stone.xml",
+										"Cast Shadows": true
 									}
 								},
 								{
@@ -19748,7 +19756,8 @@
 									"id": 5599,
 									"attributes": {
 										"Model": "Model;Models/Models/Large_rock.mdl",
-										"Material": "Material;Materials/Stone.xml"
+										"Material": "Material;Materials/Stone.xml",
+										"Cast Shadows": true
 									}
 								},
 								{
@@ -19763,7 +19772,7 @@
 									"type": "RigidBody",
 									"id": 5601,
 									"attributes": {
-										"Physics Rotation": "0.875963 0.403517 -0.073322 0.25394",
+										"Physics Rotation": "0.875964 0.403517 -0.073322 0.25394",
 										"Physics Position": "-254.775 187.648 -1432.84"
 									}
 								}
@@ -19789,7 +19798,8 @@
 							"id": 5602,
 							"attributes": {
 								"Model": "Model;Models/Models/Medium_rock.mdl",
-								"Material": "Material;Materials/Stone.xml"
+								"Material": "Material;Materials/Stone.xml",
+								"Cast Shadows": true
 							}
 						},
 						{
@@ -19855,7 +19865,8 @@
 									"id": 5605,
 									"attributes": {
 										"Model": "Model;Models/Models/Large_rock.mdl",
-										"Material": "Material;Materials/Stone.xml"
+										"Material": "Material;Materials/Stone.xml",
+										"Cast Shadows": true
 									}
 								},
 								{
@@ -19972,7 +19983,8 @@
 									"id": 5614,
 									"attributes": {
 										"Model": "Model;Models/Models/Large_rock.mdl",
-										"Material": "Material;Materials/Stone.xml"
+										"Material": "Material;Materials/Stone.xml",
+										"Cast Shadows": true
 									}
 								},
 								{
@@ -20050,7 +20062,8 @@
 									"id": 5620,
 									"attributes": {
 										"Model": "Model;Models/Models/Large_rock.mdl",
-										"Material": "Material;Materials/Stone.xml"
+										"Material": "Material;Materials/Stone.xml",
+										"Cast Shadows": true
 									}
 								},
 								{
@@ -20091,7 +20104,8 @@
 							"id": 5623,
 							"attributes": {
 								"Model": "Model;Models/Models/Church.mdl",
-								"Material": "Material;Materials/Stone.xml;Materials/Stone.xml;;;Materials/Roof.xml;Materials/Roof.xml"
+								"Material": "Material;Materials/Stone.xml;Materials/Stone.xml;;;Materials/Roof.xml;Materials/Roof.xml",
+								"Cast Shadows": true
 							}
 						},
 						{
@@ -20135,11 +20149,13 @@
 						"Color": "0.8 0.8 0.8 1",
 						"Specular Intensity": 0.20000000298023225,
 						"Cast Shadows": true,
-						"CSM Splits": "10 50 400 0",
-						"CSM Fade Start": 0.30000001192092898,
+						"CSM Splits": "10 100 300 0",
+						"CSM Fade Start": 0.009999999776482582,
 						"View Size Quantize": 0.10000000149011612,
-						"Depth Constant Bias": 0.0002500000118743628,
-						"Depth Slope Bias": 0.6000000238418579
+						"Depth Constant Bias": 0.0024999999441206457,
+						"Depth Slope Bias": 0.8999999761581421,
+						"Near/Farclip Ratio": 0.20000000298023225,
+						"Max Extrusion": 100.0
 					}
 				}
 			],
