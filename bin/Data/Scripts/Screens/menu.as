@@ -126,8 +126,8 @@ namespace MenuScreen {
         storyText.text += "\nsecond and the plane get's sucked in. Pilot is struggling to control";
         storyText.text += "\nhis plane and after some time losses consciousness when he hits his";
         storyText.text += "\nhead against one of the panels inside plane... He falls with his";
-        storyText.text += "\nplane for a while when finally he's thrown back to the ground with";
-        storyText.text += "\nhis plane.\n\n    He wakes up the next day on a mysterious island. He's unable";
+        storyText.text += "\nplane for a while when finally he's thrown back to the ground...";
+        storyText.text += "\n\n    He wakes up the next day on a mysterious island. He's unable";
         storyText.text += "\nto locate the island on the map, and everything about the island seems";
         storyText.text += "\na bit strange...  Will he survive the wilderness and reveal the secrets";
         storyText.text += "\nof the island? Will he be able to get back to civilization?";

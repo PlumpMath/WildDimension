@@ -448,7 +448,7 @@ void SetWindowTitleAndIcon()
 
     Image@ icon = cache.GetResource("Image", "Textures/UrhoIcon.png");
     graphics.windowIcon = icon;
-    graphics.windowTitle = "Main.as";
+    graphics.windowTitle = "WildDimension";
 }
 
 void CreateDebugHud()
