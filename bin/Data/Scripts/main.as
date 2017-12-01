@@ -57,7 +57,7 @@
 
 #include "GUI/pause.as"
 
-const String VERSION_NUMBER = "0.1.0";
+const String VERSION_NUMBER = "0.1.1";
 Text@ versionText;
 
 Scene@ scene_;
@@ -116,7 +116,8 @@ void Start()
     versionText.verticalAlignment = VA_TOP;
     versionText.SetPosition(10, 0);
 
-    graphics.SetMode(graphics.desktopResolution[0].x, graphics.desktopResolution[0].y, true, false, false, false, false, false, graphics.multiSample, 0, 60);
+    //graphics.SetMode(graphics.desktopResolution[0].x, graphics.desktopResolution[0].y, true, false, false, false, false, false, graphics.multiSample, 0, 60);
+    //renderer.shadowQuality = SHADOWQUALITY_SIMPLE_16BIT;
     
     cache.autoReloadResources = true;
 
