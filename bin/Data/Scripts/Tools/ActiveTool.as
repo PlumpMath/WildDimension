@@ -182,6 +182,7 @@ namespace ActiveTool {
 
         //branchNode.SetScale(0.8f + Random(0.5f));
         object.castShadows = true;
+        object.viewMask = VIEW_MASK_STATIC_OBJECT;
         object.materials[0] = cache.GetResource("Material", "Materials/Wood.xml");
         //object.materials[1] = cache.GetResource("Material", "Materials/TreeGreen.xml");
         //object.materials[2] = cache.GetResource("Material", "Materials/Wood.xml");
