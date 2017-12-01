@@ -404,7 +404,7 @@ namespace GUIHandler {
         for (uint i = latestEvents.length - 1; i > 0; i--) {
             latestEvents[i].text = latestEvents[i-1].text;
         }
-        latestEvents[0].text = eventData["Message"].GetString();
+        //latestEvents[0].text = eventData["Message"].GetString();
 
         //eventData["Type"] = Notifications::NOTIFICATION_TYPE_GOOD;
         //SendEvent("AddNotification", eventData);
