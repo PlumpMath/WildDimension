@@ -3,4 +3,5 @@
     <texture unit="diffuse" name="Textures/stone.png" />
     <parameter name="MatSpecColor" value="0.1 0.1 0.1 16" />
     <depthbias constant="-0.5" slopescaled="0" />
+    <shadowcull value="cw" />
 </material>

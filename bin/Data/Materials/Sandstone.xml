@@ -3,4 +3,5 @@
     <texture unit="diffuse" name="Textures/sandstone.jpg" />
     <texture unit="normal" name="Textures/sandstone.jpg" />
     <parameter name="MatSpecColor" value="0.1 0.1 0.1 16" />
+    <shadowcull value="cw" />
 </material>

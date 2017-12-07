@@ -3,4 +3,5 @@
     <texture unit="diffuse" name="Textures/metal.png" />
     <texture unit="normal" name="Textures/metal.png" />
     <parameter name="MatSpecColor" value="0.5 0.5 0.5 16" />
+    <shadowcull value="cw" />
 </material>

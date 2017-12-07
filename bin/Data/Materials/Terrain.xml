@@ -6,4 +6,5 @@
     <texture unit="3" name="Textures/sand.png" />
     <parameter name="MatSpecColor" value="0.2 0.2 0.2 255" />
     <parameter name="DetailTiling" value="256 256" />
+    <shadowcull value="cw" />
 </material>

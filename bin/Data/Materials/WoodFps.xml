@@ -4,4 +4,5 @@
     <texture unit="normal" name="Textures/tree.png" />
     <depthbias constant="-0.5" slopescaled="0" />
     <parameter name="MatSpecColor" value="0.6 0.3 0.1 255" />
+    <shadowcull value="cw" />
 </material>

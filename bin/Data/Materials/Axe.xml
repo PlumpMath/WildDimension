@@ -3,4 +3,5 @@
     <texture unit="diffuse" name="Textures/StoneDiffuse.dds" />
     <texture unit="normal" name="Textures/StoneNormal.dds" />
     <parameter name="MatSpecColor" value="0.1 0.1 0.1 16" />
+    <shadowcull value="cw" />
 </material>

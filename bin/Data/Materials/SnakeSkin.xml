@@ -3,4 +3,5 @@
     <texture unit="diffuse" name="Textures/snake_skin.png" />
     <texture unit="normal" name="Textures/snake_skin.png" />
     <parameter name="MatSpecColor" value="0.1 0.1 0.1 16" />
+    <shadowcull value="cw" />
 </material>

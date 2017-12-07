@@ -2,4 +2,5 @@
     <technique name="Techniques/Diff.xml" quality="0" />
     <texture unit="diffuse" name="Textures/stone.png" />
     <parameter name="MatSpecColor" value="0.1 0.1 0.1 16" />
+    <shadowcull value="cw" />
 </material>
