@@ -69,8 +69,8 @@ namespace Camp {
         lightNode.position = Vector3(0, 0.5, 0);
         campfire.light = lightNode.CreateComponent("Light");
         campfire.light.lightType = LIGHT_POINT;
-        campfire.light.color = Color(0.88, 0.34, 0.13);
-        campfire.light.range = 100.0f;
+        campfire.light.color = Color(0.88, 0.44, 0.33);
+        campfire.light.range = 300.0f;
         campfire.light.enabled = false;
         campfire.light.castShadows = true;
 
